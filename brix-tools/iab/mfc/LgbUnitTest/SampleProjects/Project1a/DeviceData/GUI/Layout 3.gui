@@ -1,0 +1,2 @@
+imageWidget	GUI_Bitmap	0	20	100	30	1	1	dummy.bmp	1
+textWidget	GUI_TextBox	0	60	100	30	1	1	NULL	96	96	96	255	255	255	2	

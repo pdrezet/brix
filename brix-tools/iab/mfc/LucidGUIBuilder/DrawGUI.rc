@@ -1,0 +1,1137 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "Resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\DrawGUI.ico"
+IDR_GUITYPE             ICON                    "res\\DrawGUIDoc.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+//IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
+IDR_MAINFRAME           BITMAP                  "res\\Toolbar_24bit.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR  16, 15
+BEGIN
+    BUTTON      ID_PROJECT_OPEN
+    BUTTON      ID_FILE_LAYOUTMANAGER
+    BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      ID_IGB_EHS_HOST_COMBO
+    BUTTON      ID_LGB_TRANSFERALLDATA
+    BUTTON      ID_LGB_SENDCHANGEDDATA
+    SEPARATOR
+    BUTTON      ID_EHS_START
+    BUTTON      ID_EHS_STOP
+    BUTTON      ID_EHS_INITIALPARAMETERS
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "Open Project  ...\tCtrl+O",   ID_PROJECT_OPEN
+        MENUITEM "Close Project ...",           ID_PROJECT_CLOSE
+        MENUITEM SEPARATOR
+        MENUITEM "Layout Manager ...",          ID_FILE_LAYOUTMANAGER
+        MENUITEM SEPARATOR
+        MENUITEM "P&rint Setup...",             ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&View"
+    BEGIN
+        POPUP "&Toolbars"
+        BEGIN
+            MENUITEM "Alignment",                   ID_TOOLBAR_ALIGNMENT, CHECKED
+            MENUITEM "Z-Dialog",                    ID_VIEW_ZCTRLTOOLBAR_VIZ
+        END
+        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About Lucid GUI Builder...", ID_APP_ABOUT
+        MENUITEM "T&utorials ...",              ID_HELP_TUTORIALS
+    END
+END
+
+IDR_GUITYPE MENU 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "Open Project  ...\tCtrl+O",   ID_PROJECT_OPEN
+        MENUITEM "Close Project ...",           ID_PROJECT_CLOSE
+        MENUITEM SEPARATOR
+        MENUITEM "Layout Manager ...",          ID_FILE_LAYOUTMANAGER
+        MENUITEM SEPARATOR
+        MENUITEM "&Close GUI",                  ID_FILE_CLOSE
+        MENUITEM "Close &All GUIs",             ID_FILE_CLOSEALL
+        MENUITEM SEPARATOR
+        MENUITEM "&Save GUI\tCtrl+S",           ID_FILE_SAVE
+        MENUITEM "Save All &GUIs",              ID_FILE_SAVEALLGUIS
+        MENUITEM SEPARATOR
+        MENUITEM "&Print...\tCtrl+P",           ID_FILE_PRINT
+        MENUITEM "Print Pre&view",              ID_FILE_PRINT_PREVIEW
+        MENUITEM "P&rint Setup...",             ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "Edit"
+    BEGIN
+        MENUITEM "Undo \tCtrl+Z",               ID_EDIT_UNDO32878
+        MENUITEM "Redo \tCtrl+Y",               ID_EDIT_REDO32879
+    END
+    POPUP "&View"
+    BEGIN
+        POPUP "&Toolbars"
+        BEGIN
+            MENUITEM "Alignment",                   ID_TOOLBAR_ALIGNMENT, CHECKED
+            MENUITEM "Z-Dialog",                    ID_VIEW_ZCTRLTOOLBAR_VIZ
+            MENUITEM "Options",                     ID_TOOLBARS_OPTIONS
+        END
+        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+    END
+    POPUP "Too&ls"
+    BEGIN
+        MENUITEM "&Load Application\tCtrl+Alt+S", LOADAFXSODL
+		MENUITEM "Scan SODL for New Widgets" ID_SCANNEWSODL
+        MENUITEM SEPARATOR
+        POPUP "Alignment"
+        BEGIN
+            MENUITEM "Left-hand edges",             ID_ALIGNMENT_LEFTEDGES
+            MENUITEM "Right-hand edges",            ID_ALIGNMENT_RIGHTEDGES
+            MENUITEM "Centres Left-Right ",         ID_ALIGNMENT_LEFTRIGHTCENTRES
+            MENUITEM "Top edges",                   ID_ALIGNMENT_TOPEDGES
+            MENUITEM "Bottom edges",                ID_ALIGNMENT_BOTTOMEDGES
+            MENUITEM "Centres Top-Bottom ",         ID_ALIGNMENT_TOPBOTTOMCENTRES
+        END
+        POPUP "Resize"
+        BEGIN
+            MENUITEM "Width",                       ID_RESIZE_WIDTH
+            MENUITEM "Height",                      ID_RESIZE_HEIGHT
+        END
+        MENUITEM SEPARATOR
+        POPUP "Z-Ordering"
+        BEGIN
+            MENUITEM "Renumber ( Consectively )",   ID_Z_RENUMBERCONSECTIVELY
+            MENUITEM "Renumber ( Keeping any gaps )", ID_Z_RENUMBER
+        END
+        MENUITEM SEPARATOR
+        POPUP "Selection"
+        BEGIN
+            MENUITEM "Select All ...\tCtrl+A",      ID_OPTIONS_SELECTALLWIDGETS
+            MENUITEM "Select All Images",           ID_SELECTION_SELECTALLBITMAPS
+            MENUITEM "Select All TextBoxes",        ID_SELECTION_SELECTALLTEXTBOXES
+            MENUITEM "Select All Patches",          ID_SELECTION_SELECTALLPATCHES
+        END
+        MENUITEM SEPARATOR
+        POPUP "Options"
+        BEGIN
+            MENUITEM "Display Widget Labels",       ID_OPTIONS_DISPLAYWIDGETLABELS
+            MENUITEM "Native View-Background",      ID_OPTIONS_NATIVEVIEWBGROUND, CHECKED
+        END
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&Cascade",                    ID_WINDOW_CASCADE
+        MENUITEM "&Tile",                       ID_WINDOW_TILE_HORZ
+        MENUITEM "&Arrange Icons",              ID_WINDOW_ARRANGE
+    END
+    POPUP "&Transfer"
+    BEGIN
+        MENUITEM SEPARATOR
+        MENUITEM "Send All Data ...",           ID_LGB_TRANSFERALLDATA
+        MENUITEM "Send Changed Data ...",       ID_LGB_SENDCHANGEDDATA
+        MENUITEM SEPARATOR
+        MENUITEM "Transfer &Options ...",       ID_TRANSFER_OPTIONS
+    END
+    POPUP "EHS"
+    BEGIN
+        MENUITEM "Initialisation Parameters",   ID_EHS_INITIALPARAMETERS
+        MENUITEM "Start",                       ID_EHS_START
+        MENUITEM "Stop",                        ID_EHS_STOP
+        MENUITEM "Always on-top",               ID_EHS_ALWAYSON
+        MENUITEM "Always on-bottom",            ID_EHS_ALWAYSON32893
+        MENUITEM "Normal zorder",               ID_EHS_NORMALZORDER
+        MENUITEM "Manage EHS locally",          ID_IGB_EHS_MANAGEEHSLOCALLY
+        MENUITEM "Manage EHS remotely",         ID_IGB_EHS_MANAGEEHSREMOTELY
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About Lucid GUI Builder...", ID_APP_ABOUT
+        MENUITEM SEPARATOR
+        MENUITEM "T&utorials ...",              ID_HELP_TUTORIALS
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS 
+BEGIN
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT, NOINVERT
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT, NOINVERT
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    "L",            ID_LAUNCH_TRANSFER_DLG, VIRTKEY, CONTROL, ALT, NOINVERT
+    "T",            ID_LGBTRANSFERMANAGER,  VIRTKEY, CONTROL, ALT, NOINVERT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY, NOINVERT
+    "A",            ID_OPTIONS_SELECTALLWIDGETS, VIRTKEY, CONTROL, NOINVERT
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
+    "P",            ID_PROJECT_OPEN,        VIRTKEY, CONTROL, ALT, NOINVERT
+    "S",            LOADAFXSODL,            VIRTKEY, CONTROL, ALT, NOINVERT
+    "Y",            ID_EDIT_REDO32879,      VIRTKEY, CONTROL, NOINVERT
+    "Z",            ID_EDIT_UNDO32878,      VIRTKEY, CONTROL, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 380, 49
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About Lucid GUI Builder"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,12,6,21,20
+    LTEXT           "Copyright nCapsa Ltd. (C) 2007",IDC_STATIC,36,30,119,8
+    DEFPUSHBUTTON   "OK",IDOK,341,7,32,14,WS_GROUP
+    LTEXT           "Revision",ID_REVISION_DLG,36,12,303,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "FileDescription", "DrawGUI MFC Application"
+            VALUE "FileVersion", "1, 0, 0, 1"
+            VALUE "InternalName", "DrawGUI"
+            VALUE "LegalCopyright", "Copyright (C) 1999"
+            VALUE "OriginalFilename", "DrawGUI.EXE"
+            VALUE "ProductName", "DrawGUI Application"
+            VALUE "ProductVersion", "1, 0, 0, 1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 373
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 42
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDR_MAINFRAME           "LucidGUIBuilder"
+    IDR_GUITYPE             "\nGUI\nHMI\nGUI Files (*.gui)\n.gui\nHMI\nHMI(GUI) for ASC controllers"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "DrawGUI"
+    AFX_IDS_IDLEMESSAGE     "Ready"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_NEW             "Create a new document\nNew"
+    ID_FILE_OPEN            "Opens the File and Project-Manager dialog\nOpen"
+    ID_FILE_CLOSE           "Close the active document\nClose"
+    ID_FILE_SAVE            "Save the active document\nSave"
+    ID_FILE_SAVE_AS         "Save the active document with a new name\nSave As"
+    ID_FILE_PAGE_SETUP      "Change the printing options\nPage Setup"
+    ID_FILE_PRINT_SETUP     "Change the printer and printing options\nPrint Setup"
+    ID_FILE_PRINT           "Print the active document\nPrint"
+    ID_FILE_PRINT_PREVIEW   "Display full pages\nPrint Preview"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
+    ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_MRU_FILE1       "Open this document"
+    ID_FILE_MRU_FILE2       "Open this document"
+    ID_FILE_MRU_FILE3       "Open this document"
+    ID_FILE_MRU_FILE4       "Open this document"
+    ID_FILE_MRU_FILE5       "Open this document"
+    ID_FILE_MRU_FILE6       "Open this document"
+    ID_FILE_MRU_FILE7       "Open this document"
+    ID_FILE_MRU_FILE8       "Open this document"
+    ID_FILE_MRU_FILE9       "Open this document"
+    ID_FILE_MRU_FILE10      "Open this document"
+    ID_FILE_MRU_FILE11      "Open this document"
+    ID_FILE_MRU_FILE12      "Open this document"
+    ID_FILE_MRU_FILE13      "Open this document"
+    ID_FILE_MRU_FILE14      "Open this document"
+    ID_FILE_MRU_FILE15      "Open this document"
+    ID_FILE_MRU_FILE16      "Open this document"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
+    ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_WINDOW_NEW           "Open another window for the active document\nNew Window"
+    ID_WINDOW_ARRANGE       "Arrange icons at the bottom of the window\nArrange Icons"
+    ID_WINDOW_CASCADE       "Arrange windows so they overlap\nCascade Windows"
+    ID_WINDOW_TILE_HORZ     "Arrange windows as non-overlapping tiles\nTile Windows"
+    ID_WINDOW_TILE_VERT     "Arrange windows as non-overlapping tiles\nTile Windows"
+    ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_EDIT_CLEAR           "Erase the selection\nErase"
+    ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
+    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
+    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut"
+    ID_EDIT_FIND            "Find the specified text\nFind"
+    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
+    ID_EDIT_REPEAT          "Repeat the last action\nRepeat"
+    ID_EDIT_REPLACE         "Replace specific text with different text\nReplace"
+    ID_EDIT_SELECT_ALL      "Select the entire document\nSelect All"
+    ID_EDIT_UNDO            "Undo the last action\nUndo"
+    ID_EDIT_REDO            "Redo the previously undone action\nRedo"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
+    ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "Change the window position"
+    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
+    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to normal size"
+    AFX_IDS_SCTASKLIST      "Activate Task List"
+    AFX_IDS_MDICHILD        "Activate this window"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_PREVIEW_CLOSE   "Close print preview mode\nCancel Preview"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_IMPORT          "Insert existing Interface"
+    LOADAFXTAGS             "Load a tag list from a PDC program"
+    ID_BUTTON32773          "Use a TAG list from a PDC program"
+    LOADAFXSODL             "Load the Application"
+    ID_FTP_OPTIONS          "Pops-up transfer-option dialog"
+    ID_FTP_GUI              "Transfer currently-focused GUI"
+    ID_TRANSFER_OPENGUIS    "Transfer all currently-open GUIs"
+    ID_TRANSFER_ALLBITMAPS  "Transfer all bitmaps for this project"
+    ID_TRANSFER_ALL         "Transfer all Bitmaps & open GUIs"
+    ID_TRANSFER_ALLTHEABOVE "Transfer all bitmpas an all open GUIs"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_LAUNCH_TRANSFER_DLG  "Transfer SODL to target"
+    ID_LGBTRANSFERMANAGER   "Pops-up and fires 'Transfer Manager' dialog"
+    ID_PROJECT_OPEN         "Opens project selection dialog ...\nOpen Project"
+    ID_HELP_ELECTRONICDOCUMENTATION "Peruse User-Guides, etc"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_LAYOUTMANAGER   "Opens layout manager for current project ...\nOpen Layout Manager"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_BUTTON32869          "Update from SODL\nUpdate from SODL"
+    IDLOADAFXSODL           "Update Layout from LAB"
+    ID_SCANNEWSODL          "Scan for new widgets created in LAB\nLoad New Widgets"
+END
+
+STRINGTABLE 
+BEGIN
+	ID_IGB_EHS_HOST_COMBO	"Select transfer target\nSelect Target"
+	ID_LGB_TRANSFERALLDATA  "Send all data to target ...\nSend All"
+    ID_LGB_SENDCHANGEDDATA  "Send changed data to target ...\nSend Changed"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_EHS_START        "Start EHS (or restart if running)\nStart EHS"
+    ID_EHS_STOP         "Stop EHS\nStop EHS"
+    ID_EHS_INITIALPARAMETERS  "Edit EHS initialisation parameters\nEdit EHS Parameters"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_OPTIONS_NATIVEVIEWBGROUND "Toggle Native/Editing B/Ground\nToggle Background"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_ALIGNMENT_TOPEDGES   "Align top edge(s) with master's\nAlign Top"
+    ID_ALIGNMENT_BOTTOMEDGES "Align bottom edge(s) with master's\nAlign Bottom"
+END
+
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.K.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_GREY                BITMAP                  "res\\bitmap1.bmp"
+IDB_RED                 BITMAP                  "res\\red.bmp"
+IDB_GREEN               BITMAP                  "res\\green.bmp"
+IDB_BLUE                BITMAP                  "res\\bitmap21.bmp"
+IDB_BLACK               BITMAP                  "res\\bmp00001.bmp"
+IDB_YELLOW              BITMAP                  "res\\bmp00002.bmp"
+IDB_WHITE               BITMAP                  "res\\bmp00003.bmp"
+IDB_BITMAP21            BITMAP                  "res\\bmp00004.bmp"
+IDR_TOOLBAR_ALIGN       BITMAP                  "res\\ToolbarAlign_24bit.bmp"
+IDB_BITMAP22            BITMAP                  "res\\textbox_props_1b.bmp"
+IDR_TOOLBAR_ZCONTROLS   BITMAP                  "res\\toolbar1.bmp"
+IDR_TOOLBAR_OPTIONS     BITMAP                  "res\\ToolbarOptions_24bit.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_TOOLBAR_ALIGN TOOLBAR  16, 16
+BEGIN
+    BUTTON      ID_ALIGNMENT_LEFTEDGES
+    BUTTON      ID_ALIGNMENT_RIGHTEDGES
+    SEPARATOR
+    BUTTON      ID_ALIGNMENT_TOPEDGES
+    BUTTON      ID_ALIGNMENT_BOTTOMEDGES
+    SEPARATOR
+    BUTTON      ID_ALIGNMENT_LEFTRIGHTCENTRES
+    BUTTON      ID_ALIGNMENT_TOPBOTTOMCENTRES
+    SEPARATOR
+    BUTTON      ID_RESIZE_WIDTH
+    BUTTON      ID_RESIZE_HEIGHT
+END
+
+IDR_TOOLBAR_ZCONTROLS TOOLBAR  16, 15
+BEGIN
+    BUTTON      IDC_WZD_COMBO
+    BUTTON      IDC_ZLEAN_CTRL
+END
+
+IDR_TOOLBAR_OPTIONS TOOLBAR  16, 15
+BEGIN
+    BUTTON      ID_OPTIONS_NATIVEVIEWBGROUND
+    BUTTON      ID_OPTIONS_DISPLAYWIDGETLABELS
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDB_ICON_MENU MENU 
+BEGIN
+    POPUP "Icon"
+    BEGIN
+        MENUITEM "&Properties",                 ID_ICON_PROPERTIES
+        MENUITEM SEPARATOR
+        MENUITEM "Bring to Front",              ID_ICON_BRINGTOFRONT
+        MENUITEM "Send To Rear",                ID_ICON_SENDTOREAR
+        MENUITEM "Move Forward",                ID_ICON_MOVEFORWARD
+        MENUITEM "Move Backward",               ID_ICON_MOVEBACKWARD
+        MENUITEM SEPARATOR
+        MENUITEM "Equalise to Front-most",      ID_ICON_EQUALISETOFRONTMOST
+        MENUITEM "Equalise to Rear-most",       ID_ICON_EQUALISETOREAR
+        MENUITEM SEPARATOR
+        MENUITEM "Set Fully Opaque",            ID_ICON_SETFULLYOPAQUE
+        MENUITEM "Decrement Opacity 10%",       ID_ICON_DECREMENTOPACITY10
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_FTP_OPTIONS DIALOG  0, 0, 212, 106
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "FTP Options"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,155,5,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,155,25,50,14
+    GROUPBOX        "Options",IDC_STATIC,5,5,140,95
+    LTEXT           "Server:",IDC_SERVER_LABEL,10,20,35,8
+    EDITTEXT        IDC_SERVER,60,15,75,14,ES_AUTOHSCROLL
+    LTEXT           "Username:",IDC_USERNAME_LABEL,10,40,40,8
+    EDITTEXT        IDC_USERNAME,60,35,75,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_PASSWORD,60,55,75,14,ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_PASSWORD_LABEL,10,60,35,8
+    LTEXT           "Server Dir:",IDC_SERVERDIR_LABEL,11,77,34,8
+    EDITTEXT        IDC_SERVERDIR,60,75,75,14,ES_AUTOHSCROLL
+END
+
+IDD_PROPERTIES_TEXTBOX DIALOGEX 0, 0, 228, 410
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Lucid GUI Builder: Textbox Selections"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",ID_TEXTBOX_OK,16,387,54,18
+    PUSHBUTTON      "Cancel",IDCANCEL,172,387,54,18
+    EDITTEXT        IDC_Y1,163,40,30,13,ES_RIGHT | ES_AUTOHSCROLL,WS_EX_TRANSPARENT
+    GROUPBOX        "Co-ordinates",IDC_STATIC,7,24,209,159
+    CONTROL         169,IDC_STATIC,"Static",SS_BITMAP | SS_REALSIZEIMAGE | WS_GROUP,17,36,190,142
+    LTEXT           "Tag",IDC_TAG_LABEL,114,7,18,8
+    EDITTEXT        IDC_TAG,129,7,77,14,ES_AUTOHSCROLL | WS_DISABLED
+    LTEXT           "Type",IDC_TYPE_LABEL,7,7,17,8
+    EDITTEXT        IDC_TYPE,33,7,72,14,ES_AUTOHSCROLL | WS_DISABLED
+    LTEXT           "Z-Level",IDC_STATIC,11,189,25,8
+    GROUPBOX        "Foreground",IDC_STATIC,10,279,211,34,BS_FLAT,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_X1,26,149,31,14,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_X2,76,148,40,14,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_WIDTH,74,121,30,14,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_VERTEXTENT,131,83,32,13,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_ZORDER,9,199,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_Y2,170,83,30,13,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_COLOURPICKER_RESULT,59,68,64,44,ES_AUTOHSCROLL
+    PUSHBUTTON      "Colour",IDC_BUTTON_PROPTEXT_FG_COLOR,15,288,54,18,BS_MULTILINE
+    PUSHBUTTON      "Colour",IDC_BUTTON_PROPTEXT_BG_COLOR,15,325,54,18
+    EDITTEXT        IDC_EDIT_PC_FG_TRANSP,151,285,40,14,ES_AUTOHSCROLL
+    LTEXT           "Transparency",IDC_STATIC,97,287,45,8
+    CONTROL         "",IDC_SLIDER_FG_TRANSP,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,80,297,128,15
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,5,182,211,1
+    LTEXT           "(%)",IDC_STATIC,192,286,14,8
+    EDITTEXT        IDC_EDIT_PC_BG_TRANSP,151,318,40,14,ES_AUTOHSCROLL
+    LTEXT           "Transparency",IDC_STATIC,96,319,45,8
+    CONTROL         "",IDC_SLIDER_BG_TRANSP,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,80,333,128,15
+    GROUPBOX        "Background",IDC_STATIC,9,313,211,37,BS_FLAT,WS_EX_TRANSPARENT
+    LTEXT           "(%)",IDC_STATIC,193,321,14,8
+    COMBOBOX        IDC_COMBO_FONT,89,199,91,79,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Font",IDC_STATIC,90,189,16,8
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,6,354,222,1
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,6,276,222,1
+    LTEXT           "NB. '----' implies 'Keep Individual Values'",IDC_STATIC,20,40,131,8
+    LTEXT           "Left Indent",IDC_STATIC,11,218,40,8
+    LTEXT           "Right Indent",IDC_STATIC,65,218,40,8
+    LTEXT           "Top Indent",IDC_STATIC,119,218,40,8
+    LTEXT           "Bottom Indent",IDC_STATIC,174,218,49,8
+    EDITTEXT        IDC_EDIT_LEFT_INDENT,9,227,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_RIGHT_INDENT,64,227,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_TOP_INDENT,119,227,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_BOTTOM_INDENT,174,227,40,14,ES_AUTOHSCROLL
+    LTEXT           "Line Spacing",IDC_STATIC,11,247,40,8
+    EDITTEXT        IDC_EDIT_LINE_SPACING,9,257,40,14,ES_AUTOHSCROLL
+    LTEXT           "Number of Lines",IDC_STATIC,121,247,52,8
+    EDITTEXT        IDC_EDIT_NUMBER_OF_LINES,119,257,40,14,ES_AUTOHSCROLL | WS_DISABLED
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,6,244,222,1
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,6,214,222,1
+    PUSHBUTTON      "Text Styles",IDC_BUTTON_INLINE_TEXT,16,359,54,18
+END
+
+IDD_PROPERTIES_IMAGE DIALOGEX 0, 0, 240, 276
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Lucid GUI Builder: Image Selections"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,57,258,50,13
+    PUSHBUTTON      "Cancel",IDCANCEL,127,258,44,13
+    EDITTEXT        IDC_Y1,163,39,30,13,ES_RIGHT | ES_AUTOHSCROLL,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_Y2,164,84,30,13,ES_RIGHT | ES_AUTOHSCROLL,WS_EX_TRANSPARENT
+    GROUPBOX        "Co-ordinates",IDC_STATIC,7,24,218,159
+    CONTROL         169,IDC_STATIC,"Static",SS_BITMAP | SS_REALSIZEIMAGE | WS_GROUP,17,34,190,142
+    RTEXT           "Tag",IDC_TAG_LABEL,122,8,20,13
+    EDITTEXT        IDC_TAG,145,7,77,14,ES_AUTOHSCROLL | WS_DISABLED
+    RTEXT           "Type",IDC_TYPE_LABEL,6,8,23,10
+    EDITTEXT        IDC_TYPE,33,7,75,14,ES_AUTOHSCROLL | WS_DISABLED
+    LTEXT           "Z-Order",IDC_STATIC,7,192,26,8
+    GROUPBOX        "Graphics File Library",IDC_STATIC,7,225,217,27
+    EDITTEXT        IDC_X1,21,147,31,14,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_X2,71,146,40,14,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_WIDTH,78,119,35,14,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_VERTEXTENT,126,81,32,15,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_ZORDER,51,190,40,12,ES_AUTOHSCROLL
+    COMBOBOX        IDC_COMBO_BMPFILES,14,237,135,80,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Import a File",IDC_IMPORT_BITMAP,159,236,61,13
+    EDITTEXT        IDC_EDIT_PC_TRANSP,52,204,40,12,ES_AUTOHSCROLL
+    CONTROL         "",IDC_SLIDER_TRANSP,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,98,203,106,15
+    LTEXT           "(%)",IDC_STATIC,209,206,14,8
+    LTEXT           "Transparency",IDC_STATIC,5,206,45,8
+    LTEXT           "NB. '----' implies 'Keep Individual Values'",IDC_STATIC,20,40,134,8
+    CONTROL         "Lock aspect ratio to image",IDC_CHECK_LOCKASPECTRATIO,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,120,186,100,10
+END
+
+IDD_PROJ_FILE_MGR DIALOGEX 0, 0, 311, 136
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Layout  Manager"
+FONT 9, "Microsoft Sans Serif", 400, 0, 0x0
+BEGIN
+    PUSHBUTTON      "New Layout",IDC_NEWFILE_BTN,6,120,48,12
+    PUSHBUTTON      "Copy Layout",IDC_COPY_BTN,60,120,48,12,BS_MULTILINE
+    PUSHBUTTON      "Delete Layout",IDC_DELETEFILE_BTN,156,120,48,12,BS_MULTILINE
+    PUSHBUTTON      "Manage Widget Groups",IDC_TAGDLOG_BTN,216,120,90,12,BS_MULTILINE
+    DEFPUSHBUTTON   "Open Selected Layouts",ID_OPEN_THEN_DISMISS,12,12,36,72,BS_MULTILINE
+    DEFPUSHBUTTON   "Dismiss",ID_DISMISS,12,90,240,20
+    CONTROL         "",IDC_TAB_WIDGETGRP_TAB,"SysTabControl32",0x0,54,12,198,72
+    CONTROL         "",IDC_LISTCTRL_LAYOUTS,"SysListView32",LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,54,24,198,60
+    CONTROL         "",IDC_STATIC,"Static",SS_GRAYFRAME | SS_SUNKEN,6,6,252,108
+    PUSHBUTTON      "Open ALL Active Layouts Then Dismiss",IDC_OPENALLACTIVE,264,6,42,108,BS_MULTILINE
+END
+
+IDD_DELETE_GUI_FILE DIALOGEX 0, 0, 209, 46
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Lucid GUI Builder: Delete Layout"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Confirm",IDOK,43,26,47,14
+    PUSHBUTTON      "Cancel",IDCANCEL,117,26,50,14
+    RTEXT           "Layout:  ",IDC_STATIC_FILE,7,7,32,13,SS_CENTERIMAGE,WS_EX_RIGHT
+    EDITTEXT        IDC_FILENAME_EDIT_RO,48,7,156,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_TABSTOP
+END
+
+IDD_CREATE_GUIFILE DIALOGEX 0, 0, 190, 161
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Lucid GUI Builder: Create Layout"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_SCRNTAG_COMBO,6,18,174,78,CBS_DROPDOWN | CBS_SORT | CBS_DISABLENOSCROLL | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_FILENAME,7,46,111,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_DESCRIP,7,82,174,50,ES_MULTILINE | ES_AUTOHSCROLL | WS_VSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,18,138,54,18
+    PUSHBUTTON      "Cancel",IDCANCEL,102,138,54,18
+    LTEXT           "Layout Name",IDC_STATIC_FILENAME,11,34,43,8
+    LTEXT           "Detailed description of Layout",IDC_STATIC_DESCRIP,10,70,172,8
+    LTEXT           ".gui",IDC_STATIC,121,48,29,12,WS_DISABLED
+    LTEXT           "Widget-Group",IDC_STATIC_SCREENTAG,6,6,62,10
+END
+
+IDD_COPY_GUIFILE DIALOGEX 0, 0, 237, 209
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Lucid GUI Builder: Copy Layout"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_EDIT_NEWFILE_NAME,15,108,117,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_NEWFILE_DESCRIP,13,137,210,36,ES_MULTILINE | ES_AUTOHSCROLL | WS_VSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,47,183,54,14
+    PUSHBUTTON      "Cancel",IDCANCEL,125,183,54,14
+    LTEXT           "",IDC_STATIC_FILENAME,12,96,8,8
+    LTEXT           "Detailed Description",IDC_STATIC_DESCRIP,11,127,64,8
+    LTEXT           "",IDC_STATIC_SCREENTAG2,12,6,78,12
+    EDITTEXT        IDC_EDIT_ORIGFILE_NAME,15,17,114,14,ES_AUTOHSCROLL | ES_READONLY | NOT WS_TABSTOP
+    GROUPBOX        "New Layout Name",IDC_STATIC,6,96,223,81
+    LTEXT           "Description",IDC_STATIC_SCREENTAG3,14,34,126,11
+    EDITTEXT        IDC_EDIT_ORIGFILE_DESCRIP,13,45,210,41,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL | NOT WS_TABSTOP
+    LTEXT           ".gui",IDC_STATIC,133,111,29,12,WS_DISABLED
+    GROUPBOX        "Layout to copy",IDC_STATIC,7,6,221,85
+    LTEXT           ".gui",IDC_STATIC,129,20,29,12,WS_DISABLED
+END
+
+IDD_DIALOG_YES_Y2A_NO_CNCL DIALOGEX 0, 0, 279, 43
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Lucid GUI Builder: Cancel Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Yes",IDC_BUTTON_YES,7,22,50,14
+    PUSHBUTTON      "Yes To All",IDC_BUTTON_YES2ALL,75,22,50,14
+    PUSHBUTTON      "No",IDC_BUTTON_NO,154,22,50,14
+    PUSHBUTTON      "Cancel",IDC_BUTTON_CANCEL,222,22,50,14
+    LTEXT           "ToBeChanged",IDC_STATIC,7,7,258,8
+END
+
+IDD_DIALOG_OK_CNCL DIALOGEX 0, 0, 223, 43
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Lucid GUI Builder: Cancel Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,49,22,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,125,23,50,14
+    LTEXT           "ToBeChanged",IDC_STATIC,7,7,209,8
+END
+
+IDD_LGB_ZORDER_DIALOG DIALOGEX 0, 0, 30, 279
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_EDIT_ZCLIP_VAL,0,110,28,14,ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "",IDC_SLIDER_ZLEAN,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,0,166,28,82,WS_EX_TRANSPARENT
+    LTEXT           "Max",IDC_STATIC,7,154,14,12,0,WS_EX_TRANSPARENT
+    LTEXT           "Zero",IDC_STATIC,5,248,16,8,0,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_SLIDER_ZCLIP,"msctls_trackbar32",TBS_VERT | TBS_BOTH | WS_TABSTOP,0,28,28,82
+    EDITTEXT        IDC_EDIT_ZLEAN_VAL,0,264,28,12,ES_AUTOHSCROLL | ES_READONLY
+    CTEXT           "Pseudo\n3D",IDC_STATIC,1,136,27,18
+    CTEXT           "Max Active\nZ-Level",IDC_STATIC,0,2,28,26
+    CTEXT           "Max Active\nZ-Level",IDC_STATIC,0,2,28,23
+END
+
+IDD_PROPERTIES_DRAWABLE DIALOGEX 0, 0, 239, 59
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Lucid GUI Builder: Properties: Mixed Selections"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,7,37,64,15
+    PUSHBUTTON      "Cancel",IDCANCEL,168,36,64,15
+    LTEXT           "Z-Order",IDC_STATIC,7,16,30,8
+    EDITTEXT        IDC_ZORDER,35,14,40,14,ES_AUTOHSCROLL
+END
+
+IDD_DIALOG1 DIALOGEX 0, 0, 306, 182
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,249,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,249,24,50,14
+    CONTROL         "",IDC_TREE1,"SysTreeView32",WS_BORDER | WS_TABSTOP,29,18,195,107
+END
+
+IDD_PROPERTIES_PATCH DIALOGEX 0, 0, 228, 298
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Lucid GUI Builder: Patch Selections"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",ID_TEXTBOX_OK,7,269,54,18
+    PUSHBUTTON      "Cancel",IDCANCEL,164,269,54,18
+    EDITTEXT        IDC_Y1,163,40,30,13,ES_RIGHT | ES_AUTOHSCROLL,WS_EX_TRANSPARENT
+    GROUPBOX        "Co-ordinates",-1,7,24,209,159
+    CONTROL         169,-1,"Static",SS_BITMAP | SS_REALSIZEIMAGE | WS_GROUP,17,36,190,142
+    LTEXT           "Tag",IDC_TAG_LABEL,114,7,18,8
+    EDITTEXT        IDC_TAG,129,7,77,14,ES_AUTOHSCROLL | WS_DISABLED
+    LTEXT           "Type",IDC_TYPE_LABEL,7,7,17,8
+    EDITTEXT        IDC_TYPE,33,7,72,14,ES_AUTOHSCROLL | WS_DISABLED
+    LTEXT           "Z-Level",-1,11,189,25,8
+    EDITTEXT        IDC_X1,26,149,31,14,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_X2,76,148,40,14,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_WIDTH,74,121,30,14,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_VERTEXTENT,131,83,32,13,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_ZORDER,9,199,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_Y2,170,83,30,13,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_COLOURPICKER_RESULT,59,68,64,44,ES_AUTOHSCROLL
+    PUSHBUTTON      "Colour",IDC_BUTTON_PROPTEXT_BG_COLOR,16,234,54,18
+    CONTROL         "",-1,"Static",SS_BLACKFRAME,5,182,211,1
+    EDITTEXT        IDC_EDIT_PC_BG_TRANSP,152,227,40,14,ES_AUTOHSCROLL
+    LTEXT           "Transparency",-1,97,228,45,8
+    CONTROL         "",IDC_SLIDER_BG_TRANSP,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,81,242,128,15
+    GROUPBOX        "Background",-1,10,222,208,37,BS_FLAT,WS_EX_TRANSPARENT
+    LTEXT           "(%)",-1,194,230,14,8
+    CONTROL         "",-1,"Static",SS_ETCHEDFRAME,7,263,222,1
+    CONTROL         "",-1,"Static",SS_ETCHEDFRAME,7,216,211,1
+    LTEXT           "NB. '----' implies 'Don't Change'",-1,20,40,103,8
+END
+
+IDD_INLINE_TEXT DIALOGEX 0, 0, 205, 268
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Lucid GUI Builder: Text Styles"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,7,247,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,148,247,50,14
+    LTEXT           "Class",IDC_STATIC,7,7,18,8
+    LISTBOX         IDC_LIST_CLASS,7,21,97,98,LBS_SORT | LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,7,131,191,1
+    PUSHBUTTON      "Add",IDC_BUTTON_ADD,122,23,50,14
+    PUSHBUTTON      "Delete",IDC_BUTTON_DELETE,122,65,50,14
+    GROUPBOX        "Class",IDC_STATIC,7,137,191,105
+    EDITTEXT        IDC_EDIT_CLASS,12,150,98,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Colour",IDC_BUTTON_COLOUR,12,182,50,14
+    EDITTEXT        IDC_EDIT_INLINE_PC_TRANSP3,137,174,40,14,ES_AUTOHSCROLL
+    LTEXT           "Transparency",IDC_STATIC,83,175,45,8
+    CONTROL         "",IDC_SLIDER_TRANSP,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,66,192,128,15
+    LTEXT           "(%)",IDC_STATIC,178,177,14,8
+    COMBOBOX        IDC_COMBO_FONT,12,225,97,71,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Font",IDC_STATIC,12,216,16,8
+    PUSHBUTTON      "Update",IDC_BUTTON_UPDATE,122,44,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_FTP_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 205
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 99
+    END
+
+    IDD_PROPERTIES_TEXTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 218
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 403
+    END
+
+    IDD_PROPERTIES_IMAGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 232
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 271
+    END
+
+    IDD_PROJ_FILE_MGR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 304
+        VERTGUIDE, 7
+        VERTGUIDE, 12
+        VERTGUIDE, 18
+        TOPMARGIN, 5
+        BOTTOMMARGIN, 129
+        HORZGUIDE, 8
+        HORZGUIDE, 15
+        HORZGUIDE, 33
+        HORZGUIDE, 54
+        HORZGUIDE, 76
+        HORZGUIDE, 120
+        HORZGUIDE, 121
+        HORZGUIDE, 124
+    END
+
+    IDD_DELETE_GUI_FILE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 202
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 40
+    END
+
+    IDD_CREATE_GUIFILE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 182
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 154
+    END
+
+    IDD_COPY_GUIFILE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 230
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 202
+    END
+
+    IDD_DIALOG_YES_Y2A_NO_CNCL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 272
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 36
+    END
+
+    IDD_DIALOG_OK_CNCL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 216
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 36
+    END
+
+    IDD_LGB_ZORDER_DIALOG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 28
+        TOPMARGIN, 2
+        HORZGUIDE, 28
+        HORZGUIDE, 110
+        HORZGUIDE, 154
+        HORZGUIDE, 166
+        HORZGUIDE, 248
+        HORZGUIDE, 264
+    END
+
+    IDD_PROPERTIES_DRAWABLE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 232
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 52
+    END
+
+    IDD_DIALOG1, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 299
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 175
+    END
+
+    IDD_PROPERTIES_PATCH, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 218
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 291
+    END
+
+    IDD_INLINE_TEXT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 198
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 261
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "Resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif\r\n"
+    "#include ""res\\DrawGUI.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#include ""afxprint.rc""       // printing/print preview resources\r\n"
+    "#endif\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    ID_ICON_PROPERTIES      "Icon Properties"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_RESIZE_WIDTH         "Set widgets to master's  horiz extent\nAlign Width"
+    ID_RESIZE_HEIGHT        "Set widgets to master's vert extent\nAlign Height"
+    ID_ALIGNMENT_LEFTEDGES  "Align left-edge(s) with master's\nAlign Left"
+    ID_ALIGNMENT_RIGHTEDGES "Align right-edge(s) with master's\nAlign Right"
+    ID_ALIGNMENT_LEFTRIGHTCENTRES "Align vert centrelines(s) with master's\nAlign Vertical Centres"
+    ID_ALIGNMENT_TOPBOTTOMCENTRES "Align horiz centrelines(s) with master's\nAlign Horizontal Centres"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_ALIGNMENT_TOPEDGES   "Align top edge(s) with master's\nAlign Top"
+    ID_ALIGNMENT_BOTTOMEDGES "Align bottom edge(s) with master's\nAlign Bottom"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_OPTIONS_NATIVEVIEWBGROUND "Toggle Native/Editing B/Ground\nToggle Background"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_OPTIONS_DISPLAYWIDGETLABELS "Toggle Widget-Labels On/Off\nToggle Labels"
+END
+
+// NOTE - have duplicated the string table entries for tooltip text, from earlier in the file.
+// these duplicate entries are picked up by wine where as the earlier entries are (sometimes!) ignored
+STRINGTABLE 
+BEGIN
+    ID_PROJECT_OPEN         "Opens project selection dialog ...\nOpen Project"
+    ID_FILE_LAYOUTMANAGER   "Opens layout manager for current project ...\nOpen Layout Manager"
+    ID_FILE_SAVE            "Save the active document\nSave"
+    ID_SCANNEWSODL          "Scan for new widgets created in LAB\nLoad New Widgets"
+    ID_LGB_SENDCHANGEDDATA  "Send changed data to target ...\nSend Changed"
+    ID_LGB_TRANSFERALLDATA  "Send all data to target ...\nSend All"
+    ID_EHS_START        "Start EHS (or restart if running)\nStart EHS"
+    ID_EHS_STOP         "Stop EHS\nStop EHS"
+    ID_EHS_INITIALPARAMETERS  "Edit EHS initialisation parameters\nEdit EHS Parameters"
+	ID_FILE_PRINT           "Print the active document\nPrint"
+	ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
+END
+
+#endif    // English (U.K.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif
+#include "res\DrawGUI.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#include "afxprint.rc"       // printing/print preview resources
+#endif
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

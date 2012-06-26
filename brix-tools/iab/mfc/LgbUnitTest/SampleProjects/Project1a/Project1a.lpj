@@ -1,0 +1,61 @@
+<LucidProject>
+<Version>1.0</Version>
+<ProjectName>Project1a</ProjectName>
+<GroupSet>
+<Group>
+<ID>1</ID>
+<Name>Default</Name>
+<Period>100000</Period>
+<Allocation>90000</Allocation>
+</Group>
+</GroupSet>
+<ExternalFiles>
+<GuiFileSet>
+<GuiFile>
+<HostFileName>Layout 1</HostFileName>
+<Description>L1 Desc</Description>
+<Screen>default</Screen>
+</GuiFile>
+<GuiFile>
+<HostFileName>Layout 2</HostFileName>
+<Description>L2 Desc</Description>
+<Screen>default</Screen>
+</GuiFile>
+<GuiFile>
+<HostFileName>Layout 3</HostFileName>
+<Description>L3 Desc</Description>
+<Screen>default</Screen>
+</GuiFile>
+</GuiFileSet>
+<BmpFileSet>
+<BmpFile>
+<HostFileName>dummy.bmp</HostFileName>
+<Description/>
+<TargetFileName>b0000000.bmp</TargetFileName>
+</BmpFile>
+</BmpFileSet>
+<DataFileSet/>
+</ExternalFiles>
+<ScreenSet>
+<Screen>
+<Tag>default</Tag>
+<Description>The default widget-group</Description>
+<TargetFileName>g0000000.gui</TargetFileName>
+</Screen>
+</ScreenSet>
+<WidgetSet>
+<Widget>
+<WidgetTag>widget0</WidgetTag>
+<ScreenTag>default</ScreenTag>
+</Widget>
+<Widget>
+<WidgetTag>widget1</WidgetTag>
+<ScreenTag>default</ScreenTag>
+</Widget>
+</WidgetSet>
+<ExternalDataFileMetas>
+<NumberOfHighestGuiFile>3</NumberOfHighestGuiFile>
+<NumberOfHighestBmpFile>1</NumberOfHighestBmpFile>
+<NumberOfHighestDatFile>0</NumberOfHighestDatFile>
+</ExternalDataFileMetas>
+</LucidProject>

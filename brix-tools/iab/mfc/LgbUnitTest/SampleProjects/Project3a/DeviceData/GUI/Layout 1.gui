@@ -1,0 +1,4 @@
+textWidget	GUI_TextBox	0	140	100	30	1	1	NULL	96	96	96	255	255	255	2	
+imageWidget1	GUI_Bitmap	70	30	99	99	1	1	red.bmp	1
+imageWidget2	GUI_Bitmap	200	190	99	99	1	1	green.bmp	1
+imageWidget3	GUI_Bitmap	390	40	215	299	1	1	DontWalk.bmp	1

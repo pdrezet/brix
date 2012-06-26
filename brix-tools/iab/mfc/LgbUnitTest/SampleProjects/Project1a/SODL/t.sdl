@@ -1,0 +1,14 @@
+1
+1	100000	90000
+BEGIN GUI_Image
+%%%_imageWidget g0000000.gui 
+RunGUI_LoadImage	1	1	1	0 	0 	0 
+END
+BEGIN GUI_OutputTextBoxString
+%%%_textWidget g0000000.gui 
+CreateGUI_WriteTextBoxString	1	1	1	0 	0 	0 
+END
+BEGIN Start
+*
+Run_Start	1	1	0	0 	0 	1 1
+END

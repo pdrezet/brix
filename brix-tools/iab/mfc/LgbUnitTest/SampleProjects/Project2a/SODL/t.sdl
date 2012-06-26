@@ -1,0 +1,30 @@
+1
+1	100000	90000
+BEGIN GUI_Image
+%%%_Widget_wg2.1 g0000002.gui 
+RunGUI_LoadImage	1	1	1	0 	0 	0 
+END
+BEGIN GUI_Image
+%%%_Widget_wg1 g0000001.gui 
+RunGUI_LoadImage	1	1	1	0 	0 	0 
+END
+BEGIN GUI_Image
+%%%_Widget_wg2.2 g0000002.gui 
+RunGUI_LoadImage	1	1	1	0 	0 	0 
+END
+BEGIN GUI_Image
+%%%_Widget_wg3.2 g0000003.gui 
+RunGUI_LoadImage	1	1	1	0 	0 	0 
+END
+BEGIN GUI_Image
+%%%_Widget_wg3.1 g0000003.gui 
+RunGUI_LoadImage	1	1	1	0 	0 	0 
+END
+BEGIN GUI_Image
+%%%_Widget_wg3.3 g0000003.gui 
+RunGUI_LoadImage	1	1	1	0 	0 	0 
+END
+BEGIN Start
+*
+Run_Start	1	1	0	0 	0 	1 1
+END

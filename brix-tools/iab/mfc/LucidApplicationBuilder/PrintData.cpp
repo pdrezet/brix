@@ -1,0 +1,27 @@
+// PrintData.cpp: implementation of the CPrintData class.
+//
+//////////////////////////////////////////////////////////////////////
+
+#include "stdafx.h"
+#include "DrawProg.h"
+#include "PrintData.h"
+
+#ifdef _DEBUG
+#undef THIS_FILE
+static char THIS_FILE[]=__FILE__;
+#define new DEBUG_NEW
+#endif
+
+//////////////////////////////////////////////////////////////////////
+// Construction/Destruction
+//////////////////////////////////////////////////////////////////////
+
+CPrintData::CPrintData()
+{
+
+}
+
+CPrintData::~CPrintData()
+{
+
+}

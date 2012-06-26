@@ -1,0 +1,1304 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\DrawProg.ico"
+IDR_DRAWPRTYPE          ICON                    "res\\DrawProgDoc.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS 
+BEGIN
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT, NOINVERT
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL, NOINVERT
+    VK_DELETE,      ID_EDIT_DELETE,         VIRTKEY, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT, NOINVERT
+    "Y",            ID_EDIT_REDO,           VIRTKEY, CONTROL, NOINVERT
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
+    "N",            ID_NEW_PROJECT,         VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_OPEN_PROJECT,        VIRTKEY, CONTROL, NOINVERT
+    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL, NOINVERT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY, NOINVERT
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
+    "S",            ID_SAVE_PROJECT,        VIRTKEY, CONTROL, NOINVERT
+    "A",            ID_SELECT_ALL,          VIRTKEY, CONTROL, NOINVERT
+    VK_UP,          ID_UP_LEVEL,            VIRTKEY, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 302, 54
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About Lucid Application Builder"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,21,20
+    LTEXT           "Replace by version.h ID_VERSION",ID_VERSION_DLG,40,10,212,8,SS_NOPREFIX
+    LTEXT           "Copyright nCapsa Ltd. (C) 2007",IDC_STATIC,40,25,152,8
+    DEFPUSHBUTTON   "OK",IDOK,263,7,32,14,WS_GROUP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "FileDescription", "inxware Application Builder -win32"
+            VALUE "FileVersion", "1, 0, 0, 1"
+            VALUE "InternalName", "LucidApplicationBuilder"
+            VALUE "LegalCopyright", "Copyright (C) 1999"
+            VALUE "OriginalFilename", "inxApplicationBuilder.EXE"
+            VALUE "ProductName", "inxApplicationBuilder Application"
+            VALUE "ProductVersion", "1, 0, 0, 1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 295
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 47
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR  16, 15
+BEGIN
+    BUTTON      ID_NEW_PROJECT
+    BUTTON      ID_OPEN_PROJECT
+    BUTTON      ID_SAVE_PROJECT
+    SEPARATOR
+    BUTTON      ID_WRITE_SODL
+    SEPARATOR
+    BUTTON      ID_EHS_HOST_COMBO
+    BUTTON      ID_LAB_TRANSFERALLDATA
+    BUTTON      ID_LAB_SENDCHANGEDDATA
+    SEPARATOR
+    BUTTON      ID_LAB_EHS_START
+    BUTTON      ID_LAB_EHS_STOP
+    BUTTON      ID_LAB_EHS_INIT_PARAMS
+    SEPARATOR
+    BUTTON      ID_DEBUG_START
+    BUTTON      ID_DEBUG_STARTWITHRESTART
+    BUTTON      ID_DEBUG_STOP
+    BUTTON      ID_DEBUG_PAUSE
+    BUTTON      ID_DEBUG_STEP
+    BUTTON      ID_DEBUG_RESTART
+    BUTTON      ID_TRACE
+    SEPARATOR
+    BUTTON      ID_SUBSET
+    BUTTON      ID_UP_LEVEL
+    SEPARATOR
+    BUTTON      ID_EDIT_CUT
+    BUTTON      ID_EDIT_COPY
+    BUTTON      ID_EDIT_PASTE
+    SEPARATOR
+    BUTTON      ID_ZOOM_IN
+    BUTTON      ID_ZOOM_OUT
+    BUTTON      ID_VIEW_REFRESH
+    SEPARATOR
+    BUTTON      ID_KEY
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDR_MAINFRAME           "LucidApplicationBuilder"
+    IDR_DRAWPRTYPE          "\nProject\nProject\nProject Files (*.lpj)\n.lpj\nProject.Document\nProject Document"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "LucidApplicationBuilder"
+    AFX_IDS_IDLEMESSAGE     "Ready"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_NEW             "Create a new project\nNew Project"
+    ID_FILE_OPEN            "Open an existing project\nOpen Project"
+    ID_FILE_CLOSE           "Close the active document\nClose"
+    ID_FILE_SAVE            "Save the active document\nSave DEP"
+    ID_FILE_SAVE_AS         "Save the active document with a new name\nSave As"
+    ID_FILE_PAGE_SETUP      "Change the printing options\nPage Setup"
+    ID_FILE_PRINT_SETUP     "Change the printer and printing options\nPrint Setup"
+    ID_FILE_PRINT           "Print the active document\nPrint"
+    ID_FILE_PRINT_PREVIEW   "Display full pages\nPrint Preview"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
+    ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_MRU_FILE1       "Open this document"
+    ID_FILE_MRU_FILE2       "Open this document"
+    ID_FILE_MRU_FILE3       "Open this document"
+    ID_FILE_MRU_FILE4       "Open this document"
+    ID_FILE_MRU_FILE5       "Open this document"
+    ID_FILE_MRU_FILE6       "Open this document"
+    ID_FILE_MRU_FILE7       "Open this document"
+    ID_FILE_MRU_FILE8       "Open this document"
+    ID_FILE_MRU_FILE9       "Open this document"
+    ID_FILE_MRU_FILE10      "Open this document"
+    ID_FILE_MRU_FILE11      "Open this document"
+    ID_FILE_MRU_FILE12      "Open this document"
+    ID_FILE_MRU_FILE13      "Open this document"
+    ID_FILE_MRU_FILE14      "Open this document"
+    ID_FILE_MRU_FILE15      "Open this document"
+    ID_FILE_MRU_FILE16      "Open this document"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
+    ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_WINDOW_NEW           "Open another window for the active document\nNew Window"
+    ID_WINDOW_ARRANGE       "Arrange icons at the bottom of the window\nArrange Icons"
+    ID_WINDOW_CASCADE       "Arrange windows so they overlap\nCascade Windows"
+    ID_WINDOW_TILE_HORZ     "Arrange windows as non-overlapping tiles\nTile Windows"
+    ID_WINDOW_TILE_VERT     "Arrange windows as non-overlapping tiles\nTile Windows"
+    ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_EDIT_CLEAR           "Erase the selection\nErase"
+    ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
+    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
+    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut"
+    ID_EDIT_FIND            "Find the specified text\nFind"
+    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
+    ID_EDIT_REPEAT          "Repeat the last action\nRepeat"
+    ID_EDIT_REPLACE         "Replace specific text with different text\nReplace"
+    ID_EDIT_SELECT_ALL      "Select the entire document\nSelect All"
+    ID_EDIT_UNDO            "Undo the last action\nUndo"
+    ID_EDIT_REDO            "Redo the last action\n\\Redo"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
+    ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "Change the window position"
+    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
+    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to normal size"
+    AFX_IDS_SCTASKLIST      "Activate Task List"
+    AFX_IDS_MDICHILD        "Activate this window"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_PREVIEW_CLOSE   "Close print preview mode\nCancel Preview"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_VIEWDESCIPTION       "Toggle description Text displayed in work space"
+    ID_MENUVIEWFIXED        "View Block's fixed input data"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_DEBUG_RESTART        "Continue debugger when paused\nContinue debugger"
+    ID_NEW_PROJECT          "Create a new project\nNew Project"
+    ID_OPEN_PROJECT         "Opens an existing project\nOpen Project"
+    ID_RELOAD_EHS           "Reloads the ehs with the sodl\nReload EHS"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_VIEW_ZOOM            "Zoom\nZoom"
+    ID_WRITE_SODL           "Write SODL\nWrite SODL"
+    ID_GROUP_SETUP          "Edit Group Setup\nGroup Setup"
+    ID_ADD_TO_GROUP         "Add selected icons to a group\nAdd to Group"
+    ID_SAVE_PROJECT         "Save project\nSave project"
+    ID_BUTTON32847          "Subset encapsulation\nSubset encapsulation"
+END
+
+STRINGTABLE 
+BEGIN
+	ID_EHS_HOST_COMBO		"Select transfer target\nSelect Target"
+    ID_LAB_TRANSFERALLDATA  "Send all data to target ...\nSend all data"
+    ID_LAB_SENDCHANGEDDATA  "Send changed data to target ...\nSend changed data"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_LAB_EHS_START        "Start EHS (or restart if running)\nStart EHS"
+    ID_LAB_EHS_STOP         "Stop EHS\nStop EHS"
+    ID_LAB_EHS_INIT_PARAMS  "Edit EHS initialisation parameters\nEdit EHS Parameters"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_SUBSET               "Create sub-block\nCreate sub-block"
+    ID_TOPDOWN              "Create library component using top-down encapsulation\nCreate library component (topdown)"
+    ID_FTP_SODL             "Transfer SODL and external files\nTransfer SODL and external files"
+    ID_KEY                  "Colour code key\nKey"
+    ID_UP_LEVEL             "Up a level of hierarchy\nUp a level"
+    ID_DEBUG_START          "Start debugger\nStart debugger"
+    ID_DEBUG_STOP           "Stop debugger\nStop debugger"
+    ID_DEBUG_PAUSE          "Pause debugger\nPause debugger"
+    ID_DEBUG_STEP           "Step debugger\nStep debugger"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_LIBRARY              "Create library component using subset encapsulation\nCreate library component (subset)"
+    ID_IMPORT_LIB           "Imports a library\nImport library"
+    ID_EXPORT_LIB           "Exports a library\nExport library"
+    ID_CLOSE_PROJECT        "Close active project\nClose project"
+    ID_SELECT_ALL           "Select all the icons\nSelect all icons"
+    ID_LUCID                "Lucid library\nLucid Library"
+    ID_NEC                  "NEC library\nNEC library"
+    ID_FTP_EHS              "FTP EHS\nFTP EHS"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_TRACE                "Start RTA-Trace\nRTA-Trace"
+    ID_DEBUG_STARTWITHRESTART "Restarts the application in debug mode\nRestart in debug mode"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_ZOOM_IN              "Zoom in\nZoom in"
+    ID_ZOOM_OUT             "Zoom out\nZoom out"
+    ID_IMPORT_DATA_FILE     "Import Data File\nImport Data File"
+    ID_TRANSFER_OPTIONS     "Transfer options\nTransfer options"
+    ID_TRANSFER_APP         "Transfer the sodl and external files\nTransfer the sodl and external files"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_LAUNCH_TRANSFER      "Update Target"
+    ID_HELP_LAB_USERGUIDE   "Opens User Guide"
+    ID_HELP_LAB_REFMANUAL   "Opens Reference Manual"
+    ID_VIEW_REFRESH         "Refresh View\nRefresh View"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_VIEW_PROJECTBAR      "Show or hide the instant bar\nToggle InstantBar"
+    ID_VIEW_PROJECT         "Show or hide the project bar\nToggle ProjectBar"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_HELP_TUTORIALS       "Opens Tutorials"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.K.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_LED_ON              ICON                    "res\\ledOn.ico"
+IDI_LED_OFF             ICON                    "res\\ledOff.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_CHOOSE DIALOGEX 20, 20, 200, 268
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "Component Library"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CONTROL         "Tree1",IDC_CONINFO,"SysTreeView32",TVS_HASBUTTONS | WS_BORDER | WS_TABSTOP,7,7,117,254
+    DEFPUSHBUTTON   "OK",IDOK,129,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,24,50,14
+END
+
+IDD_PARAMETERS DIALOGEX 0, 0, 475, 371
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_VSCROLL | WS_SYSMENU
+CAPTION "Component Properties"
+FONT 8, "Tahoma", 400, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,409,4,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,409,22,50,14
+    CONTROL         "",IDC_EXPLORER1,"{8856F961-340A-11D0-A96B-00C04FD705A2}",WS_TABSTOP,6,47,446,209
+END
+
+IDD_ENCAPSULATE DIALOGEX 0, 0, 377, 346
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Encapsulate"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,300,9,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,300,28,50,14
+    LTEXT           "Component Name",IDC_BLOCK_LABEL,7,9,58,9
+    LTEXT           "Description",IDC_LONG_LABEL,7,33,57,8
+    EDITTEXT        IDC_EDIT_LONG,66,31,207,65,ES_MULTILINE | WS_VSCROLL
+    LTEXT           "Menu Name",IDC_MENU_LABEL,7,105,53,8
+    EDITTEXT        IDC_EDIT_BLOCK,66,9,144,14,ES_AUTOHSCROLL
+    COMBOBOX        IDC_MENU_NAME_COMBO,65,103,145,71,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_FTP_OPTIONS DIALOGEX 0, 0, 202, 106
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "FTP options"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,145,5,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,145,25,50,14
+    LTEXT           "Server:",IDC_Server_Label,10,20,25,8
+    EDITTEXT        IDC_SERVER,60,15,70,14,ES_AUTOHSCROLL
+    LTEXT           "Username:",IDC_Username_label,10,40,35,8
+    EDITTEXT        IDC_USERNAME,60,35,70,14,ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_Password_Label,10,60,34,8
+    EDITTEXT        IDC_PASSWORD,60,55,70,14,ES_AUTOHSCROLL
+    GROUPBOX        "Options",IDC_STATIC,5,5,130,90
+    LTEXT           "Server Dir:",IDC_SERVERDIR_LABEL,10,80,45,8
+    EDITTEXT        IDC_SERVERDIR,60,75,70,14,ES_AUTOHSCROLL
+END
+
+IDD_COLOUR_KEY DIALOGEX 0, 0, 217, 141
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_NOPARENTNOTIFY
+CAPTION "Colour Key"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,155,115,50,14
+    CONTROL         149,IDC_GREYICON,"Static",SS_BITMAP,10,15,27,19
+    LTEXT           "I/O Component",IDC_GREY_ICON,45,20,50,8
+    LTEXT           "Data Processing Component",IDC_BLUE_ICON,145,15,55,18
+    CONTROL         152,IDC_BLUEICON,"Static",SS_BITMAP,110,15,27,18
+    CONTROL         153,IDC_YELLOWICON,"Static",SS_BITMAP,110,40,27,19
+    LTEXT           "Event Processing Component",IDC_STATIC,145,40,60,20
+    CONTROL         154,IDC_PURPLE_ICON,"Static",SS_BITMAP,10,40,27,19
+    LTEXT           "Encapsulated Block",IDC_PURPLE_ICON_LABEL,45,40,45,15
+    GROUPBOX        "Icons",IDC_ICONS_LABEL,3,2,210,60
+    GROUPBOX        "Lines",IDC_LINES_LABEL,0,75,140,60
+    CONTROL         158,IDC_STATIC,"Static",SS_BITMAP,10,90,54,36
+END
+
+IDD_FORCE_VALUE DIALOG  0, 0, 186, 46
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Debug Force Value"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,40,25,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,105,25,50,14
+    LTEXT           "Force Value",IDC_FORCE_VALUE,5,5,40,10
+    EDITTEXT        IDC_EDIT_VALUE,50,3,125,14,ES_AUTOHSCROLL
+END
+
+IDD_GOTO_TIME DIALOG  0, 0, 157, 41
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Debug History Time"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,20,25,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,85,25,50,14
+    EDITTEXT        IDC_TIME_EDIT,55,5,90,14,ES_AUTOHSCROLL
+    LTEXT           "Time (ms)",IDC_TIME_LABEL,10,5,35,8
+END
+
+IDD_DEBUG_MSG DIALOGEX 0, 0, 120, 30
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_SYSMENU
+EXSTYLE WS_EX_NOPARENTNOTIFY | WS_EX_CLIENTEDGE
+FONT 12, "Tahoma", 400, 0, 0x0
+BEGIN
+    LTEXT           "Loading debugger. Please wait.",IDC_DEBUG_MSG,10,10,100,8
+END
+
+IDD_INSTANCE_NAME DIALOGEX 0, 0, 260, 46
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Instance Name"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,76,26,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,143,26,50,14
+    LTEXT           "Instance Name",IDC_INSTANCE_LABEL,5,5,49,8
+    EDITTEXT        IDC_INSTANCE_EDIT,60,5,190,14,ES_AUTOHSCROLL
+END
+
+IDD_COMPONENT_NAME DIALOGEX 0, 0, 217, 50
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Component Name"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,55,30,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,123,30,50,14
+    LTEXT           "Component Name",IDC_COMPONENT_LABEL,5,10,58,8
+    EDITTEXT        IDC_BLOCK_EDIT,65,5,145,14,ES_AUTOHSCROLL
+END
+
+IDD_ADD_PORT DIALOGEX 0, 0, 186, 90
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Add Port"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,36,70,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,107,70,50,14
+    LTEXT           "Port Label",IDC_PORT_LABEL,5,10,33,8
+    EDITTEXT        IDC_PORT_EDIT,45,5,130,14,ES_AUTOHSCROLL
+    LTEXT           "Port Type",IDC_TYPE_LABEL,5,25,35,8
+    COMBOBOX        IDC_PORT_TYPE,45,25,48,65,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Data Type",IDC_DATA_TYPE_LABEL,5,45,35,8
+    COMBOBOX        IDC_DATA_TYPE,45,45,48,75,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_PORT_LABEL DIALOGEX 0, 0, 186, 50
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Port Label"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,32,31,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,96,30,50,14
+    LTEXT           "Port Label",IDC_PORT_LABEL,5,11,40,8
+    EDITTEXT        IDC_PORT_EDIT,45,5,130,14,ES_AUTOHSCROLL
+END
+
+IDD_TAG_LINE DIALOG  0, 0, 222, 47
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Add Tag"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,165,5,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,165,25,50,14
+    LTEXT           "Tag Name",IDC_TAG_LABEL,10,10,34,8
+    COMBOBOX        IDC_TAG_COMBO,50,5,105,110,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_ZOOM DIALOGEX 0, 0, 186, 46
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Zoom"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,129,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,24,50,14
+    LTEXT           "Zoom (%):",IDC_ZOOM_LABEL,5,10,32,8
+    COMBOBOX        IDC_ZOOM_COMBO,46,8,48,88,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_GROUP_SETUP DIALOGEX 0, 0, 287, 161
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Group Setup"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,60,138,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,135,138,50,14
+    LISTBOX         IDC_GROUP_LIST,5,30,210,100,LBS_SORT | LBS_USETABSTOPS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "ID:",IDC_ID_LABEL,5,15,10,8
+    LTEXT           "Group Name:",IDC_NAME_LABEL,35,15,45,8
+    LTEXT           "Period (us):",IDC_PERIOD_LABEL,105,15,36,8
+    LTEXT           "Allocation (us)",IDC_ALLOC_LABEL,170,15,45,8
+    PUSHBUTTON      "Add Group",IDC_ADD_GROUP,230,30,50,14,WS_DISABLED
+    PUSHBUTTON      "Edit Group",IDC_EDIT_GROUP,230,55,50,14
+    PUSHBUTTON      "Delete Group",IDC_DELETE_GROUP,230,80,50,14,WS_DISABLED
+END
+
+IDD_EDIT_GROUP DIALOG  0, 0, 222, 86
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Edit Group"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,165,10,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,165,30,50,14
+    LTEXT           "Name:",IDC_NAME_LABEL,10,20,22,8
+    GROUPBOX        "Group",IDC_GROUP_LABEL,5,5,155,75
+    EDITTEXT        IDC_NAME_EDIT,35,20,120,14,ES_AUTOHSCROLL
+    LTEXT           "Period (us):",IDC_PERIOD_LABEL,10,45,35,8
+    EDITTEXT        IDC_PERIOD_EDIT,60,40,95,14,ES_AUTOHSCROLL
+    LTEXT           "Allocation (us):",IDC_ALLOC_LABEL,10,65,47,8
+    EDITTEXT        IDC_ALLOC_EDIT,60,60,95,14,ES_AUTOHSCROLL
+END
+
+IDD_SELECT_GROUP DIALOGEX 0, 0, 186, 95
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Select Group"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,130,50,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,68,50,14
+    LTEXT           "Group Name:",IDC_NAME_LABEL,5,5,43,8
+    LISTBOX         IDC_NAME_LIST,5,20,115,65,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_EXPORT DIALOGEX 0, 0, 340, 116
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Export"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,81,99,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,159,99,50,14
+    LISTBOX         IDC_EXPORT_LIST,150,20,129,74,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_LIB_LIST,15,20,126,74,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Library Components",IDC_LIB_LABEL,15,5,70,10
+    LTEXT           "Export Components",IDC_EXPORT_LABEL,150,5,70,8
+    PUSHBUTTON      "Add",IDC_ADD,285,20,50,14
+    PUSHBUTTON      "Delete",IDC_DELETE,286,39,50,14
+END
+
+IDD_DIALOG3 DIALOGEX 0, 0, 173, 161
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,37,140,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,101,140,50,14
+    EDITTEXT        IDC_EDIT1,60,15,110,14,ES_AUTOHSCROLL
+    LTEXT           "Transitions to",IDC_STATIC,5,39,43,8
+    LTEXT           "State Name",IDC_STATIC,5,20,40,8
+    EDITTEXT        IDC_EDIT3,60,34,30,15,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "State(s)",IDC_STATIC,95,39,25,8
+    CONTROL         "Add Entry Action (Moore)",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,65,95,10
+    CONTROL         "Add Transition action (Mealy))",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,80,109,10
+    CONTROL         "Event and Flag is True",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | BS_NOTIFY | WS_GROUP,15,115,87,10
+    CONTROL         "Event Recieved",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,15,105,67,10
+    GROUPBOX        "Transitions When: ",IDC_STATIC,10,95,155,35
+    GROUPBOX        "Action Blocks",IDC_STATIC,9,55,155,38
+    LISTBOX         IDC_LIST1,7,117,146,40,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_LIBRARY_CHOOSER DIALOGEX 0, 0, 266, 46
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Library Chooser"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,71,28,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,141,29,50,14
+    COMBOBOX        IDC_LIBRARY_COMBO,35,10,210,65,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Library:",IDC_LIBRARY_LABEL,5,15,24,8
+END
+
+IDD_PROJECTDIALOG DIALOGEX 0, 0, 304, 218
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "New Project"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,84,197,50,16
+    PUSHBUTTON      "Cancel",IDCANCEL,152,197,50,16
+    LTEXT           "Project Name",IDC_PROJ_NAME_LABEL,30,12,48,8
+    LTEXT           "Project Root Directory",IDC_PROJ_DIR_LABEL,6,30,72,8
+    EDITTEXT        IDC_PROJ_DIR_EDIT,84,30,180,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_PROJ_NAME_EDIT,84,12,180,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_PROJ_DIR_BUTT,270,30,18,14
+    LTEXT           "Version",IDC_STATIC,16,97,24,8
+    LTEXT           "Description",IDC_STATIC,16,114,36,8
+    EDITTEXT        IDC_PROJECT_VERSION,83,95,68,15,ES_AUTOHSCROLL
+    EDITTEXT        IDC_PROJECT_DESCRIPTION,83,113,178,66,ES_MULTILINE
+    LTEXT           "Commercial Name",IDC_STATIC,16,79,57,8
+    EDITTEXT        IDC_PROJECT_COMMERCIALNAME,83,76,178,15,ES_AUTOHSCROLL
+END
+
+IDD_CHOOSE_BLOCK DIALOGEX 20, 20, 132, 268
+STYLE DS_SETFONT | WS_CHILD | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "Component Library"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CONTROL         "Tree1",IDC_CONINFO,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | WS_BORDER | WS_TABSTOP,7,7,117,254,WS_EX_CLIENTEDGE
+END
+
+IDD_BLOCK_PORT_LABEL DIALOGEX 0, 0, 186, 54
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Port Label"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,32,31,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,96,30,50,14
+    LTEXT           "Port Label",IDC_BLOCK_PORT_LABEL,5,11,40,8
+    EDITTEXT        IDC_BLOCK_PORT_EDIT,45,5,130,14,ES_AUTOHSCROLL
+END
+
+IDD_WIDGET_GROUP_NAME DIALOGEX 0, 0, 236, 65
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Widget Group Manager"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,94,38,50,14
+    LTEXT           "Add widgets to Widget Group",IDC_WIDGET_GROUP_LABEL,7,25,96,8
+    LTEXT           "Dialog n of m",IDC_STATIC_DIALOG_NUM,7,7,65,8
+    COMBOBOX        IDC_WIDGET_GROUP_COMBO,108,23,120,76,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_DIALOG6 DIALOGEX 0, 0, 186, 55
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,65,38,50,14
+    LTEXT           "Static",IDC_STATIC,7,1,105,10
+    CONTROL         "",IDC_PROGRESS1,"msctls_progress32",0x0,7,11,171,7,WS_EX_CLIENTEDGE
+    LTEXT           "Static",IDC_STATIC,7,19,105,10
+    CONTROL         "",IDC_PROGRESS2,"msctls_progress32",WS_BORDER,7,29,171,7
+END
+
+IDD_MENU_NAME DIALOGEX 0, 0, 186, 68
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Menu Name"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,30,38,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,103,38,50,14
+    LTEXT           "Menu Name",IDC_MENU_NAME_LABEL,7,14,48,8
+    COMBOBOX        IDC_MENU_NAME_COMBO,52,14,127,64,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_PROJECT_DESCRIPTION_DIALOG DIALOGEX 0, 0, 273, 186
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Project Description"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,72,165,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,128,165,50,14
+    LTEXT           "Name",IDC_STATIC,25,24,19,8
+    LTEXT           "Version",IDC_STATIC,25,61,24,8
+    LTEXT           "Description",IDC_STATIC,25,78,36,8
+    EDITTEXT        IDC_PROJECT_NAME,92,20,156,15,ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_PROJECT_VERSION,92,59,68,15,ES_AUTOHSCROLL
+    EDITTEXT        IDC_PROJECT_DESCRIPTION,92,77,156,66,ES_MULTILINE
+    LTEXT           "Commercial Name",IDC_STATIC,25,43,57,8
+    EDITTEXT        IDC_PROJECT_COMMERCIALNAME,92,40,156,15,ES_AUTOHSCROLL
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_CHOOSE, DIALOG
+    BEGIN
+        RIGHTMARGIN, 194
+    END
+
+    IDD_PARAMETERS, DIALOG
+    BEGIN
+        RIGHTMARGIN, 459
+        BOTTOMMARGIN, 369
+    END
+
+    IDD_DEBUG_MSG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 96
+    END
+
+    IDD_INSTANCE_NAME, DIALOG
+    BEGIN
+        RIGHTMARGIN, 186
+    END
+
+    IDD_EXPORT, DIALOG
+    BEGIN
+        RIGHTMARGIN, 312
+    END
+
+    IDD_LIBRARY_CHOOSER, DIALOG
+    BEGIN
+        RIGHTMARGIN, 186
+    END
+
+    IDD_CHOOSE_BLOCK, DIALOG
+    BEGIN
+        RIGHTMARGIN, 124
+    END
+
+    IDD_BLOCK_PORT_LABEL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 47
+    END
+
+    IDD_WIDGET_GROUP_NAME, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 58
+    END
+
+    IDD_DIALOG6, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 178
+        TOPMARGIN, 1
+        BOTTOMMARGIN, 52
+        HORZGUIDE, 11
+    END
+
+    IDD_MENU_NAME, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 61
+    END
+
+    IDD_PROJECT_DESCRIPTION_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 266
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 179
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_MAINFRAME           BITMAP                  "res\\Toolbar_24bit.bmp"
+IDB_GREYICON            BITMAP                  "..\\..\\dist\\BMP\\GreyIcon.bmp"
+IDB_BLUEICON            BITMAP                  "..\\..\\dist\\BMP\\BlueIcon.bmp"
+IDB_YELLOWICON          BITMAP                  "..\\..\\dist\\BMP\\YellowIcon.bmp"
+IDB_PURPLEICON          BITMAP                  "..\\..\\dist\\BMP\\PurpleIcon.bmp"
+IDB_LINES               BITMAP                  "..\\..\\dist\\BMP\\Lines.bmp"
+IDB_BITMAP2             BITMAP                  "..\\..\\dist\\BMP\\treectrl.bmp"
+IDB_TREEICON_A1         BITMAP                  "..\\..\\dist\\bmp\\treeIcon_A1.bmp"
+IDB_TREEICON_B1         BITMAP                  "..\\..\\dist\\BMP\\treeIcon_B1.bmp"
+IDB_TREEICON_C1         BITMAP                  "..\\..\\dist\\bmp\\treeIcon_C1.bmp"
+IDB_TREEICON_D1         BITMAP                  "..\\..\\dist\\bmp\\treeIcon_D1.bmp"
+IDB_TREEICON_E1         BITMAP                  "..\\..\\dist\\bmp\\treeIcon_E1.bmp"
+IDB_TREEICON_D2         BITMAP                  "..\\..\\dist\\bmp\\treeIcon_D2.bmp"
+IDB_TREEICON_C2         BITMAP                  "..\\..\\dist\\bmp\\treeIcon_C2.bmp"
+IDB_TREEICON_B2         BITMAP                  "..\\..\\dist\\bmp\\treeIcon_B2.bmp"
+IDB_TREEICON_A2         BITMAP                  "..\\..\\dist\\bmp\\treeIcon_A2.bmp"
+IDB_TREEICON_E2         BITMAP                  "..\\..\\dist\\bmp\\treeIcon_E2.bmp"
+IDB_TREEICON_DEFAULT    BITMAP                  "..\\..\\dist\\bmp\\treeIcon_default.bmp"
+IDB_TREEICON_COMPONENT_DEFAULT BITMAP                  "..\\..\\dist\\bmp\\treeIcon_component_default.bmp"
+IDR_MAINFRAME_256       BITMAP                  "res\\Toolbar_256.bmp"
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New Project\tCtrl+N",        ID_NEW_PROJECT
+        MENUITEM "&Open Project\tCtrl+O",       ID_OPEN_PROJECT
+        MENUITEM SEPARATOR
+        MENUITEM "P&rint Setup...",             ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
+        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+        MENUITEM "&Project Bar",                ID_VIEW_PROJECT
+        MENUITEM "Component Palette",           ID_VIEW_COMPONENTPALETTE
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About Lucid Application Builder...", ID_APP_ABOUT
+        MENUITEM "&Tutorials ...",              ID_HELP_TUTORIALS
+    END
+END
+
+IDR_DRAWPRTYPE MENU 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New Project\tCtrl+N",        ID_NEW_PROJECT
+        MENUITEM "&Open Project\tCtrl+O",       ID_OPEN_PROJECT
+        MENUITEM "&Save Project\tCtrl+S",       ID_SAVE_PROJECT
+        MENUITEM "Save Project &As...",         ID_SAVE_PROJECT_AS
+        MENUITEM "&Close Project",              ID_CLOSE_PROJECT
+        MENUITEM "Edit Project Description",    ID_EDIT_PROJECT_DESC
+        MENUITEM SEPARATOR
+        MENUITEM "C&lose DEP",                  ID_FILE_CLOSE
+        MENUITEM "&Write SODL",                 ID_WRITE_SODL
+        MENUITEM "I&mport Resource File",       ID_FILE_IMPORTRESOURCEFILE
+        MENUITEM SEPARATOR
+        POPUP "Encaps&ulate"
+        BEGIN
+            MENUITEM "Sub-&Block",                  ID_SUBSET
+        END
+        MENUITEM "&Import Library",             ID_IMPORT_LIB
+        MENUITEM "&Export Library",             ID_EXPORT_LIB
+        MENUITEM SEPARATOR
+        MENUITEM "&Print...\tCtrl+P",           ID_FILE_PRINT
+        MENUITEM "P&rint Setup...",             ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, CHECKED, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO
+        MENUITEM "&Redo\tCtrl+Y",               ID_EDIT_REDO
+        MENUITEM SEPARATOR
+        MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT
+        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
+        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
+        MENUITEM "&Delete\tDel",                ID_EDIT_DELETE
+        MENUITEM SEPARATOR
+        MENUITEM "&Select All\tCtrl+A",         ID_SELECT_ALL
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
+        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+        MENUITEM "&Project Bar",                ID_VIEW_PROJECT
+        MENUITEM "Component Palette",           ID_VIEW_COMPONENTPALETTE
+        MENUITEM SEPARATOR
+        MENUITEM "&Zoom...",                    ID_VIEW_ZOOM
+        MENUITEM "&Refresh",                    ID_VIEW_REFRESH
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&Cascade",                    ID_WINDOW_CASCADE
+        MENUITEM "&Tile",                       ID_WINDOW_TILE_HORZ
+        MENUITEM "&Arrange Icons",              ID_WINDOW_ARRANGE
+    END
+    POPUP "&Transfer"
+    BEGIN
+        MENUITEM "Send All Data to target...",  ID_LAB_TRANSFERALLDATA
+        MENUITEM "Send Changed Data to target ...", ID_LAB_SENDCHANGEDDATA
+        MENUITEM SEPARATOR
+        MENUITEM "Transfer &Options ...",       ID_TRANSFER_OPTIONS
+    END
+    POPUP "&EHS"
+    BEGIN
+        MENUITEM "Initialisation Parameters",   ID_LAB_EHS_INIT_PARAMS
+        MENUITEM "Start",                       ID_LAB_EHS_START
+        MENUITEM "Stop",                        ID_LAB_EHS_STOP
+        MENUITEM "Always on-top",               ID_LAB_EHS_TOPMOST
+        MENUITEM "Always on-bottom",            ID_LAB_EHS_BOTTOMMOST
+        MENUITEM "Normal zorder",               ID_LAB_EHS_NORMALZORDER
+        MENUITEM "Manage EHS locally",          ID_EHS_MANAGEEHSLOCALLY
+        MENUITEM "Manage EHS remotely",         ID_EHS_MANAGEEHSREMOTELY
+    END
+    POPUP "&Debug"
+    BEGIN
+        MENUITEM "&Start",                      ID_DEBUG_START
+        MENUITEM "St&op",                       ID_DEBUG_STOP
+        MENUITEM "&Pause",                      ID_DEBUG_PAUSE
+        MENUITEM "St&ep",                       ID_DEBUG_STEP
+        MENUITEM "&Continue",                   ID_DEBUG_RESTART
+        POPUP "&History"
+        BEGIN
+            MENUITEM "&Start",                      ID_DBGHIST_START
+            MENUITEM "St&ep",                       ID_DBGHIST_STEP
+            MENUITEM "&Go To Time",                 ID_DBGHIST_TIME
+            MENUITEM "St&op",                       ID_DBGHIST_STOP
+        END
+        MENUITEM "Trace",                       ID_TRACE
+        MENUITEM "Restart with debug",          ID_DEBUG_STARTWITHRESTART
+		POPUP "&Options..."
+		BEGIN
+			MENUITEM "&Define Monitors",            ID_DEFINE_MONITORS
+			MENUITEM "&Select All Monitors",        ID_OPTIONS_SELECTALLMONITORS
+			MENUITEM "&Clear All Monitors",         ID_OPTIONS_CLEARALLMONITORS
+		END
+    END
+    POPUP "&Group"
+    BEGIN
+        MENUITEM "&Group Setup",                ID_GROUP_SETUP
+        MENUITEM "&Add to Group",               ID_ADD_TO_GROUP
+    END
+    POPUP "Tool&s"
+    BEGIN
+        MENUITEM "&National Language Support",  ID_NATIONAL_LANGUAGE_SUPPORT
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About Lucid Application Builder...", ID_APP_ABOUT
+        MENUITEM "&Tutorials ...",              ID_HELP_TUTORIALS
+    END
+END
+
+IDR_ICON_MENU MENU 
+BEGIN
+    POPUP "Icon"
+    BEGIN
+        MENUITEM "&Delete Icon",                ID_DELETE
+        MENUITEM "&Properties",                 ID_PROPERTIES
+        MENUITEM "Re-Route All",                ID_ICON_REROUTEALL
+        MENUITEM "&Add To Group",               ID_ADD_ICON_TO_GROUP
+    END
+    POPUP "Port"
+    BEGIN
+        MENUITEM "&Show Line",                  ID_SHOW_LINE
+        MENUITEM "&Delete Tag",                 ID_DELETE_TAG
+        MENUITEM "&Add Tag",                    ID_ADD_TAG
+        MENUITEM "&Add To Group",               ID_ADD_PORT_TO_GROUP
+    END
+    POPUP "Line"
+    BEGIN
+        MENUITEM "&Delete Line",                ID_DELETE_LINE
+        MENUITEM "&Straighten",                 ID_STRAIGHTEN
+        MENUITEM "AddNode",                     ID_LINE_ADDNODE
+        MENUITEM "Re-route",                    32903
+        MENUITEM "&Force Event",                ID_DEBUG_FORCE
+        MENUITEM "&Tag Line",                   ID_TAG_LINE
+    END
+    POPUP "Node"
+    BEGIN
+        MENUITEM "&Delete Node",                ID_DELETE_NODE
+    END
+    POPUP "UserDef Icon"
+    BEGIN
+        MENUITEM "Delete Icon",                 ID_DELETE
+        MENUITEM "Properties",                  ID_PROPERTIES
+        MENUITEM "Re-Route All",                ID_ICON_REROUTEALL
+        MENUITEM "Add To Group",                ID_ADD_ICON_TO_GROUP
+        MENUITEM "View Component",              ID_ICON_CREATEINSTANCE
+        MENUITEM "Add Port",                    ID_ADD_PORT
+        MENUITEM "Add To Library",              ID_ADD_TO_LIBRARY
+    END
+    POPUP "XPort Icon"
+    BEGIN
+        MENUITEM "Delete Icon",                 ID_DELETE
+        MENUITEM "Properties",                  ID_PROPERTIES
+        MENUITEM "Re-Route All",                ID_ICON_REROUTEALL
+        MENUITEM "Add To Group",                ID_ADD_ICON_TO_GROUP
+        MENUITEM "Rename Xport",                ID_RENAME_XPORT
+    END
+    POPUP "Userdef Port"
+    BEGIN
+        MENUITEM "Show Line",                   ID_SHOW_LINE
+        MENUITEM "Delete Tag",                  ID_DELETE_TAG
+        MENUITEM "Add Tag",                     ID_ADD_TAG
+        MENUITEM "Add To Group",                ID_ADD_PORT_TO_GROUP
+        MENUITEM "Delete Port",                 ID_DELETE_PORT
+        MENUITEM "Rename Port",                 ID_RENAME_PORT
+    END
+    POPUP "Start Port"
+    BEGIN
+        MENUITEM "Initialise",                  ID_PORT_INITIALISE
+        MENUITEM "Show Line",                   ID_SHOW_LINE
+        MENUITEM "Delete Tag",                  ID_DELETE_TAG
+        MENUITEM "Add Tag",                     ID_ADD_TAG
+        MENUITEM "Add To Group",                ID_ADD_PORT_TO_GROUP
+    END
+    POPUP "Userdef Start Port"
+    BEGIN
+        MENUITEM "Initialise",                  ID_PORT_INITIALISE
+        MENUITEM "Show Line",                   ID_SHOW_LINE
+        MENUITEM "Delete Tag",                  ID_DELETE_TAG
+        MENUITEM "Add Tag",                     ID_ADD_TAG
+        MENUITEM "Add To Group",                ID_ADD_PORT_TO_GROUP
+        MENUITEM "Delete Port",                 ID_DELETE_PORT
+        MENUITEM "Rename Port",                 ID_RENAME_PORT
+    END
+    POPUP "Resource"
+    BEGIN
+        MENUITEM "&Delete Resource",                ID_DELETE_RESOURCE
+    END
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif\r\n"
+    "#include ""res\\DrawProg.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#include ""afxprint.rc""       // printing/print preview resources\r\n"
+    "#endif\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+IDC_CURSOR1             CURSOR                  "res\\cursor1.cur"
+IDC_CURSOR_LABLINE      CURSOR                  "res\\cur_labline.cur"
+IDC_CURSOR_LABNODE      CURSOR                  "res\\cursor_labnode.cur"
+IDC_CURSOR_LABPORT      CURSOR                  "res\\cursor_labport.cur"
+IDC_CURSOR_LABBLOCK     CURSOR                  "res\\cursor_labblock.cur"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_ADD_PORT DLGINIT
+BEGIN
+    IDC_PORT_TYPE, 0x403, 10, 0
+0x6e49, 0x7570, 0x5074, 0x726f, 0x0074, 
+    0
+END
+
+IDD_PARAMETERS DLGINIT
+BEGIN
+    IDC_EXPLORER1, 0x376, 160, 0
+0x0000, 0x0000, 0x004c, 0x0000, 0x4525, 0x0000, 0x2324, 0x0000, 0x0000, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
+0x0000, 0x0000, 0x004c, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0001, 
+0x0000, 0xd0e0, 0x0057, 0x3573, 0x11cf, 0x69ae, 0x0008, 0x2e2b, 0x6212, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x004c, 0x0000, 0x1401, 0x0002, 0x0000, 
+0x0000, 0x00c0, 0x0000, 0x0000, 0x4600, 0x0080, 0x0000, 0x0000, 0x0000, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0001, 0x0000, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    ID_DELETE               "Delete an element"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_PROPERTIES           "Icon Properties"
+    ID_ICON_SHOW_DESC       "Icon Menu"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_ICON_ADD_NAME        "Edit Icon Instance Name"
+    ID_ADD_PORT             "Adds a port to a new block"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_ICON_CREATEINSTANCE  "View a User Defined Component"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_DELETE_PORT          "Delete port"
+    ID_TAG_LINE             "Replace line with tags at both ends"
+    ID_SHOW_LINE            "Replace a tag with a line"
+    ID_DELETE_TAG           "Deletes a tag and the associated line"
+    ID_ADD_TAG              "Adds a tag to a port"
+    ID_ADD_TO_GROUP         "Add icon's functions to a group\nAdd to Group"
+    ID_ADD_ICON_TO_GROUP    "Add icon's functions to a group\nAdd Icon to Group"
+    ID_ADD_PORT_TO_GROUP    "Add start port to a group\nAdd to Group"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_RENAME_PORT          "Rename Port\nRename Port"
+    ID_ADD_TO_LIBRARY       "Add subsystem to library\nAdds the subsystem to the library"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_INDICATOR_LOCALHOST  "    "
+END
+
+// NOTE - have duplicated the string table entries for tooltip text, from earlier in the file.
+// these duplicate entries are picked up by wine where as the earlier entries are (sometimes!) ignored
+STRINGTABLE 
+BEGIN
+    ID_NEW_PROJECT          "Create a new project\nNew Project"
+    ID_OPEN_PROJECT         "Opens an existing project\nOpen Project"
+    ID_SAVE_PROJECT         "Save project\nSave project"
+    ID_WRITE_SODL           "Write SODL\r\nWrite SODL"
+    ID_TOPDOWN              "Create library component using top-down encapsulation\nCreate library component (topdown)"
+    ID_LIBRARY              "Create library component using subset encapsulation\nCreate library component (subset)"
+    ID_SUBSET               "Create sub-block\nCreate sub-block"
+    ID_UP_LEVEL             "Up a level of hierarchy\nUp a level"
+    ID_DEBUG_START          "Start debugger\nStart debugger"
+    ID_DEBUG_STARTWITHRESTART "Restarts the application in debug mode\nRestart in debug mode"
+    ID_DEBUG_STOP           "Stop debugger\nStop debugger"
+    ID_DEBUG_PAUSE          "Pause debugger\nPause debugger"
+    ID_DEBUG_STEP           "Step debugger\nStep debugger"
+    ID_DEBUG_RESTART        "Continue debugger when paused\nContinue debugger"
+    ID_TRACE                "Start RTA-Trace\nRTA-Trace"
+    ID_KEY                  "Colour code key\nKey"
+    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
+END
+
+#endif    // English (U.K.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif
+#include "res\DrawProg.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#include "afxprint.rc"       // printing/print preview resources
+#endif
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

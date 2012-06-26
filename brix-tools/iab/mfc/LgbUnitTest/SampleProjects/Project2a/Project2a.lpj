@@ -1,0 +1,112 @@
+<LucidProject>
+<Version>1.0</Version>
+<ProjectName>Project2a</ProjectName>
+<GroupSet>
+<Group>
+<ID>1</ID>
+<Name>Default</Name>
+<Period>100000</Period>
+<Allocation>90000</Allocation>
+</Group>
+</GroupSet>
+<ExternalFiles>
+<GuiFileSet>
+<GuiFile>
+<HostFileName>Layout 1.1</HostFileName>
+<Description>L1.1 Desc</Description>
+<Screen>widgetGroup 1</Screen>
+</GuiFile>
+<GuiFile>
+<HostFileName>Layout 2.1</HostFileName>
+<Description>L2.1 Desc</Description>
+<Screen>widgetGroup 2</Screen>
+</GuiFile>
+<GuiFile>
+<HostFileName>Layout 2.2</HostFileName>
+<Description>L2.2 Desc</Description>
+<Screen>widgetGroup 2</Screen>
+</GuiFile>
+<GuiFile>
+<HostFileName>Layout 3.1</HostFileName>
+<Description>L3.1 Desc</Description>
+<Screen>widgetGroup 3</Screen>
+</GuiFile>
+<GuiFile>
+<HostFileName>Layout 3.2</HostFileName>
+<Description>L3.2 Desc</Description>
+<Screen>widgetGroup 3</Screen>
+</GuiFile>
+<GuiFile>
+<HostFileName>Layout 3.3</HostFileName>
+<Description>L3.3 Desc</Description>
+<Screen>widgetGroup 3</Screen>
+</GuiFile>
+<GuiFile>
+<HostFileName>aa</HostFileName>
+<Description/>
+<Screen>default</Screen>
+</GuiFile>
+</GuiFileSet>
+<BmpFileSet>
+<BmpFile>
+<HostFileName>dummy.bmp</HostFileName>
+<Description/>
+<TargetFileName>b0000000.bmp</TargetFileName>
+</BmpFile>
+</BmpFileSet>
+<DataFileSet/>
+</ExternalFiles>
+<ScreenSet>
+<Screen>
+<Tag>default</Tag>
+<Description>The default widget-group</Description>
+<TargetFileName>g0000000.gui</TargetFileName>
+</Screen>
+<Screen>
+<Tag>widgetGroup 1</Tag>
+<Description>wg1 Desc</Description>
+<TargetFileName>g0000001.gui</TargetFileName>
+</Screen>
+<Screen>
+<Tag>widgetGroup 2</Tag>
+<Description>wg2 Desc</Description>
+<TargetFileName>g0000002.gui</TargetFileName>
+</Screen>
+<Screen>
+<Tag>widgetGroup 3</Tag>
+<Description>wg3 Desc</Description>
+<TargetFileName>g0000003.gui</TargetFileName>
+</Screen>
+</ScreenSet>
+<WidgetSet>
+<Widget>
+<WidgetTag>Widget_wg2.1</WidgetTag>
+<ScreenTag>widgetGroup 2</ScreenTag>
+</Widget>
+<Widget>
+<WidgetTag>Widget_wg1</WidgetTag>
+<ScreenTag>widgetGroup 1</ScreenTag>
+</Widget>
+<Widget>
+<WidgetTag>Widget_wg2.2</WidgetTag>
+<ScreenTag>widgetGroup 2</ScreenTag>
+</Widget>
+<Widget>
+<WidgetTag>Widget_wg3.2</WidgetTag>
+<ScreenTag>widgetGroup 3</ScreenTag>
+</Widget>
+<Widget>
+<WidgetTag>Widget_wg3.1</WidgetTag>
+<ScreenTag>widgetGroup 3</ScreenTag>
+</Widget>
+<Widget>
+<WidgetTag>Widget_wg3.3</WidgetTag>
+<ScreenTag>widgetGroup 3</ScreenTag>
+</Widget>
+</WidgetSet>
+<ExternalDataFileMetas>
+<NumberOfHighestGuiFile>4</NumberOfHighestGuiFile>
+<NumberOfHighestBmpFile>1</NumberOfHighestBmpFile>
+<NumberOfHighestDatFile>0</NumberOfHighestDatFile>
+</ExternalDataFileMetas>
+</LucidProject>

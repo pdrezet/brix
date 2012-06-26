@@ -1,0 +1,62 @@
+//LOCATION MAP
+
+#define IPICPROGSDIR "c:\\ICprograms"
+#define IPICICONS		"c:\\ICicons"
+#define IPICGUIS		"c:\\ICguis"
+#define UNUSEDTAGSTRING "<unused>"
+#define UNNAMEDTAGSTRING "No Name"
+
+
+#define NEXTPROGRMLOC	0
+#define NEXTCONFIGLOC	1
+#define NEXTGUILOC		2
+
+#define RUNNINGFLAG		0
+#define PAUSEFLAG		511
+#define STOPSIGNAL		512
+//#define STOPSIGNAL		0
+#define WASTEFLAG		510
+
+/*
+#define STARTBOOLIN		1
+#define ENDBOOLIN		256
+#define STARTBOOLOUT	257
+#define ENDBOOLOUT		512
+*/
+
+#define INPUTOFFSET		0	//one less than actual (starts at 1)
+#define INPUTENDLOC		254
+#define OUTPUTOFFSET	255
+#define OUTPUTENDLOC	511
+
+#define HMIINOFFSET		513
+#define HMIINEND		640
+#define HMIOUTOFFSET	641
+#define HMIOUTEND		767
+
+
+
+#define STARTUSER		768
+//#define ENDUSER			10000
+
+
+//#define STARTUSERBOOL	768
+#define ENDUSERBOOL		10000
+//#define STARTUSERINT	768
+#define ENDUSERINT		10000
+//#define STARTUSERREAL	768
+#define ENDUSERREAL		10000
+//#define STARTUSERSTRING	768
+#define ENDUSERSTRING	2000
+
+
+/*
+#define STARTGUIBOOL	513
+#define ENDGUIBOOL		767
+#define STARTGUIINT		513
+#define ENDGUIINT		767
+#define STARTGUIREAL	513
+#define ENDGUIREAL		767
+#define STARTGUISTRING	11
+#define ENDGUISTRING	256
+*/

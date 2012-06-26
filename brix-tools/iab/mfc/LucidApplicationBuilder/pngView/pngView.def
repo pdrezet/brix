@@ -1,0 +1,6 @@
+; pngView.def : Declares the module parameters for the DLL.
+
+LIBRARY      "pngView"
+
+EXPORTS
+    ; Explicit exports can go here

@@ -1,0 +1,3 @@
+Widget_wg3.2	GUI_Bitmap	0	20	100	30	1	1	dummy.bmp	1
+Widget_wg3.1	GUI_Bitmap	110	60	100	30	1	1	dummy.bmp	1
+Widget_wg3.3	GUI_Bitmap	0	100	100	30	1	1	dummy.bmp	1
