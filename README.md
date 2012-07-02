@@ -21,6 +21,8 @@ The application software is partitioned into the following categories:
 
 ./brix-tools/plugins/idb - the database management plugin tool.
 
+Note: to build brix the dis directory is required (to be added to repository!)
+
 
 
 
