@@ -1,0 +1,335 @@
+<html>
+<head>
+<!--place style sheet in the same directory as the help.html for each component, or in any directory up to 3 levels above help.html-->
+<LINK REL=StyleSheet HREF="iabStyle.css" TYPE="text/css">
+<LINK REL=StyleSheet HREF="../iabStyle.css" TYPE="text/css">
+<LINK REL=StyleSheet HREF="../../iabStyle.css" TYPE="text/css">
+<LINK REL=StyleSheet HREF="../../../iabStyle.css" TYPE="text/css">
+</head>
+
+<body>
+
+<!--Name of Component-->
+<h1 class=component>
+PlayManager
+</h1>
+<!--General Description-->
+<p class=component>
+Manages parsing playlists and controlling media players
+</p>
+<!--Ports - form - short desc: long desc-->
+<h3 class=ports>Ports</h3>
+<ul class=noBullet><li>
+<h6 class=portsStr>
+[In]
+Playlist path:
+<a name="[In]Playlist path">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[Out]
+Media File:
+<a name="[Out]Media File">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[In]
+New Playlist:
+<a name="[In]New Playlist">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[Out]
+------------:
+<a name="[Out]------------">
+</h6>
+<p class=ports></p>
+  </li><li>
+  </li><li>
+<h6 class=ports>
+[In]
+Last Ended:
+<a name="[In]Last Ended">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[Out]
+--------------:
+<a name="[Out]--------------">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[Out]
+Playlist path:
+<a name="[Out]Playlist path">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[Out]
+Play Now:
+<a name="[Out]Play Now">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[In]
+Next URL:
+<a name="[In]Next URL">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[Out]
+------------:
+<a name="[Out]------------">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[Out]
+Get:
+<a name="[Out]Get">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[Out]
+URL:
+<a name="[Out]URL">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[In]
+Got:
+<a name="[In]Got">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[Out]
+------------:
+<a name="[Out]------------">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[In]
+URL:
+<a name="[In]URL">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[Out]
+------------:
+<a name="[Out]------------">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[In]
+Local File:
+<a name="[In]Local File">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[Out]
+------------:
+<a name="[Out]------------">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[Out]
+Local File:
+<a name="[Out]Local File">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[In]
+DL URL:
+<a name="[In]DL URL">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[In]
+DL local:
+<a name="[In]DL local">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[In]
+Set Paths:
+<a name="[In]Set Paths">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[Out]
+------------:
+<a name="[Out]------------">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[Out]
+-------------:
+<a name="[Out]-------------">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[Out]
+--------------:
+<a name="[Out]--------------">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsInt>
+[In]
+Priorities:
+<a name="[In]Priorities">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[Out]
+play remote:
+<a name="[Out]play remote">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[Out]
+start time:
+<a name="[Out]start time">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[Out]
+class:
+<a name="[Out]class">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[Out]
+Text:
+<a name="[Out]Text">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[Out]
+Type:
+<a name="[Out]Type">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[In]
+Started Play:
+<a name="[In]Started Play">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsInt>
+[In]
+ID:
+<a name="[In]ID">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsInt>
+[In]
+ID:
+<a name="[In]ID">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsInt>
+[In]
+ID:
+<a name="[In]ID">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsInt>
+[Out]
+ID:
+<a name="[Out]ID">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsInt>
+[Out]
+ID:
+<a name="[Out]ID">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[Out]
+Stop time:
+<a name="[Out]Stop time">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[Out]
+Earliest:
+<a name="[Out]Earliest">
+</h6>
+<p class=ports></p>
+</li></ul>
+<p>
+EDIT - list of tags available to link to the ports for the component in the HTML: <a href="#[In]Playlist path">[In]Playlist path</a>, <a href="#[Out]Media File">[Out]Media File</a>, <a href="#[In]New Playlist">[In]New Playlist</a>, <a href="#[Out]------------">[Out]------------</a>, <a href="#[In]Last Ended">[In]Last Ended</a>, <a href="#[Out]--------------">[Out]--------------</a>, <a href="#[Out]Playlist path">[Out]Playlist path</a>, <a href="#[Out]Play Now">[Out]Play Now</a>, <a href="#[In]Next URL">[In]Next URL</a>, <a href="#[Out]------------">[Out]------------</a>, <a href="#[Out]Get">[Out]Get</a>, <a href="#[Out]URL">[Out]URL</a>, <a href="#[In]Got">[In]Got</a>, <a href="#[Out]------------">[Out]------------</a>, <a href="#[In]URL">[In]URL</a>, <a href="#[Out]------------">[Out]------------</a>, <a href="#[In]Local File">[In]Local File</a>, <a href="#[Out]------------">[Out]------------</a>, <a href="#[Out]Local File">[Out]Local File</a>, <a href="#[In]DL URL">[In]DL URL</a>, <a href="#[In]DL local">[In]DL local</a>, <a href="#[In]Set Paths">[In]Set Paths</a>, <a href="#[Out]------------">[Out]------------</a>, <a href="#[Out]-------------">[Out]-------------</a>, <a href="#[Out]--------------">[Out]--------------</a>, <a href="#[In]Priorities">[In]Priorities</a>, <a href="#[Out]play remote">[Out]play remote</a>, <a href="#[Out]start time">[Out]start time</a>, <a href="#[Out]class">[Out]class</a>, <a href="#[Out]Text">[Out]Text</a>, <a href="#[Out]Type">[Out]Type</a>, <a href="#[In]Started Play">[In]Started Play</a>, <a href="#[In]ID">[In]ID</a>, <a href="#[In]ID">[In]ID</a>, <a href="#[In]ID">[In]ID</a>, <a href="#[Out]ID">[Out]ID</a>, <a href="#[Out]ID">[Out]ID</a>, <a href="#[Out]Stop time">[Out]Stop time</a>, <a href="#[Out]Earliest">[Out]Earliest</a>,
+</p>
+<!--Parameters - form - short desc: long desc-->
+<h3 class=parameters>Parameters</h3>
+<ul class=noBullet><li>
+</li></ul>
+<!--State Machine - form - image - example-->
+<h3 class=stateMachine>State Machine</h3>
+<p class=stateMachine>Stateless.</p>
+<!--<p class=image><img src=smiley.gif width=32 height=32 /></p>-->
+<!--profiles - form - list-->
+<h3 class=profiles>Profiles</h3>
+<ul class=noBullet><li>
+<h6 class=profiles>Media: </h6>
+<p class=profiles></p>
+</li></ul>
+<!--Toolbox-->
+<h3 class=toolbox>Toolbox</h3>
+<p class=toolbox>GUI/Level1.</p>
+<!--Version-->
+<h3 class=version>Version</h3>
+<p class=version>v2.1.</p>
+<!--Dependencies - form - list-->
+<h3 class=dependencies>Native Dependencies</h3>
+<ul class=dependencies><li class=dependencies>
+<h6 class=dependencies>TDK1.1: </h6>
+<p class=dependencies></p>
+</li></ul>
+<!--Licence Type-->
+<h3 class=licenceType>Licence Type</h3>
+<p class=licenceType>LGPL.</p>
+<!--Component Supplier-->
+<h3 class=supplier>Component Supplier</h3>
+<p class=supplier>inx ltd.</p>
+<!--More Info on Website-->
+<h3 class=more>More Information</h3>
+<p class=link><a href=http://www.inx-systems.net target=_blank>More information - external website hosted by the Component Supplier.</a></p>
+</body></html>

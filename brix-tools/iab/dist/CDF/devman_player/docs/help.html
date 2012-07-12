@@ -1,0 +1,401 @@
+<html>
+<head>
+<!--place style sheet in the same directory as the help.html for each component, or in any directory up to 3 levels above help.html-->
+<LINK REL=StyleSheet HREF="iabStyle.css" TYPE="text/css">
+<LINK REL=StyleSheet HREF="../iabStyle.css" TYPE="text/css">
+<LINK REL=StyleSheet HREF="../../iabStyle.css" TYPE="text/css">
+<LINK REL=StyleSheet HREF="../../../iabStyle.css" TYPE="text/css">
+</head>
+
+<body>
+
+<!--Name of Component-->
+<h1 class=component>
+DevmanPlayer
+</h1>
+<!--General Description-->
+<p class=component>
+This component provides contact with a devman server to enable the exchange of playlists and player status information. The component detects new playlists made available on the devman server, downloads them and notifies the application that it is available and where it is stored. The function block is not playlist format aware and does not parse the playlists to identify tracks that need to be downloaded. This Function block is neither responsible for downloading content references in the playlist. This is done by the playlist manager in conjunction with a downloader function block. 
+</p>
+<!--Ports - form - short desc: long desc-->
+<h3 class=ports>Ports</h3>
+<ul class=noBullet><li>
+<h6 class=ports>
+[In]
+Activate:
+<a name="[In]Activate">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[Out]
+------------:
+<a name="[Out]------------">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[In]
+De-activate:
+<a name="[In]De-activate">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[Out]
+------------:
+<a name="[Out]------------">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[In]
+Set url:
+<a name="[In]Set url">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[In]
+URL:
+<a name="[In]URL">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[Out]
+------------:
+<a name="[Out]------------">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[In]
+Config:
+<a name="[In]Config">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[In]
+plylst path:
+<a name="[In]plylst path">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsInt>
+[In]
+update rate:
+<a name="[In]update rate">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[Out]
+------------:
+<a name="[Out]------------">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[In]
+track info:
+<a name="[In]track info">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsInt>
+[In]
+plylst index:
+<a name="[In]plylst index">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[In]
+curr. media:
+<a name="[In]curr. media">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[In]
+start time:
+<a name="[In]start time">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsInt>
+[In]
+media duration:
+<a name="[In]media duration">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[Out]
+new playlist:
+<a name="[Out]new playlist">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[Out]
+plylst URL:
+<a name="[Out]plylst URL">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[Out]
+media/ URL:
+<a name="[Out]media/ URL">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[Out]
+rem. list:
+<a name="[Out]rem. list">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[Out]
+files:
+<a name="[Out]files">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[Out]
+rem. unused:
+<a name="[Out]rem. unused">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[Out]
+rem. all:
+<a name="[Out]rem. all">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[Out]
+Override:
+<a name="[Out]Override">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[Out]
+track url:
+<a name="[Out]track url">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[Out]
+media parms:
+<a name="[Out]media parms">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsInt>
+[Out]
+volume:
+<a name="[Out]volume">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsInt>
+[Out]
+channels:
+<a name="[Out]channels">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[Out]
+set mute:
+<a name="[Out]set mute">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsBool>
+[Out]
+on/off:
+<a name="[Out]on/off">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=ports>
+[Out]
+status:
+<a name="[Out]status">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsInt>
+[Out]
+state:
+<a name="[Out]state">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[Out]
+media /path:
+<a name="[Out]media /path">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[In]
+playlist:
+<a name="[In]playlist">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsInt>
+[In]
+player state:
+<a name="[In]player state">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[Out]
+X-playlist:
+<a name="[Out]X-playlist">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[Out]
+Raw XML:
+<a name="[Out]Raw XML">
+</h6>
+<p class=ports></p>
+  </li><li>
+<h6 class=portsStr>
+[Out]
+URL:
+<a name="[Out]URL">
+</h6>
+<p class=ports></p>
+</li></ul>
+<p>
+EDIT - list of tags available to link to the ports for the component in the HTML: <a href="#[In]Activate">[In]Activate</a>, <a href="#[Out]------------">[Out]------------</a>, <a href="#[In]De-activate">[In]De-activate</a>, <a href="#[Out]------------">[Out]------------</a>, <a href="#[In]Set url">[In]Set url</a>, <a href="#[In]URL">[In]URL</a>, <a href="#[Out]------------">[Out]------------</a>, <a href="#[In]Config">[In]Config</a>, <a href="#[In]plylst path">[In]plylst path</a>, <a href="#[In]update rate">[In]update rate</a>, <a href="#[Out]------------">[Out]------------</a>, <a href="#[In]track info">[In]track info</a>, <a href="#[In]plylst index">[In]plylst index</a>, <a href="#[In]curr. media">[In]curr. media</a>, <a href="#[In]start time">[In]start time</a>, <a href="#[In]media duration">[In]media duration</a>, <a href="#[Out]new playlist">[Out]new playlist</a>, <a href="#[Out]plylst URL">[Out]plylst URL</a>, <a href="#[Out]media/ URL">[Out]media/ URL</a>, <a href="#[Out]rem. list">[Out]rem. list</a>, <a href="#[Out]files">[Out]files</a>, <a href="#[Out]rem. unused">[Out]rem. unused</a>, <a href="#[Out]rem. all">[Out]rem. all</a>, <a href="#[Out]Override">[Out]Override</a>, <a href="#[Out]track url">[Out]track url</a>, <a href="#[Out]media parms">[Out]media parms</a>, <a href="#[Out]volume">[Out]volume</a>, <a href="#[Out]channels">[Out]channels</a>, <a href="#[Out]set mute">[Out]set mute</a>, <a href="#[Out]on/off">[Out]on/off</a>, <a href="#[Out]status">[Out]status</a>, <a href="#[Out]state">[Out]state</a>, <a href="#[Out]media /path">[Out]media /path</a>, <a href="#[In]playlist">[In]playlist</a>, <a href="#[In]player state">[In]player state</a>, <a href="#[Out]X-playlist">[Out]X-playlist</a>, <a href="#[Out]Raw XML">[Out]Raw XML</a>, <a href="#[Out]URL">[Out]URL</a>,
+</p>
+<!--Parameters - form - short desc: long desc-->
+<h3 class=parameters>Parameters</h3>
+<ul class=noBullet><li>
+<h6 class=parameters>
+Devman Server URL:
+</h6>
+<p class=parameters>
+[Parameter2]
+<br /><h6 class=parameters>Data Type: </h6><p class=parameters>
+S,
+</p><h6 class=parameters>Min Value: </h6><p class=parameters>
+"",
+</p><h6 class=parameters>Max Value: </h6><p class=parameters>
+devman server url,
+</p><h6 class=parameters>Default Value: </h6><p class=parameters>
+None
+</p>
+  </li><li>
+<h6 class=parameters>
+Playlist Path:
+</h6>
+<p class=parameters>
+[Parameter3]
+<br /><h6 class=parameters>Data Type: </h6><p class=parameters>
+S,
+</p><h6 class=parameters>Min Value: </h6><p class=parameters>
+"",
+</p><h6 class=parameters>Max Value: </h6><p class=parameters>
+playlist path,
+</p><h6 class=parameters>Default Value: </h6><p class=parameters>
+None
+</p>
+  </li><li>
+<h6 class=parameters>
+Devman Ping Period:
+</h6>
+<p class=parameters>
+devman ping period in seconds
+<br /><h6 class=parameters>Data Type: </h6><p class=parameters>
+I,
+</p><h6 class=parameters>Min Value: </h6><p class=parameters>
+1,
+</p><h6 class=parameters>Max Value: </h6><p class=parameters>
+3600,
+</p><h6 class=parameters>Default Value: </h6><p class=parameters>
+60
+</p>
+  </li><li>
+<h6 class=parameters>
+Use Devman Core URL:
+</h6>
+<p class=parameters>
+[Parameter5]
+<br /><h6 class=parameters>Data Type: </h6><p class=parameters>
+B,
+</p><h6 class=parameters>Min Value: </h6><p class=parameters>
+1,
+</p><h6 class=parameters>Max Value: </h6><p class=parameters>
+Use the URL specified by devman.url,
+</p><h6 class=parameters>Default Value: </h6><p class=parameters>
+None
+</p>
+  </li><li>
+<h6 class=parameters>
+Start on Init:
+</h6>
+<p class=parameters>
+
+<br /><h6 class=parameters>Data Type: </h6><p class=parameters>
+B,
+</p><h6 class=parameters>Min Value: </h6><p class=parameters>
+1,
+</p><h6 class=parameters>Max Value: </h6><p class=parameters>
+Start checking on ini,
+</p><h6 class=parameters>Default Value: </h6><p class=parameters>
+None
+</p>
+</li></ul>
+<!--State Machine - form - image - example-->
+<h3 class=stateMachine>State Machine</h3>
+<p class=stateMachine>Stateless.</p>
+<!--<p class=image><img src=smiley.gif width=32 height=32 /></p>-->
+<!--profiles - form - list-->
+<h3 class=profiles>Profiles</h3>
+<ul class=noBullet><li>
+<h6 class=profiles>Media: </h6>
+<p class=profiles></p>
+</li></ul>
+<!--Toolbox-->
+<h3 class=toolbox>Toolbox</h3>
+<p class=toolbox>GUI/Level1.</p>
+<!--Version-->
+<h3 class=version>Version</h3>
+<p class=version>v2.1.</p>
+<!--Dependencies - form - list-->
+<h3 class=dependencies>Native Dependencies</h3>
+<ul class=dependencies><li class=dependencies>
+<h6 class=dependencies>TDK1.1: </h6>
+<p class=dependencies></p>
+</li></ul>
+<!--Licence Type-->
+<h3 class=licenceType>Licence Type</h3>
+<p class=licenceType>LGPL.</p>
+<!--Component Supplier-->
+<h3 class=supplier>Component Supplier</h3>
+<p class=supplier>inx ltd.</p>
+<!--More Info on Website-->
+<h3 class=more>More Information</h3>
+<p class=link><a href=http://www.inx-systems.net target=_blank>More information - external website hosted by the Component Supplier.</a></p>
+</body></html>

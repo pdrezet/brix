@@ -1,0 +1,18 @@
+Lucid v1.0.0Beta3 - Known Problems
+==================================
+
+***This release is intended for demonstration purposes only***
+
+The following faults existed at release time:
+
+FR7B09A1 Lucid doesn't show debug values of strings or floats
+In debug mode, Lucid Application Builder doesn't show floats. 
+
+FR7B12S3 Most recently useed file list not working properly in Lucid GUI Builder
+When different projects are opened and closed in Lucid GUI Builder only the most recent project file is displayed, and not a list of the most recent project files.
+
+FR7C12S4 Frame caption incorrect in Lucid Application Builder
+The caption at the top of the frame doesn't always show the currently selected project.
+
+FR7C18A4 Incorrect dialog title DrawGUI
+A number of the dialog boxes for LGB have the title "DrawGUI". This is out of date, and should be "Lucid GUI Builder"

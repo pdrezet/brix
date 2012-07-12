@@ -1,0 +1,13 @@
+Lucid v1.0.0Beta4 - Known Problems
+==================================
+
+***This release is intended for demonstration purposes only***
+
+Windows version does not honour per-pixel alpha channel in the graphics viewport. 
+The global alpha value of the viewport is used for all graphics in the view port.
+
+Installing windows tools into using wine on linux hosts results in the file history features failing.
+
+Uploading new applications whilst video is playing results in the runtime crashing (Resolved in v2.0).
+
+

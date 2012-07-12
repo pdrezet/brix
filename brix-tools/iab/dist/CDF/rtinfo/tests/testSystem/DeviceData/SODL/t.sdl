@@ -1,0 +1,36 @@
+#V:2.0.0
+#B:14
+#D:Y2011M11d7h11m27s20
+#N:testSystem
+1
+1	100000	90000
+BEGIN RuntimeInfo
+*
+getdyn	1	1	2	0 	4 S 2 I -1 I -1 I 1 	1 3 
+END
+BEGIN Constant_String1
+test 
+Run_ConstantString	1	1	-1	0 	1 S 1 	0 
+END
+BEGIN gui_text_string2
+%%%_test g0000000.gui 
+create	1	1	1	0 	4 I -1 I -1 I -1 I -1 	2 -1 2 
+show	1	1	1	0 	0 	1 -1 
+update	1	1	1	6 I -1 I -1 I -1 I -1 I -1 S 1 	4 I -1 I -1 I -1 I -1 	1 -1 
+END
+BEGIN gui_text_string2
+%%%_output g0000000.gui 
+create	1	1	1	0 	4 I -1 I -1 I -1 I -1 	2 -1 -1 
+show	1	1	1	0 	0 	1 -1 
+update	1	1	3	6 I -1 I -1 I -1 I -1 I -1 S 2 	4 I -1 I -1 I -1 I -1 	1 -1 
+END
+BEGIN gui_text_int2
+%%%_output2 g0000000.gui 
+create	1	1	1	0 	4 I -1 I -1 I -1 I -1 	2 -1 -1 
+show	1	1	1	0 	0 	1 -1 
+update	1	1	3	6 I -1 I -1 I -1 I -1 I -1 I 1 	4 I -1 I -1 I -1 I -1 	1 -1 
+END
+BEGIN Start
+*
+Run_Start	1	1	0	0 	0 	1 1
+END

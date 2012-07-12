@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MenuConfig><Styles><StyleType><Name>A1</Name><OnTree>A1</OnTree>
+    </StyleType>
+    <StyleType>
+      <Name>B1</Name>
+      <OnTree>B1</OnTree>
+    </StyleType>
+    <StyleType>
+      <Name>A2</Name>
+      <OnTree>A2</OnTree>
+    </StyleType>
+    <StyleType>
+      <Name>C2</Name>
+      <OnTree>C2</OnTree>
+    </StyleType>    
+  </Styles>
+  <MenuItems>
+    <MenuItem>
+      <Name>Event</Name>
+      <Priority>10</Priority>
+      <Style>A1</Style>
+                  <MenuItem>
+                    <Name>Clock</Name>
+                    <Priority>10</Priority>
+                    <Style>A2</Style>
+                  </MenuItem>
+                  <MenuItem>
+                    <Name>Counter</Name>
+                    <Priority>20</Priority>
+                    <Style>A2</Style>
+                  </MenuItem>
+                  <MenuItem>
+                    <Name>Counter Versatile</Name>
+                    <Priority>30</Priority>
+                    <Style>A2</Style>
+                  </MenuItem>
+                  <MenuItem>
+                    <Name>Resetting AND</Name>
+                    <Priority>40</Priority>
+                    <Style>B2</Style>
+                  </MenuItem>
+                  <MenuItem>
+                    <Name>Manual AND</Name>
+                    <Priority>50</Priority>
+                    <Style>B2</Style>
+                  </MenuItem>
+                  <MenuItem>
+                    <Name>Latching AND</Name>
+                    <Priority>60</Priority>
+                    <Style>B2</Style>
+                  </MenuItem>
+                  <MenuItem>
+                    <Name>Event OR</Name>
+                    <Priority>70</Priority>
+                    <Style>B2</Style>
+                  </MenuItem>
+                  <MenuItem>
+                    <Name>Set Reset Bool</Name>
+                    <Priority>80</Priority>
+                    <Style>C2</Style>
+                  </MenuItem>
+                  <MenuItem>
+                    <Name>Toggle Bool</Name>
+                    <Priority>90</Priority>
+                    <Style>C2</Style>
+                  </MenuItem>
+                  <MenuItem>
+                    <Name>Bool Control</Name>
+                    <Priority>100</Priority>
+                    <Style>C2</Style>
+                  </MenuItem>
+                  <MenuItem>
+                    <Name>Edge Detection</Name>
+                    <Priority>110</Priority>
+                    <Style>D2</Style>
+                  </MenuItem>
+                  <MenuItem>
+                    <Name>+ve Edge Detection</Name>
+                    <Priority>120</Priority>
+                    <Style>D2</Style>
+                  </MenuItem>
+                  <MenuItem>
+                    <Name>-ve Edge Detection</Name>
+                    <Priority>130</Priority>
+                    <Style>D2</Style>
+                  </MenuItem>
+    </MenuItem>
+    <MenuItem>
+      <Name>Data Utilities</Name>
+      <Priority>20</Priority>
+      <Style>A1</Style>
+    </MenuItem>
+    <MenuItem>
+      <Name>Logic</Name>
+      <Priority>30</Priority>
+      <Style>A1</Style>
+    </MenuItem>
+    <MenuItem>
+      <Name>Math</Name>
+      <Priority>40</Priority>
+      <Style>A1</Style>
+                  <MenuItem>
+                    <Name>Operators</Name>
+                    <Priority>10</Priority>
+                    <Style>B2</Style>
+                                  <MenuItem>
+                                    <Name>add</Name>
+                                    <Priority>10</Priority>
+                                    <Style>A3</Style>
+                                  </MenuItem>
+                                  <MenuItem>
+                                    <Name>subtract</Name>
+                                    <Priority>20</Priority>
+                                    <Style>A3</Style>
+                                  </MenuItem>
+                                  <MenuItem>
+                                    <Name>multiply</Name>
+                                    <Priority>30</Priority>
+                                    <Style>A3</Style>
+                                  </MenuItem>
+                                  <MenuItem>
+                                    <Name>divide</Name>
+                                    <Priority>40</Priority>
+                                    <Style>A3</Style>
+                                  </MenuItem>
+                                  <MenuItem>
+                                    <Name>max</Name>
+                                    <Priority>50</Priority>
+                                    <Style>A3</Style>
+                                  </MenuItem>
+                                  <MenuItem>
+                                    <Name>min</Name>
+                                    <Priority>60</Priority>
+                                    <Style>A3</Style>
+                                  </MenuItem>
+                                  <MenuItem>
+                                    <Name>>=</Name>
+                                    <Priority>70</Priority>
+                                    <Style>A3</Style>
+                                  </MenuItem>
+                                  <MenuItem>
+                                    <Name>></Name>
+                                    <Priority>80</Priority>
+                                    <Style>A3</Style>
+                                  </MenuItem>
+                                  <MenuItem>
+                                    <Name>=</Name>
+                                    <Priority>90</Priority>
+                                    <Style>A3</Style>
+                                  </MenuItem>
+                                  <MenuItem>
+                                    <Name>Add Accumulate</Name>
+                                    <Priority>100</Priority>
+                                    <Style>A3</Style>
+                                  </MenuItem>
+                                  <MenuItem>
+                                    <Name>Sub Accumulate</Name>
+                                    <Priority>110</Priority>
+                                    <Style>A3</Style>
+                                  </MenuItem>
+                                  <MenuItem>
+                                    <Name>integrator</Name>
+                                    <Priority>120</Priority>
+                                    <Style>A3</Style>
+                                  </MenuItem>
+                  </MenuItem>
+
+    </MenuItem>
+    <MenuItem>
+      <Name>Software Structure</Name>
+      <Priority>45</Priority>
+      <Style>A1</Style>
+    </MenuItem>
+    <MenuItem>
+      <Name>User Interface</Name>
+      <Priority>50</Priority>
+      <Style>B1</Style>
+    </MenuItem>
+    <MenuItem>
+      <Name>AV</Name>
+      <Priority>60</Priority>
+      <Style>B1</Style>
+    </MenuItem>
+    <MenuItem>
+      <Name>System</Name>
+      <Priority>70</Priority>
+      <Style>C1</Style>
+    </MenuItem>
+    <MenuItem>
+      <Name>File System</Name>
+      <Priority>80</Priority>
+      <Style>D1</Style>
+    </MenuItem>
+    <MenuItem>
+      <Name>Networking</Name>
+      <Priority>90</Priority>
+      <Style>D1</Style>
+    </MenuItem>
+    <MenuItem>
+      <Name>Peripherals</Name>
+      <Priority>100</Priority>
+      <Style>D1</Style>
+    </MenuItem>
+    <MenuItem>
+      <Name>Deprecated</Name>
+      <Priority>110</Priority>
+      <Style>E1</Style>
+    </MenuItem>
+  </MenuItems>
+</MenuConfig>
