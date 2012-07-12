@@ -22,6 +22,7 @@
 #include "../common/EHSInitParams.h"
 #include "../common/LabLgbBaseApp.h"
 
+
 //#include "C:\\downloads\\ZipArchive\\ZipArchive.h"
 
 class CDrawProgView : public CScrollView//CView  
@@ -32,7 +33,7 @@ protected: // create from serialization only
 
 	UINT m_DragDropFormat;
 
-	CInterfaceDropTarget m_DT;
+//	CInterfaceDropTarget m_DT;
 
 // Attributes
 public:
@@ -56,15 +57,15 @@ public:
 	int showfixed;
 	
 	//Line sketching
-	CPoint oldpoint,firstpoint;
-	CPoint lastmovingline;
-	CPoint lastlinepoint;
+	INXPoint oldpoint,firstpoint;
+	INXPoint lastmovingline;
+	INXPoint lastlinepoint;
 
 	//kwhite:canvassupport
 	CanvasSupport cs;
 
 //SOME DRAWING VARIABLES	
-	CRect RectangleSite, encapsulate, selectRect;
+	INXRect RectangleSite, encapsulate, selectRect;
 	INXPOSITION moveselected;
 	INXPOSITION nodeIcon;
 	// These 3 variables are defined by onlbuttondown and onrbuttondown
@@ -93,7 +94,7 @@ public:
 	EditList edit;
 	
 	// print variables
-	CSize viewSize;
+	INXSize viewSize;
 	int xViewSize;
 	int yViewSize;
 	int scale;
@@ -114,7 +115,7 @@ public:
 	FunctionBlockSubstitution m_FBSubstitute;
 
 private:
-	CPoint m_cpRButtonDown;
+	INXPoint m_cpRButtonDown;
 
 // Overrides
 	// ClassWizard generated virtual function overrides
@@ -150,14 +151,14 @@ public:
 	void StartLine(INXPOSITION selectedIcon, int PortSelected, int portType);
 	void SaveUndo();
 	void ViewInstance(INXPOSITION selectedIcon);
-	//ConData* SelectIcon(CPoint point);  // selects a new icon 	
-	CRect GetViewExtent();
+	//ConData* SelectIcon(INXPoint point);  // selects a new icon 	
+	INXRect GetViewExtent();
 	void ResetScrollSizes();
 	void SaveHierName();
 	bool LibExist(CString libName);
 	void SetIconID();
 	bool XportNameExist(INXObjList* list);
-	void SetPointToTestAgainst(CRect rect); //needed for canvas support
+	void SetPointToTestAgainst(INXRect rect); //needed for canvas support
 	void RedrawZoom();
 	void readProjectFile();
 	void SubsetEncapsulate();
@@ -176,10 +177,10 @@ protected:
 
 public:
 	//{{AFX_MSG(CDrawProgView)
-	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
-	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
-	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint _point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint _point);
+	afx_msg void OnRButtonDown(UINT nFlags, CPoint _point);
+	afx_msg void OnMouseMove(UINT nFlags, CPoint _point);
 	afx_msg void OnDelete();
 	afx_msg void OnProperties();
 	afx_msg void OnDeleteLine();
@@ -253,7 +254,7 @@ public:
 	afx_msg void OnCloseProject();
 	afx_msg void OnUpdateCloseProject(CCmdUI* pCmdUI);
 	afx_msg void OnSelectAll();
-	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonDblClk(UINT nFlags, INXPoint _point);
 	afx_msg void OnUpdateGroupSetup(CCmdUI* pCmdUI);
 //	afx_msg void OnFtpEhs();
 	//}}AFX_MSG
@@ -265,7 +266,7 @@ public:
 	afx_msg void OnEditDelete();
 	virtual BOOL OnScroll(UINT nScrollCode, UINT nPos, BOOL bDoScroll = TRUE);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
-	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
+	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, INXPoint pt);
 	afx_msg void OnTransferOptions();
 	afx_msg void OnZoomIn();
 	afx_msg void OnZoomOut();
@@ -280,9 +281,9 @@ public:
 	afx_msg void OnViewRefresh();
 	afx_msg void OnUpdateViewRefresh(CCmdUI *pCmdUI);
 	void setLftBtnDownState(const int &val);
-	virtual DROPEFFECT OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point);
-	virtual BOOL OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point);
-	ConData* processComponentDrop(CPoint point, CString &csIconType, CString &csBlock );
+	virtual DROPEFFECT OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, INXPoint point);
+	virtual BOOL OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, INXPoint point);
+	ConData* processComponentDrop(INXPoint point, CString &csIconType, CString &csBlock );
 	afx_msg void OnRenamePort();
 	afx_msg void OnRenameXport();
 	afx_msg void OnAddToLibrary();

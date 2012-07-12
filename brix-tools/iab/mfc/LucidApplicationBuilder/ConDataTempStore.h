@@ -8,9 +8,8 @@
 
 #include "../common/LucidEnums.h"
 #include "../common/LucidConstants.h"
-
 #include "condat.h"
-
+#include "Porting_Classes/INXSize.h"
 class ConDataTempStore  
 {
 
@@ -27,12 +26,12 @@ public:
 	CString m_csLongDesc;
 	CString m_csClassName;
 	CString m_csOptionstring;
-	CSize m_cSize;
+	INXSize m_cSize;
 
 	int m_iInstNum;
 	CString m_csHierarchyName;
 	bool m_bSaveSelectedFlag;
-	CRect m_cRectangle; /// body part of icon
+	INXRect m_cRectangle; /// body part of icon
 
 	ParameterStore* m_pParamStoreArr[MAXPARAMS];
 

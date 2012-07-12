@@ -72,7 +72,7 @@ int CChildFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_StatusBar.Create(this);
 
 	// Work out width of text to display
-	CRect textRect, textRect2;
+	INXRect textRect, textRect2;
 	CClientDC aDC(&m_StatusBar);
 	aDC.SelectObject(m_StatusBar.GetFont());
 	aDC.DrawText("Zoom: 100% ", -1, textRect, DT_SINGLELINE|DT_CALCRECT);

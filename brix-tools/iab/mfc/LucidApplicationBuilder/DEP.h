@@ -2,12 +2,14 @@
 //
 //////////////////////////////////////////////////////////////////////
 
+
 #if !defined(AFX_DEP_H__F9664C86_F68B_414F_9898_39AA1958B8EA__INCLUDED_)
 #define AFX_DEP_H__F9664C86_F68B_414F_9898_39AA1958B8EA__INCLUDED_
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
+//#include "Porting_Classes/INXPoint.h"
 
 #include "condat.h"
 //#include "mainFrm.h"
@@ -15,11 +17,14 @@
 #include "LucidEnums.h"
 #include <vector> // stl class
 #include "Porting_Classes/INXObjList.h"
+#include "Porting_Classes/INXRect.h"
+
+
 
 class DEP  
 {
 private:
-	CSize m_CanvasSize; //Handle canvas size being stretched beyond 2000,2000
+	INXSize m_CanvasSize; //Handle canvas size being stretched beyond 2000,2000
 
 public:
 	DEP();
@@ -40,7 +45,7 @@ public:
 
 	// Methods
 	int AddBlockPort(CString type, CString portLabel, CString blockName);
-	INXPOSITION AddIcon(CString csIconType, CString csBlockName, CPoint point, int iShow=1); // adds a new icon 
+	INXPOSITION AddIcon(CString csIconType, CString csBlockName, INXPoint point, int iShow=1); // adds a new icon 
 	INXPOSITION AddIconObjectList(ConData* blob) ; //add all blobs using this function
 	void AddIconToGroup(INXPOSITION selectedIcon, int groupID);
 	int AddLine(INXPOSITION selectedIcon, int selectedPort, int selectedPortType, INXPOSITION selectedIcon2,int selectedPort2, int selectedPortType2) ;
@@ -48,10 +53,10 @@ public:
 	int AddPort(ConData* blob, int iDataType, int iPortType, CString portLabel);
 	int AddTag(INXPOSITION iconPos, int portNum, int portType);
 	void AddTag2List(CString tag, int dataType);
-	ConData* AddXPort(CString type, CString portLabel, CPoint point);
+	ConData* AddXPort(CString type, CString portLabel, INXPoint point);
 	void AssignIconLineEndPoints();
 	long CheckNewID(INXObjList* encapsulated, long int id);
-	void ConnectEncapsulatedIcon(INXPOSITION encapsulatedPos, CRect selectedRect, INXObjList* oldDEP);
+	void ConnectEncapsulatedIcon(INXPOSITION encapsulatedPos, INXRect selectedRect, INXObjList* oldDEP);
 	void CreateInstance(ConData* userDefBlob, int lib);
 	void DeleteIcon(INXPOSITION number, bool bDelOutputs); // 
 	void DeleteLine(INXPOSITION selectedControl,int PortSelected, int portType);
@@ -66,23 +71,23 @@ public:
 	INXObjList* GetLine(long lineID, int dataType);
 	int GetOutLineID(INXObjList* flattened, ConData* otherBlockIcon, ConData* flatBlob, int outNum, HTREEITEM hItem);
 	int GetStartLineID(ConData* blob, ConData* flatBlob, int startNum);
-	int HighlightSelected(CRect selectRect);
-	INXPOSITION Incontrol(CPoint point);
+	int HighlightSelected(INXRect selectRect);
+	INXPOSITION Incontrol(INXPoint point);
 	void setFBHighlight(INXPOSITION fbPos);
 	void InitTagLists();
 	bool IsUniqueID(long id);
 	void LoadProg(CString Info);
 
-	//int OnLine(CPoint point, POSITION* Icon, bool* nodeSel, int* portType);
+	//int OnLine(INXPoint point, POSITION* Icon, bool* nodeSel, int* portType);
 	//If interrogateOnly is true, nothing is changed in DEP, ie node count, etc
-	int OnLine(CPoint point, INXPOSITION* Icon, bool* nodeSel, int* portType, const bool &interrogateOnly );
-	bool OnNode(CPoint point, CPoint node);
-	int OnConnect(CPoint point,INXPOSITION* Icon,int * portType, int *portConnected) ;
-	LabLineSegmentTypeEnum IsOnLineSegment(CPoint point, CPoint node1, CPoint node2);
+	int OnLine(INXPoint point, INXPOSITION* Icon, bool* nodeSel, int* portType, const bool &interrogateOnly );
+	bool OnNode(INXPoint point, INXPoint node);
+	int OnConnect(INXPoint point,INXPOSITION* Icon,int * portType, int *portConnected) ;
+	LabLineSegmentTypeEnum IsOnLineSegment(INXPoint point, INXPoint node1, INXPoint node2);
 	void ReassignIconIDs(INXObjList* encapsulated);
 	void RemoveTag(CString tag, int dataType);
-	void RenewPosition(INXPOSITION selected, CPoint point, CPoint firstpoint);
-	CRect RenewSelectedPos(CPoint newpoint, CPoint firstpoint, CRect selectRect);
+	void RenewPosition(INXPOSITION selected, INXPoint point, INXPoint firstpoint);
+	INXRect RenewSelectedPos(INXPoint newpoint, INXPoint firstpoint, INXRect selectRect);
 	void SnapIconToGrid(INXPOSITION selected);
 
 	void SaveProg(CString Info);
@@ -92,11 +97,11 @@ public:
 	bool IsFinishPortConnected(ConData* pBlob, int iPortNum);
 	void RemoveConnectedInputTags(ConData* pBlob, int iPortNum);
 	void RemoveConnectedStartTags(ConData* pBlob, int iPortNum);
-	ConData* SubsetEncapsulate(CRect encapsulate, int lib);
+	ConData* SubsetEncapsulate(INXRect encapsulate, int lib);
 	void TagLine(INXPOSITION iconPos, int portNum, int portType);
 	void TagPorts(ConData* encapsulatedIcon, INXObjList* encapsulated);
 	void TopdownEncapsulate();
-	bool WithinEndpoints(CPoint point, CPoint start, CPoint end);
+	bool WithinEndpoints(INXPoint point, INXPoint start, INXPoint end);
 	//void SetView(CDrawProgView* _pView);
 
 	//kwhite:canvassupport
@@ -105,14 +110,14 @@ public:
 	void HideSelectedPositions();
 	void ShowSelectedPositions();	
 	void InvertSelected();
-	void MoveObjectsWithinSelectedBox(CPoint newpoint, CPoint firstpoint);
-	void MoveExternallyConnectedLines(CPoint newpoint, CPoint firstpoint);
+	void MoveObjectsWithinSelectedBox(INXPoint newpoint, INXPoint firstpoint);
+	void MoveExternallyConnectedLines(INXPoint newpoint, INXPoint firstpoint);
 
 	//Handle canvas size being stretched beyond 2000,2000
-	void setCanvasSize(CSize CanvasSize);
+	void setCanvasSize(INXSize CanvasSize);
 	void initCanvasSize();
-	CSize getCanvasSize();
-	CPoint getInitScrollPos(CRect clientRect);
+	INXSize getCanvasSize();
+	INXPoint getInitScrollPos(INXRect clientRect);
 	
 	void deleteConData();
 	void setSaveSelectedFlag(bool flag);
@@ -124,8 +129,8 @@ public:
 
 	void RenameSubsystem(CString csOldInstName, CString csNewInstName, HTREEITEM hUserdefItem);
 	void AddToLibrary(INXPOSITION blockPos, CString csMenuName);
-	bool IsRectEmpty(CRect selectRect);
-	ConData* getIconAtPoint(CPoint point);
+	bool IsRectEmpty(INXRect selectRect);
+	ConData* getIconAtPoint(INXPoint point);
 
 	// FB substitution methods
 	INXPOSITION getPosFromIcon(ConData* pIcon);

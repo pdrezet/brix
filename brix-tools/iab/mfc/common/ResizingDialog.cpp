@@ -5,6 +5,7 @@
 
 #include "stdafx.h"
 #include "ResizingDialog.h"
+#include "Porting_Classes/INXRect.h"
 
 
 #ifdef _DEBUG
@@ -104,7 +105,7 @@ BOOL CResizingDialog::OnInitDialog()
 
 void CResizingDialog::OnSize(UINT nType,int cx,int cy)
 {
-  CRect rect;
+  INXRect rect;
   HDWP hdwp;
   std::vector<CItem>::iterator it;
 
@@ -297,8 +298,8 @@ void CResizingDialog::CItem::OnSize(HDWP hdwp,const CRect& rcParentOld,const CRe
 
 // get the size difference
 
-  diff.cx=rcParentNew.Width()-rcParentOld.Width();
-  diff.cy=rcParentNew.Height()-rcParentOld.Height();
+  diff.cx = rcParentNew.Width()- rcParentOld.Width();
+  diff.cy = rcParentNew.Height()- rcParentOld.Height();
 
 // preset for no change
 

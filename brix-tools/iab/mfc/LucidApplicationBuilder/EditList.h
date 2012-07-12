@@ -12,11 +12,10 @@
 #include "condat.h"
 #include "DEP.h"
 #include "Project.h"
-
 class EditList  
 {
 private:
-	CPoint pasteOffset;
+	INXPoint pasteOffset;
 
 public:
 	EditList();
@@ -28,10 +27,10 @@ public:
 	// Methods
 	void SaveCopy(CString Info);
 	INXObjList* LoadPaste(CString Info);
-	void BufferSelectedIcons(CRect selectRect, Project* pProject, DEP* pDEP);
+	void BufferSelectedIcons(INXRect selectRect, Project* pProject, DEP* pDEP);
 	INXObjList* LoadTemp();
-	CPoint getPasteOffset();
-	void setPasteOffset(CPoint point);
+	INXPoint getPasteOffset();
+	void setPasteOffset(INXPoint point);
 	void incPasteOffset();
 	void resetPasteOffset();
 };

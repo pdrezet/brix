@@ -17,7 +17,7 @@ static char THIS_FILE[]=__FILE__;
 //////////////////////////////////////////////////////////////////////
 // Konstruktion/Destruktion
 //////////////////////////////////////////////////////////////////////
-
+#ifdef LEGACYREMOVE
 CInterfaceDropTarget::CInterfaceDropTarget()
 {
 }
@@ -26,14 +26,14 @@ CInterfaceDropTarget::~CInterfaceDropTarget()
 {
 }
 
-DROPEFFECT CInterfaceDropTarget::OnDragOver(CWnd* pWnd, COleDataObject* pDataObject, DWORD dwKeyState, CPoint point )
+DROPEFFECT CInterfaceDropTarget::OnDragOver(CWnd* pWnd, COleDataObject* pDataObject, DWORD dwKeyState, INXPoint point )
 {
 	// this time we have to check every time what' our format
 	// because in this sample the format may change dynamically
 	UINT DragDropFormat;
 	CDrawProgView *pView = (CDrawProgView *) pWnd;
-	CRect invalidRect;
-	CRect extra(9,9,9,9);
+	INXRect invalidRect;
+	INXRect extra(9,9,9,9);
 
 	m_csBlockName = "";
 	m_csIconType = "";
@@ -131,13 +131,13 @@ DROPEFFECT CInterfaceDropTarget::OnDragOver(CWnd* pWnd, COleDataObject* pDataObj
 				fb->selected = 1;
 				// Couldn't get InvalidateRect to work with the DC, so adjust invalidate rectangle
 				// for scroll and zoom
-				CPoint scrollPos = pView->GetScrollPosition();
+				INXPoint scrollPos = pView->GetScrollPosition();
 				invalidRect = fb->rectangle;
 				invalidRect+=extra;
-				CPoint topLeft = invalidRect.TopLeft();
+				INXPoint topLeft = invalidRect.TopLeft();
 				topLeft.x = (topLeft.x * pView->scale)/100;
 				topLeft.y = (topLeft.y * pView->scale)/100;
-				CPoint bottomRight = invalidRect.BottomRight();
+				INXPoint bottomRight = invalidRect.BottomRight();
 				bottomRight.x = (bottomRight.x * pView->scale)/100;
 				bottomRight.y = (bottomRight.y * pView->scale)/100;
 				invalidRect.SetRect(topLeft, bottomRight);
@@ -166,14 +166,14 @@ BOOL CInterfaceDropTarget::OnDrop(
 								  CWnd* pWnd, 
 								  COleDataObject* pDataObject, 
 								  DROPEFFECT dropEffect, 
-								  CPoint point )
+								  INXPoint point )
 {
 
 	CDrawProgView *pView = (CDrawProgView *) pWnd;
 	assert(  pWnd->IsKindOf( RUNTIME_CLASS(CDrawProgView) ) );
 	ConData *droppee, *draggee;
 	INXPOSITION droppeePos, draggeePos;
-	CPoint droppeePoint, draggeePoint;
+	INXPoint droppeePoint, draggeePoint;
 	bool bContinue = TRUE;
 	set<CString> sWidgetGroupSet;
 	vector<pair<CString, CString> > vWidgetGroupPairVec;
@@ -305,3 +305,4 @@ BOOL CInterfaceDropTarget::OnDrop(
 		return COleDropTarget::OnDrop(pWnd, pDataObject, dropEffect, point);
 	}
 }
+#endif

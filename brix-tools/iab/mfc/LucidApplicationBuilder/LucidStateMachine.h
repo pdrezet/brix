@@ -14,7 +14,7 @@
 class CLucidStateMachine  
 {
 public:
-	static bool placeComponents(CPoint point, DEP* pDEP, Project* pProject);
+	static bool placeComponents(INXPoint point, DEP* pDEP, Project* pProject);
 	static void AddConditionLogicPortsBelow(ConData* pIconData, DEP* pDEP, Project* pProject);
 	static void AddActionPortsBelow(ConData* pIconData, DEP* pDEP, Project* pProject);
 	CLucidStateMachine();

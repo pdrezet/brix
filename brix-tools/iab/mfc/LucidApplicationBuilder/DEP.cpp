@@ -108,7 +108,7 @@ int DEP::AddBlockPort(CString type, CString portLabel, CString blockName) {
 }
 
 // This function adds an icon to the condata list
-INXPOSITION  DEP::AddIcon(CString csIconType, CString csBlockName, CPoint point, int iShow) {
+INXPOSITION  DEP::AddIcon(CString csIconType, CString csBlockName, INXPoint point, int iShow) {
 	ConData *blobb = new ConData;
 	long iId;
 
@@ -282,7 +282,7 @@ void DEP::AddNodes(INXPOSITION selectedIcon, int selectedPort, int selectedPortT
 
 // Function that adds a port to a block
 int DEP::AddPort(ConData* blob, int iDataType, int iPortType, CString portLabel) {
-	CPoint point;
+	INXPoint point;
 
 
 	point = blob->GetIconPos();
@@ -300,14 +300,14 @@ int DEP::AddPort(ConData* blob, int iDataType, int iPortType, CString portLabel)
 	// create instances of the port to add
 	if (iPortType == INPUTPORT) {
 
-		point = point + CPoint(-6,30 + ((blob->startport_num-1)*15 + blob->inputport_num*15));
+		point = point + INXPoint(-6,30 + ((blob->startport_num-1)*15 + blob->inputport_num*15));
 		blob->inputport[blob->inputport_num] = new Port(point, blob->inputport_num, iDataType, iPortType, portLabel, funcName, funcArg, 1, 0, 1, 0);
 		blob->inputport_num++;
 	}
 	else if (iPortType == OUTPUTPORT) {
 
 
-		point = point + CPoint(ENCAPS_ICON_WIDTH,30 + ((blob->finishport_num-1)*15 + blob->outputport_num*15));
+		point = point + INXPoint(ENCAPS_ICON_WIDTH,30 + ((blob->finishport_num-1)*15 + blob->outputport_num*15));
 		blob->outputport[blob->outputport_num] = new Port(point, blob->outputport_num, iDataType, iPortType, portLabel, funcName, funcArg, 1, 0, 1, 0);
 		blob->outputport_num++;
 	}
@@ -315,12 +315,12 @@ int DEP::AddPort(ConData* blob, int iDataType, int iPortType, CString portLabel)
 
 
 		// add port
-		point = point + CPoint(-6,10 + (15 * blob->startport_num));
+		point = point + INXPoint(-6,10 + (15 * blob->startport_num));
 		blob->startport[blob->startport_num] = new Port(point, blob->startport_num, -1, iPortType, portLabel, funcName, funcArg, 1, 0, 1, 0);
 		// shift input ports
 		for (UINT i=0; i<blob->inputport_num; i++) {
-			CRect rect = blob->inputport[i]->rectangle;
-			blob->inputport[i]->rectangle=CRect(rect.TopLeft().x,rect.TopLeft().y+15,rect.BottomRight().x,rect.BottomRight().y+15);
+			INXRect rect = blob->inputport[i]->rectangle;
+			blob->inputport[i]->rectangle=INXRect(rect.TopLeft().x,rect.TopLeft().y+15,rect.BottomRight().x,rect.BottomRight().y+15);
 			blob->inputport[i]->P.y = blob->inputport[i]->P.y + 15;
 		}
 		blob->startport_num++;
@@ -328,12 +328,12 @@ int DEP::AddPort(ConData* blob, int iDataType, int iPortType, CString portLabel)
 	else if (iPortType == FINISHPORT) {
 
 		// add port
-		point = point + CPoint(ENCAPS_ICON_WIDTH,10 + (15 * blob->finishport_num ));
+		point = point + INXPoint(ENCAPS_ICON_WIDTH,10 + (15 * blob->finishport_num ));
 		blob->finishport[blob->finishport_num] = new Port(point, blob->finishport_num, -1, iPortType, portLabel, funcName, funcArg, 1, 0, 1, 0);
 		// shift output ports
 		for (UINT i=0; i<blob->outputport_num; i++) {
-			CRect rect = blob->outputport[i]->rectangle;
-			blob->outputport[i]->rectangle=CRect(rect.TopLeft().x,rect.TopLeft().y+15,rect.BottomRight().x,rect.BottomRight().y+15);
+			INXRect rect = blob->outputport[i]->rectangle;
+			blob->outputport[i]->rectangle=INXRect(rect.TopLeft().x,rect.TopLeft().y+15,rect.BottomRight().x,rect.BottomRight().y+15);
 			blob->outputport[i]->P.y = blob->outputport[i]->P.y + 15;
 		}
 		blob->finishport_num++;
@@ -345,28 +345,28 @@ int DEP::AddPort(ConData* blob, int iDataType, int iPortType, CString portLabel)
 	return 1;
 	// Check if port is off the bottom off the icon abd grow if needed
 /*
-	CPoint IconBottomRight =  blob->rectangle.BottomRight();
+	INXPoint IconBottomRight =  blob->rectangle.BottomRight();
 
 	if(blob->inputport_num>0)
-	{	CPoint InputPortPosition = (blob->inputport[(blob->inputport_num)-1])->rectangle.BottomRight();
+	{	INXPoint InputPortPosition = (blob->inputport[(blob->inputport_num)-1])->rectangle.BottomRight();
 		if(InputPortPosition.y > IconBottomRight.y )
 		{	blob->ResizeIcon();
 		}
 	}
 	if(blob->outputport_num>0)
-	{	CPoint OutputPortPosition = (blob->outputport[(blob->outputport_num)-1])->rectangle.BottomRight();
+	{	INXPoint OutputPortPosition = (blob->outputport[(blob->outputport_num)-1])->rectangle.BottomRight();
 		if(OutputPortPosition.y > IconBottomRight.y )
 		{	blob->ResizeIcon();
 		}
 	}
 	if(blob->startport_num>0)
-	{	CPoint StartPortPosition = (blob->startport[(blob->startport_num)-1])->rectangle.BottomRight();
+	{	INXPoint StartPortPosition = (blob->startport[(blob->startport_num)-1])->rectangle.BottomRight();
 		if(StartPortPosition.y > IconBottomRight.y )
 		{	blob->ResizeIcon();
 		}
 	}
 	if(blob->finishport_num>0)
-	{	CPoint FinishPortPosition = (blob->finishport[(blob->finishport_num)-1])->rectangle.BottomRight();
+	{	INXPoint FinishPortPosition = (blob->finishport[(blob->finishport_num)-1])->rectangle.BottomRight();
 		if(FinishPortPosition.y > IconBottomRight.y )
 		{	blob->ResizeIcon();
 		}
@@ -551,7 +551,7 @@ void DEP::AddTag2List(CString tag, int dataType) {
 }
 
 // Function that adds a xport
-ConData* DEP::AddXPort(CString type, CString portLabel, CPoint point) {
+ConData* DEP::AddXPort(CString type, CString portLabel, INXPoint point) {
 	ConData* xport;
 	INXPOSITION pos;
 
@@ -634,7 +634,7 @@ long int DEP::CheckNewID(INXObjList* encapsulated, long int id) {
 }
 
 // Function that connects up the encapsulated icon when using subset encapsulation
-void DEP::ConnectEncapsulatedIcon(INXPOSITION encapsulatedPos, CRect encapsulate, INXObjList* oldDEP)
+void DEP::ConnectEncapsulatedIcon(INXPOSITION encapsulatedPos, INXRect encapsulate, INXObjList* oldDEP)
 {
 	UINT i;
 	INXPOSITION pos, rmPos, otherPos;
@@ -931,7 +931,7 @@ void DEP::DeleteLine(INXPOSITION selectedControl,int PortSelected, int portType)
 }
 
 CString DEP::DeletePort(ConData* blob, int portNum, int portType) {
-	CRect rect;
+	INXRect rect;
 	CString portLabel = "";
 	INXPOSITION pos;
 	ConData* otherBlob;
@@ -947,7 +947,7 @@ CString DEP::DeletePort(ConData* blob, int portNum, int portType) {
 			for (i=portNum; i<blob->inputport_num; i++) {
 				blob->inputport[i] = blob->inputport[i+1];
 				rect = blob->inputport[i]->rectangle;
-				blob->inputport[i]->rectangle=CRect(rect.TopLeft().x,rect.TopLeft().y-15,rect.BottomRight().x,rect.BottomRight().y-15);
+				blob->inputport[i]->rectangle=INXRect(rect.TopLeft().x,rect.TopLeft().y-15,rect.BottomRight().x,rect.BottomRight().y-15);
 				blob->inputport[i]->P.y = blob->inputport[i]->P.y - 15;
 			}
 
@@ -973,8 +973,9 @@ CString DEP::DeletePort(ConData* blob, int portNum, int portType) {
 			// shift remaining output ports
 			for (i=portNum; i<blob->outputport_num; i++) {
 				blob->outputport[i] = blob->outputport[i+1];
+
 				rect = blob->outputport[i]->rectangle;
-				blob->outputport[i]->rectangle=CRect(rect.TopLeft().x,rect.TopLeft().y-15,rect.BottomRight().x,rect.BottomRight().y-15);
+				blob->outputport[i]->rectangle=INXRect(rect.TopLeft().x,rect.TopLeft().y-15,rect.BottomRight().x,rect.BottomRight().y-15);
 				blob->outputport[i]->P.y = blob->outputport[i]->P.y - 15;
 				// change otherportno in lines connected to shifted output ports
 				pos = condata->GetHeadPosition();
@@ -1000,13 +1001,13 @@ CString DEP::DeletePort(ConData* blob, int portNum, int portType) {
 			for (i=portNum; i<blob->startport_num; i++) {
 				blob->startport[i] = blob->startport[i+1];
 				rect = blob->startport[i]->rectangle;
-				blob->startport[i]->rectangle=CRect(rect.TopLeft().x,rect.TopLeft().y-15,rect.BottomRight().x,rect.BottomRight().y-15);
+				blob->startport[i]->rectangle=INXRect(rect.TopLeft().x,rect.TopLeft().y-15,rect.BottomRight().x,rect.BottomRight().y-15);
 				blob->startport[i]->P.y = blob->startport[i]->P.y - 15;
 			}
 			// shift all input ports
 			for (i=0; i<blob->inputport_num; i++) {
 				rect = blob->inputport[i]->rectangle;
-				blob->inputport[i]->rectangle=CRect(rect.TopLeft().x,rect.TopLeft().y-15,rect.BottomRight().x,rect.BottomRight().y-15);
+				blob->inputport[i]->rectangle=INXRect(rect.TopLeft().x,rect.TopLeft().y-15,rect.BottomRight().x,rect.BottomRight().y-15);
 				blob->inputport[i]->P.y = blob->inputport[i]->P.y - 15;
 			}
 			blob->ResizeIcon();
@@ -1031,7 +1032,7 @@ CString DEP::DeletePort(ConData* blob, int portNum, int portType) {
 			for (i=portNum; i<blob->finishport_num; i++) {
 				blob->finishport[i] = blob->finishport[i+1];
 				rect = blob->finishport[i]->rectangle;
-				blob->finishport[i]->rectangle=CRect(rect.TopLeft().x,rect.TopLeft().y-15,rect.BottomRight().x,rect.BottomRight().y-15);
+				blob->finishport[i]->rectangle=INXRect(rect.TopLeft().x,rect.TopLeft().y-15,rect.BottomRight().x,rect.BottomRight().y-15);
 				blob->finishport[i]->P.y = blob->finishport[i]->P.y - 15;
 				// change otherportno in lines connected to shifted finish ports
 				pos = condata->GetHeadPosition();
@@ -1047,7 +1048,7 @@ CString DEP::DeletePort(ConData* blob, int portNum, int portType) {
 			// shift all output ports
 			for (i=0; i<blob->outputport_num; i++) {
 				rect = blob->outputport[i]->rectangle;
-				blob->outputport[i]->rectangle=CRect(rect.TopLeft().x,rect.TopLeft().y-15,rect.BottomRight().x,rect.BottomRight().y-15);
+				blob->outputport[i]->rectangle=INXRect(rect.TopLeft().x,rect.TopLeft().y-15,rect.BottomRight().x,rect.BottomRight().y-15);
 				blob->outputport[i]->P.y = blob->outputport[i]->P.y - 15;
 			}
 			blob->ResizeIcon();
@@ -1446,7 +1447,7 @@ int DEP::GetStartLineID(ConData* blob, ConData* flatBlob, int startNum) {
 }
 
 // highlight all icons in selected box
-int DEP::HighlightSelected(CRect selectRect) {
+int DEP::HighlightSelected(INXRect selectRect) {
 	ConData *icondata;
 	INXPOSITION pos;
 	int count = 0;
@@ -1464,7 +1465,7 @@ int DEP::HighlightSelected(CRect selectRect) {
 
 /////////////////////////////////////////////////////////////////////////////
 // Test all the icons if a mouse click is on an icon
-INXPOSITION DEP::Incontrol(CPoint point) {
+INXPOSITION DEP::Incontrol(INXPoint point) {
 
 	ConData *icondata;
 	INXPOSITION pos,retpos;
@@ -1574,7 +1575,7 @@ void DEP::LoadProg(CString Info) {
 			id = blob->identnum;
 		} else
 		if (strcmp(type,"CanvasSizeXY")==0) {
-			CSize temp;
+			INXSize temp;
 			datafile >> temp.cx;
 			datafile >> temp.cy;
 			setCanvasSize(temp);
@@ -1696,10 +1697,10 @@ void DEP::MapLineID(INXObjList* flattened) {
 
 //Test whether click is on a line - allow nodes etc. to be put on the line
 // Check if point clicked is within a certain distance of the line.
-int DEP::OnLine(CPoint point, INXPOSITION* Icon, bool* nodeSel, int* portType, const bool &interrogateOnly ) {
+int DEP::OnLine(INXPoint point, INXPOSITION* Icon, bool* nodeSel, int* portType, const bool &interrogateOnly ) {
 	ConData *blob;
 	INXPOSITION pos, retpos;
-	CPoint end, start;
+	INXPoint end, start;
 	int endIndex, iLineSegNum;
 	UINT i;
 	LabLineSegmentTypeEnum eLineSegment = k_LabDiagonalLine;
@@ -1714,8 +1715,8 @@ int DEP::OnLine(CPoint point, INXPOSITION* Icon, bool* nodeSel, int* portType, c
 			if (blob->inputport[i]->line.exist && blob->inputport[i]->tag == "") {
 				endIndex = blob->inputport[i]->line.points.GetUpperBound();
 				for (int j=0; j<endIndex; j++) {
-					start = *((CPoint*)blob->inputport[i]->line.points.GetAt(j));
-					end = *((CPoint*)blob->inputport[i]->line.points.GetAt(j+1));
+					start = *((INXPoint*)blob->inputport[i]->line.points.GetAt(j));
+					end = *((INXPoint*)blob->inputport[i]->line.points.GetAt(j+1));
 					eLineSegment = IsOnLineSegment(point, start, end);
 
 					// check if a node is selected and it is not the endpoint
@@ -1783,8 +1784,8 @@ int DEP::OnLine(CPoint point, INXPOSITION* Icon, bool* nodeSel, int* portType, c
 			if (blob->startport[i]->line.exist && blob->startport[i]->tag == "") {
 				endIndex = blob->startport[i]->line.points.GetUpperBound();
 				for (int j=0; j<endIndex; j++) {
-					start = *((CPoint*)blob->startport[i]->line.points.GetAt(j));
-					end = *((CPoint*)blob->startport[i]->line.points.GetAt(j+1));
+					start = *((INXPoint*)blob->startport[i]->line.points.GetAt(j));
+					end = *((INXPoint*)blob->startport[i]->line.points.GetAt(j+1));
 					eLineSegment = IsOnLineSegment(point, start, end);
 
 					// check if a node is selected
@@ -1854,7 +1855,7 @@ int DEP::OnLine(CPoint point, INXPOSITION* Icon, bool* nodeSel, int* portType, c
 }
 
 // Function that returns true if a point is close to a node.
-bool DEP::OnNode(CPoint point, CPoint node) {
+bool DEP::OnNode(INXPoint point, INXPoint node) {
 	int xdist,ydist;
 	xdist=labs(point.x - node.x);
 	ydist=labs(point.y - node.y);
@@ -1867,8 +1868,8 @@ bool DEP::OnNode(CPoint point, CPoint node) {
 
 // test for a mouse click is on a port and if so return a pointer to the icon and the
 // relative port number
-int DEP::OnConnect(CPoint point,INXPOSITION* Icon,int * portType, int *portConnected) {
-	//*input=-1;*output=-1;*conpoint=CPoint(0,0);
+int DEP::OnConnect(INXPoint point,INXPOSITION* Icon,int * portType, int *portConnected) {
+	//*input=-1;*output=-1;*conpoint=INXPoint(0,0);
 	int portNo;
 	ConData *icondata;
 	INXPOSITION pos,retpos;
@@ -1988,7 +1989,7 @@ void DEP::ReassignIconIDs(INXObjList* encapsulated)
 	ConData::uniqueidgenerator = newID;
 }
 
-void DEP::RenewPosition(INXPOSITION selected, CPoint point, CPoint firstpoint)
+void DEP::RenewPosition(INXPOSITION selected, INXPoint point, INXPoint firstpoint)
 {
 	INXPOSITION pos;
 	ConData *icondata;
@@ -2002,7 +2003,7 @@ void DEP::RenewPosition(INXPOSITION selected, CPoint point, CPoint firstpoint)
 	//moveselected = NULL;//so it isn't highlighted anymore;
 
 	// move lines connected to output ports
-	CPoint offsetpoint = firstpoint - point;
+	INXPoint offsetpoint = firstpoint - point;
 	// only reroute lines if component has been moved
 	if ((offsetpoint.x == 0) && (offsetpoint.y == 0)) {
 		return;
@@ -2048,35 +2049,37 @@ void DEP::RenewPosition(INXPOSITION selected, CPoint point, CPoint firstpoint)
 // Handle moving all objects selected or connected to selection
 // Called when user lifts left mouse button to place a selected box at a new position
 // or called to handle boundary hit event after inverting selection.
-CRect DEP::RenewSelectedPos(CPoint newpoint, CPoint firstpoint, CRect selectRect)
+INXRect DEP::RenewSelectedPos(INXPoint newpoint, INXPoint firstpoint, INXRect selectRect)
 {
 	MoveObjectsWithinSelectedBox( newpoint, firstpoint) ;
 	MoveExternallyConnectedLines( newpoint, firstpoint) ;
-
-	selectRect.OffsetRect(SnapToGrid(newpoint) - firstpoint);
+	/* @todo MIGRATION_ISSUES */
+	CPoint tempPnt = SnapToGrid((CPoint)newpoint);
+	INXPoint _newpoint(tempPnt.x, tempPnt.y); 
+	selectRect.OffsetRect(_newpoint - firstpoint);
 	return selectRect;
 }
 
 void DEP::SnapIconToGrid(INXPOSITION selected)
 {
 	ConData* icondata = ((ConData *) condata->GetAt(selected));
-	CRect boundRect = icondata->GetBoundingRectangle();
+	INXRect boundRect = icondata->GetBoundingRectangle();
 	int iTop = boundRect.top;
 	int iLeft = boundRect.left;
-	CPoint topLeft = boundRect.TopLeft();
+	INXPoint topLeft = boundRect.TopLeft();
 	int iTopOffset = iTop % GRIDSIZE;
 	int iLeftOffset = iLeft % GRIDSIZE;
 
 	iTop = iTop - iTopOffset;
 	iLeft = iLeft - iLeftOffset;
-	CPoint snappedTopLeft(iLeft, iTop);
+	INXPoint snappedTopLeft(iLeft, iTop);
 	RenewPosition(selected, snappedTopLeft, topLeft);
 }
 
 // Handle moving lines outside of selection box but connected to it
 // called when user lifts left mouse button to place a selected box at a new position
 // or called when boundary hit event occurs after inverting selection.
-void DEP::MoveExternallyConnectedLines(CPoint newpoint, CPoint firstpoint)
+void DEP::MoveExternallyConnectedLines(INXPoint newpoint, INXPoint firstpoint)
 {
 	ConData *icondata, *otherIcon;
 	INXPOSITION pos1, pos2;
@@ -2088,7 +2091,7 @@ void DEP::MoveExternallyConnectedLines(CPoint newpoint, CPoint firstpoint)
 		if (icondata->selected) {
 
 			// move lines connected to output ports outside selection box (blue lines)
-			CPoint offsetpoint = firstpoint - newpoint;
+			INXPoint offsetpoint = firstpoint - newpoint;
 			for (int j=0; j<(int)icondata->outputport_num; j++) {
 				pos2 = condata->GetHeadPosition();
 				while (pos2) {
@@ -2125,7 +2128,7 @@ void DEP::MoveExternallyConnectedLines(CPoint newpoint, CPoint firstpoint)
 // Handle moving lines, ports, icons within selection box
 // called when user lifts left mouse button to place a selected box at a new position
 // or called when boundary hit event occurs, just before moving inverted selection
-void DEP::MoveObjectsWithinSelectedBox(CPoint newpoint, CPoint firstpoint)
+void DEP::MoveObjectsWithinSelectedBox(INXPoint newpoint, INXPoint firstpoint)
 {
 	ConData *icondata, *otherIcon;
 	INXPOSITION pos1;
@@ -2451,9 +2454,9 @@ void DEP::RemoveConnectedStartTags(ConData *pBlob, int iPortNum)
 }
 
 // Function that performs subset encapsulation
-ConData* DEP::SubsetEncapsulate(CRect encapsulate, int lib) {
+ConData* DEP::SubsetEncapsulate(INXRect encapsulate, int lib) {
 	Encapsulation subBlock;
-	CPoint point;
+	INXPoint point;
 	INXObjList *depList = NULL, *encapsulated = NULL;
 	INXPOSITION encapsulatedPos, pos, rmPos;
 	ConData *encapsulatedIcon, *blob;
@@ -2689,7 +2692,7 @@ void DEP::ShowSelectedPositions()
 }
 
 //Handle canvas size being stretched beyond 2000,2000
-void DEP::setCanvasSize(CSize CanvasSize)
+void DEP::setCanvasSize(INXSize CanvasSize)
 {
 	m_CanvasSize = CanvasSize;
 }
@@ -2714,9 +2717,9 @@ void DEP::initCanvasSize()
 }
 
 //Handle canvas size being stretched beyond 2000,2000
-CSize DEP::getCanvasSize()
+INXSize DEP::getCanvasSize()
 {
-	CSize it;
+	INXSize it;
 	it.cx = 99;
 	it.cy = 101;
 
@@ -2747,13 +2750,13 @@ void DEP::setSaveSelectedFlag(bool flag)
 	}
 }
 
-CPoint DEP::getInitScrollPos(CRect clientRect)
+INXPoint DEP::getInitScrollPos(INXRect clientRect)
 {
 	INXPOSITION pos;
 	ConData* blob;
-	CPoint top(-1,-1), left, scrollPos = top;
-	CPoint tmp;
-	CRect topRect, leftRect, intersectRect;
+	INXPoint top(-1,-1), left, scrollPos = top;
+	INXPoint tmp;
+	INXRect topRect, leftRect, intersectRect;
 
 	// Check if the top most and the left most coordintes both fit in the client rect
 	// If they do then the scroll position is this point. If not then the scroll position
@@ -2985,7 +2988,7 @@ void DEP::AddToLibrary(INXPOSITION blockPos, CString csMenuName)
 	delete encapsulated;
 }
 
-bool DEP::IsRectEmpty(CRect selectRect)
+bool DEP::IsRectEmpty(INXRect selectRect)
 {
 	ConData* blob;
 	INXPOSITION pos;
@@ -3003,7 +3006,7 @@ bool DEP::IsRectEmpty(CRect selectRect)
 	return bIsEmpty;
 }
 
-ConData* DEP::getIconAtPoint(CPoint point)
+ConData* DEP::getIconAtPoint(INXPoint point)
 {
 	ConData* blob;
 	ConData* ret = NULL;
@@ -3155,7 +3158,7 @@ void DEP::dragConnections(INXPOSITION selectedIcon, int iSelectedPort, int iSele
 // Method that swaps port data
 void DEP::swapPortData(Port* pPort1, Port* pPort2)
 {
-	CPoint port1OffsetPoint, port2OffsetPoint;
+	INXPoint port1OffsetPoint, port2OffsetPoint;
 	CString csTmpPortDesc;
 	CUIntArray *tmpFuncArg;
 	CStringArray *tmpFuncName;
@@ -3187,7 +3190,7 @@ void DEP::swapPortData(Port* pPort1, Port* pPort2)
 
 	// commented out attributes that are either already transferred in code above (eg. funcName) or need to stay with the port (eg. lineID)
 /*
-//	CPoint P;   // position
+//	INXPoint P;   // position
 //	int porttype;   //0 input, 1 output, 2 Trig input, 3 Trig output
 	bool bPortVertical;
 //	int datatype;   //0 bool, 1 int, 2 float, 3 string 
@@ -3208,11 +3211,11 @@ void DEP::swapPortData(Port* pPort1, Port* pPort2)
 	// output port it is connected to.
 	long xportID;
 //	int initialise;
-//	CSize bitmapSize;
-//	CSize bitmHighSize;
+//	INXSize bitmapSize;
+//	INXSize bitmHighSize;
 //	Bitmap bitmap;
 //	Bitmap bitmHighlight;
-//	CRect rectangle;
+//	INXRect rectangle;
 	int atomicFlag;
 	bool mandatoryFlag;
 //	CString tag;
@@ -3374,7 +3377,7 @@ void DEP::toggleMonitoredLine(int iPortType, long iOtherIconId, int iOtherPortNo
 	}
 }
 
-LabLineSegmentTypeEnum DEP::IsOnLineSegment(CPoint point, CPoint node1, CPoint node2)
+LabLineSegmentTypeEnum DEP::IsOnLineSegment(INXPoint point, INXPoint node1, INXPoint node2)
 {
 	int iXDist1, iYDist1;
 	LabLineSegmentTypeEnum eRet = k_LabNoLine;
@@ -3408,7 +3411,7 @@ LabLineSegmentTypeEnum DEP::IsOnLineSegment(CPoint point, CPoint node1, CPoint n
 }
 
 // Function that returns true if a point is within the line endpoints
-bool DEP::WithinEndpoints(CPoint point, CPoint start, CPoint end) {
+bool DEP::WithinEndpoints(INXPoint point, INXPoint start, INXPoint end) {
 	double minx, maxx, miny, maxy;
 
 	// set the min and max x values

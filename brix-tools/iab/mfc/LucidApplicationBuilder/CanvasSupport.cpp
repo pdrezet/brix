@@ -29,7 +29,7 @@ CanvasSupport::~CanvasSupport(void)
 }
 
 // Return true when object near left or top boundary
-bool CanvasSupport::NearTopLeftBoundary(CPoint point)
+bool CanvasSupport::NearTopLeftBoundary(INXPoint point)
 {
 	m_bLeftBoundary = false;	
 	m_bTopBoundary = false;
@@ -54,7 +54,7 @@ bool CanvasSupport::NearTopLeftBoundary(CPoint point)
 
 //This function needs to be set by the View class
 //when ever a scroll resize event occurs.  
-void CanvasSupport::SetScrollPosition(CSize topleft)
+void CanvasSupport::SetScrollPosition(INXSize topleft)
 {
 	m_ScrollPosition.cx = topleft.cx;
 	m_ScrollPosition.cy = topleft.cy;
@@ -62,14 +62,14 @@ void CanvasSupport::SetScrollPosition(CSize topleft)
 
 //This function needs to be set by the View class
 //when ever a resize event occurs. Hence it is called by OnSize 
-void CanvasSupport::SetMaxBoundary(CPoint point)
+void CanvasSupport::SetMaxBoundary(INXPoint point)
 {
 	m_Max.x = point.x;
 	m_Max.y = point.y;
 }
 
 // Return true when object near bottom or left boundary
-bool CanvasSupport::NearBottomRightBoundary(CPoint point)
+bool CanvasSupport::NearBottomRightBoundary(INXPoint point)
 {
 	m_bRightBoundary = false;	
 	m_bBottomBoundary = false;
@@ -95,7 +95,7 @@ bool CanvasSupport::NearBottomRightBoundary(CPoint point)
 
 // Return minor adjustment value for objects to move 
 // out of the way.
-CPoint CanvasSupport::AdjustPositionOfObjects(CPoint point)
+INXPoint CanvasSupport::AdjustPositionOfObjects(INXPoint point)
 {
 	if (m_bLeftBoundary) 
 	{
@@ -111,7 +111,7 @@ CPoint CanvasSupport::AdjustPositionOfObjects(CPoint point)
 }
 
 // Return minor adjustment of scroll position.
-CPoint CanvasSupport::AdjustPositionOfScrollDownwards()
+INXPoint CanvasSupport::AdjustPositionOfScrollDownwards()
 {
 	if (m_bBottomBoundary) 
 	{
@@ -123,8 +123,8 @@ CPoint CanvasSupport::AdjustPositionOfScrollDownwards()
 		m_ScrollPosition.cx = m_ScrollPosition.cx + 10;
 	}
 
-	//CPoint needed for MFC call ScrollToPosition
-	CPoint point;
+	//INXPoint needed for MFC call ScrollToPosition
+	INXPoint point;
 	point.x = m_ScrollPosition.cx;
 	point.y = m_ScrollPosition.cy;
 	
@@ -132,7 +132,7 @@ CPoint CanvasSupport::AdjustPositionOfScrollDownwards()
 }
 
 // Return minor adjustment of scroll position.
-CPoint CanvasSupport::AdjustPositionOfScrollUpwards()
+INXPoint CanvasSupport::AdjustPositionOfScrollUpwards()
 {
 	if (m_bTopBoundary) 
 	{
@@ -154,8 +154,8 @@ CPoint CanvasSupport::AdjustPositionOfScrollUpwards()
 		}
 	}
 
-	//CPoint needed for MFC call ScrollToPosition
-	CPoint point;
+	//INXPoint needed for MFC call ScrollToPosition
+	INXPoint point;
 	point.x = m_ScrollPosition.cx;
 	point.y = m_ScrollPosition.cy;
 	
@@ -226,32 +226,32 @@ void CanvasSupport::DebugTrace(const char* pszFormat, ...)
 
 //Needed to remember first point before mouse move.
 //Used by MouseUp when calling ConData::RenewPosition(..,oldpoint)
-void CanvasSupport::SetTempStore(CPoint store)
+void CanvasSupport::SetTempStore(INXPoint store)
 {
 	m_TempStore = store;
 }
 
 //Needed to remember first point before mouse move.
 //Used by MouseUp when calling ConData::RenewPosition(..,oldpoint)
-CPoint CanvasSupport::GetTempStore()
+INXPoint CanvasSupport::GetTempStore()
 {
 	return m_TempStore;
 }
 
 //Used to test top of icon or selection box rather than mouse cursor
-void CanvasSupport::SetPointToTestAgainst(CPoint point)
+void CanvasSupport::SetPointToTestAgainst(INXPoint point)
 {
 	m_pPointToCheckAgainst = point;
 }
 
 //Used to test top of icon or selection box rather than mouse cursor
-CPoint CanvasSupport::GetPointToTestAgainst()
+INXPoint CanvasSupport::GetPointToTestAgainst()
 {
 	return m_pPointToCheckAgainst;
 }
 
 //Used to test and stretch canvas beyond 2000,2000
-bool CanvasSupport::StretchCanvas(CRect rect, CSize &csViewSize)
+bool CanvasSupport::StretchCanvas(INXRect rect, INXSize &csViewSize)
 {
 	if (rect.bottom > csViewSize.cy-10) 
 	{
@@ -269,7 +269,7 @@ bool CanvasSupport::StretchCanvas(CRect rect, CSize &csViewSize)
 }
 
 //Used to stretch canvas beyond 2000,2000 if top/left boundary hit
-void CanvasSupport::StretchCanvas(CPoint point, CSize &csViewSize)
+void CanvasSupport::StretchCanvas(INXPoint point, INXSize &csViewSize)
 {
 	csViewSize.cy = csViewSize.cy + point.y;		
 	csViewSize.cx = csViewSize.cx + point.x;	

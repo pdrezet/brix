@@ -9,28 +9,32 @@ FunctionBlockBar::FunctionBlockBar(void)
 FunctionBlockBar::~FunctionBlockBar(void)
 {
 }
-BEGIN_MESSAGE_MAP(FunctionBlockBar, CSizingControlBarG)
+/* @todo MIGRATION_ISSUE unused in the program and causing unusual error 
+*/
+BEGIN_MESSAGE_MAP(FunctionBlockBar, CSizingControlBarG)	
 	ON_WM_LBUTTONDOWN()
 	ON_WM_RBUTTONDOWN()
 	ON_WM_MBUTTONDOWN()
-END_MESSAGE_MAP()
+END_MESSAGE_MAP() 
 
-void FunctionBlockBar::OnMButtonDown(UINT nFlags, CPoint point)
+void FunctionBlockBar::OnMButtonDown(UINT nFlags, CPoint _point)
 {
+
 	//AfxMessageBox("LBD");
-	CSizingControlBarG::OnMButtonDown(nFlags, point);
+	/*@todo MIGRATIONISSUE */
+	CSizingControlBarG::OnMButtonDown(nFlags, _point); 
 }
 
-void FunctionBlockBar::OnLButtonDown(UINT nFlags, CPoint point)
+void FunctionBlockBar::OnLButtonDown(UINT nFlags, CPoint _point)
 {
 	//AfxMessageBox("LBD");
-	//CSizingControlBarG::OnRButtonDown(nFlags, point);
+	CSizingControlBarG::OnRButtonDown(nFlags, _point);
 }
 
-void FunctionBlockBar::OnRButtonDown(UINT nFlags, CPoint point)
+void FunctionBlockBar::OnRButtonDown(UINT nFlags, CPoint _point)
 {
 	//AfxMessageBox("RBD");
-	CSizingControlBarG::OnRButtonDown(nFlags, point);
+	/*@todo MIGRATIONISSUE */ CSizingControlBarG::OnRButtonDown(nFlags, _point); 
 }
 
 int FunctionBlockBar::init(void)
@@ -45,7 +49,7 @@ int FunctionBlockBar::init(void)
 		TVS_HASLINES | 
 		TVS_HASBUTTONS | 
 		TVS_LINESATROOT,
-	CRect(0, 0, 0, 0), this, 100);
+	CRect(0, 0, 0, 0), this, 100); /* @todo MIGRATION_ISSUE*/
 
 	m_cFuncBlckTree.SetWindowTextA("Components");
 	m_cFuncBlckTree.init();

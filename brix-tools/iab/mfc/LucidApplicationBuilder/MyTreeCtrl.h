@@ -11,6 +11,7 @@
 #include "Project.h"
 #include "DEP.h"
 
+
 /////////////////////////////////////////////////////////////////////////////
 // CMyTreeCtrl window
 
@@ -45,7 +46,7 @@ public:
 	Project* GetProjectPtr(int projectNum);
 	Project* GetProjectPtr(HTREEITEM hItem);
 	HTREEITEM GetUserDefChildItem(ConData* userDefBlob, HTREEITEM hItem);
-	ConData* AddXPort(CString type, CString portLabel, CPoint point, Project* pProject, DEP* pDEP);
+	ConData* AddXPort(CString type, CString portLabel, INXPoint point, Project* pProject, DEP* pDEP);
 	void DeleteIcon(INXPOSITION iconPos, Project* pProject, DEP* pDEP, bool bDelOutputs);
 	void DeleteBlockPort(INXPOSITION blockPos, int portNum, int portType, Project* pProject, DEP* pDEP);
 	void RenameBlockPort(INXPOSITION blockPos, int portNum, int portType, Project* pProject, DEP* pDEP);
@@ -79,8 +80,8 @@ protected:
 	DECLARE_DYNCREATE(CMyTreeCtrl)
 
 	//{{AFX_MSG(CMyTreeCtrl)
-	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint _point);
+	afx_msg void OnRButtonDown(UINT nFlags, CPoint _point);
 	afx_msg void OnResourceDelete();
 	//}}AFX_MSG
 

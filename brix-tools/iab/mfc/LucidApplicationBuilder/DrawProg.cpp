@@ -323,7 +323,7 @@ void CDrawProgApp::OnUpdateReloadEhs(CCmdUI* pCmdUI)
 }
 
 /*
-void CDrawProgApp::AddXPort(CString projectName, CString xport, CString portLabel, CPoint point ) {
+void CDrawProgApp::AddXPort(CString projectName, CString xport, CString portLabel, INXPoint point ) {
 	POSITION pos, viewPos, iconPos;
 	ConData* blob;
 

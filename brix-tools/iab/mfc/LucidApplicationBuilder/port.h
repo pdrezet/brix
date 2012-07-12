@@ -13,15 +13,17 @@
 #include "IconLines.h"
 #include "LucidConstants.h"
 #include "LucidString.h"
+#include "Porting_Classes/INXRect.h"
+
 
 class Port  : public CObject
 {
 public:
 	Port(int _userdefined); 
-	Port(CPoint _P, UINT _portNum, int _dataType, int _portType, CString _description, CStringArray* _funcName, CUIntArray* _funcArg, int _atomicFlag, bool bVerticalIn, int _userdefined, int _mandatoryFlag);
+	Port(INXPoint _P, UINT _portNum, int _dataType, int _portType, CString _description, CStringArray* _funcName, CUIntArray* _funcArg, int _atomicFlag, bool bVerticalIn, int _userdefined, int _mandatoryFlag);
 	Port(UINT _portNum, int _portType, CStringArray* _funcName, CUIntArray* _funcArg, int _atomicFlag);
 	virtual ~Port();
-	CPoint P;   // position
+	INXPoint P;   // position
 	int porttype;   //0 input, 1 output, 2 Trig input, 3 Trig output
 	bool bPortVertical;
 	int datatype;   //0 bool, 1 int, 2 float, 3 string 
@@ -42,11 +44,11 @@ public:
 	// output port it is connected to.
 	long xportID;
 	int initialise;
-	CSize bitmapSize;
-	CSize bitmHighSize;
+	INXSize bitmapSize;
+	INXSize bitmHighSize;
 	Bitmap bitmap;
 	Bitmap bitmHighlight;
-	CRect rectangle;
+	INXRect rectangle;
 	int atomicFlag;
 	bool mandatoryFlag;
 	CString tag;
@@ -56,20 +58,20 @@ public:
 
 // Methods
 	void init();
-	int OnPort(CPoint);  //accepts coordinated and returns 0 for not close amd then an int> 0 for closeness
-	int addLine(CPoint *point,long int othericon,int otherPortNum, int otherPortType); // adds a line to inputs only otherwise return an error -1
+	int OnPort(INXPoint);  //accepts coordinated and returns 0 for not close amd then an int> 0 for closeness
+	int addLine(INXPoint *point,long int othericon,int otherPortNum, int otherPortType); // adds a line to inputs only otherwise return an error -1
 	int RemoveLine();
 	int DisconnectLine();
 	void Draw(CDC* theDC);
 	void Draw(CDC* theDC, bool _onlyDrawAnim, int _toggleAnim);
-	int Move(CPoint point);
+	int Move(INXPoint point);
 	void setLineID(long int _lineID);
 	void Save(ostream *);
 	void Load(istream *);
 	//CObject* OtherIconID;
 
 private:
-	CRect GetPortBitmapArea();
+	INXRect GetPortBitmapArea();
 	
 };
 

@@ -2,7 +2,6 @@
 
 #include "condat.h"
 #include "DEP.h"
-
 class FunctionBlockSubstitution
 {
 public:

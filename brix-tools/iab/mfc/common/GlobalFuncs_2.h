@@ -2,6 +2,8 @@
 #include "stdafx.h"
 #include <list>
 #include <vector>
+#include "Porting_Classes/INXRect.h"
+#include "Porting_Classes/INXPoint.h"
 
 extern DBTIMESTAMP parseTimeStamp( CString &cs );
 extern CString csPrintTimeStamp( const DBTIMESTAMP &ts );

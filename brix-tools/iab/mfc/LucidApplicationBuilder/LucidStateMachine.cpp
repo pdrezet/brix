@@ -10,7 +10,7 @@
 #include "Parameter.h"
 #include "DEP.h"
 #include "BlockOperations.h"
-//#include "sizecbar.h"
+#include "sizecbar.h"
 
 
 #ifdef _DEBUG
@@ -35,7 +35,7 @@ CLucidStateMachine::~CLucidStateMachine()
 
 }
 
-bool CLucidStateMachine::placeComponents(CPoint point, DEP* pDEP, Project* pProject)
+bool CLucidStateMachine::placeComponents(INXPoint point, DEP* pDEP, Project* pProject)
 {
 		
 	LucidStateMachineDialog lsmdialog;
@@ -83,7 +83,7 @@ bool CLucidStateMachine::placeComponents(CPoint point, DEP* pDEP, Project* pProj
 
 
 
-		CPoint pointBarGroup = point;
+		INXPoint pointBarGroup = point;
 		pointBarGroup.y += 100;
 
 		if((NumTransitionToEdit>8)&&(NumTransitionToEdit<13))
@@ -125,7 +125,7 @@ bool CLucidStateMachine::placeComponents(CPoint point, DEP* pDEP, Project* pProj
 
 		point.x = point.x +25;
 
-		CPoint pointFirstLogicIcon = point;
+		INXPoint pointFirstLogicIcon = point;
 		
 		
 			
@@ -185,7 +185,7 @@ bool CLucidStateMachine::placeComponents(CPoint point, DEP* pDEP, Project* pProj
 				ConData* pTransitionIconData ;
 
 
-				selected = pDEP->AddIcon("TRANSITIONACTION", "", (point+CPoint(0,160)));  //create memory and set point
+				selected = pDEP->AddIcon("TRANSITIONACTION", "", (point+INXPoint(0,160)));  //create memory and set point
 				pTransitionIconData = (ConData *) pDEP->condata->GetAt(selected);
 
 				pTransitionIconData->className = "Transition_Action" ;
@@ -255,7 +255,7 @@ bool CLucidStateMachine::placeComponents(CPoint point, DEP* pDEP, Project* pProj
 		{
 			ConData* pEntryActionIconData ;
 
-			selected = pDEP->AddIcon("ENTRYACTION", "", (pointBarGroup + CPoint(10,100)));  //create memory and set point
+			selected = pDEP->AddIcon("ENTRYACTION", "", (pointBarGroup + INXPoint(10,100)));  //create memory and set point
 			pEntryActionIconData = (ConData *) pDEP->condata->GetAt(selected);
 
 			pEntryActionIconData->className = "Entry_Action" ;

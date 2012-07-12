@@ -13,6 +13,7 @@
 #include "condat.h"
 //#include "mainFrm.h"
 
+
 class Encapsulation  
 {
 public:
@@ -28,7 +29,7 @@ public:
 
 	// Methods
 	void EncapsulateBlock(INXObjList* _encapsulated, HTREEITEM _hItem);
-	INXObjList* EncapsulateSubset(CRect encapsulate, INXObjList* depList, HTREEITEM _hItem, int nLib);
+	INXObjList* EncapsulateSubset(INXRect encapsulate, INXObjList* depList, HTREEITEM _hItem, int nLib);
 	int SelectEncapsulateIcon();
 	int SaveEncapsulated(Encapsulate* dialog, int iconNum, int nLib);
 	void WriteIDF(Encapsulate *dialog, int iconNum);
@@ -37,7 +38,7 @@ public:
 	int GetFirstOutPortYCoord();
 	CString IconNum2Bitmap(int iconNum);
 	ConData* GetIconFromID(long int id, INXObjList* list);
-	ConData* AddXPort(CString type, CPoint point);
+	ConData* AddXPort(CString type, INXPoint point);
 	bool IsUniqueSubsetID(long id);
 	void EditEncapsulation(POSITION selectedIcon);
 	//void SaveSubBlocks(CObList* subBlock, CString hierarchyName);
@@ -46,7 +47,7 @@ public:
 	void ResetXportConnected(INXObjList* depList);
 	void SetEncapsulated(INXObjList* _encapsulated);
 	bool IsLibComponentUnique(const CString csLibName);
-	bool HasXPorts(CRect xEncapsulate, INXObjList* xDepList);
+	bool HasXPorts(INXRect xEncapsulate, INXObjList* xDepList);
 };
 
 #endif // !defined(AFX_ENCAPSULATION_H__5B8F7D0E_9346_4C0F_BBDC_9BAF4988CF61__INCLUDED_)

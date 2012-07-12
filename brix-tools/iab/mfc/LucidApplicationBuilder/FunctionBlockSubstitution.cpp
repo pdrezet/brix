@@ -15,7 +15,7 @@ FunctionBlockSubstitution::~FunctionBlockSubstitution(void)
 
 void FunctionBlockSubstitution::createInitDraggee(CString type, CString block)
 {
-	CPoint point(0,0);
+	INXPoint point(0,0);
 
 	pInitDraggee->init(type, block, point, 1);
 	m_Draggee = pInitDraggee;
@@ -64,7 +64,7 @@ void FunctionBlockSubstitution::connectDraggee()
 {
 	UINT j=0;
 	CString csPortDesc;
-	CPoint newPoint;
+	INXPoint newPoint;
 	Port* tmpPort;
 	CUIntArray *tmpDraggeeFuncArg, *tmpDroppeeFuncArg;
 	CStringArray* tmpDraggeeFuncName, *tmpDroppeeFuncName;
@@ -215,7 +215,7 @@ int FunctionBlockSubstitution::copyParamValues()
 bool FunctionBlockSubstitution::isParamValsModified()
 {
 	ConData* pBlob = new ConData;
-	CPoint point(0,0);
+	INXPoint point(0,0);
 	bool bRet = FALSE;
 
 	// Check if the parameters in Droppee differ from the defaults

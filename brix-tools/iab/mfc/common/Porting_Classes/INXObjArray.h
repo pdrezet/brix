@@ -1,5 +1,7 @@
-#pragma once
+#ifndef _INXOBJARRAY_H
+#define _INXOBJARRAY_H
 
+#pragma once
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -48,3 +50,5 @@ public:
 		erase(begin(), end());
 	};
 };
+
+#endif;

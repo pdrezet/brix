@@ -17,6 +17,7 @@
 #include "Parameter.h"
 #include "PROC_FUNCTION.H"
 #include "../common/LucidEnums.h"
+#include "Porting_Classes/INXSize.h"
 
 /*****************************************************************/
 // ConData() contains processing icon data including screen geometry, bitmap
@@ -35,8 +36,8 @@ public:
 
 	ConData();
 	void copyDialogData( const ConData &sourceData );
-	void init(CString csIconType, CString csBlockName, CPoint point, int _iShow=1);
-	void initBmp(CPoint _point);
+	void init(CString csIconType, CString csBlockName, INXPoint point, int _iShow=1);
+	void initBmp(INXPoint _point);
 	void Draw(CDC *);
 	void Draw(CDC *, bool _onlyDrawAnim, int _toggleAnim);
 	void DrawDescription(CDC* theDC);
@@ -45,7 +46,7 @@ public:
 	void Save(ostream* file);
 	int Load(istream* file);
 	int LoadNoBmp(istream* file);
-	void RenewPosition(CPoint newpoint, CPoint oldpoint);
+	void RenewPosition(INXPoint newpoint, INXPoint oldpoint);
 	void DeleteLine(int port, int porttype);
 	void ReRouteAll();
 	int AddLine(int inPortNum, int InPrtType, ConData* othericon,int otherPortNum, int otherPortType);
@@ -53,10 +54,10 @@ public:
 	void AddNodes(int selectedPort, int selectedPortType, ConData* othericon, int otherPortNum, int otherPortType);
 	int  CheckDatatypes(int portIn, int portInType, ConData*iconOut,int portOut,int portOutType);
 	int  GetPortDataType(int portNum, int portType);
-	CPoint GetPortPoint(int port, int portType);
-	CPoint *GetPortPointPtr(int port, int portType);
-	int OnPort(CPoint point,int * portType,int *portConnected);
-	void ReadIDFFile(CString csType, CPoint point);
+	INXPoint GetPortPoint(int port, int portType);
+	INXPoint *GetPortPointPtr(int port, int portType);
+	int OnPort(INXPoint point,int * portType,int *portConnected);
+	void ReadIDFFile(CString csType, INXPoint point);
 	int portType2Int(CString str);
 	int dataType2Int(CString str);
 
@@ -78,44 +79,44 @@ public:
 	CString longDesc;
 	CString className;
 	CString optionstring;
-	CSize size;
+	INXSize size;
 	int m_iUserDefined;
 	int instNum;
 	CString hierarchyName;
 	bool saveSelectedFlag;
-	CRect rectangle; /// body part of icon
+	INXRect rectangle; /// body part of icon
 
 
 private:
 	Bitmap bitmap;
 	void LoadNewBMP(CString csType);
 	bool encapsulated;
-	void readFromIDFFile(CString filepath, CPoint point);
-	void readFromCDFFile(CString filepath, CPoint point);
+	void readFromIDFFile(CString filepath, INXPoint point);
+	void readFromCDFFile(CString filepath, INXPoint point);
 	void updateFunctionArg(struct definedFunctions *funcs);
 	void growFunctionArray(struct definedFunctions *funcs, const char *funcName, int iPortType, int iFuncArg);
 
 public:
 	int CountNonVerticalPorts(int PortType);
-	CRect GetBoundingRectangle();
+	INXRect GetBoundingRectangle();
 	void MinusYCoords();
-	CPoint GetIconBottomRight();
-	CPoint GetIconPos();
-	CPoint GetIconCentre();
+	INXPoint GetIconBottomRight();
+	INXPoint GetIconPos();
+	INXPoint GetIconCentre();
 	CString BuildXPortString(int iPortType,int DataType);
-	CPoint CalculateXPortPosition(int iPortType);
+	INXPoint CalculateXPortPosition(int iPortType);
 	void repositionVerticalPorts();
 	void ResizeIcon();
-	int In(CPoint point);
+	int In(INXPoint point);
 	void setEncapsulated(bool encaps);
 	bool getEncapsulated();
 	void hideSelected();
 	void showSelected();
 	
-	//CPoint input[32];
-	//CPoint output[32];
-	//CPoint trigin[32];
-	//CPoint trigout[32];
+	//INXPoint input[32];
+	//INXPoint output[32];
+	//INXPoint trigin[32];
+	//INXPoint trigout[32];
 	UINT inputport_num, outputport_num, startport_num, finishport_num, internalport_num, iParamNum;
 	Port* inputport[MAXPORTS];	//port object  
 	Port* outputport[MAXPORTS]; //port object  

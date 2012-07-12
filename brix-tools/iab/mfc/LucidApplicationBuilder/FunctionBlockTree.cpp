@@ -73,7 +73,7 @@ bool FunctionBlockTree::leafIsSelected()
 		//AfxMessageBox("Must select from the end of a menu branch");
 		return false;
 	}
-	//if (!first) position=new CRect;
+	//if (!first) position=new INXRect;
 	//GetWindowRect(position);
 	//first=1;
 	return true;
@@ -98,7 +98,7 @@ void FunctionBlockTree::init()
 	
 	//if (first) MoveWindow(position);
 	//Get window position, and then move it to the position the mouse was clicked
-	position = new CRect;
+	position = new CRect; /* @todo MIGRATION_ISSUE*/
 	GetWindowRect(position);
 	MoveWindow(pos.x, pos.y, position->right - position->left, position->bottom - position->top);
 	SetBkColor(RGB(205,220,255));
@@ -150,10 +150,12 @@ void FunctionBlockTree::init()
 	loadContents();
 }
 
-void FunctionBlockTree::addBitmapToImageList(int bitmapID) {	
+void FunctionBlockTree::addBitmapToImageList(unsigned int bitmapID) {	
 	CBitmap theBitmap; // bitmap witch loads 32bits bitmap
 
-	theBitmap.LoadBitmap(bitmapID);
+/*@todo MIGRATION_ISSUE	
+	theBitmap.LoadBitmap(bitmapID); */
+	//theBitmap.LoadOEMBitmap(1);
 	m_imageList.Add(&theBitmap, RGB(255,255,255));
 }	
 
@@ -863,11 +865,11 @@ void FunctionBlockTree::OnTvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult)
 
 		//NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
 		*pResult = 0;
-
+#ifdef  LEGACY
 		// Create the drag&drop source and data objects
 		COleDropSource *pDropSource = new COleDropSource;
 		COleDataSource *pDataSource = new COleDataSource;
-
+#endif
 		// now determine which rows are selected
 		// here it's a dirty copy from the CodeGurus's 
 		// CListCtrl section
@@ -926,8 +928,10 @@ void FunctionBlockTree::OnTvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult)
 			END_CATCH_ALL;
 
 			// put the file object into the data object
+#ifdef LEGACY
 			pDataSource->CacheGlobalData(m_DragDropFormat, file.Detach());
 			pDataSource->DoDragDrop(DROPEFFECT_MOVE|DROPEFFECT_COPY, NULL, pDropSource);
+#endif
 		}
 		CATCH_ALL(eOuter)
 		{
@@ -935,10 +939,10 @@ void FunctionBlockTree::OnTvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult)
 			ASSERT(FALSE);
 		}
 		END_CATCH_ALL;
-
+#ifdef LEGACY
 		delete pDropSource;
 		delete pDataSource;
-
+#endif
 		*pResult = 0;
 
 	} //	if( leafIsSelected() )
@@ -966,7 +970,7 @@ bool FunctionBlockTree::leafIsSelected()
 		//AfxMessageBox("Must select from the end of a menu branch");
 		return false;
 	}
-	//if (!first) position=new CRect;
+	//if (!first) position=new INXRect;
 	//GetWindowRect(position);
 	//first=1;
 	return true;
@@ -977,17 +981,17 @@ void FunctionBlockTree::getL2LibMenuNames(set<CString> &sL2MenuNames)
 	sL2MenuNames = m_sL2LibMenuNames;
 }
 
-void FunctionBlockTree::OnLButtonUp(UINT nFlags, CPoint point)
+void FunctionBlockTree::OnLButtonUp(UINT nFlags, CPoint _point)
 {
 	// TODO: Add your message handler code here and/or call default
-
-	CTreeCtrl::OnLButtonUp(nFlags, point);
+	INXPoint point(_point.x, _point.y);
+	CTreeCtrl::OnLButtonUp(nFlags, (INXPoint)point);
 }
 
-void FunctionBlockTree::OnLButtonDown(UINT nFlags, CPoint point)
+void FunctionBlockTree::OnLButtonDown(UINT nFlags, CPoint _point)
 {
 	// TODO: Add your message handler code here and/or call default
-
+	INXPoint point(_point.x, _point.y);
 
 	//AfxMessageBox("LB down tree");
 	UINT flags = 0;
@@ -999,6 +1003,6 @@ void FunctionBlockTree::OnLButtonDown(UINT nFlags, CPoint point)
 		m_hItemClicked = dum;
 
 	}
-	CTreeCtrl::OnLButtonDown(nFlags, point);
+	CTreeCtrl::OnLButtonDown(nFlags, (CPoint)point);
 }
 

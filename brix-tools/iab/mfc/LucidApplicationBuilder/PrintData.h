@@ -9,6 +9,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+
 class CPrintData  
 {
 public:
@@ -18,7 +19,7 @@ public:
 	// Attributes
 	UINT m_nWidths; // No. of pages for the width of the view
 	UINT m_nLengths; // No. of pages for the length of the view
-	CPoint m_ViewRefPoint; // Top left corner of the view contents
+	INXPoint m_ViewRefPoint; // Top left corner of the view contents
 	CString m_ViewTitle; // Name of the view
 
 };

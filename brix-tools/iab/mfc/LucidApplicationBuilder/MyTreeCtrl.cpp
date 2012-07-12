@@ -79,8 +79,9 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CMyTreeCtrl message handlers
 
-void CMyTreeCtrl::OnLButtonDown(UINT nFlags, CPoint point) 
+void CMyTreeCtrl::OnLButtonDown(UINT nFlags, CPoint _point) 
 {
+	INXPoint point(_point.x, _point.x);
 	// TODO: Add your message handler code here and/or call default
 	UINT uFlags;
 	CString filename, drawGui, depPath, csProjectDir;
@@ -166,8 +167,9 @@ void CMyTreeCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 	CTreeCtrl::OnLButtonDown(nFlags, point);
 }
 
-void CMyTreeCtrl::OnRButtonDown(UINT nFlags, CPoint point) 
+void CMyTreeCtrl::OnRButtonDown(UINT nFlags, CPoint _point) 
 {
+	INXPoint point(_point.x, _point.y);
 	UINT uFlags;
 	CString filename, drawGui, depPath, csProjectDir;
 	Project* thisProject;
@@ -202,10 +204,11 @@ void CMyTreeCtrl::OnRButtonDown(UINT nFlags, CPoint point)
 	// if it is a resource item, show the right click context menu
 	if (type == "RESOURCE")  {
 		CMenu iconMenu;
-		CPoint menuPoint = point;
-		ClientToScreen(&menuPoint);	// Convert to screen coordinates
-
+		INXPoint menuPoint = point;
+		ClientToScreen((LPPOINT)menuPoint);	// Convert to screen coordinates
+	/*@todo MIGRATION_ISSUES iconMenu.LoadMenu
 		iconMenu.LoadMenu(IDR_ICON_MENU); // Load the icon menu
+		*/
 		iconMenu.GetSubMenu(9)->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, menuPoint.x, menuPoint.y, this);
 		CTreeCtrl::OnRButtonDown(nFlags, point);
 	}
@@ -592,7 +595,7 @@ bool CMyTreeCtrl::IsSubsytem(Project* pProject, DEP* pDEP) {
 	return bHasParent;
 }
 
-ConData* CMyTreeCtrl::AddXPort(CString type, CString portLabel, CPoint point, Project* pProject, DEP* pDEP) {
+ConData* CMyTreeCtrl::AddXPort(CString type, CString portLabel, INXPoint point, Project* pProject, DEP* pDEP) {
 	HTREEITEM hParent;
 	CString parentName, csProjectDir;
 	ConData* xport;

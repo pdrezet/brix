@@ -16,6 +16,7 @@
 #include "Debugger.h"
 #include "ProjectMetaData.h"
 
+
 class Project  
 {
 public:
@@ -38,7 +39,7 @@ public:
 	void AddBlockPort(ConData* blob, int iDataType, int iPortType, CString portLabel, DEP* pDEP);
 	DEP* AddDEP();
 	void AddIconToGroup(INXPOSITION selectedIcon, int groupID, DEP* vwDEP);
-	ConData* AddXPort(DEP* pParentDEP, CString type, CString portLabel, CPoint point, DEP* pDEP);
+	ConData* AddXPort(DEP* pParentDEP, CString type, CString portLabel, INXPoint point, DEP* pDEP);
 	void AssignHierLineID();
 	void PropagateHierLineId(ConData* blob, HTREEITEM hItem, long hierID, int portType, int iPortNum);
 	void AssignSubBlockHierLineId(HTREEITEM hItem);

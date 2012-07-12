@@ -76,7 +76,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
  UINT assignedToolbarID = 3344500;
  DWORD style = WS_CHILD | WS_VISIBLE | CBRS_TOP |
   CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC;
- if( !m_wndToolBar.CreateEx( this, TBSTYLE_FLAT, style, CRect(1, 1, 1, 1), assignedToolbarID) )
+ if( !m_wndToolBar.CreateEx( this, TBSTYLE_FLAT, style, INXRect(1, 1, 1, 1), assignedToolbarID) )
   return -1;
  if( !m_wndToolBar.LoadToolBar( IDR_MAINFRAME ) )
   return -1;
@@ -104,7 +104,7 @@ bm.Attach(hBitmap);
 //int toolButtonWidth = 16;
 int toolButtonHeight = 24;
 int toolButtonWidth = 24;
-m_wndToolBar.SetSizes(CSize(toolButtonWidth + 7, toolButtonHeight + 6), CSize(toolButtonWidth, toolButtonHeight)); // NOTE - will fail unless button is bigger than image, +7 pixels w and +6 pixels h
+m_wndToolBar.SetSizes(INXSize(toolButtonWidth + 7, toolButtonHeight + 6), INXSize(toolButtonWidth, toolButtonHeight)); // NOTE - will fail unless button is bigger than image, +7 pixels w and +6 pixels h
 
 #ifndef TOOLBAR_32BitRGBA
 
@@ -166,10 +166,10 @@ m_wndToolBar.GetToolBarCtrl().SetImageList(m_imagelist);
 	m_wndStatusBar.SetPaneInfo(m_wndStatusBar.CommandToIndex(ID_INDICATOR_SCRL),ID_INDICATOR_SCRL, SBPS_NOBORDERS, 84);
 
 
-	CRect rect;
+	INXRect rect;
 	int nIndex = m_wndToolBar.GetToolBarCtrl().CommandToIndex(ID_EHS_HOST_COMBO);
 	m_wndToolBar.SetButtonInfo(nIndex, ID_EHS_HOST_COMBO, TBBS_SEPARATOR, 110); // this sets the width and makes it a separator type - may need to change back to button type if want to work with larger toolbar buttons 32x32
-	m_wndToolBar.GetToolBarCtrl().GetItemRect(nIndex, &rect);
+	m_wndToolBar.GetToolBarCtrl().GetItemRect(nIndex, (LPRECT)rect);
 	rect.top = 4; // added y-offset for 24x24 toolbar
 	rect.bottom = rect.top + 250 /*drop height*/;
 	if(!m_combo.Create(CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VISIBLE |
@@ -318,7 +318,7 @@ BOOL CMainFrame::CreateClient(LPCREATESTRUCT lpCreateStruct, CMenu* pWindowMenu)
 		return FALSE;
 	}
 
-	if (!m_wndSplitterLR.CreateView(0, 1, RUNTIME_CLASS(CRightView), CSize(0, 0), pContext))
+	if (!m_wndSplitterLR.CreateView(0, 1, RUNTIME_CLASS(CRightView), INXSize(0, 0), pContext))
 	{
 		TRACE0("Failed to create first pane\n");
 		return FALSE;
@@ -332,13 +332,13 @@ BOOL CMainFrame::CreateClient(LPCREATESTRUCT lpCreateStruct, CMenu* pWindowMenu)
 		return FALSE;
 	}
 
-	if (!m_wndSplitterUD.CreateView(0, 0, RUNTIME_CLASS(CLeftView), CSize(0, 200), pContext))
+	if (!m_wndSplitterUD.CreateView(0, 0, RUNTIME_CLASS(CLeftView), INXSize(0, 200), pContext))
 	{
 		TRACE0("Failed to create second pane\n");
 		return FALSE;
 	}
 
-	if (!m_wndSplitterUD.CreateView(1, 0, RUNTIME_CLASS(CProjectBar), CSize(0, 0), pContext))
+	if (!m_wndSplitterUD.CreateView(1, 0, RUNTIME_CLASS(CProjectBar), INXSize(0, 0), pContext))
 	{
 		TRACE0("Failed to create third pane\n");
 		return FALSE;

@@ -41,15 +41,15 @@ class CSCBButton
 public:
     CSCBButton();
 
-    void Move(CPoint ptTo) {ptOrg = ptTo; };
-    CRect GetRect() { return CRect(ptOrg, CSize(11, 11)); };
+    void Move(INXPoint ptTo) {ptOrg = ptTo; };
+    INXRect GetRect() { return INXRect(ptOrg, wxSize(11, 11)); };
     void Paint(CDC* pDC);
 
     BOOL    bPushed;
     BOOL    bRaised;
 
 protected:
-    CPoint  ptOrg;
+    INXPoint  ptOrg;
 };
 
 /////////////////////////////////////////////////////////////////////////
@@ -89,7 +89,7 @@ public:
     
 protected:
     // implementation helpers
-    virtual void NcPaintGripper(CDC* pDC, CRect rcClient);
+    virtual void NcPaintGripper(CDC* pDC, INXRect rcClient);
     virtual void NcCalcClient(LPRECT pRc, UINT nDockBarID);
 
 protected:
@@ -100,9 +100,9 @@ protected:
 // Generated message map functions
 protected:
     //{{AFX_MSG(CSizingControlBarG)
-    afx_msg LRESULT OnNcHitTest(CPoint);
-//    afx_msg UINT OnNcHitTest(CPoint point);
-    afx_msg void OnNcLButtonUp(UINT nHitTest, CPoint point);
+    afx_msg LRESULT OnNcHitTest(CPoint _point);
+    //afx_msg UINT OnNcHitTest(INXPoint point);
+    afx_msg void OnNcLButtonUp(UINT nHitTest, CPoint _point);
     //}}AFX_MSG
 
     DECLARE_MESSAGE_MAP()

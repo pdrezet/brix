@@ -1,3 +1,6 @@
+#ifndef _INXOBJLIST_H
+#define _INXOBJLIST_H
+
 #pragma once
 #include "afx.h"// CObject class in MFC
 
@@ -245,3 +248,4 @@ public:
 	//POSITION InsertAfter(POSITION position, CObject* newElement);
 };
 
+#endif

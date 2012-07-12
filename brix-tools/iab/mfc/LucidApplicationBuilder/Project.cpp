@@ -127,7 +127,7 @@ x-ports and changes the function box display accordingly. Obviously this should 
 
 
 // Adds a XPort to a DEP and a block port to its parent DEP
-ConData* Project::AddXPort(DEP* pParentDEP, CString type, CString portLabel, CPoint point, DEP* pDEP) {
+ConData* Project::AddXPort(DEP* pParentDEP, CString type, CString portLabel, INXPoint point, DEP* pDEP) {
 	if (pParentDEP->AddBlockPort(type, portLabel, pDEP->depFilename)) {
 		return pDEP->AddXPort(type, portLabel, point);
 	}
@@ -145,7 +145,7 @@ void Project::AddBlockPort(ConData* blob, int iDataType, int iPortType, CString 
 	HTREEITEM childItem;
 
 	// get the type and point	
-	CPoint point = blob->CalculateXPortPosition(iPortType);
+	INXPoint point = blob->CalculateXPortPosition(iPortType);
 	CString type = blob->BuildXPortString(iPortType,iDataType);
 
 	pProjMData->getProjectDir(csProjectDir);

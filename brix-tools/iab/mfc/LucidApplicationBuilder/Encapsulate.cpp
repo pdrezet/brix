@@ -143,10 +143,10 @@ BOOL Encapsulate::OnInitDialog()
 	// create textboxes and statics
 	for (i=1; i<=inNum; i++) {
 		inStatic[i] = new CStatic;
-		inStatic[i]->Create(inLabels[i],WS_VISIBLE|WS_CHILD|SS_RIGHT,CRect(lx1,y1,lx2,y2),this);
+		inStatic[i]->Create(inLabels[i],WS_VISIBLE|WS_CHILD|SS_RIGHT,INXRect(lx1,y1,lx2,y2),this);
 		inStatic[i]->SetFont(m_Font);
 		inEdit[i] = new CEdit;
-		inEdit[i]->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | WS_TABSTOP, CRect(x1, y1, x2, y2), this, id);
+		inEdit[i]->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | WS_TABSTOP, INXRect(x1, y1, x2, y2), this, id);
 		//inEdit[i]->SetLimitText(PORT_LABEL);
 		inEdit[i]->SetFont(m_Font);
 		inEdit[i]->ReplaceSel((LPCTSTR)inNames[i]);
@@ -161,10 +161,10 @@ BOOL Encapsulate::OnInitDialog()
 	x2 = x2 + 145;
 	for (i=1; i<=outNum; i++) {
 		outStatic[i] = new CStatic;
-		outStatic[i]->Create(outLabels[i],WS_VISIBLE|WS_CHILD|SS_RIGHT,CRect(lx1,y1,lx2,y2),this);
+		outStatic[i]->Create(outLabels[i],WS_VISIBLE|WS_CHILD|SS_RIGHT,INXRect(lx1,y1,lx2,y2),this);
 		outStatic[i]->SetFont(m_Font);
 		outEdit[i] = new CEdit;
-		outEdit[i]->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | WS_TABSTOP, CRect(x1, y1, x2, y2), this, id);
+		outEdit[i]->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | WS_TABSTOP, INXRect(x1, y1, x2, y2), this, id);
 		//outEdit[i]->SetLimitText(PORT_LABEL);
 		outEdit[i]->SetFont(m_Font);
 		outEdit[i]->ReplaceSel((LPCTSTR)outNames[i]);
@@ -179,10 +179,10 @@ BOOL Encapsulate::OnInitDialog()
 	x2 = x2 + 130;
 	for (i=1; i<=startNum; i++) {
 		startStatic[i] = new CStatic;
-		startStatic[i]->Create(startLabels[i],WS_VISIBLE|WS_CHILD|SS_RIGHT,CRect(lx1,y1,lx2,y2),this);
+		startStatic[i]->Create(startLabels[i],WS_VISIBLE|WS_CHILD|SS_RIGHT,INXRect(lx1,y1,lx2,y2),this);
 		startStatic[i]->SetFont(m_Font);
 		startEdit[i] = new CEdit;
-		startEdit[i]->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | WS_TABSTOP, CRect(x1, y1, x2, y2), this, id);
+		startEdit[i]->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | WS_TABSTOP, INXRect(x1, y1, x2, y2), this, id);
 		startEdit[i]->SetFont(m_Font);
 		//startEdit[i]->SetLimitText(PORT_LABEL);
 		startEdit[i]->ReplaceSel((LPCTSTR)startNames[i]);
@@ -197,10 +197,10 @@ BOOL Encapsulate::OnInitDialog()
 	x2 = x2 + 140;
 	for (i=1; i<=finishNum; i++) {
 		finishStatic[i] = new CStatic;
-		finishStatic[i]->Create(finishLabels[i],WS_VISIBLE|WS_CHILD|SS_RIGHT,CRect(lx1,y1,lx2,y2),this);
+		finishStatic[i]->Create(finishLabels[i],WS_VISIBLE|WS_CHILD|SS_RIGHT,INXRect(lx1,y1,lx2,y2),this);
 		finishStatic[i]->SetFont(m_Font);
 		finishEdit[i] = new CEdit;
-		finishEdit[i]->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | WS_TABSTOP, CRect(x1, y1, x2, y2), this, id);
+		finishEdit[i]->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | WS_TABSTOP, INXRect(x1, y1, x2, y2), this, id);
 		finishEdit[i]->SetFont(m_Font);
 		//finishEdit[i]->SetLimitText(PORT_LABEL);
 		finishEdit[i]->ReplaceSel((LPCTSTR)finishNames[i]);

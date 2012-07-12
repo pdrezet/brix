@@ -448,38 +448,38 @@ BOOL IconParams::OnInitDialog()
 
 	// Added function name for Ess
 	nameLabel = new CStatic;
-	//nameLabel->Create("Function Name",WS_VISIBLE|WS_CHILD|SS_LEFT,CRect(20,y1,150,y2),this);
-	nameLabel->CreateEx(WS_EX_CLIENTEDGE,_T("STATIC"),_T("Function Name"),(WS_CHILD | WS_VISIBLE |  ES_AUTOHSCROLL | ES_READONLY),CRect( 10, y1, 100, y2), this, ICONPARAMS_ID_FUNCTIONNAME_LABEL);
+	//nameLabel->Create("Function Name",WS_VISIBLE|WS_CHILD|SS_LEFT,INXRect(20,y1,150,y2),this);
+	nameLabel->CreateEx(WS_EX_CLIENTEDGE,_T("STATIC"),_T("Function Name"),(WS_CHILD | WS_VISIBLE |  ES_AUTOHSCROLL | ES_READONLY),INXRect( 10, y1, 100, y2), this, ICONPARAMS_ID_FUNCTIONNAME_LABEL);
 	nameLabel->SetFont(m_Font);
 
 	nameVal = new CEdit;
 	// Allow user to edit subsystem block names
 	if (mBlobTempStore.m_iUserDefined) {
-		//nameVal->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | WS_TABSTOP, CRect(20, y1, 270, y2), this, ICONPARAMS_ID_FUNCTIONNAME_TEXT);
-		nameVal->CreateEx(WS_EX_CLIENTEDGE,_T("EDIT"),_T(""),(WS_CHILD | WS_VISIBLE |  ES_AUTOHSCROLL ),CRect( 100, y1, 300, y2), this, ICONPARAMS_ID_FUNCTIONNAME_TEXT);
+		//nameVal->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | WS_TABSTOP, INXRect(20, y1, 270, y2), this, ICONPARAMS_ID_FUNCTIONNAME_TEXT);
+		nameVal->CreateEx(WS_EX_CLIENTEDGE,_T("EDIT"),_T(""),(WS_CHILD | WS_VISIBLE |  ES_AUTOHSCROLL ),INXRect( 100, y1, 300, y2), this, ICONPARAMS_ID_FUNCTIONNAME_TEXT);
 	}
 	else {
-		//nameVal->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | ES_READONLY, CRect(20, y1, 270, y2), this, ICONPARAMS_ID_FUNCTIONNAME_TEXT);
-		nameVal->CreateEx(/*WS_EX_STATICEDGE*/WS_EX_CLIENTEDGE,_T("EDIT"),_T(""),(WS_CHILD | WS_VISIBLE |  ES_AUTOHSCROLL | ES_READONLY),CRect( 100, y1, 300, y2), this, ICONPARAMS_ID_FUNCTIONNAME_TEXT);
+		//nameVal->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | ES_READONLY, INXRect(20, y1, 270, y2), this, ICONPARAMS_ID_FUNCTIONNAME_TEXT);
+		nameVal->CreateEx(/*WS_EX_STATICEDGE*/WS_EX_CLIENTEDGE,_T("EDIT"),_T(""),(WS_CHILD | WS_VISIBLE |  ES_AUTOHSCROLL | ES_READONLY),INXRect( 100, y1, 300, y2), this, ICONPARAMS_ID_FUNCTIONNAME_TEXT);
 	}
 	nameVal->SetFont(m_Font);
 	nameVal->ReplaceSel((LPCTSTR)mBlobTempStore.m_csClassName);
 	/****************************************************************************************************/
 	// Added instance name for Ess
 	instLabel = new CStatic;
-	//instLabel->Create("Instance Name",WS_VISIBLE|WS_CHILD|SS_LEFT,CRect(300,y1,450,y2),this);
-	instLabel->CreateEx(WS_EX_CLIENTEDGE,_T("STATIC"),_T("Instance Name"),(WS_CHILD | WS_VISIBLE |  ES_AUTOHSCROLL | ES_READONLY),CRect( 310, y1, 400, y2), this, ICONPARAMS_ID_INSTANCENAME_LABEL);
+	//instLabel->Create("Instance Name",WS_VISIBLE|WS_CHILD|SS_LEFT,INXRect(300,y1,450,y2),this);
+	instLabel->CreateEx(WS_EX_CLIENTEDGE,_T("STATIC"),_T("Instance Name"),(WS_CHILD | WS_VISIBLE |  ES_AUTOHSCROLL | ES_READONLY),INXRect( 310, y1, 400, y2), this, ICONPARAMS_ID_INSTANCENAME_LABEL);
 	instLabel->SetFont(m_Font);
 
 	instVal = new CEdit;
 	if (mBlobTempStore.m_csType.Find("XINPUT") != -1 || mBlobTempStore.m_csType.Find("XOUTPUT") != -1 || 
 		mBlobTempStore.m_csType == "XSTART" || mBlobTempStore.m_csType == "XFINISH" || mBlobTempStore.m_iUserDefined) {
-		//instVal->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | ES_READONLY, CRect(300, y1, 550, y2), this, ICONPARAMS_ID_INSTANCENAME_TEXT);
-	    instVal->CreateEx(WS_EX_CLIENTEDGE,_T("EDIT"),_T(""),(WS_CHILD | WS_VISIBLE |  ES_AUTOHSCROLL | ES_READONLY ),CRect( 400, y1, 580, y2), this, ICONPARAMS_ID_INSTANCENAME_TEXT);
+		//instVal->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | ES_READONLY, INXRect(300, y1, 550, y2), this, ICONPARAMS_ID_INSTANCENAME_TEXT);
+	    instVal->CreateEx(WS_EX_CLIENTEDGE,_T("EDIT"),_T(""),(WS_CHILD | WS_VISIBLE |  ES_AUTOHSCROLL | ES_READONLY ),INXRect( 400, y1, 580, y2), this, ICONPARAMS_ID_INSTANCENAME_TEXT);
 	}
 	else {
-		//instVal->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | WS_TABSTOP, CRect(300, y1, 550, y2), this, ICONPARAMS_ID_INSTANCENAME_TEXT);
-		instVal->CreateEx(WS_EX_CLIENTEDGE,_T("EDIT"),_T(""),(WS_CHILD | WS_VISIBLE |  ES_AUTOHSCROLL ),CRect( 400, y1, 580, y2), this, ICONPARAMS_ID_INSTANCENAME_TEXT);
+		//instVal->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | WS_TABSTOP, INXRect(300, y1, 550, y2), this, ICONPARAMS_ID_INSTANCENAME_TEXT);
+		instVal->CreateEx(WS_EX_CLIENTEDGE,_T("EDIT"),_T(""),(WS_CHILD | WS_VISIBLE |  ES_AUTOHSCROLL ),INXRect( 400, y1, 580, y2), this, ICONPARAMS_ID_INSTANCENAME_TEXT);
 	}
 	instVal->SetFont(m_Font);
 	instVal->ReplaceSel((LPCTSTR)mBlobTempStore.m_csDescription);
@@ -489,18 +489,18 @@ BOOL IconParams::OnInitDialog()
 	
 	// Added Short description for Ess
 	descLabel = new CStatic;
-	descLabel->CreateEx(WS_EX_CLIENTEDGE,_T("STATIC"),_T("Description"),(WS_CHILD | WS_VISIBLE |  ES_AUTOHSCROLL | ES_READONLY),CRect(10,y1,100,y2), this, ICONPARAMS_ID_DESCRIPTION_LABEL);
-	//->Create("Description",WS_VISIBLE|WS_CHILD|SS_RIGHT,CRect(lx1-40,y1,lx2-40,y2),this);
+	descLabel->CreateEx(WS_EX_CLIENTEDGE,_T("STATIC"),_T("Description"),(WS_CHILD | WS_VISIBLE |  ES_AUTOHSCROLL | ES_READONLY),INXRect(10,y1,100,y2), this, ICONPARAMS_ID_DESCRIPTION_LABEL);
+	//->Create("Description",WS_VISIBLE|WS_CHILD|SS_RIGHT,INXRect(lx1-40,y1,lx2-40,y2),this);
 	descLabel->SetFont(m_Font);
 	descVal = new CEdit;
 	// Allow user to edit subsystem descriptions
 	if (mBlobTempStore.m_iUserDefined) {
-		descVal->CreateEx(WS_EX_CLIENTEDGE,_T("EDIT"),_T(""),(WS_CHILD | WS_VISIBLE |  ES_AUTOHSCROLL | ES_READONLY ),CRect(100,y1,580,y2), this, ICONPARAMS_ID_DESCRIPTION_TEXT);
-	//->Create(WS_CHILD | WS_VISIBLE | WS_BORDER | ES_MULTILINE | WS_VSCROLL | WS_TABSTOP, CRect(10, y1, 680, y2), this, ICONPARAMS_ID_DESCRIPTION_TEXT);
+		descVal->CreateEx(WS_EX_CLIENTEDGE,_T("EDIT"),_T(""),(WS_CHILD | WS_VISIBLE |  ES_AUTOHSCROLL | ES_READONLY ),INXRect(100,y1,580,y2), this, ICONPARAMS_ID_DESCRIPTION_TEXT);
+	//->Create(WS_CHILD | WS_VISIBLE | WS_BORDER | ES_MULTILINE | WS_VSCROLL | WS_TABSTOP, INXRect(10, y1, 680, y2), this, ICONPARAMS_ID_DESCRIPTION_TEXT);
 	}
 	else {
-		descVal->CreateEx(WS_EX_CLIENTEDGE,_T("EDIT"),_T(""),(WS_CHILD | WS_VISIBLE |  ES_AUTOHSCROLL| ES_READONLY ),CRect(100,y1,580,y2), this, ICONPARAMS_ID_DESCRIPTION_TEXT);
-	//->Create(WS_CHILD | WS_VISIBLE | WS_BORDER | ES_MULTILINE | WS_VSCROLL | ES_READONLY, CRect(10, y1, 680, y2), this, ICONPARAMS_ID_DESCRIPTION_TEXT);
+		descVal->CreateEx(WS_EX_CLIENTEDGE,_T("EDIT"),_T(""),(WS_CHILD | WS_VISIBLE |  ES_AUTOHSCROLL| ES_READONLY ),INXRect(100,y1,580,y2), this, ICONPARAMS_ID_DESCRIPTION_TEXT);
+	//->Create(WS_CHILD | WS_VISIBLE | WS_BORDER | ES_MULTILINE | WS_VSCROLL | ES_READONLY, INXRect(10, y1, 680, y2), this, ICONPARAMS_ID_DESCRIPTION_TEXT);
 	}
 	descVal->SetLayeredWindowAttributes(RGB(255,244,244),255,LWA_ALPHA );
 	descVal->EnableWindow(1);
@@ -518,7 +518,7 @@ BOOL IconParams::OnInitDialog()
 	UINT paramID = ICONPARAMS_ID_FIRST_PARAMETER;	
 	for (UINT i=1; i<mBlobTempStore.m_iParamNum; i++) {
 		paramLabel[i] = new CStatic;
-		paramLabel[i]->Create(labels[i],WS_VISIBLE|WS_CHILD|SS_RIGHT,CRect(lx1,y1,lx2,y2),this);
+		paramLabel[i]->Create(labels[i],WS_VISIBLE|WS_CHILD|SS_RIGHT,INXRect(lx1,y1,lx2,y2),this);
 		paramLabel[i]->SetFont(m_Font);
 
 		// Check if parameter is a screen tag
@@ -527,7 +527,7 @@ BOOL IconParams::OnInitDialog()
 		if ((mBlobTempStore.m_pParamStoreArr[i])->m_iDataType == 4) {//@tpdp need to use an enum type here.. Will go wrong soon!
 			enumVal[i] = new CComboBox;
 			enumVal[i]->Create(WS_CHILD | WS_VISIBLE | WS_VSCROLL | CBS_DROPDOWNLIST | WS_TABSTOP, 
-				CRect(x1, y1, x2, y2+100), this, ID_WIDGET_GROUP_COMBO );
+				INXRect(x1, y1, x2, y2+100), this, ID_WIDGET_GROUP_COMBO );
 			enumVal[i]->SetFont(m_Font);
 			// set the items in the drop-down. values[i] is an integer. The enumLabel needs to be displayed
 			pProject->pProjMData->getScreenTags(vScreenTags);
@@ -540,15 +540,15 @@ BOOL IconParams::OnInitDialog()
 			}
 			enumVal[i]->SetCurSel(iCurSel);
 			screenTagButton = new CButton;
-			screenTagButton->Create("Widget- Group Manager", WS_CHILD|WS_VISIBLE|BS_PUSHBUTTON|BS_MULTILINE|WS_TABSTOP, CRect(x1+210, y1, x2+200, y2), this, ID_SCREEN_TAG_BUTT);
+			screenTagButton->Create("Widget- Group Manager", WS_CHILD|WS_VISIBLE|BS_PUSHBUTTON|BS_MULTILINE|WS_TABSTOP, INXRect(x1+210, y1, x2+200, y2), this, ID_SCREEN_TAG_BUTT);
 			screenTagButton->SetFont(m_Font);
 		}
 		// Check if parameter is a textbox or drop down
 		else if (  pOrigBlob->iconParam[i]->IsTextbox()) {
 
 			paramVal[i] = new CEdit;
-			//paramVal[i]->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | WS_TABSTOP, CRect(x1, y1, x2, y2), this, paramID);
-			paramVal[i]->CreateEx(WS_EX_CLIENTEDGE,_T("EDIT"),_T(""),(WS_CHILD | WS_VISIBLE |  ES_AUTOHSCROLL ),CRect(x1, y1, x2, y2), this, paramID);
+			//paramVal[i]->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | WS_TABSTOP, INXRect(x1, y1, x2, y2), this, paramID);
+			paramVal[i]->CreateEx(WS_EX_CLIENTEDGE,_T("EDIT"),_T(""),(WS_CHILD | WS_VISIBLE |  ES_AUTOHSCROLL ),INXRect(x1, y1, x2, y2), this, paramID);
 			paramVal[i]->SetFont(m_Font);
 			if (values[i] == "_") {
 				paramVal[i]->ReplaceSel("");
@@ -562,7 +562,7 @@ BOOL IconParams::OnInitDialog()
 
 		} else {
 			enumVal[i] = new CComboBox;
-			enumVal[i]->Create(WS_CHILD | WS_VISIBLE | WS_VSCROLL | CBS_DROPDOWN | WS_TABSTOP, CRect(x1, y1, x2, y2+100), this, paramID);
+			enumVal[i]->Create(WS_CHILD | WS_VISIBLE | WS_VSCROLL | CBS_DROPDOWN | WS_TABSTOP, INXRect(x1, y1, x2, y2+100), this, paramID);
 			enumVal[i]->SetFont(m_Font);
 			// set the items in the drop-down. values[i] is an integer. The enumLabel needs to be displayed
 			enumVal[i]->SetWindowText( (mBlobTempStore.m_pParamStoreArr[i])->GetEnumLabel( values[i] ) );

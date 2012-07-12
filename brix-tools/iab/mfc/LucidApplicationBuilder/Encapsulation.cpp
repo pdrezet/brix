@@ -9,6 +9,7 @@
 #include "FileOperations.h"
 #include "BlockOperations.h"
 #include "GlobalFuncs_2.h"
+//#include "Porting_Classes/INXRect.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -575,12 +576,12 @@ CString Encapsulation::IconNum2Bitmap(int iconNum) {
 // The second step involves adding the encapsulate icon
 // The third step involves connecting up the encapsulate icon and removing the icons that
 // have been encapsulated. This step is performed by the connectEncapsulatedIcon function.
-INXObjList* Encapsulation::EncapsulateSubset(CRect encapsulate, INXObjList* depList, HTREEITEM _hItem, int nLib) {
+INXObjList* Encapsulation::EncapsulateSubset(INXRect encapsulate, INXObjList* depList, HTREEITEM _hItem, int nLib) {
 	INXPOSITION pos, otherPos;
 	ConData* blob;
 	ConData* otherBlob;
 	ConData* xportBlob;
-	CPoint point;
+	INXPoint point;
 	int inPortNum = 0, outPortNum = 0;
 	int iconNum, saveOK, otherPortNum;
 	UINT i;
@@ -802,7 +803,7 @@ ConData* Encapsulation::GetIconFromID(long int id, INXObjList* list) {
 }
 
 // This function adds a new icon to the encapsulated list
-ConData* Encapsulation::AddXPort(CString type, CPoint point) {
+ConData* Encapsulation::AddXPort(CString type, INXPoint point) {
 	ConData *blobb = new ConData;
 	long id;
 
@@ -922,8 +923,8 @@ void Encapsulation::repositionEncapsulated()
 {
 	ConData *blob;
 	INXPOSITION pos;
-	CPoint tmp, top(-1, -1), left, topLeft;
-	CPoint newpoint, oldpoint;
+	INXPoint tmp, top(-1, -1), left, topLeft;
+	INXPoint newpoint, oldpoint;
 
 	// get top left point of current encapsulated DEP
 	pos = encapsulated->GetHeadPosition();
@@ -1037,7 +1038,7 @@ bool Encapsulation::IsLibComponentUnique(const CString csLibName)
 	}
 }
 
-bool Encapsulation::HasXPorts(CRect xEncapsulate, INXObjList* xDepList)
+bool Encapsulation::HasXPorts(INXRect xEncapsulate, INXObjList* xDepList)
 {
 	ConData* xBlob;
 	INXPOSITION xPos;

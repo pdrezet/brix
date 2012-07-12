@@ -9,6 +9,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#ifdef LEGACYREMOVE
 #include "afxole.h"
 
 class CInterfaceDropTarget : public COleDropTarget  
@@ -20,8 +21,8 @@ public:
 	virtual ~CInterfaceDropTarget();
 
 protected:
-	virtual BOOL OnDrop( CWnd* pWnd, COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point );
-	virtual DROPEFFECT OnDragOver( CWnd* pWnd, COleDataObject* pDataObject, DWORD dwKeyState, CPoint point );
+	virtual BOOL OnDrop( CWnd* pWnd, COleDataObject* pDataObject, DROPEFFECT dropEffect, INXPoint point );
+	virtual DROPEFFECT OnDragOver( CWnd* pWnd, COleDataObject* pDataObject, DWORD dwKeyState, INXPoint point );
 
 private:
 	CString m_csIconType;
@@ -29,3 +30,4 @@ private:
 };
 
 #endif // !defined(AFX_INTERFACEDROPTARGET_H__075272E3_A999_11D2_BE7E_0020187099A1__INCLUDED_)
+#endif

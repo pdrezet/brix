@@ -98,7 +98,7 @@ INXObjList* EditList::LoadPaste(CString Info) {
 }
 
 // This function stores a copy of the selected icons when a copy or cut is performed
-void EditList::BufferSelectedIcons(CRect selectRect, Project* pProject, DEP* pDEP)
+void EditList::BufferSelectedIcons(INXRect selectRect, Project* pProject, DEP* pDEP)
 {
 	ConData *icondata;
 	ConData *otherIcon;
@@ -238,12 +238,12 @@ INXObjList* EditList::LoadTemp() {
 	return temp;
 }
 
-CPoint EditList::getPasteOffset()
+INXPoint EditList::getPasteOffset()
 {
 	return pasteOffset;
 }
 
-void EditList::setPasteOffset(CPoint point)
+void EditList::setPasteOffset(INXPoint point)
 {
 	pasteOffset = point;
 }

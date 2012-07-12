@@ -5,6 +5,7 @@
 #include "ComponentMenuItem.h"
 #include "Porting_Classes/INXObjArray.h"
 
+
 /////////////////////////////////////////////////////////////////////////////
 // FunctionBlockTree dialog
 /*****************************************************************/
@@ -41,7 +42,7 @@ public:
 
 
 	
-	CPoint pos;
+	INXPoint pos;
 	int m_iLev1Ind, m_iLev2Ind, m_iLev3Ind, m_iLev4Ind; //@todo should be an array
 
 // Dialog Data
@@ -53,7 +54,7 @@ protected:
 	void readIDF(CString csIDFPath, CString fileType);
 	void FunctionBlockTree::readMenuMetaInfo();
 	void FunctionBlockTree::readMenuItemsFromCDF(CString *level1, CString *level2, CString *level3, CString *level4, CString csIDFPath);
-	void FunctionBlockTree::addBitmapToImageList(int bitmapID);
+	void FunctionBlockTree::addBitmapToImageList(unsigned int bitmapID);
 	void FunctionBlockTree::outputNamePriority(ComponentMenuItem *item);
 	void FunctionBlockTree::addMenuItem(CString csIconName, CString csUserdefined, CString csLevel1, CString csLevel2, CString csLevel3, CString csLevel4, CString csStyle1, CString csStyle2, CString csStyle3, CString csStyle4);
 	void FunctionBlockTree::addComponentsToTree(int currLevel, ComponentMenuItem *item, CString csLevel1, CString csLevel2, CString csLevel3, CString csLevel4, CString csStyle1, CString csStyle2, CString csStyle3, CString csStyle4);
@@ -96,8 +97,8 @@ public:
 public:
 	DECLARE_MESSAGE_MAP()
 	afx_msg void OnTvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
-	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint _point);
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint _point);
 	afx_msg void OnNMSetfocus(NMHDR *pNMHDR, LRESULT *pResult);
 	HTREEITEM m_hItemClicked;
 	HTREEITEM m_hPrevItemClicked;

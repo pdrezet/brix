@@ -20,7 +20,7 @@ public:
 	virtual ~CProjectBar();
 	int init(void);
 
-	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonDblClk(UINT nFlags, INXPoint point);
 	afx_msg void OnClickList(NMHDR* pNMHDR, LRESULT* pResult);
 	DECLARE_MESSAGE_MAP()
 public:

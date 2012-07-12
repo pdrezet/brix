@@ -60,6 +60,7 @@ using namespace std;
 #include <archive_entry.h>
 #include <fcntl.h>
 
+
 #define CURL_WRITE_BUFFER_SIZE 12000
 
 #ifdef _DEBUG
@@ -160,7 +161,7 @@ BEGIN_MESSAGE_MAP(CDrawProgView, CScrollView)
 	ON_COMMAND(ID_CLOSE_PROJECT, OnCloseProject)
 	ON_UPDATE_COMMAND_UI(ID_CLOSE_PROJECT, OnUpdateCloseProject)
 	ON_COMMAND(ID_SELECT_ALL, OnSelectAll)
-	ON_WM_LBUTTONDBLCLK()
+	//ON_WM_LBUTTONDBLCLK() //@todo unused and interferes with INXPoint
 	ON_UPDATE_COMMAND_UI(ID_GROUP_SETUP, OnUpdateGroupSetup)
 //	ON_COMMAND(ID_FTP_EHS, OnFtpEhs)
 	//}}AFX_MSG_MAP
@@ -173,7 +174,7 @@ BEGIN_MESSAGE_MAP(CDrawProgView, CScrollView)
 	ON_COMMAND(ID_EDIT_PROJECT_DESC, &CDrawProgView::OnEditProjectDesc)
 	ON_COMMAND(ID_EDIT_DELETE, &CDrawProgView::OnEditDelete)
 	ON_WM_SIZE()
-	ON_WM_MOUSEWHEEL()
+	//ON_WM_MOUSEWHEEL() @todo is not used and doesnt allow to use INXPoint
 	ON_COMMAND(ID_TRANSFER_OPTIONS, &CDrawProgView::OnTransferOptions)
 	ON_COMMAND(ID_ZOOM_IN, &CDrawProgView::OnZoomIn)
 	ON_COMMAND(ID_ZOOM_OUT, &CDrawProgView::OnZoomOut)
@@ -288,9 +289,9 @@ void CDrawProgView::init() {
 	//kwhite:canvassupport replaced following with above
 	xViewSize = 2000;
 	yViewSize = 2000;
-	viewSize = CSize(xViewSize, yViewSize);
+	viewSize = INXSize(xViewSize, yViewSize);
 
-	SetScrollSizes(MM_TEXT, CSize(0,0));
+	SetScrollSizes(MM_TEXT, INXSize(0,0));
 	scale = 100;
 	running = 0;
 	moveselected = NULL;
@@ -347,8 +348,8 @@ BOOL CDrawProgView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
-	//SetScrollSizes( MM_TEXT, CSize(2000,1000));
-  	//SetScrollSizes( MM_LOENGLISH, CSize(2000,1000));
+	//SetScrollSizes( MM_TEXT, INXSize(2000,1000));
+  	//SetScrollSizes( MM_LOENGLISH, INXSize(2000,1000));
   //
 
 	return CScrollView::PreCreateWindow(cs);
@@ -410,7 +411,7 @@ void CDrawProgView::OnDraw(CDC* dc)
 	*/
 	// The following is an example of a dashed line. In print preview this causes a debug assertion failure
 	/*
-	CPoint start, end;
+	INXPoint start, end;
 	start.x = 20;
 	start.y = 20;
 	end.x = 220;
@@ -439,9 +440,9 @@ BOOL CDrawProgView::OnPreparePrinting(CPrintInfo* pInfo)
 	pInfo->m_lpUserData = new CPrintData;
 
 	// Get the whole view area
-	CRect ViewExtent = GetViewExtent();
+	INXRect ViewExtent = GetViewExtent();
 	// Save the reference point for the whole document
-	((CPrintData*)(pInfo->m_lpUserData))->m_ViewRefPoint = CPoint(ViewExtent.left, ViewExtent.top);
+	((CPrintData*)(pInfo->m_lpUserData))->m_ViewRefPoint = INXPoint(ViewExtent.left, ViewExtent.top);
 	// Get the name of the view file and save it
 	((CPrintData*)(pInfo->m_lpUserData))->m_ViewTitle = pDEP->depFilename;
 	// Calculate how many printed page widths of PAGE_WIDTH units are required to 
@@ -519,9 +520,9 @@ void CDrawProgView::SetToMovingRectangle(INXPOSITION selected) {
 		//RectangleSite.OffsetRect(-RectangleSite.TopLeft()); //make into 0 offset box
 }
 
-CRect CDrawProgView::GetViewExtent() {
-	CRect ViewExtent(0,0,1,1); // Initial view extent
-	CRect ElementBound(0,0,0,0); // Space for element bounding rectangle
+INXRect CDrawProgView::GetViewExtent() {
+	INXRect ViewExtent(0,0,1,1); // Initial view extent
+	INXRect ElementBound(0,0,0,0); // Space for element bounding rectangle
 	INXPOSITION pos;
 	ConData* blob;
 
@@ -533,7 +534,9 @@ CRect CDrawProgView::GetViewExtent() {
 		//dc.LPtoDP(blob->rectangle);
 		ElementBound = blob->GetBoundingRectangle();
 		// Make coordinates of view extent the outer limits
+
 		ViewExtent.UnionRect(ViewExtent, ElementBound);
+
 	}
 	ViewExtent.NormalizeRect();
 	//dc.SetMapMode(MM_TEXT);
@@ -544,8 +547,8 @@ CRect CDrawProgView::GetViewExtent() {
 void CDrawProgView::ResetScrollSizes() {
 	CClientDC aDC(this);
 	OnPrepareDC(&aDC);
-	CSize vwSize = viewSize;
-	aDC.LPtoDP(&vwSize);
+	INXSize vwSize = viewSize;
+	aDC.LPtoDP((LPPOINT)vwSize);
 	SetScrollSizes(MM_TEXT, vwSize);
 }
 
@@ -553,7 +556,7 @@ void CDrawProgView::ResetScrollSizes() {
 the component palette onto the view, to do the data processing / adding
 to the project etc. */
 ConData* CDrawProgView::processComponentDrop(
-			CPoint point, CString &csIconType, CString &csBlock )
+			INXPoint point, CString &csIconType, CString &csBlock )
 {
 	CString csBlockName = "";// This is only set if the icon as a 
 	ConData* blob = NULL;
@@ -747,7 +750,7 @@ void CDrawProgView::StartLine(INXPOSITION selectedIcon, int PortSelected, int po
 	selectedControl = selectedIcon;
 	selectedPort = PortSelected;
 	selectedPortType = portType;
-	CPoint conpoint=icon->GetPortPoint(PortSelected, portType);
+	INXPoint conpoint=icon->GetPortPoint(PortSelected, portType);
 	conpoint.x = (conpoint.x * scale)/100;
 	conpoint.y = (conpoint.y * scale)/100;
 	
@@ -904,9 +907,9 @@ void CDrawProgView::stopTraceTimer()
 
 /* 
 */
-void CDrawProgView::OnLButtonDown(UINT nFlags, CPoint point) 
-{	
-
+void CDrawProgView::OnLButtonDown(UINT nFlags, CPoint _point) 
+{	// @todo
+	INXPoint point(_point.x, _point.y);
 	// kwhite:canvassupport
 	// case 1: ?											
 	// case 2: capture selection of function or encap block
@@ -929,7 +932,7 @@ void CDrawProgView::OnLButtonDown(UINT nFlags, CPoint point)
 	//point.y = (point.y * 100)/scale;
 	CClientDC aDC(this); // create device context
 	OnPrepareDC(&aDC); // adjust origin
-	aDC.DPtoLP(&point); // convert point to Logical
+	aDC.DPtoLP((LPPOINT)point); // convert point to Logical
 	if (!selectRect.PtInRect(point)) {
 		selectRect.SetRectEmpty();
 	}
@@ -1042,7 +1045,7 @@ void CDrawProgView::OnLButtonDown(UINT nFlags, CPoint point)
 		}
 		cs.DebugTrace("kwhite:canvassupport:OnLButtonDown:SetCapture,SaveUndo,HideControl\n");		
 	}
-	CScrollView::OnLButtonDown(nFlags, point);
+	CScrollView::OnLButtonDown(nFlags, (CPoint)point);
 	running=0;
 }
 
@@ -1050,8 +1053,9 @@ void CDrawProgView::OnLButtonDown(UINT nFlags, CPoint point)
 	Get the event of the user releasing the mouse button which may mean any of the following, 
 	depending on the user's previous activity. . e.g. finished drawing a line
 */
-void CDrawProgView::OnLButtonUp(UINT nFlags, CPoint point) 
+void CDrawProgView::OnLButtonUp(UINT nFlags, CPoint _point) 
 {
+	INXPoint point(_point.x, _point.y);
 	running=1;
 	//point+=GetScrollPosition( ) ;
 	int selectedPort2;
@@ -1065,7 +1069,7 @@ void CDrawProgView::OnLButtonUp(UINT nFlags, CPoint point)
 	//point.y = (point.y * 100)/scale;
 	CClientDC aDC(this); // create device context
 	OnPrepareDC(&aDC); // adjust origin
-	aDC.DPtoLP(&point); // convert point to Logical
+	aDC.DPtoLP((LPPOINT)point); // convert point to Logical
 
 	switch (m_iLftBtnDownState) {
 
@@ -1245,20 +1249,21 @@ void CDrawProgView::OnLButtonUp(UINT nFlags, CPoint point)
 /*
 	When the right button is clicked on an icon then bring up a popup menu
 */
-void CDrawProgView::OnRButtonDown(UINT nFlags, CPoint point) 
+void CDrawProgView::OnRButtonDown(UINT nFlags, CPoint _point) 
 {
+	INXPoint point(_point.x, _point.y);
 	CMenu iconMenu;
 	ConData* blob;
 	int portConnected=0;
-	CPoint menuPoint = point;
+	INXPoint menuPoint = point;
 	//point.x = (point.x * 100)/scale;
 	//point.y = (point.y * 100)/scale;
 	CClientDC aDC(this); // create device context
 	OnPrepareDC(&aDC); // adjust origin
-	aDC.DPtoLP(&point); // convert point to Logical
+	aDC.DPtoLP((LPPOINT)point); // convert point to Logical
 	m_cpRButtonDown = point;
 	
-	ClientToScreen(&menuPoint);	// Convert to screen coordinates
+	ClientToScreen((LPPOINT)menuPoint);	// Convert to screen coordinates
 	RemoveHighlight();
 	// TODO: Add your message handler code here and/or call default
 	pDoc->SetModifiedFlag();
@@ -1270,7 +1275,9 @@ void CDrawProgView::OnRButtonDown(UINT nFlags, CPoint point)
 	// load the port menu if an unconnected start port is selected
 	if (selectedPort>-1) {
 		blob = (ConData*) pDEP->condata->GetAt(selectedControl);
+		/*@todo MIGRATION_ISSUES // iconMenu.LoadMenu
 		iconMenu.LoadMenu(IDR_ICON_MENU); // Load the icon menu
+		*/
 		// Check initialise item
 		if (selectedPortType == STARTPORT && !blob->startport[selectedPort]->line.exist) {
 			iconMenu.GetSubMenu(7)->CheckMenuItem(ID_PORT_INITIALISE,(blob->startport[selectedPort]->initialise==1?MF_CHECKED:MF_UNCHECKED)|MF_BYCOMMAND);
@@ -1354,12 +1361,16 @@ void CDrawProgView::OnRButtonDown(UINT nFlags, CPoint point)
 		selectedPort = pDEP->OnLine(point, &nodeIcon, &nodeSelected, &selectedPortType, INTERROGATE_ONLY );
 		selectedControl = pDEP->Incontrol(point);
 		if (nodeSelected) {
+			/*@todo MIGRATION_ISSUES // iconMenu.LoadMenu
 			iconMenu.LoadMenu(IDR_ICON_MENU); // Load the icon menu
+	*/
 			// display node menu pop-up
 			iconMenu.GetSubMenu(3)->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, menuPoint.x, menuPoint.y, this);
 		}
 		else if (selectedPort > -1) {
+				/*@todo MIGRATION_ISSUES // iconMenu.LoadMenu
 			iconMenu.LoadMenu(IDR_ICON_MENU); // Load the icon menu
+			*/
 			// display line menu pop-up
 			iconMenu.GetSubMenu(2)->EnableMenuItem(ID_DEBUG_FORCE, 1);
 			iconMenu.GetSubMenu(2)->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, menuPoint.x, menuPoint.y, this);
@@ -1369,7 +1380,9 @@ void CDrawProgView::OnRButtonDown(UINT nFlags, CPoint point)
 			RedrawWindow();
 
 			blob = (ConData *) pDEP->condata->GetAt(selectedControl);
+		/*@todo MIGRATION_ISSUES  //	iconMenu.LoadMenu
 			iconMenu.LoadMenu(IDR_ICON_MENU); // Load the icon menu
+			*/
 			// Check show description item
 			iconMenu.CheckMenuItem(ID_ICON_SHOW_DESC,(blob->showdescript==1?MF_CHECKED:MF_UNCHECKED)|MF_BYCOMMAND);
 			// display icon menu pop-up
@@ -1431,8 +1444,9 @@ void CDrawProgView::OnRButtonDown(UINT nFlags, CPoint point)
 /* 
 Used to draw the trace line when new lines are beig drawn, or icons are being moved
   */
-void CDrawProgView::OnMouseMove(UINT nFlags, CPoint point) 
+void CDrawProgView::OnMouseMove(UINT nFlags, CPoint _point) 
 {
+	INXPoint point(_point.x, _point.y);
 	// kwhite:canvassupport
 	// case 1: ?											
 	// case 2: capture selection of function or encap block
@@ -1443,7 +1457,7 @@ void CDrawProgView::OnMouseMove(UINT nFlags, CPoint point)
 	// case 8: Dragging line segments
 	// or Drawing line
 	
-	CScrollView::OnMouseMove(nFlags, point);
+	CScrollView::OnMouseMove(nFlags, (INXPoint)point);
 
 	char buffx[200];
 	sprintf_s(buffx, 200, "%d= m_iLftBtnDownState\n", m_iLftBtnDownState );
@@ -1458,14 +1472,15 @@ void CDrawProgView::OnMouseMove(UINT nFlags, CPoint point)
 
 	if (!running) {
 
-	CPoint linePoint = point;
-	CSize topleftpnt=GetScrollPosition( );
+	INXPoint linePoint = point;
+	INXSize topleftpnt(GetScrollPosition( ).x, GetScrollPosition( ).y);
+
 	linePoint+=topleftpnt ;
 	Sleep(20);
 	running=1;
 	CClientDC dc(this); // create device context
 	OnPrepareDC(&dc); // adjust origin
-	dc.DPtoLP(&point); // convert point to Logical
+	dc.DPtoLP((LPPOINT)point); // convert point to Logical
 
 
 
@@ -1476,7 +1491,7 @@ void CDrawProgView::OnMouseMove(UINT nFlags, CPoint point)
 	if( m_iLftBtnDownState == 0 && !pDEP->depFSM.drawingline ){ 
 
 		//if (pDEP->depFSM.drawingline)
-		CPoint pnt = point;
+		INXPoint pnt = point;
 
 		// Over a port?
 		int iTmpPortConnected=0;
@@ -1513,7 +1528,7 @@ void CDrawProgView::OnMouseMove(UINT nFlags, CPoint point)
 			}
 		}
 	} else if (m_iLftBtnDownState == 0 && pDEP->depFSM.drawingline) { 
-		CPoint pnt = point;
+		INXPoint pnt = point;
 
 		// Over a port?
 		int iTmpPortConnected=0;
@@ -1546,7 +1561,7 @@ void CDrawProgView::OnMouseMove(UINT nFlags, CPoint point)
 		if( !pDEP->depFSM.drawingline ){ 
 
 			//if (pDEP->depFSM.drawingline)
-			CPoint pnt = point;
+			INXPoint pnt = point;
 
 			// Over a port?
 			int iTmpPortConnected = 0;
@@ -1588,7 +1603,7 @@ void CDrawProgView::OnMouseMove(UINT nFlags, CPoint point)
 		} 	else if( pDEP->depFSM.drawingline ) { 
 
 			//if (pDEP->depFSM.drawingline)
-			CPoint pnt = point;
+			INXPoint pnt = point;
 
 			// Over a port?
 			int iTmpPortConnected=0;
@@ -1616,8 +1631,8 @@ void CDrawProgView::OnMouseMove(UINT nFlags, CPoint point)
 	{
 		//CClientDC dc(this); //this is the client area only so compensate for scroll offset
 		dc.SelectObject(nullpen);
-		CRect extra(2,2,2,2);CPoint bacabit(1,1);
-		CRect dooby = (RectangleSite)+(oldpoint-firstpoint);
+		INXRect extra(2,2,2,2);INXPoint bacabit(1,1);
+		INXRect dooby = (RectangleSite)+(oldpoint-firstpoint);
 		dooby+=extra;
  		dc.Rectangle(dooby);
 		InvalidateRect(dooby,FALSE);
@@ -1678,8 +1693,8 @@ void CDrawProgView::OnMouseMove(UINT nFlags, CPoint point)
 	{
 		//CClientDC dc(this); //this is the client area only so compensate for scroll offset
 		dc.SelectObject(nullpen);
-		CRect extra(2,2,2,2);
-		CRect dooby = (selectRect)+(oldpoint-firstpoint);
+		INXRect extra(2,2,2,2);
+		INXRect dooby = (selectRect)+(oldpoint-firstpoint);
 		dooby+=extra;
  		dc.Rectangle(dooby); 
 		InvalidateRect(dooby,FALSE);
@@ -1722,7 +1737,7 @@ void CDrawProgView::OnMouseMove(UINT nFlags, CPoint point)
 	}
 		// line drawing
 		if (pDEP->depFSM.drawingline) {
-			CRect invalided;
+			INXRect invalided;
 			CClientDC dc(this);	//kwhite this is badly managed
 			
 			cs.DebugTrace("drawing line\n");
@@ -1731,13 +1746,16 @@ void CDrawProgView::OnMouseMove(UINT nFlags, CPoint point)
 			dc.LineTo(lastmovingline-topleftpnt);
 			dc.MoveTo(lastlinepoint-topleftpnt);
 			if (lastlinepoint.x>lastmovingline.x) {
-				invalided.TopLeft().x=lastmovingline.x;invalided.BottomRight().x=lastlinepoint.x;}
+				invalided.TopLeft().x = lastmovingline.x;
+				invalided.BottomRight().x = lastlinepoint.x;
+			}
 			else {
 				invalided.BottomRight().x=lastmovingline.x;invalided.TopLeft().x=lastlinepoint.x;}
 			if (lastlinepoint.y>lastmovingline.y) {
 				invalided.TopLeft().y=lastmovingline.y;invalided.BottomRight().y=lastlinepoint.y;}
 			else {
 				invalided.BottomRight().y=lastmovingline.y;invalided.TopLeft().y=lastlinepoint.y;}	
+			
 			InvalidateRect(invalided,FALSE);
 			// When drawing a line the colour is defined here
 			dc.SelectObject(greenpen);
@@ -1756,13 +1774,13 @@ void CDrawProgView::OnMouseMove(UINT nFlags, CPoint point)
 		//Mouse over point  -  needs to look at the logical area
 		CClientDC dc(this); // create device context
 		OnPrepareDC(&dc);   // adjust origin
-		dc.LPtoDP(&point);  // convert point to Logical - confused but it works.
+		dc.LPtoDP((LPPOINT)point);  // convert point to Logical - confused but it works.
 		
 		// When line hits (0,0) don't shift rest of diagram, because there aren't any
 		// icons above or to the left of this point
 		if (pDEP->depFSM.drawingline || m_iLftBtnDownState==5) {
 			if (cs.NearTopLeftBoundary(point)) {
-				CPoint ScrollPos = cs.AdjustPositionOfScrollUpwards();
+				INXPoint ScrollPos = cs.AdjustPositionOfScrollUpwards();
 				ScrollToPosition(ScrollPos);				
 				RedrawWindow();
 				Sleep(10);	
@@ -1770,7 +1788,7 @@ void CDrawProgView::OnMouseMove(UINT nFlags, CPoint point)
 		}
 		else {
 			if (cs.NearTopLeftBoundary(cs.GetPointToTestAgainst())) {
-				CPoint adjust;
+				INXPoint adjust;
 				adjust = cs.AdjustPositionOfObjects(firstpoint);
 
 				//Ensure items dont dissappear from the bottom/right of the screen
@@ -1794,13 +1812,13 @@ void CDrawProgView::OnMouseMove(UINT nFlags, CPoint point)
 				RedrawWindow();	
 				Sleep(10);	
 			}
-		}	
+		}	//INXPoint 
 
 		if (cs.NearBottomRightBoundary(point))
 		{
 			//CString tmp;	
 			//UINT nScrollCode = 0;
-			CPoint ScrollPosition = cs.AdjustPositionOfScrollDownwards();
+			INXPoint ScrollPosition = cs.AdjustPositionOfScrollDownwards();
 			ScrollToPosition(ScrollPosition);				
 			RedrawWindow();
 			Sleep(10);				
@@ -1810,14 +1828,14 @@ void CDrawProgView::OnMouseMove(UINT nFlags, CPoint point)
 
 }
 
-void CDrawProgView::SetPointToTestAgainst(CRect rect) 
+void CDrawProgView::SetPointToTestAgainst(INXRect rect) 
 {
-	CPoint temp;
+	INXPoint temp;
 	temp.x = rect.left;
 	temp.y = rect.top;
 
 	//must take account of scroll position
-	CSize topleft = GetScrollPosition( ); 
+	INXSize topleft = GetScrollPosition( ); 
 	temp.x = temp.x - topleft.cx;
 	temp.y = temp.y - topleft.cy;
 
@@ -1830,15 +1848,15 @@ void CDrawProgView::OnInitialUpdate()
 {
 	// Set up the scrollbars
 	ResetScrollSizes(); 
-	CRect clientRect;
+	INXRect clientRect;
 	this->GetClientRect(clientRect);
-	CPoint point = pDEP->getInitScrollPos(clientRect);
+	INXPoint point = pDEP->getInitScrollPos(clientRect);
 	this->ScrollToPosition(point);
 	cs.SetScrollPosition(point);
 
 	CScrollView::OnInitialUpdate();
 
-	m_DT.Register(this);
+	//m_DT.Register(this);
 	
 	// TODO: Add your specialized code here and/or call the base class
 	pDoc = GetDocument();
@@ -1963,7 +1981,7 @@ void CDrawProgView::OnPrepareDC(CDC* pDC, CPrintInfo* pInfo)
 	//pDC->SetMapMode(MM_TEXT);
 
 	//kwhite:canvassupport pDEP initiated by GetDocument()
-	//CSize vwSize = pDEP->getCanvasSize();
+	//INXSize vwSize = pDEP->getCanvasSize();
 	viewSize = pDEP->getCanvasSize();
 	
 	// set this if using MM_LOENGLISH
@@ -2661,12 +2679,12 @@ void CDrawProgView::OnEditPaste()
 	ConData* icondata;
 	INXPOSITION pos;
 	INXObjList* pasteList;
-	CPoint old(0,0);
-	CPoint topLeft, bottomRight, ScrollPosition;
+	INXPoint old(0,0);
+	INXPoint topLeft, bottomRight, ScrollPosition;
 	HTREEITEM hParent;
 	CString depPath, csProjectDir;
 	DEP* pParentDEP;
-	CRect clientRect;
+	INXRect clientRect;
 
 	if( !pProject->pProjMData->getLock() ) {
 		AfxMessageBox(PMD_LOCK_FAILURE_MESSAGE);
@@ -2761,7 +2779,7 @@ void CDrawProgView::OnEditPaste()
 		clientRect.MoveToXY(ScrollPosition);
 		if (!clientRect.PtInRect(topLeft)) {
 			edit.setPasteOffset(ScrollPosition);
-			firstpoint = topLeft - CPoint(20,30);
+			firstpoint = topLeft - INXPoint(20,30);
 		}
 		else {
 			firstpoint = old;
@@ -2940,7 +2958,7 @@ void CDrawProgView::OnTimer(UINT nIDEvent)
 			// redraw ports - flag to prevent background from being erased
 			RECT clientRect;
 			GetClientRect(&clientRect);
-			InvalidateRect((CRect) clientRect,false);
+			InvalidateRect((INXRect) clientRect,false);
 
 
 			HICON hIcon = (HICON)::LoadImage(AfxGetInstanceHandle(), getConnectionState() ? MAKEINTRESOURCE(IDI_LED_ON) : MAKEINTRESOURCE(IDI_LED_OFF), IMAGE_ICON, 16, 16, LR_SHARED);
@@ -3133,7 +3151,7 @@ void CDrawProgView::OnAddPort()
 	CString portLabel;
 	CString portType, dataType;
 	int iPortType, iDataType;
-	CPoint point;
+	INXPoint point;
 	CString blockFile;
 
 	blob = (ConData*) pDEP->condata->GetAt(selectedControl);
@@ -3256,7 +3274,7 @@ void CDrawProgView::OnPrint(CDC* pDC, CPrintInfo* pInfo)
 	int xOffset = 0; int yOffset = 0;
 
 	// Change window origin to correspond to current page & save old origin
-	CPoint oldOrg = pDC->SetWindowOrg(xOrg-xOffset, yOrg+yOffset);
+	INXPoint oldOrg = pDC->SetWindowOrg(xOrg-xOffset, yOrg+yOffset);
 
 	// Define a clip rectangle the size of the printed area
 	//pDC->IntersectClipRect(xOrg,yOrg,xOrg+(int)PAGE_WIDTH,yOrg+(int)PAGE_LENGTH);
@@ -3630,7 +3648,7 @@ void CDrawProgView::OnUpdateCloseProject(CCmdUI* pCmdUI)
 
 void CDrawProgView::OnSelectAll() 
 {
-	CRect ElementBound; 
+	INXRect ElementBound; 
 	INXPOSITION pos;
 	ConData* blob;
 
@@ -3644,7 +3662,9 @@ void CDrawProgView::OnSelectAll()
 		//dc.LPtoDP(blob->rectangle);
 		ElementBound = blob->GetBoundingRectangle();
 		// Make coordinates of view extent the outer limits
+
 		selectRect.UnionRect(selectRect, ElementBound);
+
 	}
 	selectRect.NormalizeRect();
 	selectRect.InflateRect(10,10,10,10);
@@ -3657,13 +3677,14 @@ void CDrawProgView::OnSelectAll()
 	RedrawWindow();
 }
 
-void CDrawProgView::OnLButtonDblClk(UINT nFlags, CPoint point) 
+void CDrawProgView::OnLButtonDblClk(UINT nFlags, INXPoint _point) 
 {
+	INXPoint point(_point.x, _point.y);
 	// TODO: Add your message handler code here and/or call default
 	selectRect.SetRectEmpty();
 	CClientDC aDC(this); // create device context
 	OnPrepareDC(&aDC); // adjust origin
-	aDC.DPtoLP(&point); // convert point to Logical
+	aDC.DPtoLP((LPPOINT)point); // convert point to Logical
 	//point.x = (point.x * 100)/scale;
 	//point.y = (point.y * 100)/scale;
 
@@ -3787,11 +3808,11 @@ void CDrawProgView::OnSaveProjectAs()
 	}
 }
 
-BOOL CDrawProgView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
+BOOL CDrawProgView::OnMouseWheel(UINT nFlags, short zDelta, INXPoint pt)
 {
 	// kwhite:canvassupport - SetScrollPosition changed by MouseWheel
 	// ScrollPosition is used by NearBottomRightBoundary check
-	CSize topleft = GetScrollPosition( );
+	INXSize topleft = GetScrollPosition( );
 	cs.SetScrollPosition(topleft);
 	
 	return CScrollView::OnMouseWheel(nFlags, zDelta, pt);
@@ -3801,7 +3822,7 @@ BOOL CDrawProgView::OnScroll(UINT nScrollCode, UINT nPos, BOOL bDoScroll)
 {	
 	// kwhite:canvassupport - SetScrollPosition changed by normal scrolling
 	// ScrollPosition is used by NearBottomRightBoundary check
-	CSize topleft = GetScrollPosition( );
+	INXSize topleft = GetScrollPosition( );
 	cs.SetScrollPosition(topleft);
 	return CScrollView::OnScroll(nScrollCode, nPos, bDoScroll);
 }
@@ -3811,7 +3832,7 @@ void CDrawProgView::OnSize(UINT nType, int cx, int cy)
 	CScrollView::OnSize(nType, cx, cy);
 
 	// kwhite:canvassupport SetBoundary to accommodate new change in size
-	CPoint max;
+	INXPoint max;
 	max.x = cx;
 	max.y = cy;
 	cs.SetMaxBoundary( max);
@@ -4028,10 +4049,10 @@ void CDrawProgView::OnUpdateLaunchTransfer(CCmdUI *pCmdUI)
 
 void CDrawProgView::OnViewRefresh()
 {
-	CRect clientRect;
+	INXRect clientRect;
 
 	this->GetClientRect(clientRect);
-	CPoint point = pDEP->getInitScrollPos(clientRect);
+	INXPoint point = pDEP->getInitScrollPos(clientRect);
 	this->ScrollToPosition(point);
 	cs.SetScrollPosition(point);
 }
@@ -4048,14 +4069,14 @@ void CDrawProgView::setLftBtnDownState(const int &val)
 {
 	m_iLftBtnDownState = val;
 }
-DROPEFFECT CDrawProgView::OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point)
+DROPEFFECT CDrawProgView::OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, INXPoint point)
 {
 	//AfxMessageBox("DragOver");
 
 	return CScrollView::OnDragOver(pDataObject, dwKeyState, point);
 }
 
-BOOL CDrawProgView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point)
+BOOL CDrawProgView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, INXPoint point)
 {
 	//AfxMessageBox("Drop");
 

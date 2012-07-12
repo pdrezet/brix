@@ -1,6 +1,7 @@
 #ifndef _MEMDC_H_
 #define _MEMDC_H_
 
+#include "Porting_Classes/INXRect.h"
 //////////////////////////////////////////////////
 // CMemDC - memory DC
 //
@@ -31,11 +32,11 @@ private:
 	CBitmap		m_bitmap;		// Offscreen bitmap
 	CBitmap*	m_oldBitmap;	// bitmap originally found in CMemDC
 	CDC*		m_pDC;			// Saves CDC passed in constructor
-	CRect		m_rect;			// Rectangle of drawing area.
+	INXRect		m_rect;			// Rectangle of drawing area.
 	BOOL		m_bMemDC;		// TRUE if CDC really is a Memory DC.
 public:
 	
-	CMemDC(CDC* pDC, const CRect* pRect = NULL) : CDC()
+	CMemDC(CDC* pDC, const INXRect* pRect = NULL) : CDC()
 	{
 		ASSERT(pDC != NULL); 
 
@@ -46,7 +47,7 @@ public:
 
 		// Get the rectangle to draw
 		if (pRect == NULL) {
-			pDC->GetClipBox(&m_rect);
+			pDC->GetClipBox((LPRECT)m_rect);
 		} else {
 			m_rect = *pRect;
 		}
@@ -54,17 +55,17 @@ public:
 		if (m_bMemDC) {
 			// Create a Memory DC
 			CreateCompatibleDC(pDC);
-			pDC->LPtoDP(&m_rect);
+			pDC->LPtoDP((LPPOINT)m_rect);
 
 			m_bitmap.CreateCompatibleBitmap(pDC, m_rect.Width(), m_rect.Height());
 			m_oldBitmap = SelectObject(&m_bitmap);
 
 			SetMapMode(pDC->GetMapMode());
 
-			SetWindowExt(pDC->GetWindowExt());
+			SetWindowExt((CSize)pDC->GetWindowExt());
 			SetViewportExt(pDC->GetViewportExt());
 
-			pDC->DPtoLP(&m_rect);
+			pDC->DPtoLP((LPPOINT)m_rect);
 			SetWindowOrg(m_rect.left, m_rect.top);
 		} else {
 			// Make a copy of the relevent parts of the current DC for printing

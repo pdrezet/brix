@@ -61,7 +61,7 @@ ConData::ConData()
 	m_csIconType = "_";
 	description="";;
 	optionstring="_";
-	rectangle=CRect(0,0,0,0); /// body part of icon
+	rectangle = INXRect(0,0,0,0); /// body part of icon
 	identnum=uniqueidgenerator++; //assign a unique identifier. *: should we check that this is unique in some cache or something?? - this would 
 	// be more robust
 	m_iShow = 1;
@@ -86,7 +86,7 @@ Initialise attributes from data held within the file located at the path
 // 'block' is the IDF file name for an encapsulated icon. For an encapsulated icon, the variable 'type' is 
 // 'ENCAPSULATE' (bitmap file name) which is different to the IDF file name. For all other icons it is the same. 
 // Therefore, can't use 'type' to read the IDF for an encapsulated icon.
-void ConData::init(CString csIconType, CString csBlockName, CPoint point, int iShow) {
+void ConData::init(CString csIconType, CString csBlockName, INXPoint point, int iShow) {
 	m_iShow = iShow;
 	m_csIconType = csIconType;
 
@@ -112,7 +112,7 @@ void ConData::init(CString csIconType, CString csBlockName, CPoint point, int iS
 	}
 }
 
-void ConData::initBmp(CPoint _point) 
+void ConData::initBmp(INXPoint _point) 
 {
 	CString bitmappath;
 	CFileOperation fo;
@@ -127,8 +127,8 @@ void ConData::initBmp(CPoint _point)
 		}
 	}
 
-	CSize tempSize=bitmap.Init(bitmappath);
-	rectangle=CRect(_point.x,_point.y,_point.x+tempSize.cx,_point.y+tempSize.cy);
+	INXSize tempSize=bitmap.Init(bitmappath);
+	rectangle=INXRect(_point.x,_point.y,_point.x+tempSize.cx,_point.y+tempSize.cy);
 }
 
 /*
@@ -164,7 +164,7 @@ void ConData::Draw(CDC * theDC) {
 
 /* Function for drawing the icon, including all the child port connections*/
 void ConData::Draw(CDC * theDC, bool _onlyDrawAnim, int _toggleAnim) {
-	CRect highlightRect;
+	INXRect highlightRect;
 	CPen highlightpen;
 	COLORREF oldTxtColor;
 	CString csValue;
@@ -173,7 +173,6 @@ void ConData::Draw(CDC * theDC, bool _onlyDrawAnim, int _toggleAnim) {
 
 	if (m_iShow) {
 		if (!_onlyDrawAnim) {
-
 			highlightRect.TopLeft().x = rectangle.TopLeft().x - 1;
 			highlightRect.TopLeft().y = rectangle.TopLeft().y - 1;
 			highlightRect.BottomRight().x = rectangle.BottomRight().x + 2;
@@ -194,11 +193,13 @@ void ConData::Draw(CDC * theDC, bool _onlyDrawAnim, int _toggleAnim) {
 				//
 				//if (theDC!=NULL) {
 				//	UINT m_widthDW=0;
-				//	CRect clientRect;
+				//	INXRect clientRect;
 				//	GetClientRect(clientRect);
 					
 					// Center It
-			bitmap.Draw(theDC,rectangle.TopLeft());
+			//@todo
+			INXPoint _point(rectangle.TopLeft().x, rectangle.TopLeft().y);
+			bitmap.Draw(theDC,_point);
 			// define font for constants
 			LOGFONT logFont;
 			// pitch size is 8
@@ -255,7 +256,7 @@ void ConData::Draw(CDC * theDC, bool _onlyDrawAnim, int _toggleAnim) {
 			}
 
 			// display description (instance name)
-			CPoint point=rectangle.TopLeft();
+			INXPoint point=rectangle.TopLeft();
 			oldTxtColor = theDC->GetTextColor();
 			theDC->SetTextColor(RGB(0,0,255));
 			// printing uses th MM_LOENGLISH mapping mode
@@ -304,7 +305,7 @@ This function accepts a pointer to the icon at the other (far) end of the new co
 port identifier for the far icon to make the connection.
   */
 int ConData::AddLine(int inPortNum, int inPortType, ConData* othericon,int otherPortNum, int otherPortType){ 	
-	CPoint *Otherend=othericon->GetPortPointPtr(otherPortNum, otherPortType);
+	INXPoint *Otherend=othericon->GetPortPointPtr(otherPortNum, otherPortType);
 	// Check if the port (this icon) is a data input
 	if (inPortType == INPUTPORT ) {
 		// Check if the icon is already connected to this input (only one allwed for inputs - no need to check for outputs)
@@ -346,7 +347,7 @@ void ConData::setOutputPortAsConnected(int portNum, int portType){
 // For event lines nodes are added 40% or 60% of the way along the line.
 #ifdef OLDLINE
 void ConData::AddNodes(int selectedPort, int selectedPortType, ConData* othericon, int otherPortNum, int otherPortType) {
-	CPoint portPoint1, portPoint2, node1, node2;
+	INXPoint portPoint1, portPoint2, node1, node2;
 	/* Put nodes here and check for backward direction */ 
 	portPoint2 = othericon->inputport[otherPortNum]->P;
 	portPoint1 = outputport[selectedPort]->P;
@@ -405,7 +406,7 @@ void ConData::AddNodes(int selectedPort, int selectedPortType, ConData* otherico
 #else
 
 void ConData::AddNodes(int selectedPort, int selectedPortType, ConData* othericon, int otherPortNum, int otherPortType) {
-	//CPoint ThisPoint1, OtherPoint2; //, node1, node2;
+	//INXPoint ThisPoint1, OtherPoint2; //, node1, node2;
 	/* Put nodes here and check for backward direction */ 
 	//Port *portPoint2 = othericon->inputport[otherPortNum]->P;
 	//portPoint1 = outputport[selectedPort]->P;
@@ -490,7 +491,7 @@ the ports locations within. Not a very efficient algorithm, but appears to be ad
 A speed up version would just check the rectangle of the icons first and only check individual port locations 
 once a candidate icon has been found
   */
-int ConData::OnPort(CPoint point,int * portType,int *portConnected) {
+int ConData::OnPort(INXPoint point,int * portType,int *portConnected) {
 	//int portret=0;
 	if (m_iShow) {
 		UINT i;
@@ -524,7 +525,7 @@ return -1;
 /*
 Returns a pointer to the coordinate object of a port
   */
-CPoint *ConData::GetPortPointPtr(int port, int portType){
+INXPoint *ConData::GetPortPointPtr(int port, int portType){
 	// now select the type of port
 	if       (portType == INPUTPORT) return &inputport[port]->P;//+rectangle.TopLeft();
 	else if  (portType == STARTPORT) return &startport[port]->P;//+rectangle.TopLeft();
@@ -536,15 +537,15 @@ CPoint *ConData::GetPortPointPtr(int port, int portType){
 
 
 /*
-Returns the coordinates of a port as a new CPoint object
+Returns the coordinates of a port as a new INXPoint object
   */
-CPoint ConData::GetPortPoint(int port, int portType){
+INXPoint ConData::GetPortPoint(int port, int portType){
 	// now select the type of port
 	if       (portType == INPUTPORT) return inputport[port]->P;//+rectangle.TopLeft();
 	else if  (portType == STARTPORT) return startport[port]->P;//+rectangle.TopLeft();
 	else if  (portType == OUTPUTPORT) return outputport[port]->P;//+rectangle.TopLeft();
 	else if  (portType == FINISHPORT) return finishport[port]->P;//+rectangle.TopLeft();
-	return CPoint(0,0); //this is an error condition
+	return INXPoint(0,0); //this is an error condition
 }
 
 
@@ -552,8 +553,8 @@ CPoint ConData::GetPortPoint(int port, int portType){
 Allows the positions of an Icon to be moved by changing the icon location, and also updating 
 all the children (i.e. ports and subsequently any line end points)
   */
-void ConData::RenewPosition(CPoint newpoint, CPoint oldpoint) {
-	CPoint offsetpoint = oldpoint - newpoint;
+void ConData::RenewPosition(INXPoint newpoint, INXPoint oldpoint) {
+	INXPoint offsetpoint = oldpoint - newpoint;
 	
 	// only reroute lines if component has been moved
 	if ((offsetpoint.x == 0) && (offsetpoint.y == 0)) {
@@ -585,7 +586,7 @@ void ConData::DrawFixed(CDC* theDC) {
 //	if (((fixeddata!="")&&(fixeddata!="_"))) {
 
 		// loop through all port here
-//					CPoint point=rectangle.TopLeft();
+//					INXPoint point=rectangle.TopLeft();
 //					theDC->SetTextColor(RGB(255,255,255));
 //					theDC->SetBkColor(RGB(0,255,0));
 //					theDC->TextOut(point.x+input[0].x-60,point.y+input[0].y-7,"               ");
@@ -627,7 +628,7 @@ void ConData::DrawDescription(CDC* theDC) {
 
 	if ((theDC!=NULL)) {
 		//if ((description!="")&&(description!="_")) {
-			CPoint point=rectangle.TopLeft();
+			INXPoint point=rectangle.TopLeft();
 			oldTxtColor = theDC->GetTextColor();
 			// draws a line from text to icon
 			//theDC->MoveTo(rectangle.BottomRight().x-35,rectangle.BottomRight().y-10);
@@ -689,7 +690,7 @@ void ConData::DrawTitle(CDC* theDC) {
 		font.CreateFontIndirect(&logFont);
 		CFont* oldFont = theDC->SelectObject(&font);
 
-		CPoint point=rectangle.TopLeft();
+		INXPoint point=rectangle.TopLeft();
 		oldTxtColor = theDC->GetTextColor();
 
 
@@ -736,7 +737,7 @@ the icons, ports, and line objects are made streamable.
 
 int ConData::Load(istream* file)
 {
-	//CPoint point=rectangle.TopLeft();
+	//INXPoint point=rectangle.TopLeft();
 	char temp[1024];
 	//uniqueidgenerator=1; //reset the global static id counter 
 //	*file >> temp; //read the BEGIN_CONDATA MARKER
@@ -746,8 +747,8 @@ int ConData::Load(istream* file)
 	*file >> temp;
 	m_csBlockName = temp;
 	if (m_csBlockName == "_") m_csBlockName = "";
-	//init(type, block, CPoint(0,0), 1); //PROBLEMHERE 1
-	initBmp(CPoint(0,0));
+	//init(type, block, INXPoint(0,0), 1); //PROBLEMHERE 1
+	initBmp(INXPoint(0,0));
 	*file >> identnum; //the counter will get incremented by the above and hence duplicates will be avoided.
 	*file >> instNum;
 	*file >> m_iUserDefined;
@@ -765,7 +766,7 @@ int ConData::Load(istream* file)
 	file->getline(temp,1023);
 	//*file >> temp;
 	hierarchyName = temp;
-	*file >> rectangle.TopLeft().x>>rectangle.TopLeft().y>>rectangle.BottomRight().x>>rectangle.BottomRight().y;
+	*file >> (int)rectangle.TopLeft().x>>(int)rectangle.TopLeft().y>> (int)rectangle.BottomRight().x>>(int)rectangle.BottomRight().y;
 	*file >> m_iShow;
 	*file >> showdescript;
 	inputport_num=0;outputport_num=0;startport_num=0;finishport_num=0;internalport_num=0;iParamNum=1;
@@ -850,7 +851,7 @@ void ConData::Save(ostream* file)
 
 
 
-void ConData::readFromIDFFile(CString filepath, CPoint point) {
+void ConData::readFromIDFFile(CString filepath, INXPoint point) {
 	CString portDesc, csPortType, xCoord, yCoord, csDataType, csAtomicFlag, csPortOrientation, csMandatoryFlag;
 	CString paramName, minRange, maxRange, defaultVal, paramDesc, csUserDef, enumVal, enumLabel;
 	vector<CString> vPortKeysVec;
@@ -951,19 +952,19 @@ void ConData::readFromIDFFile(CString filepath, CPoint point) {
 
 		// create instance of port
 		if (iPortType==INPUTPORT) {
-			inputport[inputport_num] = new Port(CPoint(x,y)+point, inputport_num, iDataType, iPortType, portDesc, funcName, funcArg, 1, bPortVertical, m_iUserDefined, iMandatoryFlag);
+			inputport[inputport_num] = new Port(INXPoint(x,y)+point, inputport_num, iDataType, iPortType, portDesc, funcName, funcArg, 1, bPortVertical, m_iUserDefined, iMandatoryFlag);
 			inputport_num++;
 		}
 		if (iPortType==OUTPUTPORT) {
-			outputport[outputport_num] = new Port(CPoint(x,y)+point, outputport_num, iDataType, iPortType, portDesc, funcName, funcArg, 1, bPortVertical, m_iUserDefined, iMandatoryFlag);
+			outputport[outputport_num] = new Port(INXPoint(x,y)+point, outputport_num, iDataType, iPortType, portDesc, funcName, funcArg, 1, bPortVertical, m_iUserDefined, iMandatoryFlag);
 			outputport_num++;
 		}
 		if (iPortType==STARTPORT) {
-			startport[startport_num] = new Port(CPoint(x,y)+point, startport_num, iDataType, iPortType, portDesc, funcName, funcArg, iAtomicFlag, bPortVertical, m_iUserDefined, iMandatoryFlag);
+			startport[startport_num] = new Port(INXPoint(x,y)+point, startport_num, iDataType, iPortType, portDesc, funcName, funcArg, iAtomicFlag, bPortVertical, m_iUserDefined, iMandatoryFlag);
 			startport_num++;
 		}
 		if (iPortType==FINISHPORT) {
-			finishport[finishport_num] = new Port(CPoint(x,y)+point, finishport_num, iDataType, iPortType, portDesc, funcName, funcArg, 1, bPortVertical, m_iUserDefined, iMandatoryFlag);
+			finishport[finishport_num] = new Port(INXPoint(x,y)+point, finishport_num, iDataType, iPortType, portDesc, funcName, funcArg, 1, bPortVertical, m_iUserDefined, iMandatoryFlag);
 			finishport_num++;
 		}
 		if (iPortType==INTERNALPORT) {
@@ -1144,7 +1145,7 @@ void ConData::updateFunctionArg(struct definedFunctions *funcs){
 }
 
 
-void ConData::readFromCDFFile(CString filepath, CPoint point) {
+void ConData::readFromCDFFile(CString filepath, INXPoint point) {
 	CString csDataType;
 	CString portDesc;
 	CString paramName, minRange, maxRange, defaultVal, paramDesc, csUserDef;
@@ -1446,20 +1447,20 @@ void ConData::readFromCDFFile(CString filepath, CPoint point) {
 				// @todo - we really shouldn't fully instantiate the port at this point as we don't know the true value of funcArg array at this point. Should place the values in a temporary variable to make this clear in the code and only place values in funcArg when we know the correct values
 
 				if (iPortType==INPUTPORT) {
-					inputport[inputport_num] = new Port(CPoint(x-NODE_PORT_CDF_DRAW_LEFT_OFFSET,y)+point, inputport_num, iDataType, iPortType, portDesc, funcName, funcArg, 1, bPortVertical, m_iUserDefined, iMandatoryFlag);
+					inputport[inputport_num] = new Port(INXPoint(x-NODE_PORT_CDF_DRAW_LEFT_OFFSET,y)+point, inputport_num, iDataType, iPortType, portDesc, funcName, funcArg, 1, bPortVertical, m_iUserDefined, iMandatoryFlag);
 					inputport_num++;
 					numInArgs = funcInd;
 				}
 				if (iPortType==OUTPUTPORT) {
-					outputport[outputport_num] = new Port(CPoint(x+NODE_PORT_CDF_DRAW_RIGHT_OFFSET,y)+point, outputport_num, iDataType, iPortType, portDesc, funcName, funcArg, 1, bPortVertical, m_iUserDefined, iMandatoryFlag);
+					outputport[outputport_num] = new Port(INXPoint(x+NODE_PORT_CDF_DRAW_RIGHT_OFFSET,y)+point, outputport_num, iDataType, iPortType, portDesc, funcName, funcArg, 1, bPortVertical, m_iUserDefined, iMandatoryFlag);
 					outputport_num++;
 				}
 				if (iPortType==STARTPORT) {
-					startport[startport_num] = new Port(CPoint(x-NODE_PORT_CDF_DRAW_LEFT_OFFSET,y)+point, startport_num, iDataType, iPortType, portDesc, funcName, funcArg,  iAtomicFlag, bPortVertical, m_iUserDefined, iMandatoryFlag);
+					startport[startport_num] = new Port(INXPoint(x-NODE_PORT_CDF_DRAW_LEFT_OFFSET,y)+point, startport_num, iDataType, iPortType, portDesc, funcName, funcArg,  iAtomicFlag, bPortVertical, m_iUserDefined, iMandatoryFlag);
 					startport_num++;
 				}
 				if (iPortType==FINISHPORT) {
-					finishport[finishport_num] = new Port(CPoint(x+NODE_PORT_CDF_DRAW_RIGHT_OFFSET,y)+point, finishport_num, iDataType, iPortType, portDesc, funcName, funcArg,  1, bPortVertical, m_iUserDefined, iMandatoryFlag);
+					finishport[finishport_num] = new Port(INXPoint(x+NODE_PORT_CDF_DRAW_RIGHT_OFFSET,y)+point, finishport_num, iDataType, iPortType, portDesc, funcName, funcArg,  1, bPortVertical, m_iUserDefined, iMandatoryFlag);
 					finishport_num++;
 				}
 				if (iPortType==INTERNALPORT) {
@@ -1484,7 +1485,7 @@ void ConData::readFromCDFFile(CString filepath, CPoint point) {
 
 // Function that reads an icon's description file (IDF) to establish the graphics
 // and port geometry.
-void ConData::ReadIDFFile(CString csIconType, CPoint point) {
+void ConData::ReadIDFFile(CString csIconType, INXPoint point) {
 	CString filepath;
 	CFileOperation fo;
 	int pos = 0;
@@ -1582,7 +1583,7 @@ Tests a coordinate to see if it is within the icons's boundary
 This is used to select icons, for instance to bring up configuration dialog boxes.
 It could also be used to speed up the port test discussed above
   */
-int ConData::In(CPoint point)  //Is this point in the icon area
+int ConData::In(INXPoint point)  //Is this point in the icon area
 {
 	int retval=0;
 	if (m_iShow==1) {
@@ -1602,9 +1603,9 @@ int ConData::In(CPoint point)  //Is this point in the icon area
 void ConData::LoadNewBMP(CString csIconType) {
 	CString bitmappath = csIconType + ".bmp";	
 	bitmappath = workDir + BMPDIR + bitmappath;
-	CSize tempSize = bitmap.Init(bitmappath);
-	CPoint _point = rectangle.TopLeft();
-	rectangle = CRect(_point.x,_point.y,_point.x+tempSize.cx,_point.y+tempSize.cy);
+	INXSize tempSize = bitmap.Init(bitmappath);
+	INXPoint _point = rectangle.TopLeft();
+	rectangle = INXRect(_point.x,_point.y,_point.x+tempSize.cx,_point.y+tempSize.cy);
 }
 
 void ConData::ResizeIcon()
@@ -1648,14 +1649,14 @@ void ConData::repositionVerticalPorts()
 
 	}
 
-	CPoint p = rectangle.BottomRight();
+	INXPoint p = rectangle.BottomRight();
 
 	UINT i;
 	for (i=0; i<outputport_num; i++) 
 	{
 		if(outputport[i]->bPortVertical==true)
 		{
-			outputport[i]->Move(CPoint(0, outputport[i]->rectangle.top-p.y ));
+			outputport[i]->Move(INXPoint(0, outputport[i]->rectangle.top-p.y ));
 		}
 
 	}
@@ -1663,34 +1664,34 @@ void ConData::repositionVerticalPorts()
 	{
 		if(finishport[i]->bPortVertical==true)
 		{
-			finishport[i]->Move(CPoint(0, finishport[i]->rectangle.top-p.y ));
+			finishport[i]->Move(INXPoint(0, finishport[i]->rectangle.top-p.y ));
 		}
 
 	}
 
 }
 
-CPoint ConData::CalculateXPortPosition(int iPortType)
+INXPoint ConData::CalculateXPortPosition(int iPortType)
 {
 	if(iPortType == INPUTPORT)
 	{
-		return CPoint(0,50 + (100 * (inputport_num)));
+		return INXPoint(0,50 + (100 * (inputport_num)));
 	}
 	else if(iPortType == OUTPUTPORT)
 	{
-		return CPoint(200,(70+(100 * outputport_num)));
+		return INXPoint(200,(70+(100 * outputport_num)));
 	}
 	else if(iPortType == STARTPORT)
 	{
-		return CPoint(0,100 * (startport_num));
+		return INXPoint(0,100 * (startport_num));
 	}
 	else if(iPortType == FINISHPORT)
 	{
-		return CPoint(200,100 * (finishport_num));
+		return INXPoint(200,100 * (finishport_num));
 	}
 	else
 	{
-		return CPoint(0,0);
+		return INXPoint(0,0);
 	}
 		
 }
@@ -1750,18 +1751,18 @@ CString ConData::BuildXPortString(int iPortType,int iDataType)
 	return "";
 }
 
-CPoint ConData::GetIconCentre()
+INXPoint ConData::GetIconCentre()
 {
 	return rectangle.CenterPoint();
 	
 }
 
-CPoint ConData::GetIconPos()
+INXPoint ConData::GetIconPos()
 {
 	return rectangle.TopLeft();
 }
 
-CPoint ConData::GetIconBottomRight()
+INXPoint ConData::GetIconBottomRight()
 {
 	return rectangle.BottomRight();
 }
@@ -1769,11 +1770,11 @@ CPoint ConData::GetIconBottomRight()
 void ConData::MinusYCoords()
 {
 	
-	rectangle = CRect(GetIconPos().x, -GetIconPos().y,GetIconBottomRight().x, -GetIconBottomRight().y);
+	rectangle = INXRect(GetIconPos().x, -GetIconPos().y,GetIconBottomRight().x, -GetIconBottomRight().y);
 
 }
 
-CRect ConData::GetBoundingRectangle()
+INXRect ConData::GetBoundingRectangle()
 {
 	return rectangle;
 }

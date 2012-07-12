@@ -41,7 +41,7 @@ Port::Port(int _userdefined)
 	tag = "";
 	groupID = 1;
 	bPortVertical = 0;
-	line.valueRect = CRect(P.x-(20*5),P.y,P.x,P.y+2);
+	line.valueRect = INXRect(P.x-(20*5),P.y,P.x,P.y+2);
 	userdefined = _userdefined;
 }
 
@@ -49,7 +49,7 @@ Port::Port(int _userdefined)
  @todo need New Constructor - new spec for cdf means that funcArg is not known at time of port creation
  and is removed from the constructor for this reason
 
-Port::Port(CPoint _P, UINT _portNum, int _dataType, int _portType, CString _description, CStringArray* _funcName, CUIntArray* _tempFuncArg, int _atomicFlag, bool bVerticalIn, int _userdefined)
+Port::Port(INXPoint _P, UINT _portNum, int _dataType, int _portType, CString _description, CStringArray* _funcName, CUIntArray* _tempFuncArg, int _atomicFlag, bool bVerticalIn, int _userdefined)
 {
 	Port(_P, _portNum, _dataType, _portType, _description, _funcName, NULL, _atomicFlag, bVerticalIn, _userdefined);
 	tempFuncArg = _tempFuncArg;
@@ -59,7 +59,7 @@ Port::Port(CPoint _P, UINT _portNum, int _dataType, int _portType, CString _desc
  Deprecated Constructor - new spec for cdf means that funcArg is not known at time of port creation
  and is removed from the constructor for this reason
 */
-Port::Port(CPoint _P, UINT _portNum, int _dataType, int _portType, CString _description, CStringArray* _funcName, CUIntArray* _funcArg, int _atomicFlag, bool bVerticalIn, int _userdefined, int _mandatoryFlag)
+Port::Port(INXPoint _P, UINT _portNum, int _dataType, int _portType, CString _description, CStringArray* _funcName, CUIntArray* _funcArg, int _atomicFlag, bool bVerticalIn, int _userdefined, int _mandatoryFlag)
 {
 	
 	P.x=_P.x;
@@ -85,7 +85,7 @@ Port::Port(CPoint _P, UINT _portNum, int _dataType, int _portType, CString _desc
 	tag = "";
 	groupID = 1;
 	bPortVertical = bVerticalIn;
-	line.valueRect = CRect(P.x-(20*5),P.y,P.x,P.y+2);
+	line.valueRect = INXRect(P.x-(20*5),P.y,P.x,P.y+2);
 	userdefined = _userdefined;
 	init();
 }
@@ -114,7 +114,7 @@ Port::Port(UINT _portNum, int _portType, CStringArray* _funcName, CUIntArray* _f
 	tag = "";
 	groupID = 1;
 	bPortVertical = 0;
-	line.valueRect = CRect(P.x-(20*5),P.y,P.x,P.y+2);
+	line.valueRect = INXRect(P.x-(20*5),P.y,P.x,P.y+2);
 	userdefined = 0;
 	mandatoryFlag = false;
 }
@@ -170,7 +170,7 @@ void Port::init() {
 	rectangle = GetPortBitmapArea();
 }
 
-int Port::addLine(CPoint* point,long int othericon,int otherPortNum, int otherPortType) {
+int Port::addLine(INXPoint* point,long int othericon,int otherPortNum, int otherPortType) {
 	//PP: Colour in here
 	//porttype=porttype|
 	line.SetEndPoints(point,&P,othericon,otherPortNum,otherPortType);
@@ -242,7 +242,7 @@ void Port::Draw(CDC* theDC, bool _onlyDrawAnim, int _toggleAnim) {
 
 		// the negate the ycoords of the rectangle for MM_LOENGLISH mapping mode when printing
 		if (theDC->IsPrinting()) {
-			rectangle = CRect(rectangle.TopLeft().x, -rectangle.TopLeft().y,
+			rectangle = INXRect(rectangle.TopLeft().x, -rectangle.TopLeft().y,
 						rectangle.BottomRight().x, -rectangle.BottomRight().y);
 		}
 
@@ -345,29 +345,29 @@ void Port::Draw(CDC* theDC, bool _onlyDrawAnim, int _toggleAnim) {
 	// but only on every other trigger of the timer, so it flashes on and off
 	if (_onlyDrawAnim && (_toggleAnim == 1)){
 		// draw the triangles last to override any messy labelling!
-		bitmHighlight.Draw(theDC,rectangle.TopLeft());
+		bitmHighlight.Draw(theDC,(INXPoint)(INXPoint)rectangle.TopLeft()); //@ typecast to INXPoint then INXPoint
 	} else {
 		// draw the triangles last to override any messy labelling!
-		bitmap.Draw(theDC,rectangle.TopLeft());
+		bitmap.Draw(theDC,(INXPoint)rectangle.TopLeft());
 	}
 	// reset the ycoords of the rectangle
 	if (theDC->IsPrinting()) {
-		rectangle = CRect(rectangle.TopLeft().x, -rectangle.TopLeft().y,
+		rectangle = INXRect(rectangle.TopLeft().x, -rectangle.TopLeft().y,
 					rectangle.BottomRight().x, -rectangle.BottomRight().y);
 	}
 }
 
-int Port::Move(CPoint point) {
-	P = P - point;
+int Port::Move(INXPoint point) {
+	P = (wxPoint)P - (wxPoint)point;
 	// renew the port position
 	if (porttype == STARTPORT || porttype == INPUTPORT) {
-//		rectangle=CRect(P.x-5,P.y,P.x+bitmapSize.cx,P.y+bitmapSize.cy-5);
+//		rectangle=INXRect(P.x-5,P.y,P.x+bitmapSize.cx,P.y+bitmapSize.cy-5);
 		if (line.exist) {
 			line.Move(point);
 		}
 	}
 //	else if (porttype == FINISHPORT || porttype == OUTPUTPORT) {
-//		rectangle=CRect(P.x-5,P.y-5,P.x+bitmapSize.cx-5,P.y+bitmapSize.cy-5);
+//		rectangle=INXRect(P.x-5,P.y-5,P.x+bitmapSize.cx-5,P.y+bitmapSize.cy-5);
 //	} 
 
 
@@ -382,7 +382,7 @@ void Port::setLineID(long int _lineID) {
 	lineID = _lineID;
 }
 
-int Port::OnPort(CPoint point) {
+int Port::OnPort(INXPoint point) {
 	int xdist,ydist;
 	xdist=labs(point.x-P.x);
 	ydist=labs(point.y-P.y);
@@ -483,27 +483,27 @@ void Port::Load(istream * file) {
 	line.dataType = datatype;
 }
 
-CRect Port::GetPortBitmapArea()
+INXRect Port::GetPortBitmapArea()
 {
-	CRect r;
+	INXRect r;
 
 	if( bPortVertical == TRUE )
 	{
 		if (porttype == STARTPORT || porttype == INPUTPORT) {
-			r=CRect(P.x-5,P.y,P.x+bitmapSize.cx,P.y+bitmapSize.cy);
+			r=INXRect(P.x-5,P.y,P.x+bitmapSize.cx,P.y+bitmapSize.cy);
 		}
 		else if (porttype == FINISHPORT || porttype == OUTPUTPORT) 	{
-			r=CRect(P.x-5,P.y-5,P.x+bitmapSize.cx,P.y+bitmapSize.cy);
+			r=INXRect(P.x-5,P.y-5,P.x+bitmapSize.cx,P.y+bitmapSize.cy);
 		}	
 
 	}
 	else if( bPortVertical == FALSE )
 	{
 		if (porttype == STARTPORT || porttype == INPUTPORT) {
-			r=CRect(P.x,P.y-5,P.x+bitmapSize.cx,P.y+bitmapSize.cy);
+			r=INXRect(P.x,P.y-5,P.x+bitmapSize.cx,P.y+bitmapSize.cy);
 		}
 		else if (porttype == FINISHPORT || porttype == OUTPUTPORT) 	{
-			r=CRect(P.x-5,P.y-5,P.x+bitmapSize.cx,P.y+bitmapSize.cy);
+			r=INXRect(P.x-5,P.y-5,P.x+bitmapSize.cx,P.y+bitmapSize.cy);
 		}	
 	}
 

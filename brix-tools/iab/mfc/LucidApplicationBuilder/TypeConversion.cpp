@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "DrawProg.h"
+//#include "DrawProg.h"
 #include "TypeConversion.h"
 
 #ifdef _DEBUG

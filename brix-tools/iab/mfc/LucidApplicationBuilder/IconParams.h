@@ -87,7 +87,7 @@ protected:
 /* Some Scroll state parms */
 	int m_nCurHeight;
 	int m_nScrollPos;
-	CRect m_rect;
+	INXRect m_rect;
 
 public:
 	CExplorer1 html_control;

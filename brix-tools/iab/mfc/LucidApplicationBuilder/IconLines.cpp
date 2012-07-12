@@ -10,6 +10,7 @@
 #include "../common/LucidConstants.h"
 
 
+
 #ifdef _DEBUG
 #undef THIS_FILE
 static char THIS_FILE[]=__FILE__;
@@ -29,7 +30,7 @@ IconLines::IconLines()
 	portType = -1;
 	nodeCount = 0;
 	dbgValue = "";
-	valueRect = (0,0,0,0);
+	valueRect = INXRect(0,0,0,0);
 	dbgEvent = 0;
 	lineSelected = 0;
 	hierID = -1;
@@ -47,30 +48,30 @@ IconLines::~IconLines()
 
 
 /*
-The endpoints of lines are pointers to the CPoint position data attributes of the icon ports, 
+The endpoints of lines are pointers to the INXPoint position data attributes of the icon ports, 
 and not actually copied in the lines data attributes. Doing this by reference allows icons to be moved 
 and the endpoints of lines to be automatically updated. For bent lines the intermediate position will be fixed and are held only in the lines object.
   */
-void IconLines::SetEndPoints(CPoint *start, CPoint *end,long int _othericon,int _portNum, int _portType) {
-	CPoint *tmp;
+void IconLines::SetEndPoints(INXPoint *start, INXPoint *end,long int _othericon,int _portNum, int _portType) {
+	INXPoint *tmp;
 	tmp = start;
 	int nopoints=points.GetUpperBound();
 	if (nopoints<1) {
-	points.SetAtGrow(0,(CObject*) start) ;//new CPoint(start)); ..insert incase any mid points exist
-	points.Add((CObject*) end) ;//new CPoint(end));
+	points.SetAtGrow(0,(CObject*) start) ;//new INXPoint(start)); ..insert incase any mid points exist
+	points.Add((CObject*) end) ;//new INXPoint(end));
 	}
 	else if (nopoints<2) {
 	//delete points[0]; // remove memory? Memory leak
     //if (points[0]!=NULL) {
 	//   delete points[0];
 	//}
-	points[0]=((CObject*) start) ;//new CPoint(start));
-	points.Add((CObject*) end) ;//new CPoint(end));
+	points[0]=((CObject*) start) ;//new INXPoint(start));
+	points.Add((CObject*) end) ;//new INXPoint(end));
 	}
 	else {
-	points[0]=((CObject*) start) ;//new CPoint(start));
+	points[0]=((CObject*) start) ;//new INXPoint(start));
 	//points[nopoints]=((CObject*) end) ; // original code
-	points.Add((CObject*) end) ;//new CPoint(end));
+	points.Add((CObject*) end) ;//new INXPoint(end));
 	}
 
 	othericonid=_othericon;
@@ -93,29 +94,29 @@ int IconLines::AddDogLeg(int x_position,int ylevel) // makes a forward dogleg of
 	int x_dogleg=0;
 	int endnodenum = points.GetUpperBound();
 	if (endnodenum<1) return 0; // Need to have endpoints already defined
-	//CPoint dognode1,dognode2,dognode3,dognode4; 
+	//INXPoint dognode1,dognode2,dognode3,dognode4; 
 	deleteAllNodes(); //Remove intermediate nodes (straighten)
-	int end_x =((CPoint*)(points[1]))->x;
-	int end_y=((CPoint*)(points[1]))->y;
+	int end_x =((INXPoint*)(points[1]))->x;
+	int end_y=((INXPoint*)(points[1]))->y;
 	/* forward and down path */
-	if ((((CPoint*)(points[0]))->x<((CPoint*)(points[1]))->x) && ((((CPoint*)(points[0]))->y>((CPoint*)(points[1]))->y)) ) // The input port is right of the output port
+	if ((((INXPoint*)(points[0]))->x<((INXPoint*)(points[1]))->x) && ((((INXPoint*)(points[0]))->y>((INXPoint*)(points[1]))->y)) ) // The input port is right of the output port
 	{	
-		x_dogleg=min ((end_x-((CPoint*)(points[0]))->x)/2+(x_position*5)+((CPoint*)(points[0]))->x,end_x-10);//try to do staggered positions, but if too close to inout port then do 10 pixels back 
-		addNode(CPoint(x_dogleg, ((CPoint*)(points[0]))->y));
-		addNode(CPoint(x_dogleg, end_y));
+		x_dogleg=min ((end_x-((INXPoint*)(points[0]))->x)/2+(x_position*5)+((INXPoint*)(points[0]))->x,end_x-10);//try to do staggered positions, but if too close to inout port then do 10 pixels back 
+		addNode(INXPoint(x_dogleg, ((INXPoint*)(points[0]))->y));
+		addNode(INXPoint(x_dogleg, end_y));
 	}
 	/* forward and up path */
-	else if ((((CPoint*)(points[0]))->x<((CPoint*)(points[1]))->x) && ((((CPoint*)(points[0]))->y<=((CPoint*)(points[1]))->y)) )
+	else if ((((INXPoint*)(points[0]))->x<((INXPoint*)(points[1]))->x) && ((((INXPoint*)(points[0]))->y<=((INXPoint*)(points[1]))->y)) )
 	{ // here we will do the dog legs backwards from the halfway point to get proper nesting
-		x_dogleg=max ((end_x-((CPoint*)(points[0]))->x)/2-(x_position*5)+((CPoint*)(points[0]))->x,((CPoint*)(points[0]))->x+10);//try to do staggered positions, but if too close to inout port then do 10 pixels back 
-		addNode(CPoint(x_dogleg, ((CPoint*)(points[0]))->y));
-		addNode(CPoint(x_dogleg, end_y));
+		x_dogleg=max ((end_x-((INXPoint*)(points[0]))->x)/2-(x_position*5)+((INXPoint*)(points[0]))->x,((INXPoint*)(points[0]))->x+10);//try to do staggered positions, but if too close to inout port then do 10 pixels back 
+		addNode(INXPoint(x_dogleg, ((INXPoint*)(points[0]))->y));
+		addNode(INXPoint(x_dogleg, end_y));
 	}
 	else { // the input port is behind - will draw a fixed loop over the top
-		addNode(CPoint(  ((CPoint*)(points[0]))->x + max(5,40-x_position*5), ((CPoint*)(points[0]))->y));
-		addNode(CPoint(  ((CPoint*)(points[0]))->x + max(5,40-x_position*5), 40+ylevel-x_position*5)); // @todo something better than this
-		addNode(CPoint(end_x-max(5,40-x_position*5), ylevel+40-x_position*5));
-		addNode(CPoint(end_x-max(5,40-x_position*5), end_y));
+		addNode(INXPoint(  ((INXPoint*)(points[0]))->x + max(5,40-x_position*5), ((INXPoint*)(points[0]))->y));
+		addNode(INXPoint(  ((INXPoint*)(points[0]))->x + max(5,40-x_position*5), 40+ylevel-x_position*5)); // @todo something better than this
+		addNode(INXPoint(end_x-max(5,40-x_position*5), ylevel+40-x_position*5));
+		addNode(INXPoint(end_x-max(5,40-x_position*5), end_y));
 	}
 	return 0;
 }
@@ -126,29 +127,29 @@ int IconLines::AddDogLeg(int x_position,int ylevel) // makes a forward dogleg of
 	int endnodenum = points.GetUpperBound();
 	x_position++; //make this start at 1 to simplify sums
 	if (endnodenum<1) return 0; // Need to have endpoints already defined
-	//CPoint dognode1,dognode2,dognode3,dognode4; 
+	//INXPoint dognode1,dognode2,dognode3,dognode4; 
 	deleteAllNodes(); //Remove intermediate nodes (straighten)
-	int end_x =((CPoint*)(points[1]))->x;
-	int end_y=((CPoint*)(points[1]))->y;
+	int end_x =((INXPoint*)(points[1]))->x;
+	int end_y=((INXPoint*)(points[1]))->y;
 	/* forward and down path */
-	if ((((CPoint*)(points[0]))->x<((CPoint*)(points[1]))->x) && ((((CPoint*)(points[0]))->y>((CPoint*)(points[1]))->y)) ) // The input port is right of the output port
+	if ((((INXPoint*)(points[0]))->x<((INXPoint*)(points[1]))->x) && ((((INXPoint*)(points[0]))->y>((INXPoint*)(points[1]))->y)) ) // The input port is right of the output port
 	{	
 		x_dogleg=end_x-(x_position*NODE_PIXELS_TO_INSET_FIRST_NODE_ON_LINE);//try to do staggered positions, but if too close to inout port then do 10 pixels back 
-		addNode(CPoint(x_dogleg, ((CPoint*)(points[0]))->y));
-		addNode(CPoint(x_dogleg, end_y));
+		addNode(INXPoint(x_dogleg, ((INXPoint*)(points[0]))->y));
+		addNode(INXPoint(x_dogleg, end_y));
 	}
 	/* forward and up path */
-	else if ((((CPoint*)(points[0]))->x<((CPoint*)(points[1]))->x) && ((((CPoint*)(points[0]))->y<=((CPoint*)(points[1]))->y)) )
+	else if ((((INXPoint*)(points[0]))->x<((INXPoint*)(points[1]))->x) && ((((INXPoint*)(points[0]))->y<=((INXPoint*)(points[1]))->y)) )
 	{ // here we will do the dog legs backwards from the halfway point to get proper nesting
 		x_dogleg= end_x-(x_position*NODE_PIXELS_TO_INSET_FIRST_NODE_ON_LINE);//try to do staggered positions, but if too close to inout port then do 10 pixels back 
-		addNode(CPoint(x_dogleg, ((CPoint*)(points[0]))->y));
-		addNode(CPoint(x_dogleg, end_y));
+		addNode(INXPoint(x_dogleg, ((INXPoint*)(points[0]))->y));
+		addNode(INXPoint(x_dogleg, end_y));
 	}
 	else { // the input port is behind - will draw a fixed loop underneath
-		addNode(CPoint(  ((CPoint*)(points[0]))->x + max(5,x_position*NODE_PIXELS_TO_INSET_FIRST_NODE_ON_LINE), ((CPoint*)(points[0]))->y));
-		addNode(CPoint(  ((CPoint*)(points[0]))->x + max(5,x_position*NODE_PIXELS_TO_INSET_FIRST_NODE_ON_LINE), ylevel-x_position*NODE_PIXELS_TO_INSET_FIRST_NODE_ON_LINE)); // @todo something better than this
-		addNode(CPoint(end_x-max(5,x_position*NODE_PIXELS_TO_INSET_FIRST_NODE_ON_LINE), ylevel-x_position*NODE_PIXELS_TO_INSET_FIRST_NODE_ON_LINE));
-		addNode(CPoint(end_x-max(5,x_position*NODE_PIXELS_TO_INSET_FIRST_NODE_ON_LINE), end_y));
+		addNode(INXPoint(  ((INXPoint*)(points[0]))->x + max(5,x_position*NODE_PIXELS_TO_INSET_FIRST_NODE_ON_LINE), ((INXPoint*)(points[0]))->y));
+		addNode(INXPoint(  ((INXPoint*)(points[0]))->x + max(5,x_position*NODE_PIXELS_TO_INSET_FIRST_NODE_ON_LINE), ylevel-x_position*NODE_PIXELS_TO_INSET_FIRST_NODE_ON_LINE)); // @todo something better than this
+		addNode(INXPoint(end_x-max(5,x_position*NODE_PIXELS_TO_INSET_FIRST_NODE_ON_LINE), ylevel-x_position*NODE_PIXELS_TO_INSET_FIRST_NODE_ON_LINE));
+		addNode(INXPoint(end_x-max(5,x_position*NODE_PIXELS_TO_INSET_FIRST_NODE_ON_LINE), end_y));
 	}
 	return 0;
 }
@@ -162,30 +163,30 @@ void IconLines::AddBackwardogLeg(int x_postion ) // makes a Backward dogleg of t
 */
 
 // Method that adds a node point to the array of points at the index specified by iNodeNum
-void IconLines::AddNode(CPoint cpNodePt, int iNodeNum) {
+void IconLines::AddNode(INXPoint cpNodePt, int iNodeNum) {
 	// Don't allow nodes to be connected to ports
 	if (iNodeNum <= 0 || iNodeNum >= points.GetUpperBound()) {
 		return;
 	}
-	points.InsertAt(iNodeNum, (CObject*) new CPoint(cpNodePt));
+	points.InsertAt(iNodeNum, (CObject*) new INXPoint(cpNodePt));
 }
 
 // Function that adds a node to the array of points
-void IconLines::addNode(CPoint _node) {
+void IconLines::addNode(INXPoint _node) {
 	nodeCount++;
-	points.InsertAt(nodeCount, (CObject*) new CPoint(_node));
+	points.InsertAt(nodeCount, (CObject*) new INXPoint(_node));
 }
 
 // Function that edits a node
-void IconLines::editNode(CPoint _node) {
-	CPoint *temp;
-	temp=(CPoint*)points.GetAt(nodeCount);
+void IconLines::editNode(INXPoint _node) {
+	INXPoint *temp;
+	temp=(INXPoint*)points.GetAt(nodeCount);
 	*temp=_node;
 }
 
 // Function to delete a node. The node count should be set first
 void IconLines::deleteNode() {
-	delete (CPoint*)points.GetAt(nodeCount);
+	delete (INXPoint*)points.GetAt(nodeCount);
 	points.RemoveAt(nodeCount);
 }
 
@@ -197,7 +198,7 @@ void IconLines::DeleteNode(int iNodeNum) {
 	if (iNodeNum <= 0 || iNodeNum >= points.GetUpperBound()) {
 		return;
 	}
-	delete (CPoint*)points.GetAt(iNodeNum);
+	delete (INXPoint*)points.GetAt(iNodeNum);
 	points.RemoveAt(iNodeNum);
 }
 
@@ -206,7 +207,7 @@ void IconLines::deleteAllNodes() {
 	int nodeNum = points.GetUpperBound() - 1;
 
 	for (int i=nodeNum; i>0; i--) {
-		delete (CPoint*)points.GetAt(i);
+		delete (INXPoint*)points.GetAt(i);
 		points.RemoveAt(i);
 	}
 	nodeCount = 0;
@@ -225,7 +226,7 @@ void IconLines::Delete(){
 void IconLines::deleteNodeMemory()
 {
 	for (int i=1; i<points.GetSize()-1; i++) {
-		delete (CPoint*)points.GetAt(i);
+		delete (INXPoint*)points.GetAt(i);
 	}	
 }
 
@@ -249,14 +250,14 @@ void IconLines::Save(ostream * file) {
 	*file << "BEGIN_LINE" << endl;
 	*file << exist << "\t" << othericonid<< "\t" << otherportno << "\t" << portType << "\t" << hierID << "\t" << m_bDbgMonitorSel << endl;
 	for (int i =1;i<(points.GetUpperBound());i++) { //only save the points of non - endpoints
-		*file << ((CPoint *)( points[i]))->x << "\t" << ((CPoint *)( points[i]))->y <<endl;
+		*file << ((INXPoint *)( points[i]))->x << "\t" << ((INXPoint *)( points[i]))->y <<endl;
 	}
 	*file << "END_LINE" << endl;
 }
 
 void IconLines::Load(istream * file) {
 	char temp[256];
-	CPoint ReadPoint;
+	INXPoint ReadPoint;
 	nodeCount = 0;
 	CString csTmpStr;
 
@@ -275,7 +276,7 @@ void IconLines::Load(istream * file) {
 		ReadPoint.x=atoi(temp);
 		*file >> ReadPoint.y;
 		nodeCount++;
-		points.SetAtGrow(nodeCount, (CObject*) new CPoint(ReadPoint));
+		points.SetAtGrow(nodeCount, (CObject*) new INXPoint(ReadPoint));
 	} while (1);
 	//points.Add(NULL); // add NULL end point
 }
@@ -283,8 +284,8 @@ void IconLines::Load(istream * file) {
 // routine to draw a set of points as a ziggy line
 // routine to draw a set of points as a ziggy line
 void IconLines::Draw(CDC* theDC) {
-	CPoint begin,end;
-	CPoint p0, p1, p2; // Pts that form each respective corner
+	INXPoint begin,end;
+	INXPoint p0, p1, p2; // Pts that form each respective corner
 	int iLineSeg = 0; 
 
 	CPen bluepen, redpen, greenpen, yellowpen, dashpen, dashorangepen, blackpen, purplepen, dashpurplepen;
@@ -343,8 +344,8 @@ void IconLines::Draw(CDC* theDC) {
 			}
 		}
 
-		p0 = (CPoint) *( (CPoint *) points.GetAt(0) );
-		p1 = (CPoint) *( (CPoint *) points.GetAt(1) );
+		p0 = (INXPoint) *( (INXPoint *) points.GetAt(0) );
+		p1 = (INXPoint) *( (INXPoint *) points.GetAt(1) );
 
 
 		if(nLineSegs > 1)
@@ -352,7 +353,7 @@ void IconLines::Draw(CDC* theDC) {
 			// Need at least 2 segs to form a corner!			
 			
 			// list to store points in.  Easiest to store them first, then draw them after
-			std::list< CPoint > pntList;
+			std::list< INXPoint > pntList;
 
 			pntList.clear();
 
@@ -367,7 +368,7 @@ void IconLines::Draw(CDC* theDC) {
 
 			int CHAMFER_LENGTH = 5;  // Do not chamfer very short lines
 
-			p2 = (CPoint) *( (CPoint *) points.GetAt(2) );
+			p2 = (INXPoint) *( (INXPoint *) points.GetAt(2) );
 
 			pntList.push_back( p0 );
 //if (portType == STARTPORT) {
@@ -405,7 +406,7 @@ void IconLines::Draw(CDC* theDC) {
 
 				if( bDoChamfer ){
 
-					CPoint p1Before, p1After;
+					INXPoint p1Before, p1After;
 
 					// go back along 1st seg from corner, forward along 2nd seg
 					p1Before.x = p1.x - CHAMFER_LENGTH*v0[0];
@@ -429,7 +430,7 @@ void IconLines::Draw(CDC* theDC) {
 				{
 					p0 = p1;
 					p1 = p2;
-					p2 = (CPoint) *( (CPoint *) points.GetAt(iLineSeg + 2) );
+					p2 = (INXPoint) *( (INXPoint *) points.GetAt(iLineSeg + 2) );
 
 				}
 
@@ -438,7 +439,7 @@ void IconLines::Draw(CDC* theDC) {
 			// add final point
 			pntList.push_back( p2 );
 
-			std::list< CPoint >::iterator it = pntList.begin();
+			std::list< INXPoint >::iterator it = pntList.begin();
 
 
 			// reflect points on line in y-axis for printing
@@ -471,9 +472,9 @@ void IconLines::Draw(CDC* theDC) {
 
 	// DrawNodes on straight lines
 	for (iLineSeg=0; iLineSeg<nLineSegs-2; iLineSeg++) {
-		p0 = (CPoint) *((CPoint *) points.GetAt(iLineSeg));
-		p1 = (CPoint) *((CPoint *) points.GetAt(iLineSeg+1));
-		p2 = (CPoint) *((CPoint *) points.GetAt(iLineSeg+2));
+		p0 = (INXPoint) *((INXPoint *) points.GetAt(iLineSeg));
+		p1 = (INXPoint) *((INXPoint *) points.GetAt(iLineSeg+1));
+		p2 = (INXPoint) *((INXPoint *) points.GetAt(iLineSeg+2));
 		if ((p0.x == p1.x && p1.x == p2.x) || (p0.y == p1.y && p1.y == p2.y)) {
 			DrawNode(theDC, p1);
 		}
@@ -486,15 +487,15 @@ void IconLines::Draw(CDC* theDC) {
 
 // this is called for all the lines connected as inputs to a function block
 /*
-void IconLines::Move(CPoint point) {
-	CPoint node;
+void IconLines::Move(INXPoint point) {
+	INXPoint node;
 	int nodenum = points.GetUpperBound();
 
 	int oldNodeCount = nodeCount;
 	for (int i=1; i<nodenum; i++) {
 		// if a line is in the selection box then offset all the nodes
 		if (lineSelected) {
-			node = *((CPoint*)(points.GetAt(i)));
+			node = *((INXPoint*)(points.GetAt(i)));
 			node = node - point;
 			nodeCount = i;
 			editNode(node);
@@ -502,7 +503,7 @@ void IconLines::Move(CPoint point) {
 		// if a line isn't in the selection box then offset all the x coords / 2
 		// offset all the y coords except the one closest to the other end
 		else {
-			node = *((CPoint*)(points.GetAt(i)));
+			node = *((INXPoint*)(points.GetAt(i)));
 			node.x = node.x - point.x/2;
 			if (i>1) {
 				node.y = node.y - point.y;
@@ -516,19 +517,19 @@ void IconLines::Move(CPoint point) {
 }
 */
 
-void IconLines::Move(CPoint relative_point) {
-	CPoint *node,*nodeInputPort,*nodeOutputPort,*nodeNext,*nodeNext2; //create a new node position
+void IconLines::Move(INXPoint relative_point) {
+	INXPoint *node,*nodeInputPort,*nodeOutputPort,*nodeNext,*nodeNext2; //create a new node position
 	int min_y_position=0;
 	int mostRightNodePosition=0;
 	int nodenum = points.GetUpperBound();
 	int oldNodeCount = nodeCount;
-	nodeOutputPort = ((CPoint*)(points.GetAt(0)));						// this is the output port
-	if (nodenum>0) nodeNext = ((CPoint*)(points.GetAt(nodenum-1)));  // this is the next node from the output port
-	nodeInputPort = ((CPoint*)(points.GetAt(nodenum)));						// this is the inout port
+	nodeOutputPort = ((INXPoint*)(points.GetAt(0)));						// this is the output port
+	if (nodenum>0) nodeNext = ((INXPoint*)(points.GetAt(nodenum-1)));  // this is the next node from the output port
+	nodeInputPort = ((INXPoint*)(points.GetAt(nodenum)));						// this is the inout port
 	
 	if (lineSelected) { // if this is a whole line shift just move all the points.
 		for (int i=1; i<nodenum; i++) {
-			node = ((CPoint*)(points.GetAt(i)));
+			node = ((INXPoint*)(points.GetAt(i)));
 			*node = *node - relative_point;
 			nodeCount = i;
 			//editNode(node);
@@ -537,7 +538,7 @@ void IconLines::Move(CPoint relative_point) {
 	}
 	//if this is just one end moving do the same as Move out..... 
 	for (int i=0; i<=nodenum; i++) { // find the max y position in case a double dog leg is needed.
-		node = ((CPoint*)(points.GetAt(i)));
+		node = ((INXPoint*)(points.GetAt(i)));
 		if (node->y > min_y_position)  min_y_position=node->y;
 		if ((i<nodenum)&&(node->x>mostRightNodePosition)) mostRightNodePosition=node->x;
 		}
@@ -556,7 +557,7 @@ void IconLines::Move(CPoint relative_point) {
 		else { // simple shift without tangling - so just adjust orthogonal part relative to ouput ports.
 			if (((nodeInputPort->x - relative_point.x)< (mostRightNodePosition+10)) //&&//{ // dog leg is closest to this so move the dog leg nodes
 				/*((nodeOutputPort->x ) > nodeInputPort->x) */ ) {
-				nodeNext2 = ((CPoint*)(points.GetAt(nodenum-2))); // we will need the next node in the dogleg to update the x position 	
+				nodeNext2 = ((INXPoint*)(points.GetAt(nodenum-2))); // we will need the next node in the dogleg to update the x position 	
 				nodeNext->x = max(nodeNext->x - relative_point.x,nodeOutputPort->x); // move the first dogleg node as is, unless past ither end 
 				nodeNext->y = nodeNext->y - relative_point.y;
 				nodeNext2->x=max(nodeNext2->x - relative_point.x,nodeOutputPort->x); 
@@ -579,17 +580,17 @@ i.e. This function is called if the other end of the line is being moved
    The inout is the relative point of the shift.
    */
 
-void IconLines::MoveOutNode(CPoint relative_point) {
-	CPoint *node,*nodeInputPort,*nodeOutputPort,*nodeNext,*nodeNext2; //create a new node position
+void IconLines::MoveOutNode(INXPoint relative_point) {
+	INXPoint *node,*nodeInputPort,*nodeOutputPort,*nodeNext,*nodeNext2; //create a new node position
 	int min_y_position=0;
 	int mostLeftNodePosition=1000000;
 	int nodenum = points.GetUpperBound();
 	int oldNodeCount = nodeCount;
-	nodeOutputPort = ((CPoint*)(points.GetAt(0)));						// this is the output port
-	if (nodenum>0) nodeNext = ((CPoint*)(points.GetAt(1)));  // this is the next node from the output port
-	nodeInputPort = ((CPoint*)(points.GetAt(nodenum)));						// this is the inout port
+	nodeOutputPort = ((INXPoint*)(points.GetAt(0)));						// this is the output port
+	if (nodenum>0) nodeNext = ((INXPoint*)(points.GetAt(1)));  // this is the next node from the output port
+	nodeInputPort = ((INXPoint*)(points.GetAt(nodenum)));						// this is the inout port
 	for (int i=0; i<=nodenum; i++) { // find the max y position in case a double dog leg is needed.
-		node = ((CPoint*)(points.GetAt(i)));
+		node = ((INXPoint*)(points.GetAt(i)));
 		if (node->y > min_y_position)  min_y_position=node->y;
 		if ((i>0)&&(node->x<mostLeftNodePosition)) mostLeftNodePosition=node->x;
 		}
@@ -608,7 +609,7 @@ void IconLines::MoveOutNode(CPoint relative_point) {
 		else { // simple shift without tangling - so just adjust orthogonal part relative to ouput ports.
 			if (((nodeOutputPort->x )> (mostLeftNodePosition+10)) //&& //{ // dog leg is closest to this so move the dog leg nodes
 				/*((nodeOutputPort->x ) > nodeInputPort->x) */) {
-				nodeNext2 = ((CPoint*)(points.GetAt(2))); // we will need the next node in the dogleg to update the x position 	
+				nodeNext2 = ((INXPoint*)(points.GetAt(2))); // we will need the next node in the dogleg to update the x position 	
 				nodeNext->x = max(nodeNext->x - relative_point.x,nodeInputPort->x); // move the first dogleg node as is, unless past other end 
 				nodeNext->y = nodeNext->y - relative_point.y;
 				nodeNext2->x=max(nodeNext2->x - relative_point.x,nodeInputPort->x); 
@@ -630,8 +631,8 @@ void IconLines::setShow(int _show)
 }
 
 /*
-void IconLines::Move(CPoint point) {
-	CPoint node1, node2, outport, inport;
+void IconLines::Move(INXPoint point) {
+	INXPoint node1, node2, outport, inport;
 	int nodenum = points.GetUpperBound();
 	// only move nodes if there are at least 2
 	if (nodenum < 3) {
@@ -640,10 +641,10 @@ void IconLines::Move(CPoint point) {
 
 	int oldNodeCount = nodeCount;
 	
-	outport = *((CPoint*)(points.GetAt(0)));
-	inport = *((CPoint*)(points.GetAt(nodenum)));
-	node1 = *((CPoint*)(points.GetAt(1)));
-	node2 = *((CPoint*)(points.GetAt(nodenum-1)));
+	outport = *((INXPoint*)(points.GetAt(0)));
+	inport = *((INXPoint*)(points.GetAt(nodenum)));
+	node1 = *((INXPoint*)(points.GetAt(1)));
+	node2 = *((INXPoint*)(points.GetAt(nodenum-1)));
 	node2.y = node2.y - point.y;
 	
 	// recalculate x coords
@@ -678,8 +679,8 @@ void IconLines::Move(CPoint point) {
 	nodeCount = oldNodeCount;
 }
 
-void IconLines::MoveOutNode(CPoint point) {
-	CPoint node1, node2, inport, outport;
+void IconLines::MoveOutNode(INXPoint point) {
+	INXPoint node1, node2, inport, outport;
 	int nodenum = points.GetUpperBound();
 	// only move nodes if there are at least 2
 	if (nodenum < 3) {
@@ -689,10 +690,10 @@ void IconLines::MoveOutNode(CPoint point) {
 	int oldNodeCount = nodeCount;
 	
 	// offset x and y coord of node closest to input port
-	outport = *((CPoint*)(points.GetAt(0)));
-	inport = *((CPoint*)(points.GetAt(nodenum)));
-	node1 = *((CPoint*)(points.GetAt(1)));
-	node2 = *((CPoint*)(points.GetAt(nodenum - 1)));
+	outport = *((INXPoint*)(points.GetAt(0)));
+	inport = *((INXPoint*)(points.GetAt(nodenum)));
+	node1 = *((INXPoint*)(points.GetAt(1)));
+	node2 = *((INXPoint*)(points.GetAt(nodenum - 1)));
 	node1.y = node1.y - point.y;
 	
 	// recalculate x coords
@@ -763,14 +764,14 @@ UINT IconLines::getRtaTraceId()
 	return m_iRtaTraceId;
 }
 
-void IconLines::MoveSegment(CPoint point)
+void IconLines::MoveSegment(INXPoint point)
 {
 	// Make sure selected Line segment has been set
 	if (m_iSelSegmentNum >= 0)
 	{
-		CPoint *temp1, *temp2;
-		temp1 = (CPoint*)points.GetAt(m_iSelSegmentNum);
-		temp2 = (CPoint*)points.GetAt(m_iSelSegmentNum+1);
+		INXPoint *temp1, *temp2;
+		temp1 = (INXPoint*)points.GetAt(m_iSelSegmentNum);
+		temp2 = (INXPoint*)points.GetAt(m_iSelSegmentNum+1);
 		// move vertical segment
 		if (temp1->x == temp2->x) {
 			temp1->x = point.x;
@@ -796,7 +797,7 @@ int IconLines::GetSelectedSegment()
 
 // Method that returns the line segment the specified point is on.
 // Returns -1 if the point is not on any segment
-int IconLines::GetLineSegment(const CPoint cpPoint)
+int IconLines::GetLineSegment(const INXPoint cpPoint)
 {
 	int iSegmentNum = -1;
 
@@ -811,14 +812,14 @@ int IconLines::GetLineSegment(const CPoint cpPoint)
 
 // Method that returns True if a point is on the specified segment
 // Otherwise returns false
-bool IconLines::IsOnSegment(const CPoint cpPoint, const int iSegmentNum)
+bool IconLines::IsOnSegment(const INXPoint cpPoint, const int iSegmentNum)
 {
 	bool bSuccess = false;
-	CPoint cpStart, cpEnd;
+	INXPoint cpStart, cpEnd;
 	double dMinx, dMaxx, dMiny, dMaxy;
 
-	cpStart = *((CPoint*)points.GetAt(iSegmentNum));
-	cpEnd = *((CPoint*)points.GetAt(iSegmentNum+1));
+	cpStart = *((INXPoint*)points.GetAt(iSegmentNum));
+	cpEnd = *((INXPoint*)points.GetAt(iSegmentNum+1));
 	
 	// set the min and max x values
 	if (cpEnd.x > cpStart.x) {
@@ -850,24 +851,24 @@ bool IconLines::IsOnSegment(const CPoint cpPoint, const int iSegmentNum)
 // Method that returns true if the 2 specified segments are aligned
 bool IconLines::IsSegmentsAligned(const int iSegmentNum1, const int iSegmentNum2)
 {
-	CPoint cpSeg1StartPt, cpSeg1EndPt, cpSeg2StartPt, cpSeg2EndPt;
+	INXPoint cpSeg1StartPt, cpSeg1EndPt, cpSeg2StartPt, cpSeg2EndPt;
 
 	if (iSegmentNum1 >= points.GetUpperBound() || iSegmentNum2 >= points.GetUpperBound()) {
 		return false;
 	}
-	cpSeg1StartPt = *((CPoint*)points.GetAt(iSegmentNum1));
-	cpSeg1EndPt = *((CPoint*)points.GetAt(iSegmentNum1 + 1));
-	cpSeg2StartPt = *((CPoint*)points.GetAt(iSegmentNum2));
-	cpSeg2EndPt = *((CPoint*)points.GetAt(iSegmentNum2 + 1));
+	cpSeg1StartPt = *((INXPoint*)points.GetAt(iSegmentNum1));
+	cpSeg1EndPt = *((INXPoint*)points.GetAt(iSegmentNum1 + 1));
+	cpSeg2StartPt = *((INXPoint*)points.GetAt(iSegmentNum2));
+	cpSeg2EndPt = *((INXPoint*)points.GetAt(iSegmentNum2 + 1));
 
 	return ((cpSeg1StartPt.x == cpSeg1EndPt.x && cpSeg1StartPt.x == cpSeg2StartPt.x && cpSeg1StartPt.x == cpSeg2EndPt.x) ||
 		(cpSeg1StartPt.y == cpSeg1EndPt.y && cpSeg1StartPt.y == cpSeg2StartPt.y && cpSeg1StartPt.y == cpSeg2EndPt.y));
 
 }
 
-void IconLines::DrawNode(CDC *pDC, CPoint point)
+void IconLines::DrawNode(CDC *pDC, INXPoint point)
 {
-	CPoint tmpPoint = point;
+	INXPoint tmpPoint = point;
 
 	// Draw an 'X'
 	tmpPoint.Offset(-5,-5);

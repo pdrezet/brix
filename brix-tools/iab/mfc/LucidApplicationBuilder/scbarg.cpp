@@ -54,7 +54,7 @@ CSizingControlBarG::~CSizingControlBarG()
 BEGIN_MESSAGE_MAP(CSizingControlBarG, baseCSizingControlBarG)
     //{{AFX_MSG_MAP(CSizingControlBarG)
     ON_WM_NCLBUTTONUP()
-    ON_WM_NCHITTEST()
+	ON_WM_NCHITTEST()
     //}}AFX_MSG_MAP
     ON_MESSAGE(WM_SETTEXT, OnSetText)
 END_MESSAGE_MAP()
@@ -66,8 +66,9 @@ END_MESSAGE_MAP()
 // Mouse Handling
 //
 
-void CSizingControlBarG::OnNcLButtonUp(UINT nHitTest, CPoint point)
+void CSizingControlBarG::OnNcLButtonUp(UINT nHitTest, CPoint _point)
 {
+	INXPoint point(_point.x, _point.y);
     if (nHitTest == HTCLOSE)
         m_pDockSite->ShowControlBar(this, FALSE, FALSE); // hide
 
@@ -76,7 +77,7 @@ void CSizingControlBarG::OnNcLButtonUp(UINT nHitTest, CPoint point)
 
 void CSizingControlBarG::NcCalcClient(LPRECT pRc, UINT nDockBarID)
 {
-    CRect rcBar(pRc); // save the bar rect
+    INXRect rcBar(pRc); // save the bar rect
 
     // subtract edges
     baseCSizingControlBarG::NcCalcClient(pRc, nDockBarID);
@@ -84,7 +85,7 @@ void CSizingControlBarG::NcCalcClient(LPRECT pRc, UINT nDockBarID)
     if (!HasGripper())
         return;
 
-    CRect rc(pRc); // the client rect as calculated by the base class
+    INXRect rc(pRc); // the client rect as calculated by the base class
 
     BOOL bHorz = (nDockBarID == AFX_IDW_DOCKBAR_TOP) ||
                  (nDockBarID == AFX_IDW_DOCKBAR_BOTTOM);
@@ -95,26 +96,26 @@ void CSizingControlBarG::NcCalcClient(LPRECT pRc, UINT nDockBarID)
         rc.DeflateRect(0, m_cyGripper, 0, 0);
 
     // set position for the "x" (hide bar) button
-    CPoint ptOrgBtn;
+    INXPoint ptOrgBtn;
     if (bHorz)
-        ptOrgBtn = CPoint(rc.left - 13, rc.top);
+        ptOrgBtn = INXPoint(rc.left - 13, rc.top);
     else
-        ptOrgBtn = CPoint(rc.right - 12, rc.top - 13);
-
-    m_biHide.Move(ptOrgBtn - rcBar.TopLeft());
+        ptOrgBtn = INXPoint(rc.right - 12, rc.top - 13);
+//@todo type cast
+    m_biHide.Move((INXPoint)ptOrgBtn - rcBar.TopLeft());
 
     *pRc = rc;
 }
 
-void CSizingControlBarG::NcPaintGripper(CDC* pDC, CRect rcClient)
+void CSizingControlBarG::NcPaintGripper(CDC* pDC, INXRect rcClient)
 {
     if (!HasGripper())
         return;
 
     // paints a simple "two raised lines" gripper
     // override this if you want a more sophisticated gripper
-    CRect gripper = rcClient;
-    CRect rcbtn = m_biHide.GetRect();
+    INXRect gripper = rcClient;
+    INXRect rcbtn = m_biHide.GetRect();
     BOOL bHorz = IsHorzDocked();
 
     gripper.DeflateRect(1, 1);
@@ -142,16 +143,17 @@ void CSizingControlBarG::NcPaintGripper(CDC* pDC, CRect rcClient)
     m_biHide.Paint(pDC);
 }
 
-LRESULT CSizingControlBarG::OnNcHitTest(CPoint point)
+LRESULT CSizingControlBarG::OnNcHitTest(CPoint _point)
 {
-    CRect rcBar;
+	INXPoint point(_point.x, _point.y);
+    INXRect rcBar;
     GetWindowRect(rcBar);
 
     UINT nRet = baseCSizingControlBarG::OnNcHitTest(point);
     if (nRet != HTCLIENT)
         return nRet;
 
-    CRect rc = m_biHide.GetRect();
+    INXRect rc = m_biHide.GetRect();
     rc.OffsetRect(rcBar.TopLeft());
     if (rc.PtInRect(point))
         return HTCLOSE;
@@ -173,8 +175,8 @@ void CSizingControlBarG::OnUpdateCmdUI(CFrameWnd* pTarget,
 
     BOOL bNeedPaint = FALSE;
 
-    CPoint pt;
-    ::GetCursorPos(&pt);
+    INXPoint pt;
+    ::GetCursorPos((LPPOINT)pt);
     BOOL bHit = (OnNcHitTest(pt) == HTCLOSE);
     BOOL bLButtonDown = (::GetKeyState(VK_LBUTTON) < 0);
 
@@ -202,7 +204,7 @@ CSCBButton::CSCBButton()
 
 void CSCBButton::Paint(CDC* pDC)
 {
-    CRect rc = GetRect();
+    INXRect rc = GetRect();
 
     if (bPushed)
         pDC->Draw3dRect(rc, ::GetSysColor(COLOR_BTNSHADOW),

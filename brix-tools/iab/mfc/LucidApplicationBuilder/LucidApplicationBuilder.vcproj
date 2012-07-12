@@ -6,6 +6,7 @@
 	ProjectGUID="{1191E491-C6B0-45E5-8DB9-F10E1902079B}"
 	RootNamespace="LucidApplicationBuilder"
 	Keyword="MFCProj"
+	AssemblyReferenceSearchPaths="&quot;..\..\..\..\..\..\wxWidgets-2.8.12&quot;"
 	>
 	<Platforms>
 		<Platform
@@ -52,8 +53,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../contrib/include;../common"
-				PreprocessorDefinitions="$(VSInstallDir)WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;zlib=no"
+				AdditionalIncludeDirectories="../contrib/include;../common;&quot;C:\wxWidgets-2.8.12\include&quot;;&quot;C:\wxWidgets-2.8.12\lib\vc_lib\mswd&quot;"
+				PreprocessorDefinitions="WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_DEBUG;__WXMSW__;__WXDEBUG__;NOPCH"
 				MinimalRebuild="false"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -81,11 +82,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="psapi.lib"
+				AdditionalDependencies="psapi.lib wxmsw28d_core.lib wxbase28d.lib wxtiffd.lib wxjpegd.lib wxpngd.lib wxzlibd.lib wxregexd.lib wxexpatd.lib winmm.lib comctl32.lib rpcrt4.lib wsock32.lib odbc32.lib"
 				OutputFile="$(OutDir)\$(ProjectName)Debug.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="&quot;C:\wxWidgets-2.8.12\lib\vc_lib&quot;"
 				IgnoreDefaultLibraryNames="nafxcwd;libcd.lib;libcpd.lib"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
@@ -156,8 +157,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="../contrib/include;../common"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
+				AdditionalIncludeDirectories="&quot;C:\wxWidgets-2.8.12\lib\vc_lib\mswd&quot;;&quot;C:\wxWidgets-2.8.12\include&quot;;../contrib/include;../common"
+				PreprocessorDefinitions="WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;__WXMSW__;__WXDEBUG__"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -189,7 +190,8 @@
 				OutputFile="$(OutDir)\$(ProjectName)Release.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				IgnoreDefaultLibraryNames="nafxcwd.lib,libcd.lib;libcpd.lib"
+				AdditionalLibraryDirectories="&quot;C:\wxWidgets-2.8.12\lib\vc_lib&quot;"
+				IgnoreDefaultLibraryNames="nafxcwd.lib;libcd.lib;libcpd.lib;wxmsw28d_core.lib;wxbase28d.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;wxregexd.lib;wxexpatd.lib;winmm.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;odbc32.lib"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Release/DrawProg.pdb"
 				SubSystem="2"
@@ -1458,24 +1460,8 @@
 				>
 			</File>
 			<File
-				RelativePath="scbarg.cpp"
+				RelativePath=".\scbarg.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\common\ScreenTagDescripEditor.cpp"
@@ -1926,6 +1912,22 @@
 			</File>
 			<File
 				RelativePath="..\common\Porting_Classes\INXObjList.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\Porting_Classes\INXPoint.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\Porting_Classes\INXRect.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\Porting_Classes\INXSize.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\Porting_Classes\INXString.h"
 				>
 			</File>
 			<File

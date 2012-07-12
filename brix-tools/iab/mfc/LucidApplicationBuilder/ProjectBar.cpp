@@ -27,13 +27,13 @@ CProjectBar::~CProjectBar()
 }
 
 BEGIN_MESSAGE_MAP(CProjectBar, CSizingControlBarG)
-	ON_WM_LBUTTONDBLCLK()
+	//ON_WM_LBUTTONDBLCLK() //@todo unused and interferes with INXPoint
 	//ON_NOTIFY_REFLECT (NM_CLICK, OnClickList)
 	ON_NOTIFY(NM_CLICK, IDC_LIST, OnClickList)
 	//NM_CLICK()
 END_MESSAGE_MAP()
 
-void CProjectBar::OnLButtonDblClk(UINT nFlags, CPoint point) 
+void CProjectBar::OnLButtonDblClk(UINT nFlags, INXPoint point) 
 {
 }
 
@@ -54,7 +54,7 @@ int CProjectBar::init(void)
 		TVS_HASLINES | 
 		TVS_HASBUTTONS | 
 		TVS_LINESATROOT,
-	CRect(0, 0, 0, 0), this, 100);
+	INXRect(0, 0, 0, 0), this, 100);
 
 	m_cProjTree.SetWindowTextA("Project(s)");
 	//m_cFuncBlckTree.init();

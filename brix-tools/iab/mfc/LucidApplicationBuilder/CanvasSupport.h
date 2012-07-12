@@ -10,15 +10,17 @@
 * Version			:	1.0
 ***/
 
+#include "Porting_Classes/INXSize.h"
+
 class CanvasSupport
 {
 private: 
-	CSize m_ScrollPosition;			//Remember position of scroll
-	CPoint m_Max;					//Needed for boundary check
-	CPoint m_TempStore;				//Needed to remember first point before mouse move.
+	INXSize m_ScrollPosition;			//Remember position of scroll
+	INXPoint m_Max;					//Needed for boundary check
+	INXPoint m_TempStore;				//Needed to remember first point before mouse move.
 									//Used by MouseUp when calling ConData::RenewPosition(..,oldpoint)
 
-	CPoint m_pPointToCheckAgainst;	//Used to test top of icon or selection box rather than mouse cursor
+	INXPoint m_pPointToCheckAgainst;	//Used to test top of icon or selection box rather than mouse cursor
 
 	bool m_bTopLeftBoundaryHit;		//Used to indicate a boundary hot has occured for top left of screen
 
@@ -32,16 +34,16 @@ public:
 	CanvasSupport(void);
 	~CanvasSupport(void);
 
-	bool NearTopLeftBoundary(CPoint point);
-	bool NearBottomRightBoundary(CPoint point);
+	bool NearTopLeftBoundary(INXPoint point);
+	bool NearBottomRightBoundary(INXPoint point);
 	
-	CPoint AdjustPositionOfObjects(CPoint point);
-	CPoint AdjustPositionOfScrollDownwards();
-	CPoint AdjustPositionOfScrollUpwards();
+	INXPoint AdjustPositionOfObjects(INXPoint point);
+	INXPoint AdjustPositionOfScrollDownwards();
+	INXPoint AdjustPositionOfScrollUpwards();
 	
-	void SetMaxBoundary(CPoint point);
-	void SetScrollPosition(CSize point);
-	//CSize GetScrollPosition();
+	void SetMaxBoundary(INXPoint point);
+	void SetScrollPosition(INXSize point);
+	//INXSize GetScrollPosition();
 
 	void SetTopLeftBoundaryHit(bool set);
 	bool TopLeftBoundaryHit();
@@ -50,13 +52,13 @@ public:
 	void DebugTrace(const char* pszFormat, ...);
 	void SetDebugTrace(bool set);
 
-	void SetTempStore(CPoint);
-	CPoint GetTempStore();
+	void SetTempStore(INXPoint);
+	INXPoint GetTempStore();
 
 	
-	void SetPointToTestAgainst(CPoint point);
-	CPoint GetPointToTestAgainst();
+	void SetPointToTestAgainst(INXPoint point);
+	INXPoint GetPointToTestAgainst();
 
-	bool StretchCanvas(CRect rect, CSize &csViewSize);
-	void StretchCanvas(CPoint point, CSize &csViewSize);
+	bool StretchCanvas(INXRect rect, INXSize &csViewSize);
+	void StretchCanvas(INXPoint point, INXSize &csViewSize);
 };
