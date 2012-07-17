@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #pragma once
-
+#include "Porting_Classes/INXString.h"
 //! Label ths code against the formats it writes- for lpj files, folder-structures etc etc 
 #define CODE_FORMAT_MAJOR_REV 1 //!
 #define CODE_FORMAT_MINOR_REV 4
@@ -132,8 +132,8 @@ Please try again later"
 #define GUI_FILE_VERSION "Version 1.3\n"
 
 // start function
-const CString START = "Run_Start";
-const CString NOPARAMS = "*";
+const INXString START = "Run_Start";
+const INXString NOPARAMS = "*";
 
 // paths
 
@@ -147,96 +147,96 @@ const int NODE_TYPE_END_ELEMENT = 15; //end tag element
 const int NODE_TYPE_STARTTEXT_ELEMENT = 3; //#text associated with start tag element
 const int NODE_TYPE_ENDTEXT_ELEMENT = 14; //#text associated with end tag element
 
-const CString COMPONENTMENU_STYLE_ELEMENT = "Styles";
-const CString COMPONENTMENU_ITEM_ELEMENT = "MenuItem";
-const CString COMPONENTMENU_ITEM_NAME_ELEMENT = "Name";
-const CString COMPONENTMENU_ITEM_PRIORITY_ELEMENT = "Priority";
-const CString COMPONENTMENU_ITEM_STYLE_ELEMENT = "Style";
+const INXString COMPONENTMENU_STYLE_ELEMENT = "Styles";
+const INXString COMPONENTMENU_ITEM_ELEMENT = "MenuItem";
+const INXString COMPONENTMENU_ITEM_NAME_ELEMENT = "Name";
+const INXString COMPONENTMENU_ITEM_PRIORITY_ELEMENT = "Priority";
+const INXString COMPONENTMENU_ITEM_STYLE_ELEMENT = "Style";
 
 
-const CString NODE_MENU_ELEMENT = "Menu";
-const CString NODE_ICON_ELEMENT = "Icon";
-const CString NODE_CLASS_ELEMENT = "Class";
-const CString NODE_SDESC_ELEMENT = "ShortDescription";
-const CString NODE_LDESC_ELEMENT = "LongDescription";
-const CString NODE_PARAM_ELEMENT = "Parameter";
-const CString NODE_PARAM_NAME_ELEMENT = "Name";
-const CString NODE_PARAM_DATATYPE_ELEMENT = "DataType";
-const CString NODE_PARAM_DEFAULTVALUE_ELEMENT = "DefaultValue";
-const CString NODE_PARAM_MINVALUE_ELEMENT = "MinValue";
-const CString NODE_PARAM_MAXVALUE_ELEMENT = "MaxValue";
-const CString NODE_PARAM_DESCRIPTION_ELEMENT = "Description";
-const CString NODE_PARAM_DISPLAYONWIDGET_ELEMENT = "DisplayOnWidget";
-const CString NODE_PARAM_DISPLAYONWIDGET_X_ELEMENT = "x";
-const CString NODE_PARAM_DISPLAYONWIDGET_Y_ELEMENT = "y";
-const CString NODE_PARAM_LISTPLACE_ELEMENT = "ListPlacement";
-const CString NODE_PARAM_ARGPLACE_ELEMENT = "ArgPlacement";
-const CString NODE_MODULE_ELEMENT = "Module";
-const CString NODE_PORT_ELEMENT = "Port";
-const CString NODE_PORT_DATATYPE_ELEMENT = "DataType";
-const CString NODE_PORT_DESCRIPTION_ELEMENT = "Description";
-const CString NODE_PORT_PORTTYPE_ELEMENT = "PortType";
-const CString NODE_PORT_XCOORD_ELEMENT = "XCoordinate";
-const CString NODE_PORT_YCOORD_ELEMENT = "YCoordinate";
-const CString NODE_PORT_FUNCTIONNAME_ELEMENT = "FunctionName";
-const CString NODE_PORT_ATOMICFLAG_ELEMENT = "AtomicFlag";
-const CString NODE_PORT_MANDATORYFLAG_ELEMENT = "MandatoryFlag";
-const CString NODE_PORT_WCET_ELEMENT = "Wcet";
+const INXString NODE_MENU_ELEMENT = "Menu";
+const INXString NODE_ICON_ELEMENT = "Icon";
+const INXString NODE_CLASS_ELEMENT = "Class";
+const INXString NODE_SDESC_ELEMENT = "ShortDescription";
+const INXString NODE_LDESC_ELEMENT = "LongDescription";
+const INXString NODE_PARAM_ELEMENT = "Parameter";
+const INXString NODE_PARAM_NAME_ELEMENT = "Name";
+const INXString NODE_PARAM_DATATYPE_ELEMENT = "DataType";
+const INXString NODE_PARAM_DEFAULTVALUE_ELEMENT = "DefaultValue";
+const INXString NODE_PARAM_MINVALUE_ELEMENT = "MinValue";
+const INXString NODE_PARAM_MAXVALUE_ELEMENT = "MaxValue";
+const INXString NODE_PARAM_DESCRIPTION_ELEMENT = "Description";
+const INXString NODE_PARAM_DISPLAYONWIDGET_ELEMENT = "DisplayOnWidget";
+const INXString NODE_PARAM_DISPLAYONWIDGET_X_ELEMENT = "x";
+const INXString NODE_PARAM_DISPLAYONWIDGET_Y_ELEMENT = "y";
+const INXString NODE_PARAM_LISTPLACE_ELEMENT = "ListPlacement";
+const INXString NODE_PARAM_ARGPLACE_ELEMENT = "ArgPlacement";
+const INXString NODE_MODULE_ELEMENT = "Module";
+const INXString NODE_PORT_ELEMENT = "Port";
+const INXString NODE_PORT_DATATYPE_ELEMENT = "DataType";
+const INXString NODE_PORT_DESCRIPTION_ELEMENT = "Description";
+const INXString NODE_PORT_PORTTYPE_ELEMENT = "PortType";
+const INXString NODE_PORT_XCOORD_ELEMENT = "XCoordinate";
+const INXString NODE_PORT_YCOORD_ELEMENT = "YCoordinate";
+const INXString NODE_PORT_FUNCTIONNAME_ELEMENT = "FunctionName";
+const INXString NODE_PORT_ATOMICFLAG_ELEMENT = "AtomicFlag";
+const INXString NODE_PORT_MANDATORYFLAG_ELEMENT = "MandatoryFlag";
+const INXString NODE_PORT_WCET_ELEMENT = "Wcet";
 const int NODE_PORT_CDF_DRAW_LEFT_OFFSET = 6;
 const int NODE_PORT_CDF_DRAW_RIGHT_OFFSET = 8;
 const int NODE_PIXELS_TO_INSET_FIRST_NODE_ON_LINE = 5;
-const CString FILE_TYPE_CDF = ".cdf";
-const CString FILE_TYPE_IDF = ".ini";
+const INXString FILE_TYPE_CDF = ".cdf";
+const INXString FILE_TYPE_IDF = ".ini";
 
-const CString USERDEFDIR = "\\userdefined\\";
-const CString IDFDIR = "\\IDF\\";
-const CString CDFDIR = "\\CDF\\";
-const CString NECDIR = "\\microcontroller\\";
-const CString BMPDIR = "\\BMP\\";
-const CString IMAGEDIR = "\\Images\\";
-const CString TRACEDIR = "\\RTA-Trace\\";
-const CString LOGDIR = "\\log\\";
-const CString LUCID_EXECUTABLES_DIR = "\\bin";
-const CString LUCID_DIST_DIR = "\\dist";
-const CString HTML_HELP_FILE = "\\docs\\help.html";
-const CString MENUCONFIGFILE = "\\config\\menu.xml";
-const CString DEFAULT_HELPFILE = "\\defaultHelp.html";
+const INXString USERDEFDIR = "\\userdefined\\";
+const INXString IDFDIR = "\\IDF\\";
+const INXString CDFDIR = "\\CDF\\";
+const INXString NECDIR = "\\microcontroller\\";
+const INXString BMPDIR = "\\BMP\\";
+const INXString IMAGEDIR = "\\Images\\";
+const INXString TRACEDIR = "\\RTA-Trace\\";
+const INXString LOGDIR = "\\log\\";
+const INXString LUCID_EXECUTABLES_DIR = "\\bin";
+const INXString LUCID_DIST_DIR = "\\dist";
+const INXString HTML_HELP_FILE = "\\docs\\help.html";
+const INXString MENUCONFIGFILE = "\\config\\menu.xml";
+const INXString DEFAULT_HELPFILE = "\\defaultHelp.html";
 
-//const CString FTPSODL = "\\SODL\\t.sdl";
-const CString OPTIONSFILE = "\\options.ini";
-const CString DEBUGDIR = "\\DEPDebug\\";
-const CString DEBUGFILE = "debug";
-const CString TEMPDIR = "\\temp\\";
-const CString LGB_TEMPDIR = "\\temp\\LGB\\";
-const CString DEPDIR = "\\DEP\\";
-const CString DEVICEDATADIR = "\\DeviceData\\";
-const CString DDATADIR = "\\DeviceData\\data\\";
-const CString GUIDIR = "\\DeviceData\\GUI\\";
-const CString EXPORTDIR = "\\export\\";
-const CString SODLDIR = "\\DeviceData\\SODL\\";
-const CString OLDSODLDIR = "\\SODL\\";
-const CString SODLFILENAME = "t.sdl";
-const CString DEFAULTPROJECTROOTDIR = "C:\\Lucid Projects";
-const CString MANUALSDIR = "\\manuals";
-const CString ACROBAT_READER_EXENAME = "AcroRd32.exe";
-const CString TRACE_CONFIG_FILE = "lucid.rta";
-const CString TRACE_HEADER_FILE = "header.rta";
-const CString LAB_LOG_FILE = "lab.log";
-const CString LGB_LOG_FILE = "lgb.log";
-const CString FONTDIR = "\\fonts\\";
-const CString NLSDIR = "\\DeviceData\\NLS\\";
-const CString NLSFILE = "nls.csv";
-const CString TOOLSFILE = "tools.ini";
-const CString RESOURCEDIR = "\\DeviceData\\resource\\";
+//const INXString FTPSODL = "\\SODL\\t.sdl";
+const INXString OPTIONSFILE = "\\options.ini";
+const INXString DEBUGDIR = "\\DEPDebug\\";
+const INXString DEBUGFILE = "debug";
+const INXString TEMPDIR = "\\temp\\";
+const INXString LGB_TEMPDIR = "\\temp\\LGB\\";
+const INXString DEPDIR = "\\DEP\\";
+const INXString DEVICEDATADIR = "\\DeviceData\\";
+const INXString DDATADIR = "\\DeviceData\\data\\";
+const INXString GUIDIR = "\\DeviceData\\GUI\\";
+const INXString EXPORTDIR = "\\export\\";
+const INXString SODLDIR = "\\DeviceData\\SODL\\";
+const INXString OLDSODLDIR = "\\SODL\\";
+const INXString SODLFILENAME = "t.sdl";
+const INXString DEFAULTPROJECTROOTDIR = "C:\\Lucid Projects";
+const INXString MANUALSDIR = "\\manuals";
+const INXString ACROBAT_READER_EXENAME = "AcroRd32.exe";
+const INXString TRACE_CONFIG_FILE = "lucid.rta";
+const INXString TRACE_HEADER_FILE = "header.rta";
+const INXString LAB_LOG_FILE = "lab.log";
+const INXString LGB_LOG_FILE = "lgb.log";
+const INXString FONTDIR = "\\fonts\\";
+const INXString NLSDIR = "\\DeviceData\\NLS\\";
+const INXString NLSFILE = "nls.csv";
+const INXString TOOLSFILE = "tools.ini";
+const INXString RESOURCEDIR = "\\DeviceData\\resource\\";
 
 //--------------------------------------------------------------
 // Manuals.
-const CString LGB_USERGUIDE_FILENAME = "\\GUI Builder User Manual.pdf";
-const CString LGB_REFMANUAL_FILENAME = "\\GUI Builder Reference Manual.pdf";
-const CString LAB_USERGUIDE_FILENAME = "\\Lucid User Guide.pdf";
-const CString LAB_REFMANUAL_FILENAME = "\\Lucid Reference Manual.pdf";
-const CString LGBLAB_TUTORIAL_FILENAME = "\\Lucid Tutorial.pdf";
-const CString LOB_REFMANUAL_FILENAME = "\\Object Builder User Manual.pdf";
+const INXString LGB_USERGUIDE_FILENAME = "\\GUI Builder User Manual.pdf";
+const INXString LGB_REFMANUAL_FILENAME = "\\GUI Builder Reference Manual.pdf";
+const INXString LAB_USERGUIDE_FILENAME = "\\Lucid User Guide.pdf";
+const INXString LAB_REFMANUAL_FILENAME = "\\Lucid Reference Manual.pdf";
+const INXString LGBLAB_TUTORIAL_FILENAME = "\\Lucid Tutorial.pdf";
+const INXString LOB_REFMANUAL_FILENAME = "\\Object Builder User Manual.pdf";
 
 //--------------------------------------------------------------
 
@@ -244,72 +244,72 @@ const CString LOB_REFMANUAL_FILENAME = "\\Object Builder User Manual.pdf";
 
 // constants used to define IDF section and keys
 // Section names
-const CString SECTIONL1 = "MenuLevel1";
-const CString SECTIONL2 = "MenuLevel2";
-const CString SECTIONL3 = "MenuLevel3";
-const CString SECTIONL4 = "MenuLevel4";
-const CString SECTIONICON = "Icon";
-const CString SECTIONCLASS = "Class";
-const CString SECTIONLDESC = "Long Description";
-const CString SECTIONSDESC = "Short Description";
-const CString SECTIONPORT = "";
-const CString SECTIONPARAM = "";
+const INXString SECTIONL1 = "MenuLevel1";
+const INXString SECTIONL2 = "MenuLevel2";
+const INXString SECTIONL3 = "MenuLevel3";
+const INXString SECTIONL4 = "MenuLevel4";
+const INXString SECTIONICON = "Icon";
+const INXString SECTIONCLASS = "Class";
+const INXString SECTIONLDESC = "Long Description";
+const INXString SECTIONSDESC = "Short Description";
+const INXString SECTIONPORT = "";
+const INXString SECTIONPARAM = "";
 
 // Key names
-const CString KEYL1 = "level1 menu"; //@todo make all of tjhes the same
-const CString KEYL2 = "level2 menu";
-const CString KEYL3 = "level3 menu";
-const CString KEYL4 = "level4 menu";
-const CString KEYICON = "graphic filename";
-const CString KEYCLASS = "class name";
-const CString KEYDESC = "description";
-const CString KEYPORTTYPE = "port type";
-const CString KEYXCOORD = "x coordinate";
-const CString KEYYCOORD = "y coordinate";
-const CString KEYDATATYPE = "data type";
-const CString KEYATOMICFLAG = "atomic flag";
-const CString KEYPORTVERT = "port vertical";
-const CString KEYFUNCNAME = "";
-const CString KEYNAME = "name";
-const CString KEYMINRANGE = "min range";
-const CString KEYMAXRANGE = "max range";
-const CString KEYDEFAULT = "default";
-const CString KEYUSERDEF = "user defined";
-const CString KEYENUMVAL = "value num";
-const CString KEYENUMLABEL = "value label";
-const CString KEYMANDATORYFLAG = "mandatory flag";
+const INXString KEYL1 = "level1 menu"; //@todo make all of tjhes the same
+const INXString KEYL2 = "level2 menu";
+const INXString KEYL3 = "level3 menu";
+const INXString KEYL4 = "level4 menu";
+const INXString KEYICON = "graphic filename";
+const INXString KEYCLASS = "class name";
+const INXString KEYDESC = "description";
+const INXString KEYPORTTYPE = "port type";
+const INXString KEYXCOORD = "x coordinate";
+const INXString KEYYCOORD = "y coordinate";
+const INXString KEYDATATYPE = "data type";
+const INXString KEYATOMICFLAG = "atomic flag";
+const INXString KEYPORTVERT = "port vertical";
+const INXString KEYFUNCNAME = "";
+const INXString KEYNAME = "name";
+const INXString KEYMINRANGE = "min range";
+const INXString KEYMAXRANGE = "max range";
+const INXString KEYDEFAULT = "default";
+const INXString KEYUSERDEF = "user defined";
+const INXString KEYENUMVAL = "value num";
+const INXString KEYENUMLABEL = "value label";
+const INXString KEYMANDATORYFLAG = "mandatory flag";
 
 // Extensions
-const CString PROJECTEXT = ".lpj";
+const INXString PROJECTEXT = ".lpj";
 
-const CString APP = "APP";
+const INXString APP = "APP";
 
 // Constants
-const CString INTCONSTTYPE = "const_i1";
-const CString BOOLCONSTTYPE = "const_b1";
-const CString REALCONSTTYPE = "const_r1";
-const CString STRINGCONSTTYPE = "const_s1";
-const CString INT_COMP = "operator_equibx1";
-const CString REAL_COMP = "operator_equrbx1";
-const CString INT_GREATER_THAN = "operator_cmpibx1";
-const CString REAL_GREATER_THAN = "operator_cmprbx1";
-const CString INT_GREATER_THAN_EQUALS = "operator_cmeibx1";
-const CString REAL_GREATER_THAN_EQUALS = "operator_cmerbx1";
+const INXString INTCONSTTYPE = "const_i1";
+const INXString BOOLCONSTTYPE = "const_b1";
+const INXString REALCONSTTYPE = "const_r1";
+const INXString STRINGCONSTTYPE = "const_s1";
+const INXString INT_COMP = "operator_equibx1";
+const INXString REAL_COMP = "operator_equrbx1";
+const INXString INT_GREATER_THAN = "operator_cmpibx1";
+const INXString REAL_GREATER_THAN = "operator_cmprbx1";
+const INXString INT_GREATER_THAN_EQUALS = "operator_cmeibx1";
+const INXString REAL_GREATER_THAN_EQUALS = "operator_cmerbx1";
 
 // Debug
-const CString EVENT_MSG_TYPE = "E";
-const CString DATA_MSG_TYPE = "D";
-const CString OVERFLOW_MSG_TYPE = "O";
-const CString START_FUNC_MSG_TYPE = "S";
-const CString FINISH_FUNC_MSG_TYPE = "F";
+const INXString EVENT_MSG_TYPE = "E";
+const INXString DATA_MSG_TYPE = "D";
+const INXString OVERFLOW_MSG_TYPE = "O";
+const INXString START_FUNC_MSG_TYPE = "S";
+const INXString FINISH_FUNC_MSG_TYPE = "F";
 
 // LucidConstants.h: global constants
 //
 //////////////////////////////////////////////////////////////////////
 
 
-//const CString OPTIONSFILE = "c:\\work\\lucid\\source\\Lucid_GUIBuilder\\options.ini";
-//const CString FTPGUI = "c:\\work\\lucid\\source\\Lucid_GUIBuilder\\ftp\\GUI.txt";
+//const INXString OPTIONSFILE = "c:\\work\\lucid\\source\\Lucid_GUIBuilder\\options.ini";
+//const INXString FTPGUI = "c:\\work\\lucid\\source\\Lucid_GUIBuilder\\ftp\\GUI.txt";
 
 #define TEXT_ICON_DEFAULT_OPACITY 255
 #define IMAGE_ICON_DEFAULT_OPACITY 255
@@ -325,37 +325,37 @@ const CString FINISH_FUNC_MSG_TYPE = "F";
 
 //paths
 //#ifdef _DEBUG
-//const CString GUIDIR = "\\DeviceData\\GUI\\";
-//const CString GUITXT = "\\DeviceData\\GUI\\GUI.txt";
+//const INXString GUIDIR = "\\DeviceData\\GUI\\";
+//const INXString GUITXT = "\\DeviceData\\GUI\\GUI.txt";
 
-//const CString SODL_DIR = "\\SODL";
-//const CString SODL_FILE_NAME = "t.sdl";
+//const INXString SODL_DIR = "\\SODL";
+//const INXString SODL_FILE_NAME = "t.sdl";
 
-//const CString OPTIONSFILE = "\\options.ini";
-//const CString BITMAPDIR = "\\BMP\\";
+//const INXString OPTIONSFILE = "\\options.ini";
+//const INXString BITMAPDIR = "\\BMP\\";
 
-const CString LGB_APP_NAME = "LucidGuiBuilder: ";
-const CString LAB_APP_NAME = "LucidApplicationBuilder: ";
-const CString NO_PROJECT_WARNING = "<NO PROJECT SET>";
-const CString ICON_PLACEHOLDER_FILE = "placeholder.png";
+const INXString LGB_APP_NAME = "LucidGuiBuilder: ";
+const INXString LAB_APP_NAME = "LucidApplicationBuilder: ";
+const INXString NO_PROJECT_WARNING = "<NO PROJECT SET>";
+const INXString ICON_PLACEHOLDER_FILE = "placeholder.png";
 
-// These are used at an earl stage of the application when the CString above haven't
+// These are used at an earl stage of the application when the INXString above haven't
 // yet been instantiated - so use simple define's instead.
 #define GUI_LAYOUT_DEFAULT_DESCRIPTION "Auto-generated default layout";
 #define GUI_LAYOUT_DEFAULT_FILENAMEPREFIX  "DEFAULT_LAYOUT_FOR_WIDGET_GROUP_"
 
 // Target definitions
-const CString DEFAULT_TARGET_REMOTE_IP = "0.0.0.0";
-const CString DEFAULT_TARGET_LOCAL_IP = "127.0.0.1";
-const CString DEFAULT_TARGET_PORT = "11425";
-const CString DEFAULT_TARGET_LOCATION = "Local";
-const CString DEFAULT_TARGET_APPSERVER_URL = "http://devport.inx-systems.com/appStore/uploadApplication.php";
-const CString DEFAULT_TARGET_APPSERVER_USERNAME = "123@abc";
-const CString DEFAULT_TARGET_APPSERVER_PASSWORD = "password";
-const CString TARGET_DISPLAY_NAME_LOCAL = "My Computer";
-const CString TARGET_DISPLAY_NAME_REMOTE = "IP Address";
-const CString TARGET_DISPLAY_NAME_APPSERVER = "App Server";
-const CString TARGET_DISPLAY_NAME_BLANK = "";
+const INXString DEFAULT_TARGET_REMOTE_IP = "0.0.0.0";
+const INXString DEFAULT_TARGET_LOCAL_IP = "127.0.0.1";
+const INXString DEFAULT_TARGET_PORT = "11425";
+const INXString DEFAULT_TARGET_LOCATION = "Local";
+const INXString DEFAULT_TARGET_APPSERVER_URL = "http://devport.inx-systems.com/appStore/uploadApplication.php";
+const INXString DEFAULT_TARGET_APPSERVER_USERNAME = "123@abc";
+const INXString DEFAULT_TARGET_APPSERVER_PASSWORD = "password";
+const INXString TARGET_DISPLAY_NAME_LOCAL = "My Computer";
+const INXString TARGET_DISPLAY_NAME_REMOTE = "IP Address";
+const INXString TARGET_DISPLAY_NAME_APPSERVER = "App Server";
+const INXString TARGET_DISPLAY_NAME_BLANK = "";
 
 // IDs for text boxes in IconParams dialog
 #define ICONPARAMS_ID_FUNCTIONNAME_LABEL 1001

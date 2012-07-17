@@ -8,18 +8,19 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-
+#include "Porting_Classes/INXString.h"
+#include "Porting_Classes/INXObjArray.h"
 class RJMFileFind2  
 {
 private:
-	void SearchSubDir(CString DIR,CStringArray *res);
-	void PhraseFilter(CString filter);
-	CStringArray Acc_Exts_Left;
-	CStringArray Acc_Exts_Right;
+	void SearchSubDir(INXString DIR,INXObjArray<INXString> *res);
+	void PhraseFilter(INXString filter);
+	INXObjArray<INXString> Acc_Exts_Left;
+	INXObjArray<INXString> Acc_Exts_Right;
 	CFileFind* m_pFinder;
-	bool PassFilter(CString t);
+	bool PassFilter(INXString t);
 public:
-	void FindFiles(bool sub, CString dir, CString filter, CStringArray *res);
+	void FindFiles(bool sub, INXString dir, INXString filter, INXObjArray<INXString> *res);
 	RJMFileFind2();
 	virtual ~RJMFileFind2();
 

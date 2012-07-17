@@ -222,7 +222,7 @@ void CSCBButton::Paint(CDC* pDC)
     int pointsize = MulDiv(60, 96, ppi); // 6 points at 96 ppi
     font.CreatePointFont(pointsize, _T("Marlett"));
     CFont* oldfont = pDC->SelectObject(&font);
-
+/*@todo MIGRATION_ISSUES INXString(_T("r"))*/
     pDC->TextOut(ptOrg.x + 2, ptOrg.y + 2, CString(_T("r"))); // x-like
 
     pDC->SelectObject(oldfont);

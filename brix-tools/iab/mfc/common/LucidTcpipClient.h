@@ -12,6 +12,7 @@ using namespace std;
 #include <winsock.h>
 #include "LucidEnums.h"
 #include "LucidConstants.h"
+#include "Porting_Classes/INXString.h"
 
 #ifndef LUCIDTCPIPCLIENT_H
 #define LUCIDTCPIPCLIENT_H
@@ -19,7 +20,7 @@ using namespace std;
 class TcpLogger
 {
 	char szFilename[256];	
-	void LogAddMessage(CString csLog);
+	void LogAddMessage(INXString csLog);
 	void LogRemoveLinesFromFrontOfFile(int number_of_lines_to_remove);
 	void LogClear();
 public:
@@ -52,31 +53,31 @@ private:
 	TcpLogger logger;
 	TcpTestSuite tests;
 	LtsStatusType SendText(char *szText, int size); //handles binary data
-	LtsStatusType SendData(CString csSendBuffer);
+	LtsStatusType SendData(INXString csSendBuffer);
 	LtsStatusType SendData(const char *szSendBuffer, int size);
 	LtsStatusType SendRawData(const char *szSendBuffer, int size);
-	LtsStatusType RecvData(CString &csRecvBuffer);
+	LtsStatusType RecvData(INXString &csRecvBuffer);
 	LtsStatusType InitialiseWinsock();
 	LtsStatusType CreateSocket();
 	LtsStatusType ServerConnect();
 	LtsStatusType SetSocketOptions();
-	CString csTempLineBuffer;
-	CString csTempBlockBuffer;
+	INXString csTempLineBuffer;
+	INXString csTempBlockBuffer;
 	static const char* szEscape; // represents escape character over TCP/IP
 	static const char* szDisconnect; // TCP/IP disconnect signal sent over TCP/IP
 public:	
 	static int s_iPort;	
-	static CString s_csIpAddress;	
+	static INXString s_csIpAddress;	
 	LucidTcpipClient(void);
 	~LucidTcpipClient(void);
 	LtsStatusType Connect();
 	LtsStatusType DisConnect();
-	LtsStatusType SendFileContents(CString csFilePath);
-	LtsStatusType SendFileContents(CString csFilePath, CTgtTransProgDlog *pDlog );
+	LtsStatusType SendFileContents(INXString csFilePath);
+	LtsStatusType SendFileContents(INXString csFilePath, CTgtTransProgDlog *pDlog );
 	
-	LtsStatusType SendText(CString csText);	
-	LtsStatusType ReceiveTextLine(CString &csReceiveText); // receives a line of text 
-	LtsStatusType ReceiveTextBlock(CString &csReceiveText); // receives a block of text i.e. includes line breaks
+	LtsStatusType SendText(INXString csText);	
+	LtsStatusType ReceiveTextLine(INXString &csReceiveText); // receives a line of text 
+	LtsStatusType ReceiveTextBlock(INXString &csReceiveText); // receives a block of text i.e. includes line breaks
 
 
 	//! Receives a delimited block of text i.e. includes line breaks - either to leftmost or rightmost limiter
@@ -86,8 +87,8 @@ public:
 	\param bGetLeftBlock If true, get only leftmost block.  Otherwise get all *complete* blocks.
 	*/
 	LtsStatusType ReceiveTextBlock( 
-		CString &csReceiveText, 
-		CString &csDelimToken,
+		INXString &csReceiveText, 
+		INXString &csDelimToken,
 		const bool &bGetLeftBlock ); 
 
 	void ConfigDlg();
@@ -95,16 +96,16 @@ public:
 
 	//Used for config dialog interface
 	int GetPort();
-	CString GetIPAddress();
+	INXString GetIPAddress();
 	void SetPort(int iPort);
-	void SetIPAddress(CString csIpAddress);
+	void SetIPAddress(INXString csIpAddress);
 
 	//Helper functions
-	int FileSize(CString csFullPath);
-	LtsStatusType WaitForServer(CString &csReceive);
+	int FileSize(INXString csFullPath);
+	LtsStatusType WaitForServer(INXString &csReceive);
 
-	LtsStatusType SendFile(CString csFilePath, CString csTargetFileName );
-	LtsStatusType SendFile(CString csFilePath, CString csTargetFileName, CTgtTransProgDlog *pDlog );
+	LtsStatusType SendFile(INXString csFilePath, INXString csTargetFileName );
+	LtsStatusType SendFile(INXString csFilePath, INXString csTargetFileName, CTgtTransProgDlog *pDlog );
 
 	void InitTcpipClient();
 };

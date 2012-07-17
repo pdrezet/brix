@@ -25,7 +25,7 @@ public:
 
 	// Attributes
 	Project* pProject;
-	CString selectedGroup;
+	INXString selectedGroup;
 
 // Overrides
 	// ClassWizard generated virtual function overrides

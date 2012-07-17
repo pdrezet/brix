@@ -75,7 +75,7 @@ int TypeConversion::DataType2Int(char dataType) {
 }
 
 // Converts the data type to an int
-int TypeConversion::DataType2Int(CString dataType) {
+int TypeConversion::DataType2Int(INXString dataType) {
 	int i;
 
 	if (dataType == "B") {

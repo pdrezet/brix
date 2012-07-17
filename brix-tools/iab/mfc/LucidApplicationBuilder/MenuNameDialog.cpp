@@ -33,14 +33,14 @@ BEGIN_MESSAGE_MAP(CMenuNameDialog, CDialog)
 END_MESSAGE_MAP()
 
 // Methods
-CString CMenuNameDialog::getMenuName()
+INXString CMenuNameDialog::getMenuName()
 {
 	return m_csMenuName;
 }
 
-void CMenuNameDialog::setMenuNamesDropList(set<CString> sMenuNames)
+void CMenuNameDialog::setMenuNamesDropList(set<INXString> sMenuNames)
 {
-	set<CString>::iterator it = sMenuNames.begin();
+	set<INXString>::iterator it = sMenuNames.begin();
 	while( it != sMenuNames.end() ){
 		m_ctlMenuName.AddString(*it);
 		it++;
@@ -59,7 +59,7 @@ BOOL CMenuNameDialog::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
-	set<CString> sL2LibMenuNames;
+	set<INXString> sL2LibMenuNames;
 
 	// populate the menu name drop-list with the library level 2 menu names
 	pFrame->m_cFuncBlockBar.m_cFuncBlckTree.getL2LibMenuNames(sL2LibMenuNames);

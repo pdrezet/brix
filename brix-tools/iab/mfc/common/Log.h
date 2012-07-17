@@ -3,6 +3,7 @@
 #include "LucidConstants.h"
 
 #include <fstream>
+#include "Porting_Classes/INXString.h"
 using namespace std;
 
 class Log
@@ -13,9 +14,9 @@ public:
 	~Log(void);
 
 // methods
-	bool Open(CString csFileName);
+	bool Open(INXString csFileName);
 	bool Close();
-	void WriteLogMsg(const CString csMsg);
+	void WriteLogMsg(const INXString csMsg);
 	bool IsOpen();
 
 // members

@@ -9,7 +9,7 @@
 
 IMPLEMENT_DYNAMIC(CWidgetGroupManagerDlg, CDialog)
 
-CWidgetGroupManagerDlg::CWidgetGroupManagerDlg(vector<CString> _vWidgetGroupNames, CWnd* pParent /*=NULL*/)
+CWidgetGroupManagerDlg::CWidgetGroupManagerDlg(vector<INXString> _vWidgetGroupNames, CWnd* pParent /*=NULL*/)
 	: CDialog(CWidgetGroupManagerDlg::IDD, pParent)
 	, m_csDialogNum(_T(""))
 	, m_csWidgetGroupName(_T(""))
@@ -24,7 +24,7 @@ CWidgetGroupManagerDlg::~CWidgetGroupManagerDlg()
 void CWidgetGroupManagerDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	DDX_Text(pDX, IDC_STATIC_DIALOG_NUM, m_csDialogNum);
+	DDX_Text(pDX, IDC_STATIC_DIALOG_NUM, (CString)m_csDialogNum);
 	DDX_CBString(pDX, IDC_WIDGET_GROUP_COMBO, m_csWidgetGroupName);
 	DDX_Control(pDX, IDC_WIDGET_GROUP_COMBO, m_ctlWidgetGroupName);
 }
@@ -35,22 +35,22 @@ BEGIN_MESSAGE_MAP(CWidgetGroupManagerDlg, CDialog)
 END_MESSAGE_MAP()
 
 // methods
-CString CWidgetGroupManagerDlg::getWidgetGroupName()
+INXString CWidgetGroupManagerDlg::getWidgetGroupName()
 {
 	return m_csWidgetGroupName;
 }
 
-void CWidgetGroupManagerDlg::setWidgetGroupName(CString csWidgetGroupName)
+void CWidgetGroupManagerDlg::setWidgetGroupName(INXString csWidgetGroupName)
 {
 	m_csWidgetGroupName = csWidgetGroupName;
 }
 
-void CWidgetGroupManagerDlg::setDialogCountString(CString csDialogCount)
+void CWidgetGroupManagerDlg::setDialogCountString(INXString csDialogCount)
 {
 	m_csDialogNum = csDialogCount;
 }
 
-void CWidgetGroupManagerDlg::setWidgetGroupDropList(vector<CString> vWidgetGrpNames)
+void CWidgetGroupManagerDlg::setWidgetGroupDropList(vector<INXString> vWidgetGrpNames)
 {
 	for (UINT i=0; i<vWidgetGrpNames.size(); i++) {
 		m_ctlWidgetGroupName.AddString(vWidgetGrpNames[i]);

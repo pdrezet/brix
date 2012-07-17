@@ -10,6 +10,8 @@
 #include "../common/LucidConstants.h"
 #include "condat.h"
 #include "Porting_Classes/INXSize.h"
+#include "Porting_Classes/INXString.h"
+
 class ConDataTempStore  
 {
 
@@ -20,16 +22,16 @@ public:
 	int m_iParamNum;
 	int m_iUserDefined;
 
-	CString	m_csType; //graphic filename
-	CString m_csBlock; // block name for encapsulated blocks. graphic filename is encapsulate
-	CString m_csDescription;
-	CString m_csLongDesc;
-	CString m_csClassName;
-	CString m_csOptionstring;
+	INXString	m_csType; //graphic filename
+	INXString m_csBlock; // block name for encapsulated blocks. graphic filename is encapsulate
+	INXString m_csDescription;
+	INXString m_csLongDesc;
+	INXString m_csClassName;
+	INXString m_csOptionstring;
 	INXSize m_cSize;
 
 	int m_iInstNum;
-	CString m_csHierarchyName;
+	INXString m_csHierarchyName;
 	bool m_bSaveSelectedFlag;
 	INXRect m_cRectangle; /// body part of icon
 

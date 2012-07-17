@@ -5,7 +5,8 @@
 #pragma once
 //#include "Parameter.h"
 using namespace std;
-
+#include "Porting_Classes/INXString.h"
+#include "Porting_Classes/INXObjArray.h"
 class Parameter;
 
 class ParameterStore : public CObject  
@@ -16,30 +17,30 @@ public:
 
 	bool IsTextbox();
 
-	ParameterStore(	CString _name, 
+	ParameterStore(	INXString _name, 
 				int _dataType, 
-				CString _minRange, 
-				CString _maxRange, 
-				CString defaultVal, 
-				CString _description, 
-				CStringArray* _enumValArr, 
-				CStringArray* _enumLabelArr);
+				INXString _minRange, 
+				INXString _maxRange, 
+				INXString defaultVal, 
+				INXString _description, 
+				INXObjArray<INXString>* _enumValArr, 
+				INXObjArray<INXString>* _enumLabelArr);
 
 	virtual ~ParameterStore();
 	
 	void copy( const Parameter *rhs );
 
 	// attributes
-	CString m_csName;
-	CString m_csDescription;
+	INXString m_csName;
+	INXString m_csDescription;
 	int m_iDataType; //parameter data type @tod the types here need to be enumerated type 5 is for tags info
-	CString m_csMinRange;
-	CString m_csMaxRange;
-	CString m_csValue;
-	CStringArray m_csaEnumValArr;
-	CStringArray m_csaEnumLabelArr;
+	INXString m_csMinRange;
+	INXString m_csMaxRange;
+	INXString m_csValue;
+	INXObjArray<INXString> m_csaEnumValArr;
+	INXObjArray<INXString> m_csaEnumLabelArr;
 
-	CString GetEnumLabel(CString enumVal);
-	CString GetEnumVal(CString enumLabel);
+	INXString GetEnumLabel(INXString enumVal);
+	INXString GetEnumVal(INXString enumLabel);
 
 };

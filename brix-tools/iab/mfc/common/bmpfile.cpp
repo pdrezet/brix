@@ -16,7 +16,7 @@ Bitmap::~Bitmap(void)
 	}
 }
 
-CSize Bitmap::Init(CString FileName) {
+CSize Bitmap::Init(INXString FileName) {
 		//int x=bmpWidth[i];
 		//int y=bmpHieght[i];
 		bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
@@ -133,7 +133,7 @@ BYTE * Bitmap::MakeDwordAlignedBuf(BYTE *dataBuf)		// bytes!!!
 }
 
 
-BYTE* Bitmap::LoadBMP(CString fileName)
+BYTE* Bitmap::LoadBMP(INXString fileName)
 //UINT *width, UINT *height,BYTE* planes,BYTE *bp
 {
 	typedef struct 

@@ -7,6 +7,7 @@
 // AddPortDialog.h : header file
 //
 #include "Condat.h"
+#include "Porting_Classes/INXString.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CAddPortDialog dialog
@@ -20,8 +21,8 @@ public:
 	// attributes
 	//char portType[16];
 	//char dataType[16];
-	CString portType;
-	CString dataType;
+	INXString portType;
+	INXString dataType;
 	ConData* blob;
 
 	// Methods
@@ -32,7 +33,7 @@ public:
 	enum { IDD = IDD_ADD_PORT };
 	CComboBox	m_DataType;
 	CComboBox	m_PortType;
-	CString	m_PortLabel;
+	INXString	m_PortLabel;
 	//}}AFX_DATA
 
 

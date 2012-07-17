@@ -6,6 +6,7 @@
 #endif // _MSC_VER > 1000
 // BlockNameDialog.h : header file
 //
+#include "Porting_Classes/INXString.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CBlockNameDialog dialog
@@ -19,7 +20,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CBlockNameDialog)
 	enum { IDD = IDD_BLOCK_NAME };
-	CString	m_BlockName;
+	INXString	m_BlockName;
 	//}}AFX_DATA
 
 

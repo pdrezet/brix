@@ -29,8 +29,8 @@ void CLucidStateMachineDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CLucidStateMachineDialog)
-	DDX_Text(pDX, IDC_EDIT3, m_csState);
-	DDX_Text(pDX, IDC_EDIT1, m_csNumTransitionsTo);
+	DDX_Text(pDX, IDC_EDIT3, (CString)m_csState);
+	DDX_Text(pDX, IDC_EDIT1, (CString)m_csNumTransitionsTo);
 	//}}AFX_DATA_MAP
 }
 

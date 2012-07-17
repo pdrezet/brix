@@ -45,7 +45,7 @@ void Encapsulation::EncapsulateBlock(INXObjList* _encapsulated, HTREEITEM _hItem
 	hItem = _hItem;
 	encapsulated = _encapsulated;
 	Encapsulate *dialog = new Encapsulate(encapsulated);
-	//CString blockFile;
+	//INXString blockFile;
 	int iconNum;
 
 	// find an appropriate encapsulation icon
@@ -134,7 +134,7 @@ int Encapsulation::SaveEncapsulated(Encapsulate* dialog, int iconNum, int nLib)
 	bool nameOK = FALSE;
 	bool errorFlag = FALSE;
 	bool bIsUnique = TRUE;
-	CString blockFile, depPath, csProjectDir;
+	INXString blockFile, depPath, csProjectDir;
 	UINT inNum = 0, outNum = 0, startNum = 0, finishNum = 0;
 	char csPortNum[8];
 	Project* pProject;
@@ -162,23 +162,23 @@ int Encapsulation::SaveEncapsulated(Encapsulate* dialog, int iconNum, int nLib)
 	// Set the arrays with the correct number of xport labels
 	for (i=1; i<=inNum; i++) {
 		_itoa_s(i, csPortNum, 10); 
-		dialog->inLabels[i] = "Input" + (CString)csPortNum;
-		dialog->inNames[i] = "i" + (CString)csPortNum;
+		dialog->inLabels[i] = "Input" + (INXString)csPortNum;
+		dialog->inNames[i] = "i" + (INXString)csPortNum;
 	}
 	for (i=1; i<=outNum; i++) {
 		_itoa_s(i, csPortNum, 10); 
-		dialog->outLabels[i] = "Output" + (CString)csPortNum;
-		dialog->outNames[i] = "o" + (CString)csPortNum;
+		dialog->outLabels[i] = "Output" + (INXString)csPortNum;
+		dialog->outNames[i] = "o" + (INXString)csPortNum;
 	}
 	for (i=1; i<=startNum; i++) {
 		_itoa_s(i, csPortNum, 10); 
-		dialog->startLabels[i] = "Start" + (CString)csPortNum;
-		dialog->startNames[i] = "s" + (CString)csPortNum;
+		dialog->startLabels[i] = "Start" + (INXString)csPortNum;
+		dialog->startNames[i] = "s" + (INXString)csPortNum;
 	}
 	for (i=1; i<=finishNum; i++) {
 		_itoa_s(i, csPortNum, 10); 
-		dialog->finishLabels[i] = "Finish" + (CString)csPortNum;
-		dialog->finishNames[i] = "f" + (CString)csPortNum;
+		dialog->finishLabels[i] = "Finish" + (INXString)csPortNum;
+		dialog->finishNames[i] = "f" + (INXString)csPortNum;
 	}
 	// set the dialog member variables to the array values
 	//dialog->getArray();
@@ -229,7 +229,7 @@ int Encapsulation::SaveEncapsulated(Encapsulate* dialog, int iconNum, int nLib)
 						if (blob->m_iUserDefined) {
 							pProject = pFrame->m_wndProjectBar.m_cProjTree.GetProjectPtr(hItem);
 							pProject->pProjMData->getProjectDir(csProjectDir);
-							depPath = pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hItem) + pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hItem) + "\\";
+							depPath = pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hItem) + (INXString)pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hItem) + "\\";
 							if (!fo.Copy(csProjectDir + DEPDIR + depPath + blob->description + ".prg",
 								workDir + USERDEFDIR + dialog->m_BlockName)) {
 								fo.ShowError(); // if copy fails show error message
@@ -258,11 +258,11 @@ int Encapsulation::SaveEncapsulated(Encapsulate* dialog, int iconNum, int nLib)
 	return 1;
 }
 /*
-void Encapsulation::SaveSubBlocks(CObList* subBlock, CString hierarchyName) {
+void Encapsulation::SaveSubBlocks(CObList* subBlock, INXString hierarchyName) {
 	CObList* tmpList = new CObList;
 	ConData* blob;
 	POSITION pos;
-	CString newHierName;
+	INXString newHierName;
 
 	pos = subBlock->GetHeadPosition();
 	while(pos) {
@@ -285,13 +285,13 @@ void Encapsulation::SaveSubBlocks(CObList* subBlock, CString hierarchyName) {
 
 // Function that writes out IDF for an encapsulated block
 void Encapsulation::WriteIDF(Encapsulate *dialog, int iconNum) {
-	CString idfFile = workDir + USERDEFDIR + dialog->m_BlockName + ".idf.ini";
+	INXString idfFile = workDir + USERDEFDIR + dialog->m_BlockName + ".idf.ini";
 	ofstream datafile(idfFile);
 	INXPOSITION pos;
 	ConData *blob;
 	UINT inNum = 1, outNum = 1, startNum = 1, finishNum = 1, portNum = 1;
 	char csPortNum[8];
-	CString bitmap;
+	INXString bitmap;
 	TypeConversion converter;
 	int iInFirstYCoord, iOutFirstYCoord;
 
@@ -305,33 +305,33 @@ void Encapsulation::WriteIDF(Encapsulate *dialog, int iconNum) {
 
 	datafile << "[Icon]" << endl;
 	//datafile << "graphic filename=ENCAPSULATE" << endl;
-	datafile << "graphic filename=" << bitmap << endl;
+	datafile << "graphic filename=" << (CString)bitmap << endl;
 	datafile << "user defined=1" << endl;
 	datafile << endl;
 	datafile << "[Class]" << endl;
-	datafile << "class name=" << dialog->m_BlockName << endl;
+	datafile << "class name=" << (CString)dialog->m_BlockName << endl;
 	datafile << endl;
 	datafile << "[MenuLevel1]" << endl;
 	datafile << "level1 menu=User Components" << endl;
 	datafile << endl;
 	if (dialog->getMenuName() == "") {
 		datafile << "[MenuLevel2]" << endl;
-		datafile << "level2 menu=" << dialog->m_BlockName << endl;
+		datafile << "level2 menu=" << (CString)dialog->m_BlockName << endl;
 		datafile << endl;
 	}
 	else {
 		datafile << "[MenuLevel2]" << endl;
-		datafile << "level2 menu=" << dialog->getMenuName() << endl;
+		datafile << "level2 menu=" << (CString)dialog->getMenuName() << endl;
 		datafile << endl;
 		datafile << "[MenuLevel3]" << endl;
-		datafile << "level3 menu=" << dialog->m_BlockName << endl;
+		datafile << "level3 menu=" << (CString)dialog->m_BlockName << endl;
 		datafile << endl;
 	}
 	datafile << "[Short Description]" << endl;
 	datafile << "description=" << endl;
 	datafile << endl;
 	datafile << "[Long Description]" << endl;
-	datafile << "description=" << dialog->m_LongDescription << endl;
+	datafile << "description=" << (CString)dialog->m_LongDescription << endl;
 	datafile << endl;
 
 	// write out ports. The xports in the diagram should have the same description as in the idf
@@ -346,7 +346,7 @@ void Encapsulation::WriteIDF(Encapsulate *dialog, int iconNum) {
 			datafile << "[Port" << csPortNum << "]" << endl;
 			//itoa(inNum, csPortNum, 10); 
 			blob->description = dialog->inNames[inNum];
-			datafile << "description=" << dialog->inNames[inNum] << endl;
+			datafile << "description=" << (CString)dialog->inNames[inNum] << endl;
 			datafile << "port type=InputPort" << endl;
 			datafile << "x coordinate=-6" << endl;
 			datafile << "y coordinate=" << (iInFirstYCoord + ((inNum - 1) * 15)) << endl;
@@ -360,7 +360,7 @@ void Encapsulation::WriteIDF(Encapsulate *dialog, int iconNum) {
 			datafile << "[Port" << csPortNum << "]" << endl;
 			//itoa(outNum, csPortNum, 10);
 			blob->description = dialog->outNames[outNum];
-			datafile << "description=" << dialog->outNames[outNum] << endl;
+			datafile << "description=" << (CString)dialog->outNames[outNum] << endl;
 			datafile << "port type=OutputPort" << endl;
 			datafile << "x coordinate=86" << endl;
 			datafile << "y coordinate=" << (iOutFirstYCoord + ((outNum - 1) * 15)) << endl;
@@ -374,7 +374,7 @@ void Encapsulation::WriteIDF(Encapsulate *dialog, int iconNum) {
 			datafile << "[Port" << csPortNum << "]" << endl;
 			//itoa(startNum, csPortNum, 10);
 			blob->description = dialog->startNames[startNum];
-			datafile << "description=" << dialog->startNames[startNum] << endl;
+			datafile << "description=" << (CString)dialog->startNames[startNum] << endl;
 			datafile << "port type=StartPort" << endl;
 			datafile << "x coordinate=-6" << endl;
 			datafile << "y coordinate=" << (10 + ((startNum - 1) * 15)) << endl;
@@ -387,7 +387,7 @@ void Encapsulation::WriteIDF(Encapsulate *dialog, int iconNum) {
 			datafile << "[Port" << csPortNum << "]" << endl;
 			//itoa(finishNum, csPortNum, 10);
 			blob->description = dialog->finishNames[finishNum];
-			datafile << "description=" << dialog->finishNames[finishNum] << endl;
+			datafile << "description=" << (CString)dialog->finishNames[finishNum] << endl;
 			datafile << "port type=FinishPort" << endl;
 			datafile << "x coordinate=86" << endl;
 			datafile << "y coordinate=" << (10 + ((finishNum - 1) * 15)) << endl;
@@ -401,11 +401,11 @@ void Encapsulation::WriteIDF(Encapsulate *dialog, int iconNum) {
 }
 
 // Function that writes out IDF for a subsystem that is being added to the library
-void Encapsulation::WriteIDF(const ConData *block, const int nIconNum, CString csL2MenuName) {
-	CString idfFile = workDir + USERDEFDIR + block->className + ".idf.ini";
+void Encapsulation::WriteIDF(const ConData *block, const int nIconNum, INXString csL2MenuName) {
+	INXString idfFile = workDir + USERDEFDIR + block->className + ".idf.ini";
 	ofstream datafile(idfFile);
 	UINT nInNum = 1, nOutNum = 1, nStartNum = 1, nFinishNum = 1, nPortNum = 1;
-	CString bitmap;
+	INXString bitmap;
 	TypeConversion converter;
 	int nInFirstYCoord, nOutFirstYCoord;
 
@@ -419,33 +419,33 @@ void Encapsulation::WriteIDF(const ConData *block, const int nIconNum, CString c
 
 	datafile << "[Icon]" << endl;
 	//datafile << "graphic filename=ENCAPSULATE" << endl;
-	datafile << "graphic filename=" << bitmap << endl;
+	datafile << "graphic filename=" <<(CString)bitmap << endl;
 	datafile << "user defined=1" << endl;
 	datafile << endl;
 	datafile << "[Class]" << endl;
-	datafile << "class name=" << block->className << endl;
+	datafile << "class name=" << (CString)block->className << endl;
 	datafile << endl;
 	datafile << "[MenuLevel1]" << endl;
 	datafile << "level1 menu=User Components" << endl;
 	datafile << endl;
 	if (csL2MenuName == "") {
 		datafile << "[MenuLevel2]" << endl;
-		datafile << "level2 menu=" << block->className << endl;
+		datafile << "level2 menu=" << (CString)block->className << endl;
 		datafile << endl;
 	}
 	else {
 		datafile << "[MenuLevel2]" << endl;
-		datafile << "level2 menu=" << csL2MenuName << endl;
+		datafile << "level2 menu=" << (CString)csL2MenuName << endl;
 		datafile << endl;
 		datafile << "[MenuLevel3]" << endl;
-		datafile << "level3 menu=" << block->className << endl;
+		datafile << "level3 menu=" << (CString)block->className << endl;
 		datafile << endl;
 	}
 	datafile << "[Short Description]" << endl;
-	datafile << "description=" << block->description << endl;
+	datafile << "description=" << (CString)block->description << endl;
 	datafile << endl;
 	datafile << "[Long Description]" << endl;
-	datafile << "description=" << block->longDesc << endl;
+	datafile << "description=" << (CString)block->longDesc << endl;
 	datafile << endl;
 
 	// write out ports. The xports in the diagram should have the same description as in the idf
@@ -453,8 +453,8 @@ void Encapsulation::WriteIDF(const ConData *block, const int nIconNum, CString c
 	nInFirstYCoord = GetFirstInPortYCoord();
 	nOutFirstYCoord = GetFirstOutPortYCoord();
 	for (UINT i=0; i<block->inputport_num; i++) {
-		datafile << "[Port" << intToString(nPortNum) << "]" << endl;
-		datafile << "description=" << block->inputport[i]->description << endl;
+		datafile << "[Port" << (CString)intToString(nPortNum) << "]" << endl;
+		datafile << "description=" << (CString)block->inputport[i]->description << endl;
 		datafile << "port type=InputPort" << endl;
 		datafile << "x coordinate=-6" << endl;
 		datafile << "y coordinate=" << (nInFirstYCoord + ((nInNum - 1) * 15)) << endl;
@@ -464,8 +464,8 @@ void Encapsulation::WriteIDF(const ConData *block, const int nIconNum, CString c
 		nPortNum++;
 	}
 	for (UINT i=0; i<block->outputport_num; i++) {
-		datafile << "[Port" << intToString(nPortNum) << "]" << endl;
-		datafile << "description=" << block->outputport[i]->description << endl;
+		datafile << "[Port" << (CString)intToString(nPortNum) << "]" << endl;
+		datafile << "description=" << (CString)block->outputport[i]->description << endl;
 		datafile << "port type=OutputPort" << endl;
 		datafile << "x coordinate=86" << endl;
 		datafile << "y coordinate=" << (nOutFirstYCoord + ((nOutNum - 1) * 15)) << endl;
@@ -475,8 +475,8 @@ void Encapsulation::WriteIDF(const ConData *block, const int nIconNum, CString c
 		nPortNum++;
 	}
 	for (UINT i=0; i<block->startport_num; i++) {
-		datafile << "[Port" << intToString(nPortNum) << "]" << endl;
-		datafile << "description=" << block->startport[i]->description << endl;
+		datafile << "[Port" << (CString)intToString(nPortNum) << "]" << endl;
+		datafile << "description=" << (CString)block->startport[i]->description << endl;
 		datafile << "port type=StartPort" << endl;
 		datafile << "x coordinate=-6" << endl;
 		datafile << "y coordinate=" << (10 + ((nStartNum - 1) * 15)) << endl;
@@ -485,8 +485,8 @@ void Encapsulation::WriteIDF(const ConData *block, const int nIconNum, CString c
 		nPortNum++;
 	}
 	for (UINT i=0; i<block->finishport_num; i++) {
-		datafile << "[Port" << intToString(nPortNum) << "]" << endl;
-		datafile << "description=" << block->finishport[i]->description << endl;
+		datafile << "[Port" << (CString)intToString(nPortNum) << "]" << endl;
+		datafile << "description=" << (CString)block->finishport[i]->description << endl;
 		datafile << "port type=FinishPort" << endl;
 		datafile << "x coordinate=86" << endl;
 		datafile << "y coordinate=" << (10 + ((nFinishNum - 1) * 15)) << endl;
@@ -536,9 +536,9 @@ int Encapsulation::GetFirstOutPortYCoord() {
 }
 
 // function that converts the integer value for the encapsulated icon to the bitmap filename string
-CString Encapsulation::IconNum2Bitmap(int iconNum) {
+INXString Encapsulation::IconNum2Bitmap(int iconNum) {
 
-	CString bitmap;
+	INXString bitmap;
 
 	switch(iconNum) {
 		case -1:
@@ -803,7 +803,7 @@ ConData* Encapsulation::GetIconFromID(long int id, INXObjList* list) {
 }
 
 // This function adds a new icon to the encapsulated list
-ConData* Encapsulation::AddXPort(CString type, INXPoint point) {
+ConData* Encapsulation::AddXPort(INXString type, INXPoint point) {
 	ConData *blobb = new ConData;
 	long id;
 
@@ -846,7 +846,7 @@ void Encapsulation::EditEncapsulation(POSITION selectedIcon)
 	bool errorFlag = FALSE;
 	int iconNum;
 	char csPortNum[8];
-	CString blockFile;
+	INXString blockFile;
 	
 	blockFile = projectDir + DEPDIR + blob->block + ".prg";
 	encapsulated = LoadBlock(blockFile);
@@ -856,22 +856,22 @@ void Encapsulation::EditEncapsulation(POSITION selectedIcon)
 	dialog->m_BlockName = blob->block;
 	for (UINT i=1; i<=blob->inputport_num; i++) {
 		itoa(i, csPortNum, 10); 
-		dialog->inLabels[i] = "Input" + (CString)csPortNum;
+		dialog->inLabels[i] = "Input" + (INXString)csPortNum;
 		dialog->inNames[i] = blob->inputport[i-1]->description;
 	}
 	for (i=1; i<=blob->outputport_num; i++) {
 		itoa(i, csPortNum, 10); 
-		dialog->outLabels[i] = "Output" + (CString)csPortNum;
+		dialog->outLabels[i] = "Output" + (INXString)csPortNum;
 		dialog->outNames[i] = blob->outputport[i-1]->description;
 	}
 	for (i=1; i<=blob->startport_num; i++) {
 		itoa(i, csPortNum, 10); 
-		dialog->startLabels[i] = "Start" + (CString)csPortNum;
+		dialog->startLabels[i] = "Start" + (INXString)csPortNum;
 		dialog->startNames[i] = blob->startport[i-1]->description;
 	}
 	for (i=1; i<=blob->finishport_num; i++) {
 		itoa(i, csPortNum, 10); 
-		dialog->finishLabels[i] = "Finish" + (CString)csPortNum;
+		dialog->finishLabels[i] = "Finish" + (INXString)csPortNum;
 		dialog->finishNames[i] = blob->finishport[i-1]->description;
 	}	
 
@@ -1021,16 +1021,16 @@ void Encapsulation::SetEncapsulated(INXObjList *_encapsulated)
 	encapsulated = _encapsulated;
 }
 
-bool Encapsulation::IsLibComponentUnique(const CString csLibName)
+bool Encapsulation::IsLibComponentUnique(const INXString csLibName)
 {
 	CFileOperation fo;
 
 	// IDF for library components used to be saved in IDF dir.
-	if (fo.CheckPath((CString)workDir + IDFDIR + csLibName + ".idf.ini")) {
+	if (fo.CheckPath((INXString)workDir + IDFDIR + csLibName + ".idf.ini")) {
 		return false;
 	}
 	// IDF for library components is now saved in userdefined dir.
-	else if (fo.CheckPath((CString)workDir + USERDEFDIR + csLibName + ".idf.ini")) {
+	else if (fo.CheckPath((INXString)workDir + USERDEFDIR + csLibName + ".idf.ini")) {
 		return false;
 	}
 	else {

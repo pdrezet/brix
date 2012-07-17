@@ -23,14 +23,14 @@ ParameterStore::ParameterStore()
 }
 /*
 ParameterStore::ParameterStore(
-					 CString _name, 
+					 INXString _name, 
 					 int _dataType, 
-					 CString _minRange, 
-					 CString _maxRange, 
-					 CString _defaultVal, 
-					 CString _description, 
-					 CStringArray* _enumValArr, 
-					 CStringArray* _enumLabelArr
+					 INXString _minRange, 
+					 INXString _maxRange, 
+					 INXString _defaultVal, 
+					 INXString _description, 
+					 INXObjArray<INXString>* _enumValArr, 
+					 INXObjArray<INXString>* _enumLabelArr
 					 )
 {
 	name = _name;
@@ -41,10 +41,10 @@ ParameterStore::ParameterStore(
 	description = _description;
 
 	for(size_t i=0;i<_enumValArr->GetCount(); i++)
-		enumValArr.SetAtGrow(i,  (CString)_enumValArr->GetAt(i) );
+		enumValArr.SetAtGrow(i,  (INXString)_enumValArr->GetAt(i) );
 
 	for(size_t i=0;i<_enumLabelArr->GetCount(); i++)
-		enumLabelArr.SetAtGrow(i,  (CString)_enumLabelArr->GetAt(i) );
+		enumLabelArr.SetAtGrow(i,  (INXString)_enumLabelArr->GetAt(i) );
 
 }
 */
@@ -62,10 +62,10 @@ void ParameterStore::copy( const Parameter *rhs )
 	m_csaEnumLabelArr.RemoveAll();
 
 	for(size_t i=0;i<rhs->enumValArr->GetCount(); i++)
-		m_csaEnumValArr.SetAtGrow(i,  (CString)rhs->enumValArr->GetAt(i) );
+		m_csaEnumValArr.SetAtGrow(i,  (INXString)rhs->enumValArr->GetAt(i) );
 
 	for(size_t i=0;i<rhs->enumLabelArr->GetCount(); i++)
-		m_csaEnumLabelArr.SetAtGrow(i,  (CString)rhs->enumLabelArr->GetAt(i) );
+		m_csaEnumLabelArr.SetAtGrow(i,  (INXString)rhs->enumLabelArr->GetAt(i) );
 
 }
 
@@ -88,8 +88,8 @@ bool ParameterStore::IsTextbox() {
 }
 
 // Function that returns an enumerated Label for a given enumerated value
-CString ParameterStore::GetEnumLabel(CString enumVal) {
-	CString ret = "";
+INXString ParameterStore::GetEnumLabel(INXString enumVal) {
+	INXString ret = "";
 
 	for (int i=0; i<m_csaEnumValArr.GetSize(); i++) {
 		if (m_csaEnumValArr.GetAt(i) == enumVal) {
@@ -103,8 +103,8 @@ CString ParameterStore::GetEnumLabel(CString enumVal) {
 }
 
 // Function that returns an enumerated value for a given enumerated label
-CString ParameterStore::GetEnumVal(CString enumLabel) {
-	CString ret = "";
+INXString ParameterStore::GetEnumVal(INXString enumLabel) {
+	INXString ret = "";
 
 	for (int i=0; i<m_csaEnumLabelArr.GetSize(); i++) {
 		if (m_csaEnumLabelArr.GetAt(i) == enumLabel) {

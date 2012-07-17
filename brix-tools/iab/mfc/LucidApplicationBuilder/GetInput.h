@@ -6,7 +6,7 @@
 #endif // _MSC_VER >= 1000
 // GetInput.h : header file
 //
-
+#include "Porting_Classes/INXString.h"
 /////////////////////////////////////////////////////////////////////////////
 // GetInput dialog
 
@@ -15,7 +15,7 @@ class GetInput : public CDialog
 // Construction
 public:
 	GetInput(CWnd* pParent = NULL);   // standard constructor
-	CString m_string;
+	INXString m_string;
 // Dialog Data
 	//{{AFX_DATA(GetInput)
 	enum { IDD = IDD_DIALOG1 };

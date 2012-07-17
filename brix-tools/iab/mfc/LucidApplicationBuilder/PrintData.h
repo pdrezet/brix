@@ -8,7 +8,7 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-
+#include "Porting_Classes/INXString.h"
 
 class CPrintData  
 {
@@ -20,7 +20,7 @@ public:
 	UINT m_nWidths; // No. of pages for the width of the view
 	UINT m_nLengths; // No. of pages for the length of the view
 	INXPoint m_ViewRefPoint; // Top left corner of the view contents
-	CString m_ViewTitle; // Name of the view
+	INXString m_ViewTitle; // Name of the view
 
 };
 

@@ -28,7 +28,7 @@ extern char workDir[WORK_DIR_SIZE];
 
 void IconParams::SetHTML() {
 	
-	CString helpPath;
+	INXString helpPath;
 	CFileOperation fo;
 
 	// don't assume help file is in a particular directory, check CDF dir first then IDF
@@ -45,7 +45,7 @@ void IconParams::SetHTML() {
 	
 	//COleVariant sLoc("http://www.google.com");
 //	COleVariant sLoc("file://C:\\Users\\bob\\Documents\\how-to-load-mshtml-with-data.html");
-	COleVariant sLoc(helpPath);
+	COleVariant sLoc((CString)helpPath);
 	html_control.Navigate2(sLoc, NULL, NULL, NULL, NULL);
 	
 }
@@ -155,8 +155,8 @@ bool IconParams::errorsInData()
 {
 
 	// TODO: Add extra validation here
-	CString strText, enumLabel, csScreenTag, csOldScreenTag, csWidgetTag;
-	CString csNewFuncName, csOldFuncName, csInstNum, csNewDescription;
+	INXString strText, enumLabel, csScreenTag, csOldScreenTag, csWidgetTag;
+	INXString csNewFuncName, csOldFuncName, csInstNum, csNewDescription;
 	long tmp;
 	int dotCnt;
 	double dtmp;
@@ -327,8 +327,8 @@ bool IconParams::errorsInData()
 
 void IconParams::transferDialogDataToCache()
 {
-	CString strText, enumLabel, csScreenTag, csOldScreenTag, csWidgetTag;
-	CString csNewFuncName, csOldFuncName, csInstNum, csNewDescription;
+	INXString strText, enumLabel, csScreenTag, csOldScreenTag, csWidgetTag;
+	INXString csNewFuncName, csOldFuncName, csInstNum, csNewDescription;
 
 	// save function name for subsystems
 	if (mBlobTempStore.m_iUserDefined) {
@@ -380,8 +380,8 @@ void IconParams::OnScreenTagManager()
 	}
 
 
-	vector<CString> vScreenTags;
-	CString csTmpWG;
+	vector<INXString> vScreenTags;
+	INXString csTmpWG;
 
 	CScreenTagDialog dlg(pProject->pProjMData);
 
@@ -411,7 +411,7 @@ void IconParams::OnScreenTagManager()
 
 void IconParams::updateWidgetInProject()
 {
-	CString csOldScreenTag, csScreenTag, csOldWidgetTag, csWidgetTag;
+	INXString csOldScreenTag, csScreenTag, csOldWidgetTag, csWidgetTag;
 
 	for (UINT i=1; i<mBlobTempStore.m_iParamNum; i++) {
 		// get old and new screen tags
@@ -442,7 +442,7 @@ BOOL IconParams::OnInitDialog()
 	// TODO: Add extra initialization here
 	int x1=140, y1=10, x2=340, y2=32;
 	int lx1=10, lx2=130;
-	vector<CString> vScreenTags;
+	vector<INXString> vScreenTags;
 	// Use same font as OK button for labels and textboxes
 	CFont *m_Font = m_ctlOK.GetFont();
 
@@ -597,7 +597,7 @@ BOOL IconParams::OnInitDialog()
 	              // EXCEPTION: OCX Property Pages should return FALSE
 }
 
-bool IconParams::IsFileName8Dot3Format(CString csFileName)
+bool IconParams::IsFileName8Dot3Format(INXString csFileName)
 {
 	bool bRet = true;
 	int iLen;

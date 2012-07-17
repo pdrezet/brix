@@ -9,7 +9,7 @@
 
 /////////////////////////////////////////////////////////////////////////////
 // CZoomDialog dialog
-
+#include "Porting_Classes/INXString.h"
 class CZoomDialog : public CDialog
 {
 // Construction
@@ -23,7 +23,7 @@ public:
 	//}}AFX_DATA
 
 	// Attributes
-	CString szScale;
+	INXString szScale;
 	int iScale;
 
 // Overrides

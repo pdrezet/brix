@@ -15,7 +15,7 @@
 #include "Group.h"
 #include "Debugger.h"
 #include "ProjectMetaData.h"
-
+#include "Porting_Classes/INXString.h"
 
 class Project  
 {
@@ -36,10 +36,10 @@ private:
 
 public:
 	// Methods
-	void AddBlockPort(ConData* blob, int iDataType, int iPortType, CString portLabel, DEP* pDEP);
+	void AddBlockPort(ConData* blob, int iDataType, int iPortType, INXString portLabel, DEP* pDEP);
 	DEP* AddDEP();
 	void AddIconToGroup(INXPOSITION selectedIcon, int groupID, DEP* vwDEP);
-	ConData* AddXPort(DEP* pParentDEP, CString type, CString portLabel, INXPoint point, DEP* pDEP);
+	ConData* AddXPort(DEP* pParentDEP, INXString type, INXString portLabel, INXPoint point, DEP* pDEP);
 	void AssignHierLineID();
 	void PropagateHierLineId(ConData* blob, HTREEITEM hItem, long hierID, int portType, int iPortNum);
 	void AssignSubBlockHierLineId(HTREEITEM hItem);
@@ -47,29 +47,29 @@ public:
 	void DeleteDEP(DEP* theDEP);
 	void DeleteBlockPort(INXPOSITION blockPos, int portNum, int portType, DEP* pDEP);
 	void DeleteUnused(DEP* thisDEP);
-	void DeleteXPort(DEP* pParentDEP, CString portLabel, CString blockName);
+	void DeleteXPort(DEP* pParentDEP, INXString portLabel, INXString blockName);
 	void EditGroupSetup();
-	//DEP* GetDEPPtr(CString depFilename);
-	int LoadProg(CString Info);
-	CDrawProgView* OpenView(CString depFilename);
+	//DEP* GetDEPPtr(INXString depFilename);
+	int LoadProg(INXString Info);
+	CDrawProgView* OpenView(INXString depFilename);
 	void RenameBlockPort(INXPOSITION blockPos, int iPortNum, int iPortType, DEP* pDEP);
-	void RenameXport(INXPOSITION iconPos, DEP* pDEP, CString &csNewPortLabel);
+	void RenameXport(INXPOSITION iconPos, DEP* pDEP, INXString &csNewPortLabel);
 	void ResetDebug();
 	void SaveHierName();
-	void SaveProg(CString Info);
+	void SaveProg(INXString Info);
 	void SaveProjectDep();
 	void SaveProject();
-	INXObjList* WriteSODL(CString sodlfile);
+	INXObjList* WriteSODL(INXString sodlfile);
 
 	// Tag Management
 	void addGuiWidget(ConData* icon);
 	void removeGuiWidget(ConData* icon);
 	void addPastedGuiWidgets(HTREEITEM hItem, INXObjList* pasteList);
 	void removeWidgetsInUserDefBlock(HTREEITEM hItem);
-	void getWidgetGroupNames(HTREEITEM hItem, set<CString> &sWidgetGroupSet); 
-	void setWidgetGroupNames(set<CString> sWidgetGroupSet, vector<pair<CString, CString> > &vWidgetGroupPairVec);
-	void updateWidgetGroupNames(HTREEITEM hItem, vector<pair<CString, CString> > vWidgetGroupPairVec);
-	void updateWidgetGroup(ConData* pBlob, vector<pair<CString, CString> > vWidgetGroupPairVec);
+	void getWidgetGroupNames(HTREEITEM hItem, set<INXString> &sWidgetGroupSet); 
+	void setWidgetGroupNames(set<INXString> sWidgetGroupSet, vector<pair<INXString, INXString> > &vWidgetGroupPairVec);
+	void updateWidgetGroupNames(HTREEITEM hItem, vector<pair<INXString, INXString> > vWidgetGroupPairVec);
+	void updateWidgetGroup(ConData* pBlob, vector<pair<INXString, INXString> > vWidgetGroupPairVec);
 	bool IsPastedGuiWidgetsInProject(INXObjList* pPasteList, HTREEITEM hItem);
 	void GetWidget(const ConData* pBlob, GuiWidget &xWidget);
 

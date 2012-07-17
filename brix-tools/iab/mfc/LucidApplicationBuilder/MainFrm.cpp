@@ -369,7 +369,7 @@ void CMainFrame::setFrameCaption()
 	}
 
 	if(pView) {
-		CString csProjectDir, csProjectName;
+		INXString csProjectDir, csProjectName;
 		pView->pProject->pProjMData->getProjectDir(csProjectDir);
 		pView->pProject->pProjMData->getProjectName(csProjectName);	
 		m_pMainWnd->SetWindowTextA(LAB_APP_NAME + csProjectDir + ":" + csProjectName);

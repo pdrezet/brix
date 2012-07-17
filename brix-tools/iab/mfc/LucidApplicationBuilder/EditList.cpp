@@ -34,7 +34,7 @@ EditList::~EditList()
 }
 
 // saves the copySelList
-void EditList::SaveCopy(CString Info) {
+void EditList::SaveCopy(INXString Info) {
 	ofstream datafile(Info);
 	//put an error trap
 	ConData *blob;
@@ -59,7 +59,7 @@ void EditList::SaveCopy(CString Info) {
 }
 
 // Loads the saved copySelList into the pasteList
-INXObjList* EditList::LoadPaste(CString Info) {
+INXObjList* EditList::LoadPaste(INXString Info) {
 	ifstream datafile(Info);
 	char type[256] = {'\0'};
 	long int id;
@@ -67,7 +67,7 @@ INXObjList* EditList::LoadPaste(CString Info) {
 
 	datafile >> type;
 	// if a file is empty don't load it
-	if ((CString)type == "") {
+	if ((INXString)type == "") {
 		return NULL;
 	}
 	datafile.close();
@@ -109,7 +109,7 @@ void EditList::BufferSelectedIcons(INXRect selectRect, Project* pProject, DEP* p
 	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 	BlockOperations bo;
 	UINT i;
-	CString csProjectDir;
+	INXString csProjectDir;
 	
 	pProject->pProjMData->getProjectDir(csProjectDir);
 	copySelList->RemoveAll();
@@ -187,7 +187,7 @@ void EditList::BufferSelectedIcons(INXRect selectRect, Project* pProject, DEP* p
 	}
 
 	// save copySelList. This is used for test purposes
-	SaveCopy((CString)workDir + "\\tmpcopy.prg");
+	SaveCopy((INXString)workDir + "\\tmpcopy.prg");
 	//pView->pasteFlag = TRUE;
 	// delete the temp list now the selected blocks have been saved
 	bo.DeleteBlock(temp);

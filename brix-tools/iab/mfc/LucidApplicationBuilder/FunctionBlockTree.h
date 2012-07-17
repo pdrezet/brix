@@ -4,7 +4,7 @@
 #include "ProjectMetaData.h"
 #include "ComponentMenuItem.h"
 #include "Porting_Classes/INXObjArray.h"
-
+#include "Porting_Classes/INXString.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // FunctionBlockTree dialog
@@ -13,6 +13,7 @@
 // There are three levels of tree to select in a hierachy - typically: Type, name, datatype
 // THIS CLASS SHOULD BE RENAMED TO ObjectSelector
 /*****************************************************************/
+
 
 class FunctionBlockTree :	public CTreeCtrl
 {
@@ -33,12 +34,12 @@ public:
 	int m_iL2MenuSize;
 	int m_iL3MenuSize;
 	int m_iL4MenuSize;
-	CStringArray m_csaL2IconName;
-	CStringArray m_csaL2MenuName;
-	CStringArray m_csaL3IconName;
-	CStringArray m_csaL3MenuName;
-	CStringArray m_csaL4IconName;
-	CStringArray m_csaL4MenuName;
+	INXObjArray<INXString> m_csaL2IconName;
+	INXObjArray<INXString> m_csaL2MenuName;
+	INXObjArray<INXString> m_csaL3IconName;
+	INXObjArray<INXString> m_csaL3MenuName;
+	INXObjArray<INXString> m_csaL4IconName;
+	INXObjArray<INXString> m_csaL4MenuName;
 
 
 	
@@ -51,41 +52,41 @@ public:
 	//CTreeCtrl	m_descript;
 	//}}AFX_DATA
 protected:
-	void readIDF(CString csIDFPath, CString fileType);
+	void readIDF(INXString csIDFPath, INXString fileType);
 	void FunctionBlockTree::readMenuMetaInfo();
-	void FunctionBlockTree::readMenuItemsFromCDF(CString *level1, CString *level2, CString *level3, CString *level4, CString csIDFPath);
+	void FunctionBlockTree::readMenuItemsFromCDF(INXString *level1, INXString *level2, INXString *level3, INXString *level4, INXString csIDFPath);
 	void FunctionBlockTree::addBitmapToImageList(unsigned int bitmapID);
 	void FunctionBlockTree::outputNamePriority(ComponentMenuItem *item);
-	void FunctionBlockTree::addMenuItem(CString csIconName, CString csUserdefined, CString csLevel1, CString csLevel2, CString csLevel3, CString csLevel4, CString csStyle1, CString csStyle2, CString csStyle3, CString csStyle4);
-	void FunctionBlockTree::addComponentsToTree(int currLevel, ComponentMenuItem *item, CString csLevel1, CString csLevel2, CString csLevel3, CString csLevel4, CString csStyle1, CString csStyle2, CString csStyle3, CString csStyle4);
+	void FunctionBlockTree::addMenuItem(INXString csIconName, INXString csUserdefined, INXString csLevel1, INXString csLevel2, INXString csLevel3, INXString csLevel4, INXString csStyle1, INXString csStyle2, INXString csStyle3, INXString csStyle4);
+	void FunctionBlockTree::addComponentsToTree(int currLevel, ComponentMenuItem *item, INXString csLevel1, INXString csLevel2, INXString csLevel3, INXString csLevel4, INXString csStyle1, INXString csStyle2, INXString csStyle3, INXString csStyle4);
 
 private:
 	bool m_bLftBtnDown;
 	//bool leafIsSelected();
 	bool m_bDraggingIcon;
-	set<CString> m_sL2LibMenuNames;
+	set<INXString> m_sL2LibMenuNames;
 	CImageList m_imageList; // image list used by the tree
 	INXObjArray<CObject *> m_rootMenuList; // list of ComponentMenuItems at root level of the menu tree
-	CString m_styleLookup[99];
+	INXString m_styleLookup[99];
 	int m_maxStyle;
 	INXObjArray<CObject *> m_componentList; // list of m_ComponentOnTree_t to be placed on tree
 
 	struct ComponentOnTree_t : public CObject {
-		CString iconName;
-		CString menuNameL1;
-		CString menuNameL2;
-		CString menuNameL3;
-		CString menuNameL4;
-		CString userDefined;
+		INXString iconName;
+		INXString menuNameL1;
+		INXString menuNameL2;
+		INXString menuNameL3;
+		INXString menuNameL4;
+		INXString userDefined;
 	};
 
 public:
 	bool leafIsSelected(); 
 	void loadContents(); 
 	void ReadFile();
-	int GetMItemSize(CString csLevel);
-	CString GetIconName(int i, CString csLevel);
-	void getL2LibMenuNames(set<CString> &sL2MenuNames); // this reads the first column (level 2) if menu items.
+	int GetMItemSize(INXString csLevel);
+	INXString GetIconName(int i, INXString csLevel);
+	void getL2LibMenuNames(set<INXString> &sL2MenuNames); // this reads the first column (level 2) if menu items.
 	void init(void);
 
 	// Generated message map functions

@@ -13,6 +13,7 @@
 #include "TypeConversion.h"
 #include "LucidTcpipClient.h"
 #include "RtaTraceSupport.h"
+#include "Porting_Classes/INXString.h"
 
 class CDrawProgView;
 
@@ -32,17 +33,17 @@ public:
 	void DebugStep();
 	void DebugStop();
 	void DestroyView();
-	void FtpDbgCtrlFile(CString filename);
+	void FtpDbgCtrlFile(INXString filename);
 	int GetEHSState();
-	void LoadDbgHistFile(CString filename, int dbgFileNum);
-	void LoadDebugFile(CString filename, int dbgFileNum);
-	void displayTraceMsg(CString csTraceMsg);
-	CString Tokenize(CString csTraceMsg, int &curPos);
+	void LoadDbgHistFile(INXString filename, int dbgFileNum);
+	void LoadDebugFile(INXString filename, int dbgFileNum);
+	void displayTraceMsg(INXString csTraceMsg);
+	INXString Tokenize(INXString csTraceMsg, int &curPos);
 	void setView(CDrawProgView* _pView);
 	void ExitDebugger();
 	// Monitors
 	void sendAllMonitors();
-	bool sendMonitor(bool bOnOff, long iId, CString csType);
+	bool sendMonitor(bool bOnOff, long iId, INXString csType);
 	void ClearAllMonitors();
 	// RTA Trace
 	void setWriteRtaTrace(bool bWrite);
@@ -56,7 +57,7 @@ public:
 	bool dbgDataRdy;
 	UINT timer;
 	int prevEndTime;
-	CString timestamp;
+	INXString timestamp;
 	bool TestTimeStamp();
 	bool dbgHistory;
 	int iDbgHistFileNum;

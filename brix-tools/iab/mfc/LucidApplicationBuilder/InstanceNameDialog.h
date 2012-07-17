@@ -7,7 +7,7 @@
 // InstanceNameDialog.h : header file
 //
 #include "Condat.h"
-
+#include "Porting_Classes/INXString.h"
 /////////////////////////////////////////////////////////////////////////////
 // CInstanceNameDialog dialog
 
@@ -20,7 +20,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CInstanceNameDialog)
 	enum { IDD = IDD_INSTANCE_NAME };
-	CString	m_InstanceName;
+	INXString	m_InstanceName;
 	//}}AFX_DATA
 
 

@@ -6,12 +6,13 @@
 
 #include "stdafx.h"
 #include "LucidEnums.h"
+#include "Porting_Classes/INXString.h"
 
 class GuiWidget
 {
 public:
 	GuiWidget(void);
-	GuiWidget(const CString &widgetTag, const CString &screenTag );
+	GuiWidget(const INXString &widgetTag, const INXString &screenTag );
 	~GuiWidget(void);
 
 
@@ -20,15 +21,15 @@ public:
 
 // Attributes
 private:
-	CString m_csWidgetTag;
-	CString m_csScreenTag;
+	INXString m_csWidgetTag;
+	INXString m_csScreenTag;
 
 // Methods
 public:
-	LucidErrEnum getWidgetTag(CString &csWidgetTag) const;
-	LucidErrEnum getScreenTag(CString &csScreenTag) const;
-	LucidErrEnum setWidgetTag(const CString &csWidgetTag);
-	LucidErrEnum setScreenTag(const CString &csScreenTag);
+	LucidErrEnum getWidgetTag(INXString &csWidgetTag) const;
+	LucidErrEnum getScreenTag(INXString &csScreenTag) const;
+	LucidErrEnum setWidgetTag(const INXString &csWidgetTag);
+	LucidErrEnum setScreenTag(const INXString &csScreenTag);
 
 
 };

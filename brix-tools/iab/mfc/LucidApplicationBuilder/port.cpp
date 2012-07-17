@@ -31,7 +31,7 @@ Port::Port(int _userdefined)
 	connected=0;
 	location =0;
 	lineID = -1;
-	funcName = new CStringArray;
+	funcName = new INXObjArray<INXString>;
 	funcArg = new CUIntArray;
 	xportConnected = 0;
 	xportID = -1;
@@ -49,7 +49,7 @@ Port::Port(int _userdefined)
  @todo need New Constructor - new spec for cdf means that funcArg is not known at time of port creation
  and is removed from the constructor for this reason
 
-Port::Port(INXPoint _P, UINT _portNum, int _dataType, int _portType, CString _description, CStringArray* _funcName, CUIntArray* _tempFuncArg, int _atomicFlag, bool bVerticalIn, int _userdefined)
+Port::Port(INXPoint _P, UINT _portNum, int _dataType, int _portType, INXString _description, INXObjArray<INXString>* _funcName, CUIntArray* _tempFuncArg, int _atomicFlag, bool bVerticalIn, int _userdefined)
 {
 	Port(_P, _portNum, _dataType, _portType, _description, _funcName, NULL, _atomicFlag, bVerticalIn, _userdefined);
 	tempFuncArg = _tempFuncArg;
@@ -59,7 +59,7 @@ Port::Port(INXPoint _P, UINT _portNum, int _dataType, int _portType, CString _de
  Deprecated Constructor - new spec for cdf means that funcArg is not known at time of port creation
  and is removed from the constructor for this reason
 */
-Port::Port(INXPoint _P, UINT _portNum, int _dataType, int _portType, CString _description, CStringArray* _funcName, CUIntArray* _funcArg, int _atomicFlag, bool bVerticalIn, int _userdefined, int _mandatoryFlag)
+Port::Port(INXPoint _P, UINT _portNum, int _dataType, int _portType, INXString _description, INXObjArray<INXString>* _funcName, CUIntArray* _funcArg, int _atomicFlag, bool bVerticalIn, int _userdefined, int _mandatoryFlag)
 {
 	
 	P.x=_P.x;
@@ -68,7 +68,7 @@ Port::Port(INXPoint _P, UINT _portNum, int _dataType, int _portType, CString _de
 	datatype = _dataType;
 	portNum = _portNum;
 	description = _description;
-	//funcName = new CStringArray;
+	//funcName = new INXObjArray<INXString>;
 	//funcArg = new CUIntArray;
 	funcName = _funcName;
 	funcArg = _funcArg;
@@ -92,7 +92,7 @@ Port::Port(INXPoint _P, UINT _portNum, int _dataType, int _portType, CString _de
 
 
 
-Port::Port(UINT _portNum, int _portType, CStringArray* _funcName, CUIntArray* _funcArg, int _atomicFlag)
+Port::Port(UINT _portNum, int _portType, INXObjArray<INXString>* _funcName, CUIntArray* _funcArg, int _atomicFlag)
 {
 	P.x=0;
 	P.y=0;
@@ -100,7 +100,7 @@ Port::Port(UINT _portNum, int _portType, CStringArray* _funcName, CUIntArray* _f
 	datatype = -1;
 	portNum = _portNum;
 	description = "";
-	//funcName = new CStringArray;
+	//funcName = new INXObjArray<INXString>;
 	funcName = _funcName;
 	funcArg = _funcArg;
 	connected=0;
@@ -128,8 +128,8 @@ Port::~Port()
 
 
 void Port::init() {
-	CString bitmappath;
-	CString csOrientation = "";
+	INXString bitmappath;
+	INXString csOrientation = "";
 
 	if(bPortVertical)
 	{	csOrientation = "VERT";
@@ -208,7 +208,7 @@ void Port::Draw(CDC* theDC, bool _onlyDrawAnim, int _toggleAnim) {
 	COLORREF green = RGB(0,255,0);
 	COLORREF blue = RGB(100,177,255);
 	COLORREF yellow = RGB(255,255,0);
-	CString cropDescript;
+	INXString cropDescript;
 	CLucidString clsTag, clsCropDescript;
 
 	if (!_onlyDrawAnim) {
@@ -272,18 +272,18 @@ void Port::Draw(CDC* theDC, bool _onlyDrawAnim, int _toggleAnim) {
 			// Add port description to icon
 			if (theDC->IsPrinting()) {
 				if (porttype == STARTPORT || porttype == INPUTPORT) {
-					theDC->TextOut(P.x+8,-P.y+7,cropDescript);
+					theDC->TextOut(P.x+8,-P.y+7,(CString &)cropDescript);
 				}
 				else if (porttype == FINISHPORT || porttype == OUTPUTPORT) {
-					theDC->TextOut(P.x-6-((int)nStrOffset), P.y+7, cropDescript);
+					theDC->TextOut(P.x-6-((int)nStrOffset), P.y+7, (CString&)cropDescript);
 				}
 			}
 			else {
 				if (porttype == STARTPORT || porttype == INPUTPORT) {
-					theDC->TextOut(P.x+8,P.y-7,cropDescript);
+					theDC->TextOut(P.x+8,P.y-7,(CString)cropDescript);
 				}
 				else if (porttype == FINISHPORT || porttype == OUTPUTPORT) {
-					theDC->TextOut(P.x-6-((int)nStrOffset), P.y-7, cropDescript);
+					theDC->TextOut(P.x-6-((int)nStrOffset), P.y-7, (CString&)cropDescript);
 				}
 			}
 		}
@@ -291,7 +291,7 @@ void Port::Draw(CDC* theDC, bool _onlyDrawAnim, int _toggleAnim) {
 		if (porttype == INPUTPORT && line.getDbgMonitor()) {
 			theDC->SetBkMode(OPAQUE);
 			theDC->SetBkColor(RGB(225,225,0));
-			theDC->TextOut(P.x-(dbgValLen*5),P.y+2,line.dbgValue);
+			theDC->TextOut(P.x-(dbgValLen*5),P.y+2,(CString&)line.dbgValue);
 			theDC->SetBkColor(RGB(255,255,255));
 		}
 		
@@ -321,17 +321,17 @@ void Port::Draw(CDC* theDC, bool _onlyDrawAnim, int _toggleAnim) {
 			}
 			if (theDC->IsPrinting()) {
 				if (porttype == STARTPORT || porttype == INPUTPORT) {
-					theDC->TextOut(P.x-((int)nStrOffset), -1 * (P.y+5), tag);
+					theDC->TextOut(P.x-((int)nStrOffset), -1 * (P.y+5), (CString&)tag);
 				}
 				else if (porttype == FINISHPORT || porttype == OUTPUTPORT) {
-					theDC->TextOut(P.x+3, -1 * (P.y+5), tag);
+					theDC->TextOut(P.x+3, -1 * (P.y+5), (CString&)tag);
 				}
 			} else {
 				if (porttype == STARTPORT || porttype == INPUTPORT) {
-				theDC->TextOut(P.x-((int)nStrOffset), P.y-5, tag);
+				theDC->TextOut(P.x-((int)nStrOffset), P.y-5, (CString&)tag);
 				}
 				else if (porttype == FINISHPORT || porttype == OUTPUTPORT) {
-					theDC->TextOut(P.x+3, P.y-5, tag);
+					theDC->TextOut(P.x+3, P.y-5, (CString&)tag);
 				}
 			}			
 			theDC->SetBkColor(RGB(255,255,255));
@@ -398,10 +398,10 @@ void Port::Save(ostream * file) {
 	*file <<endl<< porttype << "\t"<< datatype << "\t"<< P.x << "\t"<< P.y << "\t" << portNum << "\t" << initialise << "\t" << atomicFlag<< "\t" << "mandatory= " << mandatoryFlag<< "\t"  << bPortVertical << "\t" << groupID << "\n";
 
 
-	*file << description << endl;
-	*file << tag << endl;
+	*file << (CString)description << endl;
+	*file << (CString)tag << endl;
 	for (int i=0; i<funcName->GetSize(); i++) {
-		*file << funcName->GetAt(i) << "\t" << funcArg->GetAt(i) << "\t";
+		*file << (CString)funcName->GetAt(i) << "\t" << funcArg->GetAt(i) << "\t";
 	}
 	*file << "EndOfFunc";
 	*file << endl;

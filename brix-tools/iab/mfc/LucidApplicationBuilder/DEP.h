@@ -18,6 +18,7 @@
 #include <vector> // stl class
 #include "Porting_Classes/INXObjList.h"
 #include "Porting_Classes/INXRect.h"
+#include "Porting_Classes/INXString.h"
 
 
 
@@ -32,35 +33,35 @@ public:
 
 	// Attributes
 	INXObjList* condata;  // declare a list type to point to ConDat objects
-	CString depFilename;
+	INXString depFilename;
 	HTREEITEM hItem;
-	CString projectDir;
+	INXString projectDir;
 	int projectNum;
 	bool dbgMappedFlag;
 		
-	CStringArray *intTags, *boolTags, *realTags, *stringTags, *eventTags;
+	INXObjArray<INXString> *intTags, *boolTags, *realTags, *stringTags, *eventTags;
 
 	//CMainFrame *pFrame;	
 	FSM depFSM;
 
 	// Methods
-	int AddBlockPort(CString type, CString portLabel, CString blockName);
-	INXPOSITION AddIcon(CString csIconType, CString csBlockName, INXPoint point, int iShow=1); // adds a new icon 
+	int AddBlockPort(INXString type, INXString portLabel, INXString blockName);
+	INXPOSITION AddIcon(INXString csIconType, INXString csBlockName, INXPoint point, int iShow=1); // adds a new icon 
 	INXPOSITION AddIconObjectList(ConData* blob) ; //add all blobs using this function
 	void AddIconToGroup(INXPOSITION selectedIcon, int groupID);
 	int AddLine(INXPOSITION selectedIcon, int selectedPort, int selectedPortType, INXPOSITION selectedIcon2,int selectedPort2, int selectedPortType2) ;
 	void AddNodes(INXPOSITION selectedIcon, int selectedPort, int selectedPortType, INXPOSITION selectedIcon2, int selectedPort2, int selectedPortType2);
-	int AddPort(ConData* blob, int iDataType, int iPortType, CString portLabel);
+	int AddPort(ConData* blob, int iDataType, int iPortType, INXString portLabel);
 	int AddTag(INXPOSITION iconPos, int portNum, int portType);
-	void AddTag2List(CString tag, int dataType);
-	ConData* AddXPort(CString type, CString portLabel, INXPoint point);
+	void AddTag2List(INXString tag, int dataType);
+	ConData* AddXPort(INXString type, INXString portLabel, INXPoint point);
 	void AssignIconLineEndPoints();
 	long CheckNewID(INXObjList* encapsulated, long int id);
 	void ConnectEncapsulatedIcon(INXPOSITION encapsulatedPos, INXRect selectedRect, INXObjList* oldDEP);
 	void CreateInstance(ConData* userDefBlob, int lib);
 	void DeleteIcon(INXPOSITION number, bool bDelOutputs); // 
 	void DeleteLine(INXPOSITION selectedControl,int PortSelected, int portType);
-	CString DeletePort(ConData* blob, int portNum, int portType);
+	INXString DeletePort(ConData* blob, int portNum, int portType);
 	void DeleteTag(INXPOSITION iconPos, int portNum, int portType);
 	void Draw(CDC * pDC);
 	void Draw(CDC * pDC, bool _onlyDrawAnim, int _toggleAnim);
@@ -76,7 +77,7 @@ public:
 	void setFBHighlight(INXPOSITION fbPos);
 	void InitTagLists();
 	bool IsUniqueID(long id);
-	void LoadProg(CString Info);
+	void LoadProg(INXString Info);
 
 	//int OnLine(INXPoint point, POSITION* Icon, bool* nodeSel, int* portType);
 	//If interrogateOnly is true, nothing is changed in DEP, ie node count, etc
@@ -85,12 +86,12 @@ public:
 	int OnConnect(INXPoint point,INXPOSITION* Icon,int * portType, int *portConnected) ;
 	LabLineSegmentTypeEnum IsOnLineSegment(INXPoint point, INXPoint node1, INXPoint node2);
 	void ReassignIconIDs(INXObjList* encapsulated);
-	void RemoveTag(CString tag, int dataType);
+	void RemoveTag(INXString tag, int dataType);
 	void RenewPosition(INXPOSITION selected, INXPoint point, INXPoint firstpoint);
 	INXRect RenewSelectedPos(INXPoint newpoint, INXPoint firstpoint, INXRect selectRect);
 	void SnapIconToGrid(INXPOSITION selected);
 
-	void SaveProg(CString Info);
+	void SaveProg(INXString Info);
 	//void SetCondataLineID(CObList* flattened);
 	void ShowLine(INXPOSITION iconPos, int portNum, int portType);
 	bool IsOutputPortConnected(ConData* pBlob, int iPortNum);
@@ -123,12 +124,12 @@ public:
 	void setSaveSelectedFlag(bool flag);
 
 	void ResetXportConnected();
-	CString GetPortLabel(INXPOSITION blockPos, int iPortNum, int iPortType);
-	void SetPortLabel(INXPOSITION blockPos, int iPortNum, int iPortType, CString csPortLabel);
-	void SetPortLabel(CString csBlockName, CString csOldPortLabel, CString csNewPortLabel);
+	INXString GetPortLabel(INXPOSITION blockPos, int iPortNum, int iPortType);
+	void SetPortLabel(INXPOSITION blockPos, int iPortNum, int iPortType, INXString csPortLabel);
+	void SetPortLabel(INXString csBlockName, INXString csOldPortLabel, INXString csNewPortLabel);
 
-	void RenameSubsystem(CString csOldInstName, CString csNewInstName, HTREEITEM hUserdefItem);
-	void AddToLibrary(INXPOSITION blockPos, CString csMenuName);
+	void RenameSubsystem(INXString csOldInstName, INXString csNewInstName, HTREEITEM hUserdefItem);
+	void AddToLibrary(INXPOSITION blockPos, INXString csMenuName);
 	bool IsRectEmpty(INXRect selectRect);
 	ConData* getIconAtPoint(INXPoint point);
 

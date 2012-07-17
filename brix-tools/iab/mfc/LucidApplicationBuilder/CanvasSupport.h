@@ -11,6 +11,7 @@
 ***/
 
 #include "Porting_Classes/INXSize.h"
+#include "Porting_Classes/INXString.h"
 
 class CanvasSupport
 {

@@ -37,10 +37,10 @@ void ProjectDescriptionDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 
-	DDX_Text(pDX, IDC_PROJECT_NAME, _pProjMData->m_csProjectAppCanonicalName);
-	DDX_Text(pDX, IDC_PROJECT_COMMERCIALNAME, _pProjMData->m_csProjectAppCommercialName);
-	DDX_Text(pDX, IDC_PROJECT_VERSION, _pProjMData->m_csProjectAppVersion);
-	DDX_Text(pDX, IDC_PROJECT_DESCRIPTION, _pProjMData->m_csProjectAppDescription);
+	DDX_Text(pDX, IDC_PROJECT_NAME, (CString)_pProjMData->m_csProjectAppCanonicalName);
+	DDX_Text(pDX, IDC_PROJECT_COMMERCIALNAME, (CString)_pProjMData->m_csProjectAppCommercialName);
+	DDX_Text(pDX, IDC_PROJECT_VERSION, (CString)_pProjMData->m_csProjectAppVersion);
+	DDX_Text(pDX, IDC_PROJECT_DESCRIPTION, (CString)_pProjMData->m_csProjectAppDescription);
 
 }
 

@@ -39,7 +39,7 @@ DROPEFFECT CInterfaceDropTarget::OnDragOver(CWnd* pWnd, COleDataObject* pDataObj
 	m_csIconType = "";
 
 
-	CString format = AfxGetApp()->GetProfileString("DragDrop", "Clipformat", "Common");
+	INXString format = AfxGetApp()->GetProfileString("DragDrop", "Clipformat", "Common");
 	if (format == "Private")
 		DragDropFormat = ::RegisterClipboardFormat("InterfaceClipboardFormat");
 	else
@@ -62,7 +62,7 @@ DROPEFFECT CInterfaceDropTarget::OnDragOver(CWnd* pWnd, COleDataObject* pDataObj
 
 					} else {
 
-						CString t;
+						INXString t;
 
 						TRY
 						{
@@ -83,7 +83,7 @@ DROPEFFECT CInterfaceDropTarget::OnDragOver(CWnd* pWnd, COleDataObject* pDataObj
 						{
 #ifdef _DEBUG
 							TCHAR   szCause[255];
-							CString strFormatted;
+							INXString strFormatted;
 							eInnerMost->GetErrorMessage(szCause, 255);
 							strFormatted = _T("Exception: ");
 							strFormatted += szCause;
@@ -175,9 +175,9 @@ BOOL CInterfaceDropTarget::OnDrop(
 	INXPOSITION droppeePos, draggeePos;
 	INXPoint droppeePoint, draggeePoint;
 	bool bContinue = TRUE;
-	set<CString> sWidgetGroupSet;
-	vector<pair<CString, CString> > vWidgetGroupPairVec;
-	CString csWidgetGroupName;
+	set<INXString> sWidgetGroupSet;
+	vector<pair<INXString, INXString> > vWidgetGroupPairVec;
+	INXString csWidgetGroupName;
 
 	if( !pView->pProject->pProjMData->getLock() ){
 
@@ -191,7 +191,7 @@ BOOL CInterfaceDropTarget::OnDrop(
 		// because in this sample the format may change dynamically
 		UINT DragDropFormat;
 
-		CString format = AfxGetApp()->GetProfileString("DragDrop", "Clipformat", "Common");
+		INXString format = AfxGetApp()->GetProfileString("DragDrop", "Clipformat", "Common");
 		if (format == "Private")
 			DragDropFormat = ::RegisterClipboardFormat("InterfaceClipboardFormat");
 		else

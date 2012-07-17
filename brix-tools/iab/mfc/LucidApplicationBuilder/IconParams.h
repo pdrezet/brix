@@ -11,6 +11,7 @@
 #include "ConDataTempStore.h"
 #include "afxwin.h"
 #include "explorer1.h"
+#include "Porting_Classes/INXString.h"
 //#include "ToolTipEdit.h"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -33,8 +34,8 @@ public:
 	//}}AFX_DATA
 
 	//attributes
-	CString labels[MAXPARAMS];
-	CString values[MAXPARAMS];
+	INXString labels[MAXPARAMS];
+	INXString values[MAXPARAMS];
 	CEdit* paramVal[MAXPARAMS];
 	CStatic* paramLabel[MAXPARAMS];
 	CComboBox* enumVal[MAXPARAMS];
@@ -83,7 +84,7 @@ public:
 
 protected:
 	bool errorsInData();
-	bool IsFileName8Dot3Format(CString csFileName);
+	bool IsFileName8Dot3Format(INXString csFileName);
 /* Some Scroll state parms */
 	int m_nCurHeight;
 	int m_nScrollPos;

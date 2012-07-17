@@ -6,7 +6,7 @@
 #endif // _MSC_VER > 1000
 // PortLabelDialog.h : header file
 //
-
+#include "Porting_Classes/INXString.h"
 /////////////////////////////////////////////////////////////////////////////
 // CPortLabelDialog dialog
 
@@ -25,7 +25,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CPortLabelDialog)
 	enum { IDD = IDD_PORT_LABEL };
-	CString	m_PortLabel;
+	INXString	m_PortLabel;
 	//}}AFX_DATA
 
 

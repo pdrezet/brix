@@ -49,9 +49,9 @@ END_MESSAGE_MAP()
 
 void CProjectChooser::OnBrowser() 
 {
-	CString strPath;
-	CString strYourCaption(_T("Project Chooser"));
-	CString strYourTitle(_T("Select a project directory."));
+	INXString strPath;
+	INXString strYourCaption(_T("Project Chooser"));
+	INXString strYourTitle(_T("Select a project directory."));
 
 	m_ctrlPathName.GetWindowText(strPath);
 
@@ -65,8 +65,8 @@ void CProjectChooser::OnBrowser()
 
 void CProjectChooser::OnOK() 
 {
-	CString strPath;
-	CString strProject;
+	INXString strPath;
+	INXString strProject;
 
 	m_ctrlPathName.GetWindowText(strPath);
 	m_ctrlProjectName.GetWindowText(strProject);

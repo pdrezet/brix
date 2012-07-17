@@ -58,8 +58,8 @@ void Encapsulate::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(Encapsulate)
-	DDX_Text(pDX, IDC_EDIT_BLOCK, m_BlockName);
-	DDX_Text(pDX, IDC_EDIT_LONG, m_LongDescription);
+	DDX_Text(pDX, IDC_EDIT_BLOCK, (CString)m_BlockName);
+	DDX_Text(pDX, IDC_EDIT_LONG, (CString)m_LongDescription);
 	DDX_CBString(pDX, IDC_MENU_NAME_COMBO, m_csMenuName);
 	DDX_Control(pDX, IDC_MENU_NAME_COMBO, m_ctlMenuName);
 	//}}AFX_DATA_MAP
@@ -72,14 +72,14 @@ BEGIN_MESSAGE_MAP(Encapsulate, CDialog)
 END_MESSAGE_MAP()
 
 // Methods
-CString Encapsulate::getMenuName()
+INXString Encapsulate::getMenuName()
 {
 	return m_csMenuName;
 }
 
-void Encapsulate::setMenuNamesDropList(set<CString> sMenuNames)
+void Encapsulate::setMenuNamesDropList(set<INXString> sMenuNames)
 {
-	set<CString>::iterator it = sMenuNames.begin();
+	set<INXString>::iterator it = sMenuNames.begin();
 	while( it != sMenuNames.end() ){
 		m_ctlMenuName.AddString(*it);
 		it++;
@@ -101,7 +101,7 @@ BOOL Encapsulate::OnInitDialog()
 	inNum = 0, outNum = 0, startNum = 0, finishNum = 0;
 	UINT i;
 	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
-	set<CString> sL2LibMenuNames;
+	set<INXString> sL2LibMenuNames;
 
 	// populate the menu name drop-list with the library level 2 menu names
 	pFrame->m_cFuncBlockBar.m_cFuncBlckTree.getL2LibMenuNames(sL2LibMenuNames);
@@ -221,7 +221,7 @@ BOOL Encapsulate::OnInitDialog()
 void Encapsulate::OnOK() 
 {
 	bool errorFlag = FALSE;
-	CString strText = "";
+	INXString strText = "";
 	UINT i;
 	
 	// update attributes such as m_BlockName
@@ -234,6 +234,7 @@ void Encapsulate::OnOK()
 			inEdit[i]->GetLine(0, strText.GetBuffer(len), len);
 			strText.ReleaseBuffer(len);
 		}
+		INXString x(strText.MakeLower());
 		inNames[i] = strText.MakeLower();
 	}
 	for (i=1; i<=outNum; i++) {
@@ -243,7 +244,7 @@ void Encapsulate::OnOK()
 			outEdit[i]->GetLine(0, strText.GetBuffer(len), len);
 			strText.ReleaseBuffer(len);
 		}
-		outNames[i] = strText.MakeLower();
+		outNames[i] = (INXString)strText.MakeLower();
 	}
 	for (i=1; i<=startNum; i++) {
 		strText = "";

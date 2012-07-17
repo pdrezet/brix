@@ -6,6 +6,7 @@
 #endif // _MSC_VER >= 1000
 // delims.h : header file
 //
+#include "Porting_Classes/INXString.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // delims dialog 
@@ -28,7 +29,7 @@ public:
 	CEdit	m_record;
 	CEdit	m_field;
 	//}}AFX_DATA
-	CString record,field,baud,parity,bits,stopbits,software;
+	INXString record,field,baud,parity,bits,stopbits,software;
 
 // Overrides
 	// ClassWizard generated virtual function overrides

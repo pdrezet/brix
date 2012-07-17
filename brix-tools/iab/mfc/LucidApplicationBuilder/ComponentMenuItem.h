@@ -15,17 +15,19 @@
 // Menu items are nested so we have an array in each class
 /*****************************************************************/
 #include "Porting_Classes/INXObjArray.h"
+#include "Porting_Classes/INXString.h"
+
 class ComponentMenuItem : public CObject
 {
 public:
 	ComponentMenuItem(ComponentMenuItem * m_parent);
 	~ComponentMenuItem(void);
 
-	CString m_name; // the menu item name
+	INXString m_name; // the menu item name
 	INXObjArray<CObject *> m_listOfSubMenuItems; // array of other sub menus of this menu
 	ComponentMenuItem * m_parent; // parent of this menu item, null if root menu item
 
 	int m_priority;	// this is a non-unique number that tells us where the menu item should appear in the list
 					// - do not assume the numbers assigned to menu items will be consecutive or unique	
-	CString m_styleOnTree;  // refers the bitmap that will be displayed on the tree for each menu item
+	INXString m_styleOnTree;  // refers the bitmap that will be displayed on the tree for each menu item
 };

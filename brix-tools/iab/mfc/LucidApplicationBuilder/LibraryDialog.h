@@ -6,7 +6,7 @@
 #endif // _MSC_VER > 1000
 // LibraryDialog.h : header file
 //
-
+#include "Porting_Classes/INXString.h"
 /////////////////////////////////////////////////////////////////////////////
 // CLibraryDialog dialog
 
@@ -23,7 +23,7 @@ public:
 	//}}AFX_DATA
 
 	// Attributes
-	CString library;
+	INXString library;
 
 
 // Overrides

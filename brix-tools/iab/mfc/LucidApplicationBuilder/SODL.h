@@ -12,7 +12,7 @@
 #include "condat.h"
 #include "TypeConversion.h"
 #include "Project.h"
-
+#include "Porting_Classes/INXString.h"
 class SODL  
 {
 public:
@@ -27,7 +27,7 @@ public:
 	TypeConversion convert;
 
 	// Methods
-	void WriteSODL(CString sodlfile);
+	void WriteSODL(INXString sodlfile);
 	void Copy2Flattened();
 	void Flatten();
 	void ReassignIconIDs(INXObjList* encapsulated);

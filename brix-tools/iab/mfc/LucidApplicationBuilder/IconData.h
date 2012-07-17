@@ -7,7 +7,7 @@
 // IconData.h : header file
 //
 #include "Infobaxbase.h"
-
+#include "Porting_Classes/INXString.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // General Purpose IconData dialog box for inputing parameter data for a  
@@ -39,12 +39,12 @@ public:
 	int		negedge;
 	int		plusedge;
 	int wantoption;
-	CString	recorddelim;
-	CString	fielddelim;
-	CString	option2;
-	CString	option1;
-	CString	description;
-	CString	fixedinfo;
+	INXString	recorddelim;
+	INXString	fielddelim;
+	INXString	option2;
+	INXString	option1;
+	INXString	description;
+	INXString	fixedinfo;
 
 // Overrides
 	// ClassWizard generated virtual function overrides

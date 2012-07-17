@@ -36,9 +36,9 @@ public:
 	void Init();
 	void UpdateProjectDescrptionOnTree(Project* pProject, DEP* pDEP);
 	void PopulateProjectTree(INXObjList* iconList, Project* pProject);
-	void PopulateNextLevel(HTREEITEM hItem, CString projectDir);
+	void PopulateNextLevel(HTREEITEM hItem, INXString projectDir);
 	void AddItem2ProjectTree(ConData* userDefBlob, Project* pProject, HTREEITEM hItem);
-	bool CheckItem(HTREEITEM hItem, Project* activeProject, CString blockName);
+	bool CheckItem(HTREEITEM hItem, Project* activeProject, INXString blockName);
 	void CloseProject(HTREEITEM hItem, Project* activeProject);
 	void DelItemFromProjectTree(ConData* userDefBlob, HTREEITEM hItem);
 	Project* AddProject(int projectNum, ProjectMetaData* pProjMData);
@@ -46,23 +46,23 @@ public:
 	Project* GetProjectPtr(int projectNum);
 	Project* GetProjectPtr(HTREEITEM hItem);
 	HTREEITEM GetUserDefChildItem(ConData* userDefBlob, HTREEITEM hItem);
-	ConData* AddXPort(CString type, CString portLabel, INXPoint point, Project* pProject, DEP* pDEP);
+	ConData* AddXPort(INXString type, INXString portLabel, INXPoint point, Project* pProject, DEP* pDEP);
 	void DeleteIcon(INXPOSITION iconPos, Project* pProject, DEP* pDEP, bool bDelOutputs);
 	void DeleteBlockPort(INXPOSITION blockPos, int portNum, int portType, Project* pProject, DEP* pDEP);
 	void RenameBlockPort(INXPOSITION blockPos, int portNum, int portType, Project* pProject, DEP* pDEP);
 	void RenameXport(INXPOSITION iconPos, Project* pProject, DEP* pDEP);
-	CString GetDEPPath(HTREEITEM hItem);
-	bool NameExist(CString blockName, HTREEITEM hItem);
+	INXString GetDEPPath(HTREEITEM hItem);
+	bool NameExist(INXString blockName, HTREEITEM hItem);
 	HTREEITEM GetProjectItem(HTREEITEM hItem);
 	void OpenDebugDEP(CDrawProgView* pView);
 	void OpenParent(HTREEITEM hItem, Project* pProject);
-	void SaveHierName(HTREEITEM hItem, CString projectDir, Project* pProject);
+	void SaveHierName(HTREEITEM hItem, INXString projectDir, Project* pProject);
 	void UpdateTree(Project* pProject, DEP* pDEP);
 	void AddDataFile(ExtDataFile &dataFile, HTREEITEM hItem);
 	void AddResourceFile(ExtResourceFile &xResourceFile, HTREEITEM hItem);
-	void addWidgetGroup(CString csWidgetGroupName, HTREEITEM hItem);
+	void addWidgetGroup(INXString csWidgetGroupName, HTREEITEM hItem);
 	void updateWidgetGroups(HTREEITEM hItem);
-	void SaveProjectAs(CString projectName, HTREEITEM hItem);
+	void SaveProjectAs(INXString projectName, HTREEITEM hItem);
 	bool IsSubsytem(Project* pProject, DEP* pDEP);
 
 

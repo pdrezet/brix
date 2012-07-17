@@ -12,6 +12,7 @@
 #include "condat.h"
 #include "DEP.h"
 #include "Project.h"
+#include "Porting_Classes/INXString.h"
 class EditList  
 {
 private:
@@ -25,8 +26,8 @@ public:
 	INXObjList* copySelList; // contains a list of selected icons to be copied
 
 	// Methods
-	void SaveCopy(CString Info);
-	INXObjList* LoadPaste(CString Info);
+	void SaveCopy(INXString Info);
+	INXObjList* LoadPaste(INXString Info);
 	void BufferSelectedIcons(INXRect selectRect, Project* pProject, DEP* pDEP);
 	INXObjList* LoadTemp();
 	INXPoint getPasteOffset();

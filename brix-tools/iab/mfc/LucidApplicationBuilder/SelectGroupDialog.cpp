@@ -66,7 +66,7 @@ void CSelectGroupDialog::OnOK()
 		AfxMessageBox("You must select a group.");
 	}
 	else {
-		m_GroupName.GetText(index, selectedGroup);
+		m_GroupName.GetText(index, (CString)selectedGroup);
 		CDialog::OnOK();
 	}
 }

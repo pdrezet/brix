@@ -57,7 +57,7 @@
 
 #include "stdafx.h"
 #include "sizecbar.h"
-
+#include "Porting_Classes/INXString.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -139,7 +139,7 @@ BOOL CSizingControlBar::Create(LPCTSTR lpszWindowName,
     m_dwStyle = dwStyle & CBRS_ALL; // save the control bar styles
 
     // register and create the window - skip CControlBar::Create()
-    CString wndclass = ::AfxRegisterWndClass(CS_DBLCLKS,
+    INXString wndclass = ::AfxRegisterWndClass(CS_DBLCLKS,
         ::LoadCursor(NULL, IDC_ARROW),
         ::GetSysColorBrush(COLOR_BTNFACE), 0);
 
@@ -1311,7 +1311,7 @@ BOOL CSCBMiniDockFrameWnd::Create(CWnd* pParent, DWORD dwBarStyle)
     dwStyle |= dwBarStyle & CBRS_FLOAT_MULTI;
     CMenu* pSysMenu = GetSystemMenu(FALSE);
     //pSysMenu->DeleteMenu(SC_SIZE, MF_BYCOMMAND);
-    CString strHide;
+    INXString strHide;
     if (strHide.LoadString(AFX_IDS_HIDE))
     {
         pSysMenu->DeleteMenu(SC_CLOSE, MF_BYCOMMAND);

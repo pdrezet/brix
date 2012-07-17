@@ -8,6 +8,7 @@
 //
 #include "Resource.h"
 #include "LucidConstants.h"
+#include "Porting_Classes/INXString.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // Encapsulate dialog
@@ -19,14 +20,14 @@ public:
 	Encapsulate(INXObjList* _encapsulated, CWnd* pParent = NULL);   // standard constructor
 	~Encapsulate();
 
-	CString inLabels[MAXXPORTS];
-	CString inNames[MAXXPORTS];
-	CString outLabels[MAXXPORTS];
-	CString outNames[MAXXPORTS];
-	CString startLabels[MAXXPORTS];
-	CString startNames[MAXXPORTS];
-	CString finishLabels[MAXXPORTS];
-	CString finishNames[MAXXPORTS];
+	INXString inLabels[MAXXPORTS];
+	INXString inNames[MAXXPORTS];
+	INXString outLabels[MAXXPORTS];
+	INXString outNames[MAXXPORTS];
+	INXString startLabels[MAXXPORTS];
+	INXString startNames[MAXXPORTS];
+	INXString finishLabels[MAXXPORTS];
+	INXString finishNames[MAXXPORTS];
 	CEdit* inEdit[MAXXPORTS];
 	CStatic* inStatic[MAXXPORTS];
 	CEdit* outEdit[MAXXPORTS];
@@ -42,19 +43,19 @@ public:
 // Dialog Data
 	//{{AFX_DATA(Encapsulate)
 	enum { IDD = IDD_ENCAPSULATE };
-	CString	m_BlockName;
-	CString	m_LongDescription;
+	INXString	m_BlockName;
+	INXString	m_LongDescription;
 	//}}AFX_DATA
 
 private:
-	CString m_csMenuName;
+	INXString m_csMenuName;
 	CComboBox m_ctlMenuName;
 
 public:
 // Methods
-	CString getMenuName();	
+	INXString getMenuName();	
 protected:
-	void setMenuNamesDropList(set<CString> sMenuNames);
+	void setMenuNamesDropList(set<INXString> sMenuNames);
 
 // Overrides
 	// ClassWizard generated virtual function overrides

@@ -69,12 +69,12 @@ BOOL Tags::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	// TODO: Add extra initialization here
-	CString entry;
+	INXString entry;
 	int tagsize=TagList->GetSize();
 	if (TagList) {
 		for (int i=0;i<255;i++) {
 			entry.Format("% 3.3d |",i+1);
-			if (i<tagsize) m_list.AddString(entry+TagList->GetAt(i));
+			if (i<tagsize) m_list.AddString(entry+ (INXString)TagList->GetAt(i));
 			else m_list.AddString(entry);
 		}
 	}
@@ -115,8 +115,8 @@ void Tags::OnOK()
 		return;
 	}*/
 	option1.Format("%d",selected);//set the option to the selected tag
-	CString stuff;
-	m_list.GetText(selected-1,stuff);
+	INXString stuff;
+	m_list.GetText(selected-1,(LPTSTR)stuff);
 	if (stuff.Mid(6)==UNUSEDTAGSTRING) {
 		description=UNNAMEDTAGSTRING;
 		//update seperate tag list
@@ -125,7 +125,7 @@ void Tags::OnOK()
 		TagList->InsertAt(selected-1,UNNAMEDTAGSTRING);
 	}
 	else {
-		m_list.GetText(selected-1,stuff);
+		m_list.GetText(selected-1,(LPTSTR)stuff);
 		description=stuff.Mid(6);
 	}
 	CDialog::OnOK();
@@ -143,8 +143,8 @@ void Tags::OnDblclkList()
 		return;
 	}
 	
-	CString num;
-	CString entry;
+	INXString num;
+	INXString entry;
 	GetInput box;
 	int tagsize=TagList->GetSize();
 	if (selected<tagsize) box.m_string=TagList->GetAt(selected);

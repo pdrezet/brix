@@ -43,7 +43,7 @@ BOOL CTransferErrorDlog::OnInitDialog()
     AddControl(IDC_LIST1,sizeResize,sizeResize);
     AddControl(IDOK1,sizeRelative,sizeRepos);
 
-	std::list<CString>::iterator it = m_cErrorLineList.begin();
+	std::list<INXString>::iterator it = m_cErrorLineList.begin();
 
 	while(it != m_cErrorLineList.end() ){
 		m_ctlListBox.AddString( *it);
@@ -69,8 +69,8 @@ void CTransferErrorDlog::OnSize(UINT nType, int cx, int cy)
 
 LRESULT CTransferErrorDlog::OnAddErrors(WPARAM, LPARAM lParam)
 {
-	std::list<CString> *cs = (std::list<CString> *)lParam;
-	std::list<CString>::iterator it = (*cs).begin();
+	std::list<INXString> *cs = (std::list<INXString> *)lParam;
+	std::list<INXString>::iterator it = (*cs).begin();
 
 	while( it!= (*cs).end() ){
 
@@ -84,9 +84,9 @@ LRESULT CTransferErrorDlog::OnAddErrors(WPARAM, LPARAM lParam)
 }
 
 
-void CTransferErrorDlog::addErrors(const std::list<CString> &errorLineList )
+void CTransferErrorDlog::addErrors(const std::list<INXString> &errorLineList )
 {
-	std::list<CString> *cs = new std::list<CString>;
+	std::list<INXString> *cs = new std::list<INXString>;
 	*cs = errorLineList;
 	PostMessage( UWM_ADD_ERRORS, 0, (LPARAM)cs );
 }

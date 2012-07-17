@@ -3,6 +3,7 @@
 #include "resource.h"
 #include "condat.h"
 #include "DEP.h"
+#include "Porting_Classes/INXString.h"
 
 // CBlockPortLabelDialog dialog
 
@@ -11,7 +12,7 @@ class CBlockPortLabelDialog : public CDialog
 	DECLARE_DYNAMIC(CBlockPortLabelDialog)
 
 public:
-	CBlockPortLabelDialog(CString csOldLabel, ConData* pBlock, DEP* pDEP, CWnd* pParent = NULL);   // standard constructor
+	CBlockPortLabelDialog(INXString csOldLabel, ConData* pBlock, DEP* pDEP, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CBlockPortLabelDialog();
 
 // Dialog Data
@@ -25,12 +26,12 @@ public:
 	afx_msg void OnOk();
 	virtual BOOL OnInitDialog();
 
-	CString GetPortLabel();
+	INXString GetPortLabel();
 	bool IsUnique();
 
 private:
-	CString m_csPortLabel;
-	CString m_csOldPortLabel;
+	INXString m_csPortLabel;
+	INXString m_csOldPortLabel;
 	ConData* m_pBlock;
 	DEP* m_pDEP;
 };

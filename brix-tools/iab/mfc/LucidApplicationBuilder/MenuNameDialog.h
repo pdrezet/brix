@@ -2,7 +2,7 @@
 #include "afxwin.h"
 #include "ProjectMetaData.h"
 #include "resource.h"
-
+#include "Porting_Classes/INXString.h"
 // CMenuNameDialog dialog
 
 class CMenuNameDialog : public CDialog
@@ -14,9 +14,9 @@ public:
 	virtual ~CMenuNameDialog();
 
 // methods
-	CString getMenuName();
+	INXString getMenuName();
 protected:
-	void setMenuNamesDropList(set<CString> sMenuNames);
+	void setMenuNamesDropList(set<INXString> sMenuNames);
 
 public:
 // Dialog Data
@@ -27,7 +27,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 private:
-	CString m_csMenuName;
+	INXString m_csMenuName;
 	CComboBox m_ctlMenuName;
 
 // event handlers

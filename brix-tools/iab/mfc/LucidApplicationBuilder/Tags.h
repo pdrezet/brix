@@ -7,6 +7,8 @@
 // Tags.h : header file
 //
 #include "Infobaxbase.h"
+#include "Porting_Classes/INXString.h"
+#include "Porting_Classes/INXObjArray.h"
 /////////////////////////////////////////////////////////////////////////////
 // Tags dialog: This is 
 //
@@ -26,7 +28,7 @@ public:
 	enum { IDD = IDD_TAGS };
 	CListBox	m_list;
 	//}}AFX_DATA
-	CStringArray *TagList;
+	INXObjArray<INXString> *TagList;
 	int assigned;
 	int selected;
 	int deleteme;
@@ -35,12 +37,12 @@ public:
 	int		negedge;
 	int		plusedge;
 	int wantoption;
-	CString	recorddelim;
-	CString	fielddelim;
-	CString	option2;
-	CString	option1;
-	CString	description;
-	CString	fixedinfo;
+	INXString	recorddelim;
+	INXString	fielddelim;
+	INXString	option2;
+	INXString	option1;
+	INXString	description;
+	INXString	fixedinfo;
 
 // Overrides
 	// ClassWizard generated virtual function overrides

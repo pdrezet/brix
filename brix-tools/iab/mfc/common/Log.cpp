@@ -14,15 +14,15 @@ Log::~Log(void)
 {
 }
 
-bool Log::Open(CString csFileName)
+bool Log::Open(INXString csFileName)
 {
 	bool bRet = FALSE;
-	CString csInstallDir;
+	INXString csInstallDir;
 	CLabLgbBaseApp *pBaseApp = (CLabLgbBaseApp *) AfxGetApp();
 
 	pBaseApp->GetInstallationBaseDir(csInstallDir);
-	CString csFilePath = csInstallDir + LOGDIR + csFileName;
-	CString csTmp;
+	INXString csFilePath = csInstallDir + LOGDIR + csFileName;
+	INXString csTmp;
 
 	c_pFile = NULL;
 	c_pFile = fopen(csFilePath,"w");
@@ -47,7 +47,7 @@ bool Log::IsOpen()
 	return m_bOpen;
 }
 
-void Log::WriteLogMsg(const CString csMsg)
+void Log::WriteLogMsg(const INXString csMsg)
 {
 	if (c_pFile) {
 		fprintf(c_pFile,"%s\n", csMsg);

@@ -3,8 +3,8 @@
 
 #pragma once
 
-// #include <wx/gdicmn.h> /* @todo */
 #include <atltypes.h>
+#include <wx/gdicmn.h> 
 #include "INXPoint.h"
 
 #define LEGACYINX
@@ -40,11 +40,6 @@ public:
 		cy = y;
 		return _tagSize;
 	};
-/*	operator SIZE(){
-		_size.cx = (long)cx;
-		_size.cy = (long)cy;
-		return _size;
-	};*/
 	// constructors
 	INXSize(): wxSize(){
 		x = 1;

@@ -26,7 +26,7 @@ RJMFileFind2::~RJMFileFind2()
 	if (m_pFinder) delete m_pFinder;
 }
 
-void RJMFileFind2::FindFiles(bool sub, CString dir, CString filter, CStringArray *res)
+void RJMFileFind2::FindFiles(bool sub, INXString dir, INXString filter, INXObjArray<INXString> *res)
 {
 	//Searches dir for files and loads into res array
 	PhraseFilter(filter);
@@ -40,7 +40,7 @@ void RJMFileFind2::FindFiles(bool sub, CString dir, CString filter, CStringArray
 	};
 
 	BOOL bWorking = m_pFinder->FindFile(dir + _T("*.*"));
-	CString t;
+	INXString t;
 	bool gosub = false;
 	while (bWorking) {
 		bWorking = m_pFinder->FindNextFile();
@@ -51,7 +51,7 @@ void RJMFileFind2::FindFiles(bool sub, CString dir, CString filter, CStringArray
 			if (t == _T("..")) gosub = false;
 	
 			if (sub) if (gosub) {
-				SearchSubDir(dir + m_pFinder->GetFileName(),res);
+				SearchSubDir(dir + (INXString)m_pFinder->GetFileName(),res);
 			};
 		} else {
 			if (PassFilter(t)) {
@@ -63,17 +63,17 @@ void RJMFileFind2::FindFiles(bool sub, CString dir, CString filter, CStringArray
 
 }
 
-bool RJMFileFind2::PassFilter(CString t)
+bool RJMFileFind2::PassFilter(INXString t)
 {
 	//checks if t passes the filter
 
 	int c = t.Find(_T("."),0);
-	CString start = t.Left(c);
-	CString end = t.Right(t.GetLength() - (c+1));
+	INXString start = t.Left(c);
+	INXString end = t.Right(t.GetLength() - (c+1));
 	start.MakeUpper();
 	end.MakeUpper();
-	CString l;
-	CString r;
+	INXString l;
+	INXString r;
 	for (c=0;c<Acc_Exts_Left.GetSize();c++) {
 		l = Acc_Exts_Left.GetAt(c);
 		r = Acc_Exts_Right.GetAt(c);
@@ -97,12 +97,12 @@ bool RJMFileFind2::PassFilter(CString t)
 	return false;
 }
 
-void RJMFileFind2::PhraseFilter(CString filter)
+void RJMFileFind2::PhraseFilter(INXString filter)
 {
 	Acc_Exts_Left.RemoveAll();
 	Acc_Exts_Right.RemoveAll();
 	//Split string on ";"
-	CString t;
+	INXString t;
 	int c = filter.Find(_T(";"),0);
 	while (!(c ==-1)) {  //while
 		//valid c value	
@@ -114,8 +114,8 @@ void RJMFileFind2::PhraseFilter(CString filter)
 	Acc_Exts_Left.Add(filter);
 	Acc_Exts_Right.SetSize(Acc_Exts_Left.GetSize());
 	int d;
-	CString l = _T("");
-	CString r = _T("");
+	INXString l = _T("");
+	INXString r = _T("");
 	for (c=0;c<Acc_Exts_Left.GetSize();c++) {
 		t = Acc_Exts_Left.GetAt(c);
 		d = t.Find(_T("."),0);
@@ -128,7 +128,7 @@ void RJMFileFind2::PhraseFilter(CString filter)
 	};
 }
 
-void RJMFileFind2::SearchSubDir(CString DIR, CStringArray *res)
+void RJMFileFind2::SearchSubDir(INXString DIR, INXObjArray<INXString> *res)
 {
 //	TRACE(_T("SearchSubDir start DIR:"));
 //	TRACE(DIR);
@@ -137,7 +137,7 @@ void RJMFileFind2::SearchSubDir(CString DIR, CStringArray *res)
 	DIR += _T("\\");
 	CFileFind finder;
 	BOOL bWorking = finder.FindFile(DIR + _T("*.*"));
-	CString t;
+	INXString t;
 	bool gosub = false;
 	while (bWorking) {
 		bWorking = finder.FindNextFile();
@@ -147,7 +147,7 @@ void RJMFileFind2::SearchSubDir(CString DIR, CStringArray *res)
 			if (t == _T(".")) gosub = false;
 			if (t == _T("..")) gosub = false;
 
-			if (gosub) SearchSubDir(DIR + finder.GetFileName(),res);
+			if (gosub) SearchSubDir(DIR + (INXString)finder.GetFileName(),res);
 		} else {
 //			TRACE(_T("File Found:"));
 //			TRACE(t);

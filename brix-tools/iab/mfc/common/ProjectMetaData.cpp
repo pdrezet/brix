@@ -40,7 +40,7 @@
 
 using namespace std;
 
-ProjectMetaData::ProjectMetaData(CString projectDir)
+ProjectMetaData::ProjectMetaData(INXString projectDir)
 : m_bProjectIsSet(false)
 , m_csLucidVersion(_T(""))
 , m_bLocked(false)
@@ -90,22 +90,22 @@ void ProjectMetaData::copyDummyBmp()
 
 	try {
 
-		CString installnDir;
+		INXString installnDir;
 		CLabLgbBaseApp *baseApp = (CLabLgbBaseApp *) AfxGetApp();
 		baseApp->GetInstallationBaseDir(installnDir);
 
-		CString sourceDir = installnDir + IMAGEDIR;
-		CString sourceFile = ICON_PLACEHOLDER_FILE;
+		INXString sourceDir = installnDir + IMAGEDIR;
+		INXString sourceFile = ICON_PLACEHOLDER_FILE;
 
 		if( fileOp.CheckPath( sourceDir + sourceFile) != PATH_IS_FILE  ){
 			AfxMessageBox( "Problem with provision of installation 'placeholder' file - seek assistance!" );
 			assert(1==0);
 		}
 
-		CString destDir;
+		INXString destDir;
 		getProjectDir(destDir);
 		destDir += GUIDIR;
-		CString destFile = ICON_PLACEHOLDER_FILE;
+		INXString destFile = ICON_PLACEHOLDER_FILE;
 
 
 		if( fileOp.CheckPath( destDir + destFile) != PATH_IS_FILE  ){
@@ -115,7 +115,7 @@ void ProjectMetaData::copyDummyBmp()
 	}catch ( CFExeption(sError)  ){
 
 		// For some reason, this catch doesn' work, as the handling of the exception's
-		// cstring thows its own exception.
+		// INXString thows its own exception.
 
 		AfxMessageBox( "Problem with 'placeholder' bitmap - seek assistance!" );
 		assert(1==0);
@@ -157,7 +157,7 @@ bool ProjectMetaData::checkProjectFileData(void)
 
 	// Get list of all screen tags.
 
-	std::vector < CString > tags;
+	std::vector < INXString > tags;
 	getScreenTags( tags );
 
 	// For each tag, get active layout name, and check it is present.
@@ -199,30 +199,30 @@ bool ProjectMetaData::checkProjectFileData(void)
 	return false;
 }
 */
-LucidErrEnum ProjectMetaData::getProjectName(CString &csProjName) const
+LucidErrEnum ProjectMetaData::getProjectName(INXString &csProjName) const
 {
 	csProjName = m_csProjectName;
 	return kErr_NoErr;
 }
 
-LucidErrEnum ProjectMetaData::getFullPathProjectFile(CString &csProjDir) const
+LucidErrEnum ProjectMetaData::getFullPathProjectFile(INXString &csProjDir) const
 {
 	csProjDir = m_csProjectDir + "\\" + m_csProjectName +".lpj";
 	return kErr_NoErr;
 }
 
-LucidErrEnum ProjectMetaData::getProjectDir(CString &csProjDir) const
+LucidErrEnum ProjectMetaData::getProjectDir(INXString &csProjDir) const
 {
 	csProjDir = m_csProjectDir;
 	return kErr_NoErr;
 }
 
-void ProjectMetaData::setProjectName(CString csProjName)
+void ProjectMetaData::setProjectName(INXString csProjName)
 {
 	m_csProjectName = csProjName;
 }
 
-void ProjectMetaData::setProjectDir(CString csProjDir)
+void ProjectMetaData::setProjectDir(INXString csProjDir)
 {
 	m_csProjectDir = csProjDir;
 }
@@ -237,7 +237,7 @@ LucidErrEnum ProjectMetaData::readProjectFile()
 
 	}else{
 
-		CString dummyCs = "";
+		INXString dummyCs = "";
 		getFullPathProjectFile(dummyCs);
 		LucidErrEnum err = readProjectFile( dummyCs );
 
@@ -258,7 +258,7 @@ void ProjectMetaData::initProjFolderMinder()
 	m_cProjFolderMinder.setProjectRevision( m_iCodeMajorRev, m_iCodeMinorRev );
 }
 
-CString ProjectMetaData::getVersionString(void)
+INXString ProjectMetaData::getVersionString(void)
 {
 	return intToString(m_iCodeMajorRev) + "." + intToString(m_iCodeMinorRev);
 }
@@ -275,7 +275,7 @@ void ProjectMetaData::getVersionInts(void)
 
 }
 /*
-LucidErrEnum ProjectMetaData::readProjectFile( CString csProjectPathName )
+LucidErrEnum ProjectMetaData::readProjectFile( INXString csProjectPathName )
 {
 
 	// With this overload of readProjectFile, we are normally reading NOT the present
@@ -287,11 +287,11 @@ LucidErrEnum ProjectMetaData::readProjectFile( CString csProjectPathName )
 	ifstream projectfile(csProjectPathName);
 	char type[WORK_DIR_SIZE] = {'\0'};
 	CMarkup xml;
-	CString csXML, csWidgetTag, csScreenTag, csTmpProjectDir;
+	INXString csXML, csWidgetTag, csScreenTag, csTmpProjectDir;
 	Group groupObj;
 
 	if (projectfile.fail()) {
-		CString dummy = "Unable to open project file.";
+		INXString dummy = "Unable to open project file.";
 		dummy += csProjectPathName;
 		AfxMessageBox(dummy);
 		return kErr_ProjectFileNotRead;
@@ -337,7 +337,7 @@ LucidErrEnum ProjectMetaData::readProjectFile( CString csProjectPathName )
 	m_csProjectName = xml.GetData();
 
 	xml.FindElem("LastTransferToTarget");
-	CString dummyTS = xml.GetData();
+	INXString dummyTS = xml.GetData();
 
 	// handle case where ts isn't present
 	if( dummyTS == m_csProjectName)
@@ -488,7 +488,7 @@ LucidErrEnum ProjectMetaData::readProjectFile( CString csProjectPathName )
 		// the active layout will still be got as the same as the targetfilename
 		// ie field above.
 		// So use the 1st layout as a default.
-		CString dummy = xml.GetChildData();	
+		INXString dummy = xml.GetChildData();	
 
 		if(dummy.Right(3) == "gui"){
 
@@ -531,7 +531,7 @@ LucidErrEnum ProjectMetaData::readProjectFile( CString csProjectPathName )
 	xml.IntoElem();
 
 	xml.FindElem("NumberOfHighestGuiFile");
-	CString dum = xml.GetData();
+	INXString dum = xml.GetData();
 	m_iLastGuiFileAddedKey = atoi(dum);
 
 	xml.FindElem("NumberOfHighestPngFile");
@@ -556,8 +556,8 @@ LucidErrEnum ProjectMetaData::readProjectFile( CString csProjectPathName )
 
 	LccPmdXfers::TypesEnum dummy = LccPmdXfers::kData; // LccPmdXfers::kData;
 
-	CString csHostFileName;
-	CString csTargetFileName;
+	INXString csHostFileName;
+	INXString csTargetFileName;
 
 	xml.FindElem("DataFileSet");
 	while ( xml.FindChildElem("Location") )
@@ -645,8 +645,8 @@ LucidErrEnum ProjectMetaData::showNewProjectDialog()
 		createDefaultGroup();
 
 		// Add the default widget-group.
-		CString tag = "default";
-		CString description = GUI_LAYOUT_DEFAULT_DESCRIPTION;
+		INXString tag = "default";
+		INXString description = GUI_LAYOUT_DEFAULT_DESCRIPTION;
 		createNewScreenTag(tag, description);
 		
 		if(!getLock()){
@@ -675,7 +675,7 @@ LucidErrEnum ProjectMetaData::showOpenProjectDialog()
 	// Set the initial directory to be the registry ProjectDir.
 	// If this directory doesn't exist then use the registry ProjectRootDir.
 
-	CString csInitialDir = AfxGetApp()->GetProfileString(_T("Project"),_T("ProjectDir"),_T(DEFAULTPROJECTROOTDIR));
+	INXString csInitialDir = AfxGetApp()->GetProfileString(_T("Project"),_T("ProjectDir"),_T(DEFAULTPROJECTROOTDIR));
 	if (!fo.CheckPath(csInitialDir)) {
 		csInitialDir = AfxGetApp()->GetProfileString(_T("Project"),_T("ProjectRootDir"),_T(DEFAULTPROJECTROOTDIR));
 	}
@@ -689,8 +689,8 @@ LucidErrEnum ProjectMetaData::showOpenProjectDialog()
 
 		setProjectToNull();
 
-		CString csProjectPathName = dlg.GetPathName();
-		CString csProjectFileName = dlg.GetFileName();
+		INXString csProjectPathName = dlg.GetPathName();
+		INXString csProjectFileName = dlg.GetFileName();
 		// extract the project dir from the pathname and projectname
 		// subtract 1 for the '/' between the project dir and project file name
 		int iLen = csProjectPathName.GetLength() - csProjectFileName.GetLength() - 1;
@@ -717,7 +717,7 @@ LucidErrEnum ProjectMetaData::showOpenProjectDialog()
 
 LucidErrEnum ProjectMetaData::showSaveProjectAsDialog()
 {
-	CString csOldProjectRootDir, csOldProjectName, csProjectPathName;
+	INXString csOldProjectRootDir, csOldProjectName, csProjectPathName;
 	CProjectDialog projDlg;
 	projDlg.SetIsWinEnv(((CLabLgbBaseApp *)AfxGetApp())->isInstalledInWindows);
 	projDlg.m_ProjectName = m_csProjectAppCanonicalName;
@@ -731,7 +731,7 @@ LucidErrEnum ProjectMetaData::showSaveProjectAsDialog()
 		// Do this read in calling routine so locking works Ok, b4 proj name has been changed.
 		//readProjectFile(csProjectPathName);
 
-		copyFolderTo(projDlg.m_ProjectDir, projDlg.m_ProjectName);
+		copyFolderTo((INXString)projDlg.m_ProjectDir, (INXString)projDlg.m_ProjectName);
 		m_csProjectName = projDlg.m_ProjectName;
 		m_csProjectDir = projDlg.m_ProjectDir + "\\" + projDlg.m_ProjectName;
 		m_csProjectAppCanonicalName = projDlg.m_ProjectName;
@@ -756,7 +756,7 @@ LucidErrEnum ProjectMetaData::showSaveProjectAsDialog()
 LucidErrEnum ProjectMetaData::showAddFileDialog(ExtDataFile &file, bool &bExists)
 {
 	CFileOperation fo;
-	CString csProjectPathName;
+	INXString csProjectPathName;
 	CFileDialog dlg(1,"txt","",OFN_FILEMUSTEXIST | OFN_HIDEREADONLY,"Project Data Files (*.txt)|*.txt|");
 		
 	bExists = FALSE;
@@ -773,8 +773,8 @@ LucidErrEnum ProjectMetaData::showAddFileDialog(ExtDataFile &file, bool &bExists
 			getFullPathProjectFile(csProjectPathName);
 			readProjectFile(csProjectPathName);
 
-			CString csPathName = dlg.GetPathName();
-			CString csFileName = dlg.GetFileName();
+			INXString csPathName = dlg.GetPathName();
+			INXString csFileName = dlg.GetFileName();
 			file.setHostFileName(csFileName);
 			// Check if the file already exists
 			if (fileInProject(file)) {
@@ -801,7 +801,7 @@ LucidErrEnum ProjectMetaData::showAddFileDialog(ExtDataFile &file, bool &bExists
 LucidErrEnum ProjectMetaData::showAddResourceDialog(ExtResourceFile &file, bool &bExists)
 {
 	CFileOperation fo;
-	CString csProjectPathName;
+	INXString csProjectPathName;
 	CFileDialog dlg(1,"*","",OFN_FILEMUSTEXIST | OFN_HIDEREADONLY,"Project Resource Files (*.*)|*.*|");
 		
 	bExists = FALSE;
@@ -818,8 +818,8 @@ LucidErrEnum ProjectMetaData::showAddResourceDialog(ExtResourceFile &file, bool 
 			getFullPathProjectFile(csProjectPathName);
 			readProjectFile(csProjectPathName);
 
-			CString csPathName = dlg.GetPathName();
-			CString csFileName = dlg.GetFileName();
+			INXString csPathName = dlg.GetPathName();
+			INXString csFileName = dlg.GetFileName();
 			file.setHostFileName(csFileName);
 			// Check if the file already exists
 			if (fileInProject(file)) {
@@ -999,7 +999,7 @@ LucidErrEnum ProjectMetaData::guiWidgetInVec(const GuiWidget &widget)
 LucidErrEnum ProjectMetaData::updateWidget(const GuiWidget &widget1, const GuiWidget &widget2)
 {
 	LucidErrEnum ret = kErr_ProjectMetaData_WidgetIsNotPresent;
-	CString csWidgetTag, csScreenTag;
+	INXString csWidgetTag, csScreenTag;
 
 	for (UINT i=0; i<m_vGuiWidgets.size(); i++) {
 
@@ -1080,11 +1080,11 @@ void ProjectMetaData::createFolderStructure()
 }
 
 
-void ProjectMetaData::copyFolderTo(CString csNewProjRootDir, CString csNewProjName) 
+void ProjectMetaData::copyFolderTo(INXString csNewProjRootDir, INXString csNewProjName) 
 {
 
 	CFileOperation fo;
-	CString csNewProjectDir = csNewProjRootDir + "\\" + csNewProjName;
+	INXString csNewProjectDir = csNewProjRootDir + "\\" + csNewProjName;
 
 	// when overwriting existing project delete old one.
 	if (fo.CheckPath(csNewProjectDir)) {
@@ -1153,8 +1153,8 @@ void ProjectMetaData::setProjectToNull(void)
 }
 
 LucidErrEnum ProjectMetaData::editScreenTagDescription(
-	const CString &tag,
-	const CString &tagDescrip)
+	const INXString &tag,
+	const INXString &tagDescrip)
 {
 
 
@@ -1170,7 +1170,7 @@ LucidErrEnum ProjectMetaData::editScreenTagDescription(
 }
 
 LucidErrEnum ProjectMetaData::removeScreenTag(
-	const CString &tag )
+	const INXString &tag )
 {
 
 	assert( tag.GetLength() >0 );
@@ -1196,7 +1196,7 @@ LucidErrEnum ProjectMetaData::removeScreenTag(
 
 
 LucidErrEnum ProjectMetaData::getTargetFileNameForGuiHostFileName(
-				const CString &hostFileName, CString &targetFileName ) const
+				const INXString &hostFileName, INXString &targetFileName ) const
 {
 
 	ExtGuiFile eGF;
@@ -1208,7 +1208,7 @@ LucidErrEnum ProjectMetaData::getTargetFileNameForGuiHostFileName(
 
 	}else{ // if(err==kErr_NoErr
 
-		CString screenTag;
+		INXString screenTag;
 		err = eGF.getScreenTag(screenTag);
 
 		if(err!=kErr_NoErr){
@@ -1238,7 +1238,7 @@ LucidErrEnum ProjectMetaData::getTargetFileNameForGuiHostFileName(
 }
 
 LucidErrEnum ProjectMetaData::getScreenTagMetas(
-		const CString &screenTag,
+		const INXString &screenTag,
 		TagProjMetaSupportData_t &tagData) const
 {
 
@@ -1265,20 +1265,20 @@ LucidErrEnum ProjectMetaData::getScreenTagMetas(
 }
 
 
-LucidErrEnum ProjectMetaData::getActiveLayouts(std::set< CString > &vLayoutList )
+LucidErrEnum ProjectMetaData::getActiveLayouts(std::set< INXString > &vLayoutList )
 {
 
 	if( projectIsSet() ){
 
 		vLayoutList.clear();
 		LucidErrEnum err;
-		CString layoutHostStub;
-		std::vector< CString > widgetGrps;
+		INXString layoutHostStub;
+		std::vector< INXString > widgetGrps;
 
 		err = getScreenTags( widgetGrps );
 		assert( kErr_NoErr == err );
 
-		std::vector<CString> vNames;
+		std::vector<INXString> vNames;
 
 		for( int wg=0; wg<widgetGrps.size(); wg++ ){
 
@@ -1298,7 +1298,7 @@ LucidErrEnum ProjectMetaData::getActiveLayouts(std::set< CString > &vLayoutList 
 }
 
 LucidErrEnum ProjectMetaData::getActiveLayout(
-	const CString &widgetGroup, CString &layoutHostName )
+	const INXString &widgetGroup, INXString &layoutHostName )
 {
 
 	LucidErrEnum err;
@@ -1324,7 +1324,7 @@ LucidErrEnum ProjectMetaData::getActiveLayout(
 
 
 LucidErrEnum ProjectMetaData::setActiveLayout(
-	const CString &widgetGroup, const CString &layoutHostName )
+	const INXString &widgetGroup, const INXString &layoutHostName )
 {
 
 	LucidErrEnum err;
@@ -1356,7 +1356,7 @@ LucidErrEnum ProjectMetaData::setActiveLayout(
 }
 
 LucidErrEnum ProjectMetaData::updateScreenTag(
-	const CString &tag, const TagProjMetaSupportData_t &suppData )
+	const INXString &tag, const TagProjMetaSupportData_t &suppData )
 {
 
 	//assert( suppData.tagDescr.GetLength() >0 );
@@ -1373,7 +1373,7 @@ LucidErrEnum ProjectMetaData::updateScreenTag(
 }
 
 LucidErrEnum ProjectMetaData::addScreenTag(
-	const CString &tag, const TagProjMetaSupportData_t &suppData )
+	const INXString &tag, const TagProjMetaSupportData_t &suppData )
 {
 
 	//assert( suppData.tagDescr.GetLength() >0 );
@@ -1397,7 +1397,7 @@ LucidErrEnum ProjectMetaData::addScreenTag(
 
 
 LucidErrEnum ProjectMetaData::createNewScreenTag(
-	const CString &tag, const CString &descr )
+	const INXString &tag, const INXString &descr )
 {
 
 	if( m_mapScreenTagProjMetas.find(tag) != m_mapScreenTagProjMetas.end()){
@@ -1407,7 +1407,7 @@ LucidErrEnum ProjectMetaData::createNewScreenTag(
 
 	}else{
 
-		CString cStr1;  // dummy var to hold tgt file name...
+		INXString cStr1;  // dummy var to hold tgt file name...
 		TagProjMetaSupportData_t tsd; // dummy var to hold Screen descrip and tgt file name
 
 		// generate tgt file name
@@ -1484,7 +1484,7 @@ LucidErrEnum ProjectMetaData::addGuiFile(
 
 		if( addFileSystemItem ){
 
-			CString fullPath;
+			INXString fullPath;
 			getProjectDir(fullPath); //kwhite added
 			fullPath += GUIDIR;
 			fullPath = fullPath + fileData.fileHostNameStub + ".gui";
@@ -1524,11 +1524,11 @@ LucidErrEnum ProjectMetaData::removeGuiFile(
 
 }
 
-LucidErrEnum ProjectMetaData::removeGuiFiles(const CString &csScreenTag)
+LucidErrEnum ProjectMetaData::removeGuiFiles(const INXString &csScreenTag)
 {
 	ExtGuiFile *pGF;
 	ExtGuiFile tmpGuiFile;
-	CString csTag, csDescr, csFileName;
+	INXString csTag, csDescr, csFileName;
 	vector<ExtGuiFile> vTmpGuiFiles;
 	vector<ExtGuiFile>::iterator it = m_vGuiFiles.begin();
 
@@ -1581,7 +1581,7 @@ LucidErrEnum ProjectMetaData::addPngFile(
 	if(!fileInProject(file))
 	{
 
-		CString cStr1;  // dummy var to hold tgt file name...
+		INXString cStr1;  // dummy var to hold tgt file name...
 
 		ExtPngFile dummyFile(file);
 		dummyFile.setTargetFileName( m_iLastPngFileAddedKey );
@@ -1607,7 +1607,7 @@ LucidErrEnum ProjectMetaData::addBmpFile(
 	if(!fileInProject(file))
 	{
 
-		CString cStr1;  // dummy var to hold tgt file name...
+		INXString cStr1;  // dummy var to hold tgt file name...
 
 		ExtBmpFile dummyFile(file);
 		dummyFile.setTargetFileName( m_iLastBmpFileAddedKey );
@@ -1632,7 +1632,7 @@ LucidErrEnum ProjectMetaData::addBdfFile(
 	if(!fileInProject(file))
 	{
 
-		CString cStr1;  // dummy var to hold tgt file name...
+		INXString cStr1;  // dummy var to hold tgt file name...
 
 		ExtBdfFile dummyFile(file);
 		// To Do: Set target filename
@@ -1701,7 +1701,7 @@ LucidErrEnum ProjectMetaData::addDataFile(
 	assert( find( m_vDataFiles.begin(), m_vDataFiles.end(), file ) ==
 						m_vDataFiles.end() );
 
-	CString cStr1;  // dummy var to hold tgt file name...
+	INXString cStr1;  // dummy var to hold tgt file name...
 
 	ExtDataFile dummyFile(file);
 	dummyFile.setTargetFileName( m_iLastDataFileAddedKey );
@@ -1775,12 +1775,12 @@ LucidErrEnum ProjectMetaData::addResourceFile(
 	assert( find( m_vResourceFiles.begin(), m_vResourceFiles.end(), file ) ==
 						m_vResourceFiles.end() );
 
-	CString csFileName;  // dummy var to hold tgt file name...
+	INXString csFileName;  // dummy var to hold tgt file name...
 
 	ExtResourceFile dummyFile(file);
 	
 	dummyFile.getHostFileName(csFileName);
-	dummyFile.setTargetFileName(csFileName);
+	dummyFile.setTargetFileName((CString)csFileName);
 	m_vResourceFiles.push_back(dummyFile);
 	
 	//writeProjectFile();
@@ -1804,7 +1804,7 @@ LucidErrEnum ProjectMetaData::removeResourceFile(const ExtResourceFile &file )
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-LucidErrEnum ProjectMetaData::getScreenTags(vector<CString> &tags )
+LucidErrEnum ProjectMetaData::getScreenTags(vector<INXString> &tags )
 {
 	tags.clear();
 
@@ -1822,9 +1822,9 @@ LucidErrEnum ProjectMetaData::getScreenTags(vector<CString> &tags )
 
 /*
 	tags.clear();
-	tags.push_back(CString("tag 1"));
-	tags.push_back(CString("tag 2"));
-	tags.push_back(CString("tag 31"));
+	tags.push_back(INXString("tag 1"));
+	tags.push_back(INXString("tag 2"));
+	tags.push_back(INXString("tag 31"));
 */
 	return kErr_NoErr;
 
@@ -1836,7 +1836,7 @@ LucidErrEnum ProjectMetaData::getScreenTagMgrData(
 		ScreenMgrDlogMap_t &tagData )
 {
 
-	CString tag; // dummy variable
+	INXString tag; // dummy variable
 	ScreenMgrSupportData_t dummy; // dummy variable
 	ScreenProjMetaMapPair_t *pPr; // dummy variable
 
@@ -1865,11 +1865,11 @@ LucidErrEnum ProjectMetaData::getScreenTagMgrData(
 
 }
 
-LucidErrEnum ProjectMetaData::getGuiFiles(const CString &screenTag, vector<GuiFileMonty_t> &guiFileVec)
+LucidErrEnum ProjectMetaData::getGuiFiles(const INXString &screenTag, vector<GuiFileMonty_t> &guiFileVec)
 {
 	guiFileVec.clear();
 
-	CString dummyStr;
+	INXString dummyStr;
 
 	ExtGuiFile *pGF;
 	GuiFileMonty_t guiFM;
@@ -1917,7 +1917,7 @@ LucidErrEnum ProjectMetaData::getGuiFiles(vector<GuiFileMonty_t> &guiFileVec)
 {
 	guiFileVec.clear();
 
-	CString dummyStr;
+	INXString dummyStr;
 
 	ExtGuiFile *pGF;
 	GuiFileMonty_t guiFM;
@@ -1960,7 +1960,7 @@ LucidErrEnum ProjectMetaData::getGuiFiles(vector<GuiFileMonty_t> &guiFileVec)
 
 
 LucidErrEnum ProjectMetaData::getScreenTagDescription(
-	const CString &tag, CString &tagDescr )
+	const INXString &tag, INXString &tagDescr )
 {
 
 	ScreenProjMetaMapPair_t *pPr = NULL;
@@ -1980,7 +1980,7 @@ LucidErrEnum ProjectMetaData::getScreenTagDescription(
 
 }
 
-LucidErrEnum ProjectMetaData::getPngFileByName(const CString & hostFileName, ExtPngFile &eBF ) const
+LucidErrEnum ProjectMetaData::getPngFileByName(const INXString & hostFileName, ExtPngFile &eBF ) const
 {
 
 	eBF.setHostFileName( hostFileName );
@@ -2000,7 +2000,7 @@ LucidErrEnum ProjectMetaData::getPngFileByName(const CString & hostFileName, Ext
 }
 
 
-LucidErrEnum ProjectMetaData::getBmpFileByName(const CString & hostFileName, ExtBmpFile &eBF ) const
+LucidErrEnum ProjectMetaData::getBmpFileByName(const INXString & hostFileName, ExtBmpFile &eBF ) const
 {
 
 	eBF.setHostFileName( hostFileName );
@@ -2021,7 +2021,7 @@ LucidErrEnum ProjectMetaData::getBmpFileByName(const CString & hostFileName, Ext
 
 
 
-LucidErrEnum ProjectMetaData::getDataFileByName(const CString & hostFileName, ExtDataFile &eF ) const
+LucidErrEnum ProjectMetaData::getDataFileByName(const INXString & hostFileName, ExtDataFile &eF ) const
 {
 
 	eF.setHostFileName( hostFileName );
@@ -2040,7 +2040,7 @@ LucidErrEnum ProjectMetaData::getDataFileByName(const CString & hostFileName, Ex
 	}
 }
 
-LucidErrEnum ProjectMetaData::getResourceFileByName(const CString & hostFileName, ExtResourceFile &eF ) const
+LucidErrEnum ProjectMetaData::getResourceFileByName(const INXString & hostFileName, ExtResourceFile &eF ) const
 {
 
 	eF.setHostFileName( hostFileName );
@@ -2061,7 +2061,7 @@ LucidErrEnum ProjectMetaData::getResourceFileByName(const CString & hostFileName
 
 
 
-LucidErrEnum ProjectMetaData::getGuiFileByName(const CString & hostFileName, ExtGuiFile &eGF ) const
+LucidErrEnum ProjectMetaData::getGuiFileByName(const INXString & hostFileName, ExtGuiFile &eGF ) const
 {
 
 	eGF.setHostFileName( hostFileName );
@@ -2080,7 +2080,7 @@ LucidErrEnum ProjectMetaData::getGuiFileByName(const CString & hostFileName, Ext
 	}
 }
 
-LucidErrEnum ProjectMetaData::getBdfFileByName(const CString & hostFileName, ExtBdfFile &eBF ) const
+LucidErrEnum ProjectMetaData::getBdfFileByName(const INXString & hostFileName, ExtBdfFile &eBF ) const
 {
 
 	eBF.setHostFileName( hostFileName );
@@ -2099,7 +2099,7 @@ LucidErrEnum ProjectMetaData::getBdfFileByName(const CString & hostFileName, Ext
 	}
 }
 
-LucidErrEnum ProjectMetaData::getNlsFileByName(const CString & hostFileName, ExtNlsFile &eNF ) const
+LucidErrEnum ProjectMetaData::getNlsFileByName(const INXString & hostFileName, ExtNlsFile &eNF ) const
 {
 
 	eNF.setHostFileName( hostFileName );
@@ -2118,12 +2118,12 @@ LucidErrEnum ProjectMetaData::getNlsFileByName(const CString & hostFileName, Ext
 	}
 }
 
-int ProjectMetaData::getScreenTagUsageInWidgets(const CString & screenTag)
+int ProjectMetaData::getScreenTagUsageInWidgets(const INXString & screenTag)
 {
 
 	int tagUsage = 0;
 
-	CString widgetScreenTag = "";
+	INXString widgetScreenTag = "";
 
 	vector<GuiWidget>::iterator it = m_vGuiWidgets.begin();
 
@@ -2164,10 +2164,10 @@ void ProjectMetaData::testAddScreenTag()
 
 	err = createNewScreenTag("tag1", "Description1" );
 	err = createNewScreenTag("tag2", "Description2" );
-	err = createNewScreenTag( CString("tag3"), CString("Description3") );
+	err = createNewScreenTag( INXString("tag3"), INXString("Description3") );
 }
 
-bool ProjectMetaData::screenTagInProject(const CString & tag)
+bool ProjectMetaData::screenTagInProject(const INXString & tag)
 {
 	if(m_mapScreenTagProjMetas.size() == 0)return false;
 
@@ -2178,7 +2178,7 @@ bool ProjectMetaData::screenTagInProject(const CString & tag)
 
 LucidErrEnum ProjectMetaData::initialiseProjectLgbBitmaps(void)
 {
-	CString installDir;
+	INXString installDir;
 
 
 
@@ -2186,7 +2186,7 @@ LucidErrEnum ProjectMetaData::initialiseProjectLgbBitmaps(void)
 }
 
 LucidErrEnum ProjectMetaData::getTargetFileNameForDataHostFileName(
-				const CString &dataHostFileName, CString &targetFileName ) const
+				const INXString &dataHostFileName, INXString &targetFileName ) const
 {
 
 	ExtDataFile eF;
@@ -2207,7 +2207,7 @@ LucidErrEnum ProjectMetaData::getTargetFileNameForDataHostFileName(
 }
 
 LucidErrEnum ProjectMetaData::getTargetFileNameForBmpHostFileName(
-				const CString &bmpHostFileName, CString &targetFileName ) const
+				const INXString &bmpHostFileName, INXString &targetFileName ) const
 {
 
 	ExtBmpFile eBF;
@@ -2228,7 +2228,7 @@ LucidErrEnum ProjectMetaData::getTargetFileNameForBmpHostFileName(
 }
 
 LucidErrEnum ProjectMetaData::getTargetFileNameForPngHostFileName(
-				const CString &pngHostFileName, CString &targetFileName ) const
+				const INXString &pngHostFileName, INXString &targetFileName ) const
 {
 
 	ExtPngFile eBF;
@@ -2249,7 +2249,7 @@ LucidErrEnum ProjectMetaData::getTargetFileNameForPngHostFileName(
 }
 
 LucidErrEnum ProjectMetaData::getTargetFileNameForBdfHostFileName(
-				const CString &bdfHostFileName, CString &targetFileName ) const
+				const INXString &bdfHostFileName, INXString &targetFileName ) const
 {
 
 	ExtBdfFile eBF;
@@ -2270,7 +2270,7 @@ LucidErrEnum ProjectMetaData::getTargetFileNameForBdfHostFileName(
 }
 
 LucidErrEnum ProjectMetaData::getTargetFileNameForNlsHostFileName(
-				const CString &nlsHostFileName, CString &targetFileName ) const
+				const INXString &nlsHostFileName, INXString &targetFileName ) const
 {
 
 	ExtNlsFile eNF;
@@ -2304,7 +2304,7 @@ bool ProjectMetaData::getRealLock(char* szFile, int iLineNum)
 		//try to read the lock file
 		//if exists then already a lock on this project, return error
 		//else no lock, so create lock file
-		CString projLockFile;
+		INXString projLockFile;
 		getProjectDir(projLockFile);
 		projLockFile += PROJ_LOCK_FILE_NAME;
 
@@ -2342,7 +2342,7 @@ bool ProjectMetaData::getRealLock(char* szFile, int iLineNum)
 
 
 
-/*		CString dum;
+/*		INXString dum;
 		getProjectDir(dum);
 		dum += PMD_LOCK_FILE_NAME;
 
@@ -2383,7 +2383,7 @@ bool ProjectMetaData::releaseRealLock(char* szFile, int iLineNum)
 	//try to read the lock file
 	//if exists then remove the lock
 	//else no lock file to remove, warn user but continue
-	CString projLockFile;
+	INXString projLockFile;
 	getProjectDir(projLockFile);
 	projLockFile += PROJ_LOCK_FILE_NAME;
 
@@ -2453,7 +2453,7 @@ void ProjectMetaData::getListOfPreviousTransferredItems(LccPmdXfers &vAlreadyTra
 	int ret = 0;
 	LccPmdXfers::TypesEnum foundType = LccPmdXfers::kNothing;
 
-	CString csProjectFilePath;
+	INXString csProjectFilePath;
 	getFullPathProjectFile(csProjectFilePath);
 
 
@@ -2509,9 +2509,9 @@ int ProjectMetaData::inflateTransferrableData(
 							  const bool &updatedOnly, const bool &bAppUpload)
 {
 	LucidErrEnum err;
-	CString fullPath;
-	CString projDir, csInstallDir;
-	CString csDum;
+	INXString fullPath;
+	INXString projDir, csInstallDir;
+	INXString csDum;
 	CTime cTime;
 	BOOL bWorking;
 	BOOL bSucceed;
@@ -2686,8 +2686,8 @@ void ProjectMetaData::updateTransferrables(const bool &bAppUpload)
 {
 	assert(m_bLocked);
 
-	CString csHostFileName;
-	CString csTgtFileName;
+	INXString csHostFileName;
+	INXString csTgtFileName;
 	
 	m_cTransferables.clear();
 
@@ -2712,7 +2712,7 @@ void ProjectMetaData::updateTransferrables(const bool &bAppUpload)
 	LucidErrEnum err = getDataFiles( vDataFiles );
 	assert(kErr_NoErr== err);
 
-	//set<CString>::iterator it = vDataFiles.begin();
+	//set<INXString>::iterator it = vDataFiles.begin();
 	//while( it != vDataFiles.end() ){
 	for(size_t i=0;i<vDataFiles.size(); i++){
 		vDataFiles[i].getHostFileName( csHostFileName );
@@ -2727,12 +2727,12 @@ void ProjectMetaData::updateTransferrables(const bool &bAppUpload)
 	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	// Add the IMAGE files to the list
 	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	std::set< CString > vImageFiles;
+	std::set< INXString > vImageFiles;
 
 	err = ((CLabLgbBaseApp *)AfxGetApp())->getActiveImages( this, vImageFiles );
 	assert(kErr_NoErr== err);
 
-	set<CString>::iterator it = vImageFiles.begin();
+	set<INXString>::iterator it = vImageFiles.begin();
 	while( it != vImageFiles.end() ){
 	//for(size_t i=0;i<vImageFiles.size(); i++)
 		m_cTransferables.addItem( LccPmdXfers::kImages, *it );
@@ -2746,7 +2746,7 @@ void ProjectMetaData::updateTransferrables(const bool &bAppUpload)
 	// Previously only sent layout files if there were widgets.
 	// Now always send the layout files even if there are no widgets
 	//if (m_vGuiWidgets.size() > 0) {
-	std::set< CString > vLayoutNames;
+	std::set< INXString > vLayoutNames;
 	getActiveLayouts( vLayoutNames );
 
 	it = vLayoutNames.begin();
@@ -2774,7 +2774,7 @@ void ProjectMetaData::updateTransferrables(const bool &bAppUpload)
 	// Add the bdf files to the list
 	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-	std::set< CString > vFontNames;
+	std::set< INXString > vFontNames;
 
 	err = ((CLabLgbBaseApp *)AfxGetApp())->getActiveFonts( this, vFontNames );
 	assert(kErr_NoErr== err);
@@ -2813,9 +2813,9 @@ void ProjectMetaData::setDirtySODLFlag()
 	if (!isDirtySODL) {
 		isDirtySODL = true;
 		// write file 
-		CString csProjectDir;
+		INXString csProjectDir;
 		getProjectDir(csProjectDir);
-		CString updateSODLFileName;
+		INXString updateSODLFileName;
 		updateSODLFileName = csProjectDir + UPDATE_SODL_FILE_NAME;
 		FILE * pFile = NULL;
 
@@ -2834,9 +2834,9 @@ void ProjectMetaData::clearDirtySODLFlag()
 {
 	isDirtySODL = false;
 
-	CString csProjectDir;
+	INXString csProjectDir;
 	getProjectDir(csProjectDir);
-	CString updateSODLFileName;
+	INXString updateSODLFileName;
 	updateSODLFileName = csProjectDir + UPDATE_SODL_FILE_NAME;
 	FILE * pFile = NULL;
 
@@ -2860,9 +2860,9 @@ void ProjectMetaData::clearDirtySODLFlag()
 bool ProjectMetaData::checkDirtySODL()
 {
 	if (isSODLCheckBeingPerformed) {
-		CString csProjectDir;
+		INXString csProjectDir;
 		getProjectDir(csProjectDir);
-		CString updateSODLFileName;
+		INXString updateSODLFileName;
 		updateSODLFileName = csProjectDir + UPDATE_SODL_FILE_NAME;
 		FILE * pFile = NULL;
 
@@ -2882,9 +2882,9 @@ bool ProjectMetaData::checkDirtySODL()
 void ProjectMetaData::setDirtyWidgetsFlag()
 {
 	// write file 
-	CString csProjectDir;
+	INXString csProjectDir;
 	getProjectDir(csProjectDir);
-	CString updateWidgetsFileName;
+	INXString updateWidgetsFileName;
 	updateWidgetsFileName = csProjectDir + UPDATE_WIDGETS_FILE_NAME;
 	FILE * pFile = NULL;
 
@@ -2900,9 +2900,9 @@ void ProjectMetaData::setDirtyWidgetsFlag()
 
 void ProjectMetaData::clearDirtyWidgetsFlag()
 {
-	CString csProjectDir;
+	INXString csProjectDir;
 	getProjectDir(csProjectDir);
-	CString updateWidgetsFileName;
+	INXString updateWidgetsFileName;
 	updateWidgetsFileName = csProjectDir + UPDATE_WIDGETS_FILE_NAME;
 	FILE * pFile = NULL;
 
@@ -2926,9 +2926,9 @@ void ProjectMetaData::clearDirtyWidgetsFlag()
 bool ProjectMetaData::checkDirtyWidgets()
 {
 	if (isSODLCheckBeingPerformed) {
-		CString csProjectDir;
+		INXString csProjectDir;
 		getProjectDir(csProjectDir);
-		CString updateWidgetsFileName;
+		INXString updateWidgetsFileName;
 		updateWidgetsFileName = csProjectDir + UPDATE_WIDGETS_FILE_NAME;
 		FILE * pFile = NULL;
 
@@ -2970,7 +2970,7 @@ void ProjectMetaData::populateBuildNumFromFile(void){
 */
 int ProjectMetaData::readBuildNumFromFile(void)
 {
-	CString csProjectDir;
+	INXString csProjectDir;
 	char lineFromFile[256];
 	getProjectDir(csProjectDir);
 	int num;

@@ -40,11 +40,11 @@ bool CLucidStateMachine::placeComponents(INXPoint point, DEP* pDEP, Project* pPr
 		
 	LucidStateMachineDialog lsmdialog;
 	int NumTransitionToEdit =8;
-	CString csStateEdit = "";
-	CString csBitmapNameAppend="";
+	INXString csStateEdit = "";
+	INXString csBitmapNameAppend="";
 	bool bTransitionAction = false;
 	bool bEntryAction = false;
-	CString csProjectDir;
+	INXString csProjectDir;
 
 	pProject->pProjMData->getProjectDir(csProjectDir);
 	if(lsmdialog.DoModal() == IDOK)
@@ -69,9 +69,9 @@ bool CLucidStateMachine::placeComponents(INXPoint point, DEP* pDEP, Project* pPr
 	if(NumTransitionToEdit>0)
 	{
 
-		CString csBitmapName = "SFCBARGROUP8";
-		CString csIdfName = "";
-		CString blockName = "Logic";
+		INXString csBitmapName = "SFCBARGROUP8";
+		INXString csIdfName = "";
+		INXString blockName = "Logic";
 		ConData* pLogicIconData;
 		ConData* pSFCBarGroupIconData;
 		BlockOperations bo;
@@ -160,7 +160,7 @@ bool CLucidStateMachine::placeComponents(INXPoint point, DEP* pDEP, Project* pPr
 /*
 				BlockOperations bo;
 	
-				CString filename = pProject->projectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(pDEP->hItem) + pDEP->depFilename + "\\" + pLogicIconData->description+ ".prg";
+				INXString filename = pProject->projectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(pDEP->hItem) + pDEP->depFilename + "\\" + pLogicIconData->description+ ".prg";
 				loaded = bo.NewBlock(filename);
 				
 				ConData *blob = new ConData;
@@ -201,7 +201,7 @@ bool CLucidStateMachine::placeComponents(INXPoint point, DEP* pDEP, Project* pPr
 				AddActionPortsBelow(pTransitionIconData,  pDEP,  pProject);
 
 /*
-				CString filename = pProject->projectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(pDEP->hItem) + pDEP->depFilename + "\\" + pTransitionIconData->description+ ".prg";
+				INXString filename = pProject->projectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(pDEP->hItem) + pDEP->depFilename + "\\" + pTransitionIconData->description+ ".prg";
 				loaded = bo.NewBlock(filename);
 			
 			
@@ -240,7 +240,7 @@ bool CLucidStateMachine::placeComponents(INXPoint point, DEP* pDEP, Project* pPr
 	
 		pStateIconData = (ConData *) pDEP->condata->GetAt(selected);
 
-	//	CString e;
+	//	INXString e;
 	//	e.Format("%d",sizeof(pStateIconData->iParamNum));
 		//e.Format("%d",sizeof(pStateIconData->iconParam));
 	//	AfxMessageBox(e);
@@ -268,7 +268,7 @@ bool CLucidStateMachine::placeComponents(INXPoint point, DEP* pDEP, Project* pPr
 			pSFCBarGroupIconData->AddLine(0,STARTPORT, pEntryActionIconData,0, FINISHPORT);
 
 
-			CString filename = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(pDEP->hItem) + pDEP->depFilename + "\\" + pEntryActionIconData->description+ ".prg";
+			INXString filename = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(pDEP->hItem) + pDEP->depFilename + "\\" + pEntryActionIconData->description+ ".prg";
 		
 		
 
@@ -299,10 +299,10 @@ void CLucidStateMachine::AddConditionLogicPortsBelow(ConData* pIconData,  DEP* p
 
 		CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 		INXObjList* loaded;
-		CString csProjectDir;
+		INXString csProjectDir;
 		pProject->pProjMData->getProjectDir(csProjectDir);
-		CString path = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(pDEP->hItem) + pDEP->depFilename + "\\" + pIconData->description;
-		CString filename = path + ".prg";
+		INXString path = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(pDEP->hItem) + pDEP->depFilename + "\\" + pIconData->description;
+		INXString filename = path + ".prg";
 
 		CreateDirectory(path,NULL);
 //		CreateDirectory(workDir + USERDEFDIR + blockName, NULL);
@@ -336,10 +336,10 @@ void CLucidStateMachine::AddActionPortsBelow(ConData* pIconData,DEP* pDEP, Proje
 
 		CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 		INXObjList* loaded;
-		CString csProjectDir;
+		INXString csProjectDir;
 		pProject->pProjMData->getProjectDir(csProjectDir);
-		CString path = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(pDEP->hItem) + pDEP->depFilename + "\\" + pIconData->description;
-		CString filename = path + ".prg";
+		INXString path = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(pDEP->hItem) + pDEP->depFilename + "\\" + pIconData->description;
+		INXString filename = path + ".prg";
 
 		CreateDirectory(path,NULL);
 		

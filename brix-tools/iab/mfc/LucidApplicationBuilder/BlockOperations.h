@@ -8,6 +8,7 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
+#include "Porting_Classes/INXString.h"
 
 class BlockOperations  
 {
@@ -18,9 +19,9 @@ public:
 	// Methods
 	void AssignIconLineEndPoints(INXObjList* temp);
 	ConData* GetBlockIconFromID(long id, INXObjList* encapsulated);
-	INXObjList* LoadBlock(CString Info);
-	INXObjList* BlockOperations::NewBlock(CString Info);
-	int SaveBlock(CString Info, INXObjList* encapsulated);
+	INXObjList* LoadBlock(INXString Info);
+	INXObjList* BlockOperations::NewBlock(INXString Info);
+	int SaveBlock(INXString Info, INXObjList* encapsulated);
 	void DeleteBlock(INXObjList* encapsulated);
 };
 

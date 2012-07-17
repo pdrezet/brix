@@ -2,6 +2,7 @@
 
 #include "resource.h"
 #include "afxwin.h" 
+#include "Porting_Classes/INXString.h"
 // CProjectDialog dialog
 
 class CProjectDialog : public CDialog
@@ -31,12 +32,12 @@ public:
 	void SetIsWinEnv(bool isWinEnv);
 
 
-	CString m_ProjectName;
-	CString m_ProjectDir;
+	INXString m_ProjectName;
+	INXString m_ProjectDir;
 	CEdit m_ProjectDirEdit;
-	CString m_ProjectCommercialName;
-	CString m_ProjectVersion;
-	CString m_ProjectDescription;
+	INXString m_ProjectCommercialName;
+	INXString m_ProjectVersion;
+	INXString m_ProjectDescription;
 
 private:
 	bool bIsWindowsEnv;

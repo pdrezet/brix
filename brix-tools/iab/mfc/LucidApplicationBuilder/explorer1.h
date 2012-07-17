@@ -7,6 +7,7 @@
 
 /////////////////////////////////////////////////////////////////////////////
 // CExplorer1 wrapper class
+#include "Porting_Classes/INXString.h"
 
 class CExplorer1 : public CWnd
 {
@@ -223,9 +224,9 @@ public:
 		InvokeHelper(0xcc, DISPATCH_PROPERTYGET, VT_BOOL, (void*)&result, NULL);
 		return result;
 	}
-	CString get_Type()
+	INXString get_Type()
 	{
-		CString result;
+		INXString result;
 		InvokeHelper(0xcd, DISPATCH_PROPERTYGET, VT_BSTR, (void*)&result, NULL);
 		return result;
 	}
@@ -273,15 +274,15 @@ public:
 		static BYTE parms[] = VTS_I4 ;
 		InvokeHelper(0xd1, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
 	}
-	CString get_LocationName()
+	INXString get_LocationName()
 	{
-		CString result;
+		INXString result;
 		InvokeHelper(0xd2, DISPATCH_PROPERTYGET, VT_BSTR, (void*)&result, NULL);
 		return result;
 	}
-	CString get_LocationURL()
+	INXString get_LocationURL()
 	{
-		CString result;
+		INXString result;
 		InvokeHelper(0xd3, DISPATCH_PROPERTYGET, VT_BSTR, (void*)&result, NULL);
 		return result;
 	}
@@ -312,9 +313,9 @@ public:
 		InvokeHelper(0x12f, DISPATCH_METHOD, VT_VARIANT, (void*)&result, parms, Property);
 		return result;
 	}
-	CString get_Name()
+	INXString get_Name()
 	{
-		CString result;
+		INXString result;
 		InvokeHelper(0x0, DISPATCH_PROPERTYGET, VT_BSTR, (void*)&result, NULL);
 		return result;
 	}
@@ -324,15 +325,15 @@ public:
 		InvokeHelper(DISPID_HWND, DISPATCH_PROPERTYGET, VT_I4, (void*)&result, NULL);
 		return result;
 	}
-	CString get_FullName()
+	INXString get_FullName()
 	{
-		CString result;
+		INXString result;
 		InvokeHelper(0x190, DISPATCH_PROPERTYGET, VT_BSTR, (void*)&result, NULL);
 		return result;
 	}
-	CString get_Path()
+	INXString get_Path()
 	{
-		CString result;
+		INXString result;
 		InvokeHelper(0x191, DISPATCH_PROPERTYGET, VT_BSTR, (void*)&result, NULL);
 		return result;
 	}
@@ -358,9 +359,9 @@ public:
 		static BYTE parms[] = VTS_BOOL ;
 		InvokeHelper(0x193, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
 	}
-	CString get_StatusText()
+	INXString get_StatusText()
 	{
-		CString result;
+		INXString result;
 		InvokeHelper(0x194, DISPATCH_PROPERTYGET, VT_BSTR, (void*)&result, NULL);
 		return result;
 	}

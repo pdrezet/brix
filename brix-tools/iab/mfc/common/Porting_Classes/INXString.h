@@ -1,56 +1,142 @@
+#ifndef _INXSTRING_H
+#define _INXSTRING_H
+
 #pragma once
+#include <afx.h> /* @todo temporarly include of mfc lib*/
 #include <wx/string.h>
 #include <algorithm>
+
 using namespace std;
+
+#define LEGACYINX
 
 class INXString: public wxString{
 
+#ifdef LEGACYINX
+	CString _string;
+#endif
+public:
+	/*@todo Legacy code needed to compile code with mfc functions*/
+	operator CString&(){	
+		return _string;
+	};
+	operator CString(){	
+		CString str = (char *)c_str();
+		return str;
+	};
+	operator char *()const{
+		char *_cstr = (char *)c_str();
+		return _cstr;
+	};
+	
 public:
 	// constructors
-	INXString(): wxString(){}
-	INXString(const wxString &str): wxString(str){}
-	INXString(const char *s): wxString(s){}
-	INXString(const char c, unsigned int n = 1): wxString(c, n){}
-	// The String as an Array 
-	int GetLength(){
+	INXString(): wxString(){
+	};
+	INXString(wxString &str):wxString(str){
+		#ifdef LEGACYINX
+			_string = str.c_str();
+		#endif
+	};
+	INXString(const char *s): wxString(s){
+		#ifdef LEGACYINX
+			_string = s;
+		#endif		
+	};
+	//copy constructor
+	INXString(const char &c){
+		#ifdef LEGACYINX
+			_string = c;
+		#endif
+		append(c);
+	};
+	INXString(const CString &str){
+		#ifdef LEGACYINX
+			_string = str;
+		#endif
+		append(str);
+	};	
+	void AppendChar(char c){
+		Append((wxChar)c);
+		#ifdef LEGACYINX
+			_string.AppendChar(c);
+		#endif
+	};
+	void Delete(unsigned int _start, unsigned int _end){
+		erase(_start,_end);
+		#ifdef LEGACYINX
+			_string = c_str();
+		#endif
+	};
+	size_t GetLength() const{
 		return Len();	
 	};
 //	bool IsEmpty(){} // is inherited
 //	void Empty(){} // is inherited
-	char GetAt(unsigned int index){
-		GetChar(index);
+	char GetAt(unsigned int index) const{
+		return GetChar(index);
 	};
-	void SetAt(unsigned int index, char c){
+	void SetAt(unsigned int index, unsigned char c){
 		SetChar(index, c);
+		#ifdef LEGACYINX
+			_string = c_str();
+		#endif
 	};
 	// Comparision
 	int CompareNoCase(const char *s){ // case insensetive
 		return  CmpNoCase(s);
 	};
 	// Extraction 
-
-	INXString SpanExcluding(const wxString &str){ /*@todo SpanExcluding uncompleted */
-		//return Prepend(str);
+	/* @todo using mfc CString to creatre the method*/
+	INXString SpanExcluding(const wxString &str){
+		const char *temp = str;
+		CString _str;
+		_str.SpanExcluding(temp);
+		return (INXString)_str;
 	};
 	// Other Conversions 
 //	void MakeUpper(){} inherits from parent
 //	void MakeLower(){} inherits from parent
 	void MakeReverse(){
 		reverse(begin(), end());
+		#ifdef LEGACYINX
+			_string = c_str();
+		#endif
 	};
 /*	void Format(char *s, ... ){} use Printf(char *s, ...) instead 
 	that is inherited from parent */
-	void TrimLeft(){
+	INXString TrimLeft(){
 		 Trim(false);
+		 #ifdef LEGACYINX
+			_string = c_str();
+		#endif
+			return (INXString)*this;
 	};
-	void TrimRight(){
+	INXString TrimRight(){
 		 Trim(true);
+		 #ifdef LEGACYINX
+			_string = c_str();
+		#endif
+			return (INXString)*this;
 	};
 	// Searching 
-//	int Find(char c){}; inherited from parent class
-//	int Find(char *s){}; inherited from parent
-	int Find(char c, int nStart){
-		return (int) find(c, nStart);
+	int Find(const unsigned char c){
+		return (int)wxString::Find((wxChar)c);
+	}; 
+	int Find(const char c){
+		return (int)wxString::Find((wxChar)c); 
+	}; 
+	int Find(const char *s){
+		return (int)wxString::Find((wxChar *)s);
+	};
+	int Find(INXString str){
+		return (int)wxString::Find((wxChar)(char *)str);
+	};
+	int Find(INXString str, int nStart){
+		return (int)find((char *)str, nStart);
+	};
+	int Find(unsigned char c, int nStart){
+		return (int)find(c, nStart);
 	};
 	int Find(char *s, int nStart){
 		return (int) find(s, nStart);
@@ -65,7 +151,29 @@ public:
 	char* GetBuffer(const int nMinBufLength){
 		return GetWriteBuf(nMinBufLength);
 	};
-	void ReleaseBuffer( int nNewLength = -1 ){
-		UngetWriteBuf(nNewLength);
+	void ReleaseBuffer(int nNewLength = -1){
+		if(nNewLength == -1){
+			nNewLength = StringLength((char *)c_str());
+		}
+		SetLength(nNewLength);
+		#ifdef LEGACYINX
+			_string = c_str();
+		#endif
+	};
+	void SetLength(int _length){
+		resize(_length);
+	};
+	int StringLength(const char *s){
+		if(s == NULL){
+			return(0);
+		}return(int(strlen(s)));
+	};
+	/* @todo using mfc CString to creatre the method */
+	INXString Tokenize(INXString str, int pos){
+		char *temp = str;
+		CString _str;
+		_str.Tokenize(temp, pos);
+		return (INXString)_str;
 	};
 };
+#endif

@@ -46,7 +46,7 @@ Debugger::~Debugger()
 // separate thread used to read debug trace messages
 void DebugThread(void * data) {
 	Debugger * dbg = (Debugger *) data;
-	CString csTraceMsg;
+	INXString csTraceMsg;
 
 	while (dbg->debugMode != DBGSTOP) {
 		dbg->tcpClient.ReceiveTextBlock(csTraceMsg);
@@ -113,13 +113,13 @@ void Debugger::DbgHistTime() {
 	// get the max debug history time
 	while (!foundMaxTime) {
 		_itoa_s(iFileNum,szFileNum,10);
-		CString filename = workDir + DEBUGDIR + DEBUGFILE + szFileNum + ".txt";
+		INXString filename = workDir + DEBUGDIR + DEBUGFILE + szFileNum + ".txt";
 		dbgfile.open(filename);
 
 		isEmpty = FALSE;
 		dbgfile >> unused;
 		// if a file is empty don't load it
-		if ((CString)unused == "") {
+		if ((INXString)unused == "") {
 			isEmpty = TRUE;
 		}
 		dbgfile.close();
@@ -146,7 +146,7 @@ void Debugger::DbgHistTime() {
 		if (dialog.DoModal()==IDOK) {
 			_itoa_s(iMaxEndTime, szMaxEndTime, 10);
 			if (dialog.m_DbgHistTime > iMaxEndTime) {
-				AfxMessageBox("The maximum time allowed is " + (CString)szMaxEndTime);
+				AfxMessageBox("The maximum time allowed is " + (INXString)szMaxEndTime);
 			}
 			else {
 				dbgHistTime = dialog.m_DbgHistTime;
@@ -331,7 +331,7 @@ void Debugger::DestroyView() {
 }
 
 /*
-void Debugger::FtpDbgCtrlFile(CString filename) {
+void Debugger::FtpDbgCtrlFile(INXString filename) {
 	char timeBuf[9];
 	char dateBuf[9];
 	FTPOptions options;
@@ -340,7 +340,7 @@ void Debugger::FtpDbgCtrlFile(CString filename) {
 	// write timestamp to debug control file
 	_strdate_s(dateBuf);
 	_strtime_s(timeBuf);
-	timestamp = (CString)(dateBuf) + "_" + (CString)(timeBuf);
+	timestamp = (INXString)(dateBuf) + "_" + (INXString)(timeBuf);
 	ctrlfile << timestamp;
 	ctrlfile.close();
 
@@ -409,7 +409,7 @@ int Debugger::GetEHSState()
 */
 
 // Load in a debug file in debug history mode
-void Debugger::LoadDbgHistFile(CString filename, int dbgFileNum) {
+void Debugger::LoadDbgHistFile(INXString filename, int dbgFileNum) {
 	ifstream dbgfile(filename);
 	long startTime, endTime;
 	char szDataType;
@@ -424,7 +424,7 @@ void Debugger::LoadDbgHistFile(CString filename, int dbgFileNum) {
 
 	dbgfile >> szValue;
 	// if a file is empty don't load it
-	if ((CString)szValue == "") {
+	if ((INXString)szValue == "") {
 		isEmpty = TRUE;
 	}
 	dbgfile.close();
@@ -514,10 +514,10 @@ void Debugger::LoadDbgHistFile(CString filename, int dbgFileNum) {
 }
 
 // Display the trace messages
-void Debugger::displayTraceMsg(CString csTraceMsg)
+void Debugger::displayTraceMsg(INXString csTraceMsg)
 {
 	int curPos = 0;
-	CString csToken, csSeq, csID, csMsgType, csDataType, csValue, csTime;
+	INXString csToken, csSeq, csID, csMsgType, csDataType, csValue, csTime;
 	int iDataType;
 	IconLines *line;
 	INXObjList *lineList;
@@ -664,7 +664,7 @@ void Debugger::displayTraceMsg(CString csTraceMsg)
 	}
 }
 
-CString Debugger::Tokenize(CString csTraceMsg, int &curPos)
+INXString Debugger::Tokenize(INXString csTraceMsg, int &curPos)
 {
 	if (curPos < 0) {
 		return "";
@@ -708,7 +708,7 @@ void Debugger::sendAllMonitors()
 {
 	INXPOSITION pos;
 	ConData* pBlob;
-	CString csTcpStr;
+	INXString csTcpStr;
 	TypeConversion tc;
 	clearAll=FALSE; // don't clear from now on
 	pos = pView->pDEP->condata->GetHeadPosition();
@@ -756,9 +756,9 @@ void Debugger::sendAllMonitors()
 // Method that sends a monitor command to the EHS for a line specified by its ID and type
 // bOnOff determines whether the monitor is turned on or off
 // Returns true if the send was successful, otherwise it returns false
-bool Debugger::sendMonitor(bool bOnOff, long iId, CString csType)
+bool Debugger::sendMonitor(bool bOnOff, long iId, INXString csType)
 {
-	CString csTcpCmd;
+	INXString csTcpCmd;
 	clearAll=TRUE;
 	if (bOnOff) {
 		csTcpCmd = "=M+" + intToString(iId) + "," + csType + "\n";
@@ -782,7 +782,7 @@ void Debugger::ClearAllMonitors()
 {
 	INXPOSITION pos;
 	ConData* pBlob;
-	CString csTcpStr;
+	INXString csTcpStr;
 	TypeConversion tc;
 	clearAll=TRUE;
 	pos = pView->pDEP->condata->GetHeadPosition();

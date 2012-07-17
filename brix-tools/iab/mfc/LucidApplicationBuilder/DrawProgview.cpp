@@ -259,7 +259,7 @@ CDrawProgView::CDrawProgView()
 	pProject = NULL;
 	pDEP = NULL;	
 
-	CString format = AfxGetApp()->GetProfileString("DragDrop", "Clipformat", "Common");
+	INXString format = AfxGetApp()->GetProfileString("DragDrop", "Clipformat", "Common");
 	if (format == "Private")
 		m_DragDropFormat = ::RegisterClipboardFormat("InterfaceClipboardFormat");
 	else
@@ -556,12 +556,12 @@ void CDrawProgView::ResetScrollSizes() {
 the component palette onto the view, to do the data processing / adding
 to the project etc. */
 ConData* CDrawProgView::processComponentDrop(
-			INXPoint point, CString &csIconType, CString &csBlock )
+			INXPoint point, INXString &csIconType, INXString &csBlock )
 {
-	CString csBlockName = "";// This is only set if the icon as a 
+	INXString csBlockName = "";// This is only set if the icon as a 
 	ConData* blob = NULL;
 	CPortLabelDialog portDlg(pDEP);
-	CString parentName;
+	INXString parentName;
 	int dataType = -1, portType = -1;
 	
 	// block is defined if it is an encapsulated icon
@@ -620,7 +620,7 @@ ConData* CDrawProgView::processComponentDrop(
 	}
 	// create an instance for library components
 	if (csBlock != "" && csBlockName == "") {
-		//system("copy " + (CString)workDir + USERDEFDIR + block + ".prg " + projectDir + DEPDIR + block + ".prg");
+		//system("copy " + (INXString)workDir + USERDEFDIR + block + ".prg " + projectDir + DEPDIR + block + ".prg");
 		pDEP->CreateInstance(blob, 1);
 	}
 	if((blob->className == "TRANSITIONACTION")||(blob->className  == "ENTRYACTION"))
@@ -723,7 +723,7 @@ void CDrawProgView::SaveHierName() {
 	INXPOSITION pos;
 	ConData* blob;
 	HTREEITEM childItem;
-	CString csProjectDir;
+	INXString csProjectDir;
 
 	pProject->pProjMData->getProjectDir(csProjectDir);
 	pos = pDEP->condata->GetHeadPosition();
@@ -761,9 +761,9 @@ void CDrawProgView::StartLine(INXPOSITION selectedIcon, int PortSelected, int po
 }
 
 // returns true if library component imported already exists in userdefined directory
-bool CDrawProgView::LibExist(CString libName) {
+bool CDrawProgView::LibExist(INXString libName) {
 	CFileFind finder;
-	CString fileName, compName;
+	INXString fileName, compName;
 
 	int bWorking = finder.FindFile(workDir + USERDEFDIR + "*.prg");	
 	while (bWorking)
@@ -855,7 +855,7 @@ void CDrawProgView::SubsetEncapsulate()
 }
 
 // Method that sets the text in the status bar
-void CDrawProgView::setStatusBarText(CString csText)
+void CDrawProgView::setStatusBarText(INXString csText)
 {
 	CChildFrame* viewFrame = (CChildFrame*)GetParentFrame();
 	viewFrame->m_StatusBar.GetStatusBarCtrl().SetText(csText, 1, 0);
@@ -865,7 +865,7 @@ void CDrawProgView::setStatusBarText(CString csText)
 void CDrawProgView::toggleMonitoredLine(ConData *pBlob)
 {
 	TypeConversion tc;
-	CString csRtaFilePath = (CString)"localhost.Generic-Debugger:" + workDir + TRACEDIR + TRACE_CONFIG_FILE;
+	INXString csRtaFilePath = (INXString)"localhost.Generic-Debugger:" + workDir + TRACEDIR + TRACE_CONFIG_FILE;
 
 	if (selectedPortType == INPUTPORT) {
 		//pBlob->inputport[selectedPort]->line.toggleDbgMonitor();
@@ -1816,7 +1816,7 @@ void CDrawProgView::OnMouseMove(UINT nFlags, CPoint _point)
 
 		if (cs.NearBottomRightBoundary(point))
 		{
-			//CString tmp;	
+			//INXString tmp;	
 			//UINT nScrollCode = 0;
 			INXPoint ScrollPosition = cs.AdjustPositionOfScrollDownwards();
 			ScrollToPosition(ScrollPosition);				
@@ -1877,7 +1877,7 @@ void CDrawProgView::OnInitialUpdate()
 void CDrawProgView::ViewInstance(INXPOSITION selectedIcon) {
 	ConData* selectedBlob = NULL;
 	HTREEITEM childItem;
-	CString depPath, csProjectDir;
+	INXString depPath, csProjectDir;
 
 	// open the instance dep
 	selectedBlob = (ConData*) pDEP->condata->GetAt(selectedIcon);
@@ -2263,7 +2263,7 @@ void CDrawProgView::OnEHSStartRestart(){
 bool CDrawProgView::appUploader_ExportTransferables(){
 	bool success = false;
 
-	CString infoFilePath;
+	INXString infoFilePath;
 	pProject->pProjMData->getProjectDir(infoFilePath);
 	infoFilePath += APP_DESC_DIR;
 	infoFilePath += APP_DESC_FILE;
@@ -2308,13 +2308,13 @@ bool CDrawProgView::appUploader_TarExportFiles(){
 	struct archive *a;
 	struct archive_entry *entry;
 	struct stat st;
-	CString exportPath;
+	INXString exportPath;
 	pProject->pProjMData->getProjectDir(exportPath);
 	exportPath += EXPORTDIR;
-	CString filePath;
-	CString name;
+	INXString filePath;
+	INXString name;
 
-	CString tarFilePath;
+	INXString tarFilePath;
 	pProject->pProjMData->getProjectDir(tarFilePath);
 	tarFilePath += APP_TAR_FILE;
 
@@ -2433,21 +2433,21 @@ void CDrawProgView::OnEHSUpdate(){
 void switchTarget(int iSelInd) {
 	LucidTcpipClient tcpClient;
 
-	CString csLocalIpAddress = DEFAULT_TARGET_LOCAL_IP;
-	CString csLocalPort = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_LOCAL_PORT_VALUE),_T(DEFAULT_TARGET_PORT));
-	CString csRemoteIpAddress = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_REMOTE_IP_VALUE),_T(DEFAULT_TARGET_REMOTE_IP));
-	CString csRemotePort = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_REMOTE_PORT_VALUE),_T(DEFAULT_TARGET_PORT));
+	INXString csLocalIpAddress = DEFAULT_TARGET_LOCAL_IP;
+	INXString csLocalPort = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_LOCAL_PORT_VALUE),_T((CString)DEFAULT_TARGET_PORT));
+	INXString csRemoteIpAddress = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_REMOTE_IP_VALUE),_T((CString)DEFAULT_TARGET_REMOTE_IP));
+	INXString csRemotePort = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_REMOTE_PORT_VALUE),_T((CString)DEFAULT_TARGET_PORT));
 
 	if (iSelInd == TARGET_COMBO_INDEX_LOCAL) {
 		// local target selected
-		tcpClient.SetIPAddress(csLocalIpAddress);
+		tcpClient.SetIPAddress((CString)csLocalIpAddress);
 		tcpClient.SetPort(atoi(csLocalPort));
 		setLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_LOCATION_VALUE),_T(REG_TARGET_LOCATION_DATA_LOCAL));
 		((CLabLgbBaseApp *) AfxGetApp())->csCurrentTarget = REG_TARGET_LOCATION_DATA_LOCAL;
 	}
 	else if (iSelInd == TARGET_COMBO_INDEX_REMOTE) {
 		// remote target selected
-		tcpClient.SetIPAddress(csRemoteIpAddress);
+		tcpClient.SetIPAddress((CString)csRemoteIpAddress);
 		tcpClient.SetPort(atoi(csRemotePort));
 		setLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_LOCATION_VALUE),_T(REG_TARGET_LOCATION_DATA_REMOTE));
 		((CLabLgbBaseApp *) AfxGetApp())->csCurrentTarget = REG_TARGET_LOCATION_DATA_REMOTE;
@@ -2557,7 +2557,7 @@ void CDrawProgView::OnUpdateLocalHost(CCmdUI *pCmdUI)
 {
 /* test to add random text to status bar
     pCmdUI->Enable(); 
-    CString strPage;
+    INXString strPage;
     strPage.Format(_T("Page %d"), 12); 
     pCmdUI->SetText(strPage); 
 */
@@ -2682,7 +2682,7 @@ void CDrawProgView::OnEditPaste()
 	INXPoint old(0,0);
 	INXPoint topLeft, bottomRight, ScrollPosition;
 	HTREEITEM hParent;
-	CString depPath, csProjectDir;
+	INXString depPath, csProjectDir;
 	DEP* pParentDEP;
 	INXRect clientRect;
 
@@ -2694,7 +2694,7 @@ void CDrawProgView::OnEditPaste()
 		pProject->pProjMData->getProjectDir(csProjectDir);
 		//SaveCopy("tmpcopy.prg");
 		RemoveHighlight();
-		pasteList = edit.LoadPaste((CString)workDir + "\\tmpcopy.prg");
+		pasteList = edit.LoadPaste((INXString)workDir + "\\tmpcopy.prg");
 		if (pasteList == NULL) {
 			pProject->pProjMData->releaseLock();
 			return;
@@ -2741,11 +2741,11 @@ void CDrawProgView::OnEditPaste()
 				hParent = pFrame->m_wndProjectBar.m_cProjTree.GetParentItem(pDEP->hItem);
 
 				// can only add xports if DEP has a parent (is a subsystem), add ports to parent component and add xport to this DEP
-				if (pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hParent) != APP) {
+				if ((INXString)pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hParent) != APP) {
 					depPath = pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hParent);
 					pFrame->m_wndProjectBar.m_cProjTree.hSelItem = hParent;
 					CDrawProgView* pView = pProject->OpenView(csProjectDir + DEPDIR + depPath + 
-						pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hParent) + ".prg");
+						(INXString)pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hParent) + ".prg");
 					pParentDEP = pView->pDEP;
 					pParentDEP->AddBlockPort(icondata->m_csIconType, icondata->description, pDEP->depFilename);
 					// set modified flag in doc
@@ -3029,7 +3029,7 @@ BOOL CDrawProgView::OnEraseBkgnd(CDC* pDC)
 void CDrawProgView::OnUpdateUpLevel(CCmdUI* pCmdUI) 
 {
 	HTREEITEM hParent = pFrame->m_wndProjectBar.m_cProjTree.GetParentItem(pDEP->hItem);
-	pCmdUI->Enable(pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hParent) != APP);
+	pCmdUI->Enable((INXString)pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hParent) != APP);
 }
 
 void CDrawProgView::OnEditUndo() 
@@ -3140,7 +3140,7 @@ void CDrawProgView::OnUpdateEditRedo(CCmdUI* pCmdUI)
 
 void CDrawProgView::OnUpdateFtpSodl(CCmdUI* pCmdUI) 
 {
-	CString csProjectName;
+	INXString csProjectName;
 	pProject->pProjMData->getProjectName(csProjectName);
 	pCmdUI->Enable((csProjectName == pDEP->depFilename) && (pProject->debug.debugMode == DBGSTOP));	
 }
@@ -3148,11 +3148,11 @@ void CDrawProgView::OnUpdateFtpSodl(CCmdUI* pCmdUI)
 void CDrawProgView::OnAddPort() 
 {
 	ConData* blob;
-	CString portLabel;
-	CString portType, dataType;
+	INXString portLabel;
+	INXString portType, dataType;
 	int iPortType, iDataType;
 	INXPoint point;
-	CString blockFile;
+	INXString blockFile;
 
 	blob = (ConData*) pDEP->condata->GetAt(selectedControl);
 	CAddPortDialog dialog(blob);
@@ -3251,7 +3251,7 @@ void CDrawProgView::OnPrint(CDC* pDC, CPrintInfo* pInfo)
 
 	// Output the file name
 	pDC->SetTextAlign(TA_CENTER);
-	pDC->TextOut(pInfo->m_rectDraw.right/2, -20, ((CPrintData*)(pInfo->m_lpUserData))->m_ViewTitle);
+	pDC->TextOut(pInfo->m_rectDraw.right/2, -20, (CString)((CPrintData*)(pInfo->m_lpUserData))->m_ViewTitle);
 	pDC->SetTextAlign(TA_LEFT);
 
 	// Calculate the origin point for the current page
@@ -3303,7 +3303,7 @@ void CDrawProgView::OnWriteSodl()
 	if(!pProject->pProjMData->getLock() ){
 		AfxMessageBox( PMD_LOCK_FAILURE_MESSAGE );
 	}else{
-		CString csProjectDir;
+		INXString csProjectDir;
 		pProject->pProjMData->getProjectDir( csProjectDir );
 
 		//AfxMessageBox( "Get ready to call SaveProject" );
@@ -3320,7 +3320,7 @@ void CDrawProgView::OnWriteSodl()
 
 void CDrawProgView::OnUpdateWriteSodl(CCmdUI* pCmdUI) 
 {
-	CString csProjectName;
+	INXString csProjectName;
 	pProject->pProjMData->getProjectName(csProjectName);
 	//pCmdUI->Enable((csProjectName == pDEP->depFilename) && (pProject->debug.debugMode == DBGSTOP));	
 	pCmdUI->Enable(pProject->debug.debugMode == DBGSTOP);	
@@ -3443,7 +3443,7 @@ void CDrawProgView::OnSaveProject()
 
 void CDrawProgView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView) 
 {
-	CString csRtaFilePath = (CString)"localhost.Generic-Debugger:" + workDir + TRACEDIR + TRACE_CONFIG_FILE;
+	INXString csRtaFilePath = (INXString)"localhost.Generic-Debugger:" + workDir + TRACEDIR + TRACE_CONFIG_FILE;
 	bool bChangeView = FALSE;
 
 	if (bActivate) {
@@ -3494,10 +3494,10 @@ void CDrawProgView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* 
 	}
 
 	// update target location from registry
-	CString csLocation = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_LOCATION_VALUE),_T(DEFAULT_TARGET_LOCATION));
+	INXString csLocation = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_LOCATION_VALUE),_T((CString)DEFAULT_TARGET_LOCATION));
 	((CLabLgbBaseApp *) AfxGetApp())->csCurrentTarget = csLocation;
 	// update target combo box with remote ip address
-	CString csRemoteIP = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_REMOTE_IP_VALUE),_T(DEFAULT_TARGET_REMOTE_IP));
+	INXString csRemoteIP = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_REMOTE_IP_VALUE),_T((CString)DEFAULT_TARGET_REMOTE_IP));
 	pFrame->m_combo.DeleteString(TARGET_COMBO_INDEX_REMOTE);
 	pFrame->m_combo.InsertString(TARGET_COMBO_INDEX_REMOTE,csRemoteIP);
 
@@ -3535,9 +3535,9 @@ void CDrawProgView::OnImportLib()
 	// rArchive has been removed due to license issues
 	//rArchive ra;
 	CFileOperation fo;
-	CString m_File_Root = workDir + EXPORTDIR;
+	INXString m_File_Root = workDir + EXPORTDIR;
 	CFileFind finder;
-	CString fileName, compName;
+	INXString fileName, compName;
 	
 	// Create a directory for the archived files to be written to
 	fo.SetOverwriteMode(true); // set OverwriteMode flag
@@ -3571,15 +3571,15 @@ void CDrawProgView::OnImportLib()
 			if (LibExist(fileName)) {
 				if ((AfxMessageBox("The library component " + compName + " already exists. Do you want to overwrite it?",
 					MB_YESNO))==IDYES) {
-					fo.Copy((CString)workDir + EXPORTDIR + fileName, (CString)workDir + USERDEFDIR);
-					fo.Copy((CString)workDir + EXPORTDIR + compName, (CString)workDir + USERDEFDIR);
-					fo.Copy((CString)workDir + EXPORTDIR + compName + ".idf.ini", (CString)workDir + USERDEFDIR);
+					fo.Copy((INXString)workDir + EXPORTDIR + fileName, (INXString)workDir + USERDEFDIR);
+					fo.Copy((INXString)workDir + EXPORTDIR + compName, (INXString)workDir + USERDEFDIR);
+					fo.Copy((INXString)workDir + EXPORTDIR + compName + ".idf.ini", (INXString)workDir + USERDEFDIR);
 				}
 			}
 			else {
-				fo.Copy((CString)workDir + EXPORTDIR + fileName, (CString)workDir + USERDEFDIR);
-				fo.Copy((CString)workDir + EXPORTDIR + compName, (CString)workDir + USERDEFDIR);
-				fo.Copy((CString)workDir + EXPORTDIR + compName + ".idf.ini", (CString)workDir + USERDEFDIR);
+				fo.Copy((INXString)workDir + EXPORTDIR + fileName, (INXString)workDir + USERDEFDIR);
+				fo.Copy((INXString)workDir + EXPORTDIR + compName, (INXString)workDir + USERDEFDIR);
+				fo.Copy((INXString)workDir + EXPORTDIR + compName + ".idf.ini", (INXString)workDir + USERDEFDIR);
 			}
 		}
 	}
@@ -3588,11 +3588,11 @@ void CDrawProgView::OnImportLib()
 void CDrawProgView::OnExportLib() 
 {
 	RJMFileFind2 ff;
-	CStringArray csa;
-	CString m_File_Root = workDir + EXPORTDIR;
-	CString csProjectDir;
+	INXObjArray<INXString> csa;
+	INXString m_File_Root = workDir + EXPORTDIR;
+	INXString csProjectDir;
 	pProject->pProjMData->getProjectDir(csProjectDir);
-	CString m_Archive_File_Name = csProjectDir + EXPORTDIR + "archive.r";
+	INXString m_Archive_File_Name = csProjectDir + EXPORTDIR + "archive.r";
 	CExportDialog dialog;
 
 	if (dialog.DoModal() == IDOK) {
@@ -3612,7 +3612,7 @@ void CDrawProgView::OnExportLib()
 
 		// Add files to archive
 		/*
-		CString tmp;
+		INXString tmp;
 		for (int c=0;c<csa.GetSize();c++) {
 			tmp = csa.GetAt(c);
 			tmp = tmp.Right(tmp.GetLength()-m_File_Root.GetLength());
@@ -3641,7 +3641,7 @@ void CDrawProgView::OnCloseProject()
 
 void CDrawProgView::OnUpdateCloseProject(CCmdUI* pCmdUI) 
 {
-	CString csProjectName;
+	INXString csProjectName;
 	pProject->pProjMData->getProjectName(csProjectName);
 	pCmdUI->Enable(csProjectName == pDEP->depFilename);	
 }
@@ -3762,8 +3762,8 @@ void CDrawProgView::OnSaveProjectAs()
 		readProjectFile();
 		pProject->pProjMData->releaseLock();
 
-		CString csOldProjectDir, csOldProjectName;
-		CString csNewProjectDir, csNewProjectName, csProjectPathName;
+		INXString csOldProjectDir, csOldProjectName;
+		INXString csNewProjectDir, csNewProjectName, csProjectPathName;
 		POSITION pos;
 		CDrawProgApp *pApp = ( CDrawProgApp *) AfxGetApp();
 
@@ -3891,7 +3891,7 @@ void CDrawProgView::OnTransferOptions()
 	pProject->m_bTransferAllHasOccurred = false;
 	// update the ip address for the target
 	int selInd = pFrame->m_combo.GetCurSel();
-	CString csRemoteIP = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_REMOTE_IP_VALUE),_T(DEFAULT_TARGET_REMOTE_IP));
+	INXString csRemoteIP = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_REMOTE_IP_VALUE),_T((CString)DEFAULT_TARGET_REMOTE_IP));
 	pFrame->m_combo.DeleteString(TARGET_COMBO_INDEX_REMOTE);
 	pFrame->m_combo.InsertString(TARGET_COMBO_INDEX_REMOTE,csRemoteIP);
 	pFrame->m_combo.SetCurSel(selInd);
@@ -3913,7 +3913,7 @@ void CDrawProgView::RedrawZoom()
 	CChildFrame* viewFrame = (CChildFrame*)GetParentFrame();
 	// Write the zoom value to the status bar
 	_itoa_s(scale, szScale, 10);
-	viewFrame->m_StatusBar.GetStatusBarCtrl().SetText("Zoom: " + (CString)szScale + "%", 0, 0);
+	viewFrame->m_StatusBar.GetStatusBarCtrl().SetText("Zoom: " + (INXString)szScale + "%", 0, 0);
 		
 	// Adjust scrolling to the new scale
 	ResetScrollSizes();
@@ -3940,7 +3940,7 @@ void CDrawProgView::OnUpdateZoomOut(CCmdUI *pCmdUI)
 void CDrawProgView::OnTransferAll()
 {
 	CDrawProgApp *pApp = ( CDrawProgApp *) AfxGetApp();
-	CString csProjectDir;
+	INXString csProjectDir;
 
 	// Write out SODL
 
@@ -3969,7 +3969,7 @@ void CDrawProgView::OnTransferAll()
 void CDrawProgView::OnTransferManager()
 {
 	CDrawProgApp *pApp = ( CDrawProgApp *) AfxGetApp();
-	CString csProjectDir;
+	INXString csProjectDir;
 
 	// Write out SODL
 
@@ -3996,7 +3996,7 @@ void CDrawProgView::OnTransferManager()
 void CDrawProgView::OnLaunchTransfer()
 {
 	CDrawProgApp *pApp = ( CDrawProgApp *) AfxGetApp();
-	CString csProjectDir;
+	INXString csProjectDir;
 
 // Write out SODL
 // The following line overwrites the contents of the project as seen by LGB.
@@ -4020,10 +4020,10 @@ void CDrawProgView::OnLaunchTransfer()
 */
 void CDrawProgView::readProjectFile()
 {
-	CString csProjectPathName;
+	INXString csProjectPathName;
 
 	pProject->pProjMData->getFullPathProjectFile(csProjectPathName);
-	pProject->pProjMData->readProjectFile(csProjectPathName);
+	pProject->pProjMData->readProjectFile((CString)csProjectPathName);
 }
 
 // disable import and export library functions, because decompressing is not working for import library
@@ -4107,7 +4107,7 @@ void CDrawProgView::OnAddToLibrary()
 {
 	Encapsulation subsystem;
 	CMenuNameDialog dlg;
-	CString csMenuName;
+	INXString csMenuName;
 	ConData* blob = (ConData*) pDEP->condata->GetAt(selectedControl);
 
 	if (!blob->m_iUserDefined) {
@@ -4147,7 +4147,7 @@ void CDrawProgView::OnUpdateAddToGroup(CCmdUI *pCmdUI)
 void CDrawProgView::OnLabTransferAll()
 {
 	CDrawProgApp *pApp = ( CDrawProgApp *) AfxGetApp();
-	CString csProjectDir;
+	INXString csProjectDir;
 
 	pProject->pProjMData->getProjectDir(csProjectDir);
 	// Transfer Manager can be called anywhere in the application hierarchy
@@ -4207,7 +4207,7 @@ size_t AppUpload_write_data(void *ptr, size_t size, size_t nmemb, void *userdata
 
 void CDrawProgView::uploadAppToServer()
 {
-	CString tarFilePath;
+	INXString tarFilePath;
 	pProject->pProjMData->getProjectDir(tarFilePath);
 	tarFilePath += APP_TAR_FILE;
 
@@ -4234,14 +4234,14 @@ void CDrawProgView::uploadAppToServer()
 		CURL *curl;
 		CURLcode res;
 
-		CString message;
+		INXString message;
 		long lResponseCode;
 //		char * pCharURLEncodedUserName;
 //		char * pCharUserName;
-		CString csUserName = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_APPSERVER_USERNAME_VALUE),_T(DEFAULT_TARGET_APPSERVER_USERNAME));
+		INXString csUserName = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_APPSERVER_USERNAME_VALUE),_T((CString)DEFAULT_TARGET_APPSERVER_USERNAME));
 //		pCharUserName = (char *) (LPCTSTR) csUserName;
-		CString csURL = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_APPSERVER_URL_VALUE),_T(DEFAULT_TARGET_APPSERVER_URL));
-		CString csPassword = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_APPSERVER_PASSWORD_VALUE),_T(DEFAULT_TARGET_APPSERVER_PASSWORD));
+		INXString csURL = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_APPSERVER_URL_VALUE),_T((CString)DEFAULT_TARGET_APPSERVER_URL));
+		INXString csPassword = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_APPSERVER_PASSWORD_VALUE),_T((CString)DEFAULT_TARGET_APPSERVER_PASSWORD));
 
 		struct curl_httppost *formpost=NULL;
 		struct curl_httppost *lastptr=NULL;
@@ -4339,7 +4339,7 @@ void CDrawProgView::transferToTarget(const bool &bUpdatedOnly )
 	CLabLgbBaseApp *pApp = ( CLabLgbBaseApp * ) AfxGetApp();
 
 	// first check which target - if it is App server upload app via http post form, if it is EHS local or remote se tcpip
-	CString csLocation = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_LOCATION_VALUE),_T(DEFAULT_TARGET_LOCATION));
+	INXString csLocation = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_LOCATION_VALUE),_T((CString)DEFAULT_TARGET_LOCATION));
 
 	if (csLocation == REG_TARGET_LOCATION_DATA_APPSERVER) {
 		uploadAppToServer();
@@ -4349,7 +4349,7 @@ void CDrawProgView::transferToTarget(const bool &bUpdatedOnly )
 
 		// read project file first to avoid overwriting changes made by LGB
 		pApp->c_pTgtTransProgressDlog->ShowWindow(SW_NORMAL);
-		CString *pcsDum = new CString("Writing SODL ...");
+		INXString *pcsDum = new INXString("Writing SODL ...");
 		pApp->c_pTgtTransProgressDlog->SendMessage( UWM_SET_OVERALL_PROMPT, 0, (LPARAM)pcsDum  );
 
 		Sleep(500);
@@ -4357,7 +4357,7 @@ void CDrawProgView::transferToTarget(const bool &bUpdatedOnly )
 		pApp->setProjMetaData( pProject->pProjMData );
 		pApp->setProject(pProject);
 
-		CString csProjectDir;
+		INXString csProjectDir;
 		pProject->pProjMData->getProjectDir(csProjectDir);
 
 		// Transfer Manager can be called anywhere in the application hierarchy
@@ -4369,7 +4369,7 @@ void CDrawProgView::transferToTarget(const bool &bUpdatedOnly )
 
 
 
-		pcsDum = new CString("Tabulating Transferrables ...");
+		pcsDum = new INXString("Tabulating Transferrables ...");
 		pApp->c_pTgtTransProgressDlog->SendMessage( UWM_SET_OVERALL_PROMPT, 0, (LPARAM)pcsDum  );
 
 		if( !pProject->pProjMData->getLock() ){
@@ -4445,7 +4445,7 @@ void CDrawProgView::OnUpdateDefineMonitors(CCmdUI *pCmdUI)
 
 void CDrawProgView::OnTrace()
 {
-	CString csRtaFilePath = (CString)"localhost.Generic-Debugger:" + workDir + TRACEDIR + TRACE_CONFIG_FILE;
+	INXString csRtaFilePath = (INXString)"localhost.Generic-Debugger:" + workDir + TRACEDIR + TRACE_CONFIG_FILE;
 	CFileOperation fo;
 
 	// Check that RTA-Trace is installed

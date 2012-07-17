@@ -39,7 +39,7 @@ FunctionBlockTree::FunctionBlockTree(void)
 	m_hItemClicked = NULL;
 	m_hPrevItemClicked = NULL;
 
-	CString format = AfxGetApp()->GetProfileString("DragDrop", "Clipformat", "Common");
+	INXString format = AfxGetApp()->GetProfileString("DragDrop", "Clipformat", "Common");
 
 	if (format == "Private")
 		m_DragDropFormat = ::RegisterClipboardFormat("InterfaceClipboardFormat");
@@ -171,7 +171,7 @@ void FunctionBlockTree::readMenuMetaInfo()
 	ComponentMenuItem * parentMenuItem = NULL;
 	bool processingStyles = false, itemAdded = false, noMoreChildren = false;
 
-	CString menuConfigPath = workDir + MENUCONFIGFILE;
+	INXString menuConfigPath = workDir + MENUCONFIGFILE;
     reader = xmlNewTextReaderFilename(menuConfigPath);
     if (reader != NULL) {
 
@@ -326,7 +326,7 @@ void FunctionBlockTree::loadContents()
 	add components to the GUI tree that match the leaves of this tree, thus ensuring that the GUI tree
 	reflects the same order
 */
-void FunctionBlockTree::addComponentsToTree(int currLevel, ComponentMenuItem *item, CString csLevel1, CString csLevel2, CString csLevel3, CString csLevel4, CString csStyle1, CString csStyle2, CString csStyle3, CString csStyle4) {
+void FunctionBlockTree::addComponentsToTree(int currLevel, ComponentMenuItem *item, INXString csLevel1, INXString csLevel2, INXString csLevel3, INXString csLevel4, INXString csStyle1, INXString csStyle2, INXString csStyle3, INXString csStyle4) {
 	int i;
 	bool isMatch;
 
@@ -448,7 +448,7 @@ static void trimString(char * trimmedStr, const char *toTrimStr) {
  Populate the component tree from a CDF file found in the CDF directory
  using libXML2
 */
-void FunctionBlockTree::readMenuItemsFromCDF(CString *level1, CString *level2, CString *level3, CString *level4, CString csIDFPath)
+void FunctionBlockTree::readMenuItemsFromCDF(INXString *level1, INXString *level2, INXString *level3, INXString *level4, INXString csIDFPath)
 {
 	char target[256];
 	char *name = NULL, * value = NULL;
@@ -485,13 +485,13 @@ void FunctionBlockTree::readMenuItemsFromCDF(CString *level1, CString *level2, C
 				isMenuParsed = true;
 				levelCnt++;
 				if (levelCnt == 1) {
-					*level1 = (CString) target;
+					*level1 = (INXString) target;
 				} else if (levelCnt == 2) {
-					*level2 = (CString) target;
+					*level2 = (INXString) target;
 				} else if (levelCnt == 3) {
-					*level3 = (CString) target;
+					*level3 = (INXString) target;
 				} else if (levelCnt == 4) {
-					*level4 = (CString) target;
+					*level4 = (INXString) target;
 				} else {
 					// only expecting 4 menu levels
 					AfxMessageBox("menuTag: exceeded 4 menu items");
@@ -510,20 +510,20 @@ void FunctionBlockTree::readMenuItemsFromCDF(CString *level1, CString *level2, C
 /*
 Populate the component tree from an IDF files fpound in the IDF directory
 */
-void FunctionBlockTree::readIDF(CString csIDFPath, CString fileType)
+void FunctionBlockTree::readIDF(INXString csIDFPath, INXString fileType)
 {
 	CFileFind finder;
-	CString csFileName, csFilePath;
+	INXString csFileName, csFilePath;
 
 	int bWorking = finder.FindFile(csIDFPath + "*" + fileType);
 
 
-	CString csLevel1;
-	CString csLevel2;
-	CString csLevel3;
-	CString csLevel4;
-	CString csIconName;
-	CString csUserdefined;
+	INXString csLevel1;
+	INXString csLevel2;
+	INXString csLevel3;
+	INXString csLevel4;
+	INXString csIconName;
+	INXString csUserdefined;
 
 	m_csaL2IconName.SetSize(MAX_SECOND_LEV);
 	m_csaL2MenuName.SetSize(MAX_SECOND_LEV);
@@ -550,14 +550,14 @@ void FunctionBlockTree::readIDF(CString csIDFPath, CString fileType)
 			csUserdefined = "";
 		} else {
 			// Extract the menu items from the ini file
-			csLevel1 = GetIniValue(SECTIONL1, KEYL1, csFilePath);
-			csLevel2 = GetIniValue(SECTIONL2, KEYL2, csFilePath);
-			csLevel3 = GetIniValue(SECTIONL3, KEYL3, csFilePath);
-			csLevel4 = GetIniValue(SECTIONL4, KEYL4, csFilePath);
+			csLevel1 = GetIniValue(SECTIONL1, KEYL1, (CString)csFilePath);
+			csLevel2 = GetIniValue(SECTIONL2, KEYL2, (CString)csFilePath);
+			csLevel3 = GetIniValue(SECTIONL3, KEYL3, (CString)csFilePath);
+			csLevel4 = GetIniValue(SECTIONL4, KEYL4, (CString)csFilePath);
 			// Extract icon name from the ini file
-			csIconName = GetIniValue(SECTIONICON, KEYICON, csFilePath);
+			csIconName = GetIniValue(SECTIONICON, KEYICON, (CString)csFilePath);
 			// Extract user defined
-			csUserdefined = GetIniValue("Icon", "user defined", csFilePath);
+			csUserdefined = GetIniValue("Icon", "user defined", (CString)csFilePath);
 		}
 
 		// add it to the collection of components to be added to the tree
@@ -572,15 +572,15 @@ void FunctionBlockTree::readIDF(CString csIDFPath, CString fileType)
 	}
 }
 
-void FunctionBlockTree::addMenuItem(CString csIconName, CString csUserdefined, CString csLevel1, CString csLevel2, CString csLevel3, CString csLevel4, CString csStyle1, CString csStyle2, CString csStyle3, CString csStyle4) {
+void FunctionBlockTree::addMenuItem(INXString csIconName, INXString csUserdefined, INXString csLevel1, INXString csLevel2, INXString csLevel3, INXString csLevel4, INXString csStyle1, INXString csStyle2, INXString csStyle3, INXString csStyle4) {
 	int csImgIndL1 = 1;	// 1 is default style for non-component menu items, 0 is style for components
 	int csImgIndL2 = 1;
 	int csImgIndL3 = 1;
 	int csImgIndL4 = 1;
-	CString lev1Item;
-	CString lev2Item;
-	CString lev3Item;
-	//CString lev4Item;
+	INXString lev1Item;
+	INXString lev2Item;
+	INXString lev3Item;
+	//INXString lev4Item;
 	int iTmpL1Ind = 0;
 	int iTmpL2Ind = 0;
 	int iTmpL3Ind = 0;
@@ -748,7 +748,7 @@ void FunctionBlockTree::addMenuItem(CString csIconName, CString csUserdefined, C
 
 
 // function that returns the size of the icon name array
-int FunctionBlockTree::GetMItemSize(CString csLevel)
+int FunctionBlockTree::GetMItemSize(INXString csLevel)
 {
 	int iMenuItemSize = -1;
 
@@ -766,9 +766,9 @@ int FunctionBlockTree::GetMItemSize(CString csLevel)
 }
 
 // function that returns the BMP filename stub at the specified index
-CString FunctionBlockTree::GetIconName(int i, CString csLevel)
+INXString FunctionBlockTree::GetIconName(int i, INXString csLevel)
 {
-	CString csIconName = "";
+	INXString csIconName = "";
 
 	if (csLevel == "L2") {
 		csIconName = m_csaL2IconName.GetAt(i);
@@ -804,8 +804,8 @@ END_MESSAGE_MAP()
 void FunctionBlockTree::OnTvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult)
 {
 
-	CString csIconName = "";
-	CString csBlockName = "";
+	INXString csIconName = "";
+	INXString csBlockName = "";
 
 	//	if ( GetChildItem(m_hItemLeftClicked)== NULL) {
 //			SetItemState( m_hItemLeftClicked, TVIS_SELECTED, TVIS_SELECTED );
@@ -885,7 +885,7 @@ void FunctionBlockTree::OnTvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult)
 
 		// now grab the data (here: the count and text)
 		// and serialize it into an clipboard archive
-		CString Data;
+		INXString Data;
 
 		// getting the column count, thanks Zafir!
 	//	CHeaderCtrl* pHeader = (CHeaderCtrl*)m_Table.GetDlgItem(0);
@@ -901,11 +901,11 @@ void FunctionBlockTree::OnTvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult)
 				CArchive ar(&file, CArchive::store);
 				TRY
 				{
-					CString format = AfxGetApp()->GetProfileString("DragDrop", "Clipformat", "Common");
+					INXString format = AfxGetApp()->GetProfileString("DragDrop", "Clipformat", "Common");
 					if (format == "Private")
 					{
-						ar << csIconName;
-						ar << csBlockName;
+						ar << (CString)csIconName;
+						ar << (CString)csBlockName;
 					}
 					else // common data format
 					{
@@ -976,7 +976,7 @@ bool FunctionBlockTree::leafIsSelected()
 	return true;
 }
 
-void FunctionBlockTree::getL2LibMenuNames(set<CString> &sL2MenuNames)
+void FunctionBlockTree::getL2LibMenuNames(set<INXString> &sL2MenuNames)
 {
 	sL2MenuNames = m_sL2LibMenuNames;
 }

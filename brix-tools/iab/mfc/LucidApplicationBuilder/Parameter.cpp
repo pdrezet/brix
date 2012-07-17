@@ -25,19 +25,19 @@ Parameter::Parameter()
 	maxRange = "";
 	value = "";
 	description = "";
-	enumValArr = new CStringArray;
-	enumLabelArr = new CStringArray;
+	enumValArr = new INXObjArray<INXString>;
+	enumLabelArr = new INXObjArray<INXString>;
 }
 
 Parameter::Parameter(
-					 CString _name, 
+					 INXString _name, 
 					 int _dataType, 
-					 CString _minRange, 
-					 CString _maxRange, 
-					 CString _defaultVal, 
-					 CString _description, 
-					 CStringArray* _enumValArr, 
-					 CStringArray* _enumLabelArr
+					 INXString _minRange, 
+					 INXString _maxRange, 
+					 INXString _defaultVal, 
+					 INXString _description, 
+					 INXObjArray<INXString>* _enumValArr, 
+					 INXObjArray<INXString>* _enumLabelArr
 					 )
 {
 	name = _name;
@@ -72,7 +72,7 @@ Parameter::~Parameter()
 }
 
 void Parameter::Save(ostream * file) {
-	CString enumLabel;
+	INXString enumLabel;
 	// avoid saving empty strings. causes problems
 	if (name == "") {name = "_";}
 	if (minRange == "") {minRange = "_";}
@@ -80,16 +80,16 @@ void Parameter::Save(ostream * file) {
 	if (value == "") {value = "_";}
 	if (description == "") {description = "_";}
 
-	*file << name << "\t"<< dataType << "\t"<< minRange << "\t"<< maxRange << "\t" << value << "\n";
+	*file << (CString)name << "\t"<< dataType << "\t"<< (CString)minRange << "\t"<< (CString)maxRange << "\t" << (CString)value << "\n";
 	for (int i=0; i<enumValArr->GetSize(); i++) {
-		*file << enumValArr->GetAt(i) << "\t";
+		*file << (CString)enumValArr->GetAt(i) << "\t";
 	}
 	*file << "EndOfValues" << endl;
 	for (int i=0; i<enumLabelArr->GetSize(); i++) {
-		*file << enumLabelArr->GetAt(i) << "\t";
+		*file << (CString)enumLabelArr->GetAt(i) << "\t";
 	}
 	*file << "EndOfLabels" << endl;
-	*file << description << endl;
+	*file << (CString)description << endl;
 	*file << endl;
 }
 
@@ -106,10 +106,10 @@ void Parameter::copy( const ParameterStore *rhs )
 	enumLabelArr->RemoveAll();
 
 	for(size_t i=0;i<rhs->m_csaEnumValArr.GetCount(); i++)
-		enumValArr->SetAtGrow(i,  (CString)rhs->m_csaEnumValArr.GetAt(i) );
+		enumValArr->SetAtGrow(i,  rhs->m_csaEnumValArr.GetAt(i) );
 
 	for(size_t i=0;i<rhs->m_csaEnumLabelArr.GetCount(); i++)
-		enumLabelArr->SetAtGrow(i,  (CString)rhs->m_csaEnumLabelArr.GetAt(i) );
+		enumLabelArr->SetAtGrow(i,  rhs->m_csaEnumLabelArr.GetAt(i) );
 
 	return;
 }
@@ -172,8 +172,8 @@ bool Parameter::IsTextbox() {
 }
 
 // Function that returns an enumerated Label for a given enumerated value
-CString Parameter::GetEnumLabel(CString enumVal) {
-	CString ret = "";
+INXString Parameter::GetEnumLabel(INXString enumVal) {
+	INXString ret = "";
 
 	for (int i=0; i<enumValArr->GetSize(); i++) {
 		if (enumValArr->GetAt(i) == enumVal) {
@@ -187,8 +187,8 @@ CString Parameter::GetEnumLabel(CString enumVal) {
 }
 
 // Function that returns an enumerated value for a given enumerated label
-CString Parameter::GetEnumVal(CString enumLabel) {
-	CString ret = "";
+INXString Parameter::GetEnumVal(INXString enumLabel) {
+	INXString ret = "";
 
 	for (int i=0; i<enumLabelArr->GetSize(); i++) {
 		if (enumLabelArr->GetAt(i) == enumLabel) {

@@ -10,13 +10,14 @@
 /////////////////////////////////////////////////////////////////////////////
 // CTagDialog dialog
 #include "Porting_Classes/INXObjList.h"
+#include "Porting_Classes/INXString.h"
 class CTagDialog : public CDialog
 {
 // Construction
 public:
 	CTagDialog(CWnd* pParent = NULL);   // standard constructor
-	CTagDialog(CStringArray* _boolTags, CStringArray* _intTags, CStringArray* _realTags, CStringArray* _stringTags, 
-		CStringArray* _eventTags, int _dataType, int _portType, INXObjList* _condata, int _tagLine, CWnd* pParent = NULL); 
+	CTagDialog(INXObjArray<INXString>* _boolTags, INXObjArray<INXString>* _intTags, INXObjArray<INXString>* _realTags, INXObjArray<INXString>* _stringTags, 
+		INXObjArray<INXString>* _eventTags, int _dataType, int _portType, INXObjList* _condata, int _tagLine, CWnd* pParent = NULL); 
 
 // Dialog Data
 	//{{AFX_DATA(CTagDialog)
@@ -25,12 +26,12 @@ public:
 	//}}AFX_DATA
 
 	// Attributes
-	CString tag;
-	CStringArray* boolTags;
-	CStringArray* intTags;
-	CStringArray* realTags;
-	CStringArray* stringTags;
-	CStringArray* eventTags;
+	INXString tag;
+	INXObjArray<INXString>* boolTags;
+	INXObjArray<INXString>* intTags;
+	INXObjArray<INXString>* realTags;
+	INXObjArray<INXString>* stringTags;
+	INXObjArray<INXString>* eventTags;
 	int dataType;
 	int portType;
 	INXObjList* condata;

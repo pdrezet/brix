@@ -7,11 +7,12 @@
 #include <map>
 #include <list>
 #include "LucidEnums.h"
+#include "Porting_Classes/INXString.h"
 //#include "../LucidGUIBuilder/LgbColorsDef.h"
 
 class LgbDrawable;
 
-typedef std::map<CString, CString> Map2cs_t;
+typedef std::map<INXString, INXString> Map2cs_t;
 typedef Map2cs_t::iterator Map2csIt_t;
 
 // There are two main consumers of screenTag data: the screentag dialog, and the project
@@ -33,57 +34,57 @@ typedef Map2cs_t::iterator Map2csIt_t;
 
 typedef struct  {
 	CPoint	topLeft;
-	CString tag;
-	CString descr;
+	INXString tag;
+	INXString descr;
 } LgbDrawableEssentialData_t;
 
 
 typedef struct  {
-	CString tagDescr;
-	CString	useCount;
+	INXString tagDescr;
+	INXString	useCount;
 } ScreenMgrSupportData_t;
 
 
 typedef struct  {
-	CString tag;
-	CString tagDescr;	
+	INXString tag;
+	INXString tagDescr;	
 	enum LucidLGBScreenTagProcessOptions	processOption;
 } TagAndDescriptionProcessable_t;
 
 typedef struct  {
-	CString tag;
-	CString tagDescr;	
+	INXString tag;
+	INXString tagDescr;	
 } TagAndDescription_t;
 
 typedef struct  {
-	CString tagDescr;
-	CString tgtFilename;	
-	CString activeHostFilename;
+	INXString tagDescr;
+	INXString tgtFilename;	
+	INXString activeHostFilename;
 } TagProjMetaSupportData_t;
 
 
 //! The 'essential' data needed to create a GuiFile
 typedef struct  {
-	CString fileHostNameStub;
-	CString fileDescr;
-	CString screenTag;
+	INXString fileHostNameStub;
+	INXString fileDescr;
+	INXString screenTag;
 } GuiFileEssentialData_t;
 
 
 //! The 'essential' data needed to create a non-Gui transferable File
 typedef struct  {
-	CString fileHostName;
-	CString fileDescr;
-	CString fileTargetName;
+	INXString fileHostName;
+	INXString fileDescr;
+	INXString fileTargetName;
 } NonGuiFileEssentialData_t;
 
 
 //! The full set of data displayable in the project/file manager dialog
 typedef struct  {
-	CString fileHostNameStub;
-	CString fileDescr;
-	CString tag;
-	CString tagDescr;
+	INXString fileHostNameStub;
+	INXString fileDescr;
+	INXString tag;
+	INXString tagDescr;
 } GuiFileMonty_t;
 
 //! Holds the frontmost (highest z) and rearmost z-positions for a set of 1 or more LGB icons
@@ -99,7 +100,7 @@ typedef struct  {
 
 typedef struct  {
 	bool		same;
-	CString		csVal;
+	INXString		csVal;
 } LgbCsIntPair_t;
 
 
@@ -122,21 +123,21 @@ typedef struct  {
 
 // ScreenTag manager dialog - based
 
-typedef std::map<CString, ScreenMgrSupportData_t> ScreenMgrDlogMap_t;
-typedef std::pair<CString, ScreenMgrSupportData_t> ScreenMgrDlogMapPair_t;
+typedef std::map<INXString, ScreenMgrSupportData_t> ScreenMgrDlogMap_t;
+typedef std::pair<INXString, ScreenMgrSupportData_t> ScreenMgrDlogMapPair_t;
 typedef ScreenMgrDlogMap_t::iterator ScreenMgrDlogMapIt_t;
 typedef ScreenMgrDlogMap_t::const_iterator ScreenMgrDlogMapConstIt_t;
 
 // Project metas - based.
 
-typedef std::map<CString, TagProjMetaSupportData_t> ScreenProjMetaMap_t;
-typedef std::pair<CString, TagProjMetaSupportData_t> ScreenProjMetaMapPair_t;
+typedef std::map<INXString, TagProjMetaSupportData_t> ScreenProjMetaMap_t;
+typedef std::pair<INXString, TagProjMetaSupportData_t> ScreenProjMetaMapPair_t;
 typedef ScreenProjMetaMap_t::iterator ScreenProjMetaMapIt_t;
 typedef ScreenProjMetaMap_t::const_iterator ScreenProjMetaMapConstIt_t;
 
 typedef LgbDrawable * LgbDrawablePtr;
 
-typedef std::pair<int, CString> IntCStringPair_t;
+typedef std::pair<int, INXString> IntINXStringPair_t;
 
 typedef std::list<LgbDrawablePtr>::iterator LgbDrawableIt_t; //!< convenience iterator for a list of ptrs to drawable
 typedef std::list<LgbDrawablePtr>::const_iterator LgbDrawableConstIt_t; //!< convenience iterator for a list of ptrs to drawable

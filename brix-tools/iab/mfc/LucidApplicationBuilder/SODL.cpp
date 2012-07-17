@@ -43,7 +43,7 @@ void SODL::WriteVersionInformation(ofstream *datafile)
 {
 	 SYSTEMTIME st;
 	 //unsigned long bn;
-	 CString csProjectName;
+	 INXString csProjectName;
 	pProject->pProjMData->getProjectName(csProjectName);
      GetSystemTime(&st);
      //printf("Year:%d\nMonth:%d\nDate:%d\nHour:%d\nMin:%d\nSecond:% d\n" ,st.wYear,st.wMonth,st.wDay,st.wHour,st.wMinute,st.wSecond);
@@ -51,15 +51,15 @@ void SODL::WriteVersionInformation(ofstream *datafile)
 	 *datafile << "#V:2.0.0\n"; // @todo we need to read this from the Application specific data or a targetting file perhaps if we support multiple versions?
 	 *datafile << "#B:" << pProject->pProjMData->nBuildNo << "\n";
 	 *datafile << "#D:" << "Y" << st.wYear << "M" << st.wMonth << "d" << st.wDay<< "h" <<st.wHour << "m" <<st.wMinute << "s" << st.wSecond << "\n";
-	 *datafile << "#N:" << csProjectName << "\n";
+	 *datafile << "#N:" << (CString)csProjectName << "\n";
 }
 
 
-void SODL::WriteSODL(CString sodlfile) {
+void SODL::WriteSODL(INXString sodlfile) {
 	ofstream datafile(sodlfile);
 	ConData *blob;
 	INXPOSITION pos;
-	CString funcName;
+	INXString funcName;
 	int funcArg = -1;
 	int startFunc = 0;
 	UINT i;
@@ -73,7 +73,7 @@ void SODL::WriteSODL(CString sodlfile) {
 	CArray<long,long> lineID;
 	vector<Group> vGroups;
 	TagProjMetaSupportData_t tagData;
-	CString csTargetFileName = "", csMessage = "";
+	INXString csTargetFileName = "", csMessage = "";
 
 	if (!datafile.good()) {
 		AfxMessageBox("File could not be written");
@@ -133,7 +133,7 @@ void SODL::WriteSODL(CString sodlfile) {
 
 			// 3. Write the tag and class name.
 			datafile << "BEGIN ";
-			datafile << blob->className << endl;
+			datafile << (CString)blob->className << endl;
 
 			// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			// Write the parameter string.
@@ -155,17 +155,17 @@ void SODL::WriteSODL(CString sodlfile) {
 					}
 					// for string constants don't append a space
 					else if (blob->m_csIconType == "const_s") {
-							datafile << blob->iconParam[i]->value;
+							datafile << (CString)blob->iconParam[i]->value;
 					}
 					// for gui components prepend %%%_
 					else if (i==1 && (blob->isGuiWidget())) {
-						datafile << "%%%_" << blob->iconParam[i]->value << " ";
+						datafile << "%%%_" << (CString)blob->iconParam[i]->value << " ";
 					}
 					// for screen tags write out the target filename
 					else if (blob->iconParam[i]->dataType == 4) {
-						LucidErrEnum err = pProject->pProjMData->getScreenTagMetas(blob->iconParam[i]->value, tagData);
+						LucidErrEnum err = pProject->pProjMData->getScreenTagMetas((CString &)blob->iconParam[i]->value, tagData);
 						assert (err == kErr_NoErr);
-						datafile << tagData.tgtFilename << " ";
+						datafile << (CString)tagData.tgtFilename << " ";
 					}
 					// write out target filename for data files
 					else if (blob->m_csIconType.Find("file_ro") != -1 && blob->iconParam[i]->name == "File name") {
@@ -173,14 +173,14 @@ void SODL::WriteSODL(CString sodlfile) {
 							csMessage.Format("File \"%s\" does not exist in the project. Your application may not work as expected.", blob->iconParam[i]->value);
 							// Don't display message because IPlayer demo runs a script which relies on host filenames
 							//AfxMessageBox(csMessage);
-							datafile << blob->iconParam[i]->value << " ";
+							datafile << (CString)blob->iconParam[i]->value << " ";
 						}
 						else {
-							datafile << csTargetFileName << " ";
+							datafile << (CString)csTargetFileName << " ";
 						}
 					}
 					else {
-						datafile << blob->iconParam[i]->value << " ";
+						datafile << (CString)blob->iconParam[i]->value << " ";
 					}
 
 				}
@@ -211,7 +211,7 @@ void SODL::WriteSODL(CString sodlfile) {
 				if (blob->startport[i]->line.exist || blob->startport[i]->initialise) {
 					// 7.1 Write its function name. Is there only 1 function?
 					funcName = blob->startport[i]->funcName->GetAt(0);
-					datafile << funcName << '\t';
+					datafile << (CString)funcName << '\t';
 					// Write out atomic flag
 					//datafile << blob->startport[i]->atomicFlag << '\t';
 					datafile << 1 << '\t';
@@ -321,7 +321,7 @@ void SODL::WriteSODL(CString sodlfile) {
 				funcInPortNum = 0; funcOutPortNum = 0, funcFinPortNum = 0;
 				// ***REVISIT. Write its function name. Is there only 1 function?
 				funcName = blob->internalport[i]->funcName->GetAt(0);
-				datafile << funcName << '\t';
+				datafile << (CString)funcName << '\t';
 				// Write out atomic flag
 				//datafile << blob->internalport[i]->atomicFlag << '\t';
 				datafile << 1 << '\t';
@@ -487,7 +487,7 @@ void SODL::Flatten()
 	INXObjList* encapsulated;
 	INXPOSITION pos, rmpos, otherPos, blockPos;
 	int otherportno;
-	CString blockFile, csProjectDir;
+	INXString blockFile, csProjectDir;
 	bool allFlattened = FALSE;
 	bool flattenFlag = FALSE;
 	BlockOperations bo;
@@ -970,7 +970,7 @@ void SODL::AssignLineID2OtherPort(ConData *blob, int portType, int portNum, long
 	//	kwhite - Handle null object if widget file corrupt or missing
 	if ( (blob2 = GetFlatIconFromID(othericonid)) == NULL)
 	{
-		CString message;
+		INXString message;
 		message.Format("Missing component linked to %s ID %d.\nThe Application may not work as expected.\nPlease seek assistance from nCapsa.\nContinue?", (LPCSTR)blob->description, blob->identnum);
 		if(stop_checking==0)
 			response = AfxMessageBox(message ,MB_YESNO);
@@ -995,12 +995,12 @@ void SODL::AssignLineID2OtherPort(ConData *blob, int portType, int portNum, long
 // reads/incrementsstores the build number to persistant storage. 
 int SODL::UpdateBuildNum(void)
 {
-	CString csProjectDir;
+	INXString csProjectDir;
 	char lineFromFile[256];
 	pProject->pProjMData->getProjectDir(csProjectDir);
 	int num;
 	ifstream read;
-	read.open(csProjectDir+"\\build.num",ios_base::in);
+	read.open((CString)csProjectDir+"\\build.num",ios_base::in);
 	if ( read.is_open() ) {
 		read.getline(lineFromFile,256);
 		if (read.rdstate() & ifstream::failbit)

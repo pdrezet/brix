@@ -8,7 +8,7 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-
+#include "Porting_Classes/INXString.h"
 #ifdef LEGACYREMOVE
 #include "afxole.h"
 
@@ -16,7 +16,7 @@ class CInterfaceDropTarget : public COleDropTarget
 {
 
 public:
-	int InsertRow(CString TabSeparated);
+	int InsertRow(INXString TabSeparated);
 	CInterfaceDropTarget();
 	virtual ~CInterfaceDropTarget();
 
@@ -25,8 +25,8 @@ protected:
 	virtual DROPEFFECT OnDragOver( CWnd* pWnd, COleDataObject* pDataObject, DWORD dwKeyState, INXPoint point );
 
 private:
-	CString m_csIconType;
-	CString m_csBlockName;
+	INXString m_csIconType;
+	INXString m_csBlockName;
 };
 
 #endif // !defined(AFX_INTERFACEDROPTARGET_H__075272E3_A999_11D2_BE7E_0020187099A1__INCLUDED_)

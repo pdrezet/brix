@@ -24,8 +24,8 @@ CTagDialog::CTagDialog(CWnd* pParent /*=NULL*/)
 	//}}AFX_DATA_INIT
 }
 
-CTagDialog::CTagDialog(CStringArray* _boolTags, CStringArray* _intTags, CStringArray* _realTags, 
-	CStringArray* _stringTags, CStringArray* _eventTags, int _dataType, int _portType, INXObjList* _condata,
+CTagDialog::CTagDialog(INXObjArray<INXString>* _boolTags, INXObjArray<INXString>* _intTags, INXObjArray<INXString>* _realTags, 
+	INXObjArray<INXString>* _stringTags, INXObjArray<INXString>* _eventTags, int _dataType, int _portType, INXObjList* _condata,
 	int _tagLine, CWnd* pParent /*=NULL*/)
 	: CDialog(CTagDialog::IDD, pParent)
 {
@@ -159,7 +159,7 @@ void CTagDialog::AddTag2List() {
 }
 
 bool CTagDialog::IsTagUnique() {
-	CStringArray tmp;
+	INXObjArray<INXString> tmp;
 
 	// if tagging an existing line then check every data type, as don't want to 
 	// connect to an existing tag
@@ -205,7 +205,7 @@ bool CTagDialog::IsTagUnique() {
 
 
 bool CTagDialog::IsTagNew() {
-	CStringArray tmp;
+	INXObjArray<INXString> tmp;
 	
 	if (dataType == BOOLEAN) {
 		for (int i=0; i<boolTags->GetSize(); i++) {

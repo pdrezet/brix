@@ -23,7 +23,7 @@ CFExeption::CFExeption(DWORD dwErrCode)
 }
 
 
-CFExeption::CFExeption(CString sErrText)
+CFExeption::CFExeption(INXString sErrText)
 {
 	m_sError = sErrText;
 	m_dwError = 0;
@@ -49,10 +49,10 @@ void CFileOperation::Initialize()
 }
 
 
-void CFileOperation::DoDelete(CString sPathName)
+void CFileOperation::DoDelete(INXString sPathName)
 {
 	CFileFind ff;
-	CString sPath = sPathName;
+	INXString sPath = sPathName;
 
 	if (CheckPath(sPath) == PATH_IS_FILE)
 	{
@@ -85,10 +85,10 @@ void CFileOperation::DoDelete(CString sPathName)
 }
 
 
-void CFileOperation::DoFolderCopy(CString sSourceFolder, CString sDestFolder, bool bDelteAfterCopy)
+void CFileOperation::DoFolderCopy(INXString sSourceFolder, INXString sDestFolder, bool bDelteAfterCopy)
 {
 	CFileFind ff;
-	CString sPathSource = sSourceFolder;
+	INXString sPathSource = sSourceFolder;
 	BOOL bRes = ff.FindFile(sPathSource);
 	while (bRes)
 	{
@@ -100,8 +100,8 @@ void CFileOperation::DoFolderCopy(CString sSourceFolder, CString sDestFolder, bo
 			if (ff.GetFileName() == ".svn") continue;
 
 			if (m_iRecursionLimit == 0) continue;
-			sPathSource = ff.GetFilePath() + CString("\\") + CString("*.*");
-			CString sPathDest = sDestFolder + ff.GetFileName() + CString("\\");
+			sPathSource = (INXString)ff.GetFilePath() + INXString("\\") + INXString("*.*");
+			INXString sPathDest = sDestFolder + (INXString)ff.GetFileName() + INXString("\\");
 			if (CheckPath(sPathDest) == PATH_NOT_FOUND) 
 			{
 				if (!CreateDirectory(sPathDest, NULL))
@@ -115,14 +115,14 @@ void CFileOperation::DoFolderCopy(CString sSourceFolder, CString sDestFolder, bo
 		}
 		else // source is a file
 		{
-			CString sNewFileName = sDestFolder + ff.GetFileName();
+			INXString sNewFileName = sDestFolder + (INXString)ff.GetFileName();
 			DoFileCopy(ff.GetFilePath(), sNewFileName, bDelteAfterCopy);
 		}
 	}
 	ff.Close();
 }
 
-bool CFileOperation::DeleteFolderFiles(CString sPathName)
+bool CFileOperation::DeleteFolderFiles(INXString sPathName)
 {
 
 //	if( PATH_IS_FOLDER != CheckPath( sPathName ))
@@ -165,7 +165,7 @@ bool CFileOperation::DeleteFolderFiles(CString sPathName)
 	//}
 }
 
-bool CFileOperation::Delete(CString sPathName)
+bool CFileOperation::Delete(INXString sPathName)
 {
 	try
 	{
@@ -183,7 +183,7 @@ bool CFileOperation::Delete(CString sPathName)
 }
 
 
-bool CFileOperation::Rename(CString sSource, CString sDest)
+bool CFileOperation::Rename(INXString sSource, INXString sDest)
 {
 	try
 	{
@@ -200,25 +200,25 @@ bool CFileOperation::Rename(CString sSource, CString sDest)
 }
 
 
-void CFileOperation::DoRename(CString sSource, CString sDest)
+void CFileOperation::DoRename(INXString sSource, INXString sDest)
 {
 	if (!MoveFile(sSource, sDest)) throw new CFExeption(GetLastError());
 }
 
 
-void CFileOperation::DoCopy(CString sSource, CString sDest, bool bDelteAfterCopy)
+void CFileOperation::DoCopy(INXString sSource, INXString sDest, bool bDelteAfterCopy)
 {
 	CheckSelfRecursion(sSource, sDest);
 	// source not found
 	if (CheckPath(sSource) == PATH_NOT_FOUND)
 	{
-		CString sError = sSource + CString(" not found");
+		INXString sError = sSource + INXString(" not found");
 		throw new CFExeption(sError);
 	}
 	// dest not found
 	if (CheckPath(sDest) == PATH_NOT_FOUND)
 	{
-		CString sError = sDest + CString(" not found");
+		INXString sError = sDest + INXString(" not found");
 		throw new CFExeption(sError);
 	}
 	// folder to file
@@ -230,7 +230,7 @@ void CFileOperation::DoCopy(CString sSource, CString sDest, bool bDelteAfterCopy
 	if (CheckPath(sSource) == PATH_IS_FOLDER && CheckPath(sDest) == PATH_IS_FOLDER) 
 	{
 		CFileFind ff;
-		CString sError = sSource + CString(" not found");
+		INXString sError = sSource + INXString(" not found");
 		PreparePath(sSource);
 		PreparePath(sDest);
 		sSource += "*.*";
@@ -244,7 +244,7 @@ void CFileOperation::DoCopy(CString sSource, CString sDest, bool bDelteAfterCopy
 			ff.Close();
 			throw new CFExeption(sError);
 		}
-		CString sFolderName = ParseFolderName(sSource);
+		INXString sFolderName = ParseFolderName(sSource);
 		if (!sFolderName.IsEmpty()) // the source is not drive
 		{
 			sDest += sFolderName;
@@ -273,13 +273,13 @@ void CFileOperation::DoCopy(CString sSource, CString sDest, bool bDelteAfterCopy
 		PreparePath(sDest);
 		char drive[MAX_PATH], dir[MAX_PATH], name[MAX_PATH], ext[MAX_PATH];
 		_splitpath_s(sSource, drive, dir, name, ext);
-		sDest = sDest + CString(name) + CString(ext);
+		sDest = sDest + INXString(name) + INXString(ext);
 		DoFileCopy(sSource, sDest);
 	}
 }
 
 
-void CFileOperation::DoFileCopy( CString sSourceFile, CString sDestFile, const bool bDeleteAfterCopy, const bool bUpdateAfterCopy )
+void CFileOperation::DoFileCopy( INXString sSourceFile, INXString sDestFile, const bool bDeleteAfterCopy, const bool bUpdateAfterCopy )
 {
 	BOOL bOvrwriteFails = FALSE;
 	if (!m_bOverwriteMode)
@@ -314,13 +314,13 @@ void CFileOperation::DoFileCopy( CString sSourceFile, CString sDestFile, const b
 
 
 bool CFileOperation::CopyFileGood(
-							  const CString &sSourceFolder, 
-							  const CString &sSourceFile,
-							  const CString &sDestFolder, 
-							  const CString &sDestFile )
+							  const INXString &sSourceFolder, 
+							  const INXString &sSourceFile,
+							  const INXString &sDestFolder, 
+							  const INXString &sDestFile )
 {
 
-	CString fullSource = sSourceFolder + sSourceFile;
+	INXString fullSource = sSourceFolder + sSourceFile;
 
 	// Check folders are terminated with a backslash.
 	assert(sSourceFolder.GetAt(sSourceFolder.GetLength()-1) == '\\');
@@ -328,25 +328,25 @@ bool CFileOperation::CopyFileGood(
 
 	if (CheckPath(fullSource) == PATH_NOT_FOUND)
 	{
-		CString sError = fullSource + CString(" not found");
+		INXString sError = fullSource + INXString(" not found");
 		throw new CFExeption(sError);
 	}
 
 	// folder to file
 	if (CheckPath(sDestFolder) != PATH_IS_FOLDER) 
 	{
-		CString sError = sDestFolder + CString(" not found");
+		INXString sError = sDestFolder + INXString(" not found");
 		throw new CFExeption(sError);
 	}
 
-	CString fullDest = sDestFolder + sDestFile;
+	INXString fullDest = sDestFolder + sDestFile;
 
 	DoFileCopy( fullSource, fullDest );
 
 	return true;
 }
 
-bool CFileOperation::Copy(CString sSource, CString sDest)
+bool CFileOperation::Copy(INXString sSource, INXString sDest)
 {
 	if (CheckSelfCopy(sSource, sDest)) return true;
 	bool bRes;
@@ -368,7 +368,7 @@ bool CFileOperation::Copy(CString sSource, CString sDest)
 }
 
 
-bool CFileOperation::Replace(CString sSource, CString sDest)
+bool CFileOperation::Replace(INXString sSource, INXString sDest)
 {
 	if (CheckSelfCopy(sSource, sDest)) return true;
 	bool bRes;
@@ -394,9 +394,9 @@ bool CFileOperation::Replace(CString sSource, CString sDest)
 }
 
 
-CString CFileOperation::ChangeFileName(CString sFileName)
+INXString CFileOperation::ChangeFileName(INXString sFileName)
 {
-	CString sName, sNewName, sResult;
+	INXString sName, sNewName, sResult;
 	char drive[MAX_PATH];
 	char dir  [MAX_PATH];
 	char name [MAX_PATH];
@@ -407,7 +407,7 @@ CString CFileOperation::ChangeFileName(CString sFileName)
 	int pos = sName.Find("Copy ");
 	if (pos == -1)
 	{
-		sNewName = CString("Copy of ") + sName + CString(ext);
+		sNewName = INXString("Copy of ") + sName + INXString(ext);
 	}
 	else
 	{
@@ -416,15 +416,15 @@ CString CFileOperation::ChangeFileName(CString sFileName)
 		{
 			sNewName = sName;
 			sNewName.Delete(0, 8);
-			sNewName = CString("Copy (1) of ") + sNewName + CString(ext);
+			sNewName = INXString("Copy (1) of ") + sNewName + INXString(ext);
 		}
 		else
 		{
-			CString sCount;
+			INXString sCount;
 			int pos2 = sName.Find(')');
 			if (pos2 == -1)
 			{
-				sNewName = CString("Copy of ") + sNewName + CString(ext);
+				sNewName = INXString("Copy of ") + sNewName + INXString(ext);
 			}
 			else
 			{
@@ -437,13 +437,13 @@ CString CFileOperation::ChangeFileName(CString sFileName)
 		}
 	}
 
-	sResult = CString(drive) + CString(dir) + sNewName;
+	sResult = INXString(drive) + INXString(dir) + sNewName;
 
 	return sResult;
 }
 
 
-bool CFileOperation::IsFileExist(CString sPathName)
+bool CFileOperation::IsFileExist(INXString sPathName)
 {
 	HANDLE hFile;
 	hFile = CreateFile(sPathName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, NULL, NULL);
@@ -453,7 +453,7 @@ bool CFileOperation::IsFileExist(CString sPathName)
 }
 
 
-int CFileOperation::CheckPath(CString sPath)
+int CFileOperation::CheckPath(INXString sPath)
 {
 	DWORD dwAttr = GetFileAttributes(sPath);
 
@@ -475,13 +475,13 @@ int CFileOperation::CheckPath(CString sPath)
 }
 
 
-void CFileOperation::PreparePath(CString &sPath)
+void CFileOperation::PreparePath(INXString &sPath)
 {
 	if(sPath.Right(1) != "\\") sPath += "\\";
 }
 
 
-bool CFileOperation::CanDelete(CString sPathName)
+bool CFileOperation::CanDelete(INXString sPathName)
 {
 	DWORD dwAttr = GetFileAttributes(sPathName);
 	if (dwAttr == -1) return false;
@@ -489,10 +489,10 @@ bool CFileOperation::CanDelete(CString sPathName)
 	{
 		if (m_bAskIfReadOnly)
 		{
-			CString sTmp = sPathName;
+			INXString sTmp = sPathName;
 			int pos = sTmp.ReverseFind('\\');
 			if (pos != -1) sTmp.Delete(0, pos + 1);
-			CString sText = sTmp + CString(" is read olny. Do you want delete it?");
+			INXString sText = sTmp + INXString(" is read olny. Do you want delete it?");
 			int iRes = MessageBox(NULL, sText, _T("Warning"), MB_YESNOCANCEL | MB_ICONQUESTION);
 			switch (iRes)
 			{
@@ -523,9 +523,9 @@ bool CFileOperation::CanDelete(CString sPathName)
 }
 
 
-CString CFileOperation::ParseFolderName(CString sPathName)
+INXString CFileOperation::ParseFolderName(INXString sPathName)
 {
-	CString sFolderName = sPathName;
+	INXString sFolderName = sPathName;
 	int pos = sFolderName.ReverseFind('\\');
 	if (pos != -1) sFolderName.Delete(pos, sFolderName.GetLength() - pos);
 	pos = sFolderName.ReverseFind('\\');
@@ -535,7 +535,7 @@ CString CFileOperation::ParseFolderName(CString sPathName)
 }
 
 
-void CFileOperation::CheckSelfRecursion(CString sSource, CString sDest)
+void CFileOperation::CheckSelfRecursion(INXString sSource, INXString sDest)
 {
 	if (sDest.Find(sSource) != -1)
 	{
@@ -547,28 +547,29 @@ void CFileOperation::CheckSelfRecursion(CString sSource, CString sDest)
 }
 
 
-bool CFileOperation::CheckSelfCopy(CString sSource, CString sDest)
+bool CFileOperation::CheckSelfCopy(INXString sSource, INXString sDest)
 {
 	bool bRes = false;
 	if (CheckPath(sSource) == PATH_IS_FOLDER)
 	{
-		CString sTmp = sSource;
+		INXString sTmp = sSource;
 		int pos = sTmp.ReverseFind('\\');
 		if (pos != -1)
 		{
 			sTmp.Delete(pos, sTmp.GetLength() - pos);
-			if (sTmp.CompareNoCase(sDest) == 0) bRes = true;
+			char *tempstr = sDest;
+			if (sTmp.CompareNoCase(tempstr) == 0) bRes = true;
 		}
 	}
 	return bRes;
 }
 
-void CFileOperation::getStatus( const CString &csFileName, CFileStatus & status )
+void CFileOperation::getStatus( const INXString &csFileName, CFileStatus & status )
 {
 	CFile::GetStatus( csFileName, status ); 
 }
 
-DBTIMESTAMP CFileOperation::getLastUpdate( const CString &csFileName )
+DBTIMESTAMP CFileOperation::getLastUpdate( const INXString &csFileName )
 {
 	CFileStatus status;
 	DBTIMESTAMP ts;
@@ -579,13 +580,13 @@ DBTIMESTAMP CFileOperation::getLastUpdate( const CString &csFileName )
 	return ts;
 }
 
-CString CFileOperation::getExecutablePath(LPCTSTR lpFileName)
+INXString CFileOperation::getExecutablePath(LPCTSTR lpFileName)
 {
 	LPTSTR lpBuffer;
 	LPTSTR* lpFilePart;
 	::SearchPathA(NULL, "RTA-TRACE.exe", NULL,1024,lpBuffer,lpFilePart);
 	//LPTSTR tmp = *(LPTSTR*)lpFilePart;
 	//csTmp.Compare(lpBuffer);
-	//return (CString)lpFilePart;
+	//return (INXString)lpFilePart;
 	return "";
 }

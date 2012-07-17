@@ -37,9 +37,9 @@ void RtaTraceSupport::setView(CDrawProgView *pView)
 // Method that creates a config file for RTA-TRACE
 int RtaTraceSupport::createRtaConfigFile()
 {
-	CString csFilePath = workDir + TRACEDIR + TRACE_CONFIG_FILE;
-	CString csHeaderFilePath = workDir + TRACEDIR + TRACE_HEADER_FILE;
-	CString csTmp;
+	INXString csFilePath = workDir + TRACEDIR + TRACE_CONFIG_FILE;
+	INXString csHeaderFilePath = workDir + TRACEDIR + TRACE_HEADER_FILE;
+	INXString csTmp;
 	CFileOperation fo;
 
 	if (!fo.CheckPath(csHeaderFilePath)) {
@@ -48,7 +48,7 @@ int RtaTraceSupport::createRtaConfigFile()
 		return 0;
 	}
 
-	ifstream headerFile((CString)workDir + TRACEDIR + TRACE_HEADER_FILE);
+	ifstream headerFile((INXString)workDir + TRACEDIR + TRACE_HEADER_FILE);
 		
 	m_RtaFile.open(csFilePath);
 	if (!m_RtaFile.good()) {
@@ -72,7 +72,7 @@ void RtaTraceSupport::rtaTraceDefineAll()
 	INXPOSITION pos;
 	ConData* pBlob;
 	int iTaskNum = 1;
-	CString csName;
+	INXString csName;
 
 	pos = m_pView->pDEP->condata->GetHeadPosition();
 	while (pos) {
@@ -86,23 +86,23 @@ void RtaTraceSupport::rtaTraceDefineAll()
 		for (UINT i=0; i<pBlob->startport_num; i++) {
 			if (pBlob->startport[i]->line.getDbgMonitor() && pBlob->startport[i]->line.exist) {
 				pBlob->startport[i]->line.setRtaTraceId(iTaskNum);
-				rtaTraceDefineTask(csName + "_" + pBlob->startport[i]->description + "_" + intToString(iTaskNum), iTaskNum);
+				rtaTraceDefineTask(csName + "_" + pBlob->startport[i]->description + "_" + (INXString)intToString(iTaskNum), iTaskNum);
 				iTaskNum++;
 			}
 		}
 		for (UINT i=0; i<pBlob->inputport_num; i++) {
 			if (pBlob->inputport[i]->line.getDbgMonitor() && pBlob->inputport[i]->line.exist) {
 				pBlob->inputport[i]->line.setRtaTraceId(iTaskNum);
-				rtaTraceDefineTracepoint(csName + "_" + pBlob->inputport[i]->description + "_" + intToString(iTaskNum), iTaskNum, pBlob->inputport[i]->datatype);
+				rtaTraceDefineTracepoint(csName + "_" + pBlob->inputport[i]->description + "_" + (INXString)intToString(iTaskNum), iTaskNum, pBlob->inputport[i]->datatype);
 				iTaskNum++;
 			}
 		}
 	}
 }
 
-void RtaTraceSupport::rtaTraceDefineTask(CString csTaskName, int iTaskNum)
+void RtaTraceSupport::rtaTraceDefineTask(INXString csTaskName, int iTaskNum)
 {
-	m_RtaFile << "TASK " << csTaskName << " {\n";
+	m_RtaFile << "TASK " << (CString)csTaskName << " {\n";
 	m_RtaFile << "  vs_ID = \"" << iTaskNum << "\";\n";
 	m_RtaFile << "  vs_ACTIVATIONS    = 1;\n";
 	m_RtaFile << "  vs_TYPE           = \"BCC1\";\n";
@@ -111,9 +111,9 @@ void RtaTraceSupport::rtaTraceDefineTask(CString csTaskName, int iTaskNum)
 	m_RtaFile << "  vs_p_Disp         = \"1\";\n};\n\n";
 }
 
-void RtaTraceSupport::rtaTraceDefineTracepoint(CString csName, int iIdNum, int iDataType)
+void RtaTraceSupport::rtaTraceDefineTracepoint(INXString csName, int iIdNum, int iDataType)
 {
-	m_RtaFile << "Tracepoint " << csName << " {\n";
+	m_RtaFile << "Tracepoint " << (CString)csName << " {\n";
 	m_RtaFile << "  vs_ID = \"" << iIdNum << "\";\n";
 	switch(iDataType) {
 		case 0: m_RtaFile << "  vs_p_Fmt = \"%b\";\n"; break;
@@ -163,7 +163,7 @@ void RtaTraceSupport::rtaTraceLogFlush()
 /**
  * Add a trace message to the log of events traced so far.
  */
-void RtaTraceSupport::rtaTraceLogEvent(UINT kind, UINT info, CString csTime)
+void RtaTraceSupport::rtaTraceLogEvent(UINT kind, UINT info, INXString csTime)
 {
 	if ((m_iRtaTraceLogIndex + 2) >= RTA_TRACE_SIZE)
 	{
@@ -174,7 +174,7 @@ void RtaTraceSupport::rtaTraceLogEvent(UINT kind, UINT info, CString csTime)
 	m_iRtaTraceLogIndex += 2;
 }
 
-void RtaTraceSupport::rtaTraceLogData(UINT iKind, UINT iInfo, CString csVal, CString csTime)
+void RtaTraceSupport::rtaTraceLogData(UINT iKind, UINT iInfo, INXString csVal, INXString csTime)
 {
 	if ((m_iRtaTraceLogIndex + 4) >= RTA_TRACE_SIZE)
 	{
@@ -188,7 +188,7 @@ void RtaTraceSupport::rtaTraceLogData(UINT iKind, UINT iInfo, CString csVal, CSt
 	m_iRtaTraceLogIndex += 4;
 }
 
-void RtaTraceSupport::rtaTraceLogDataFloat(UINT iKind, UINT iInfo, CString csVal, CString csTime)
+void RtaTraceSupport::rtaTraceLogDataFloat(UINT iKind, UINT iInfo, INXString csVal, INXString csTime)
 {
 	double f;
 	char szTmp[128] = {'\0'};
@@ -215,7 +215,7 @@ void RtaTraceSupport::rtaTraceLogDataFloat(UINT iKind, UINT iInfo, CString csVal
 	m_iRtaTraceLogIndex += 6;
 }
 
-void RtaTraceSupport::rtaTraceLogDataString(UINT iKind, UINT iInfo, CString csVal, CString csTime)
+void RtaTraceSupport::rtaTraceLogDataString(UINT iKind, UINT iInfo, INXString csVal, INXString csTime)
 {
 	char szStr[9] = {'\0'};
 	char szTmp[128] = {'\0'};
@@ -252,7 +252,7 @@ void RtaTraceSupport::rtaTraceLogDataString(UINT iKind, UINT iInfo, CString csVa
 /**
  * Represents an event being fired. Equivalent to task activation in RTA-TRACE.
  */
-void RtaTraceSupport::rtaTraceActivate(UINT id, CString csTime)
+void RtaTraceSupport::rtaTraceActivate(UINT id, INXString csTime)
 {
 	rtaTraceLogEvent(id, 257, csTime);
 }
@@ -260,7 +260,7 @@ void RtaTraceSupport::rtaTraceActivate(UINT id, CString csTime)
 /**
  * Represents a function starting execution. Equivalent to task activation in RTA-TRACE
  */
-void RtaTraceSupport::rtaTraceStart(UINT id, CString csTime)
+void RtaTraceSupport::rtaTraceStart(UINT id, INXString csTime)
 {
 	rtaTraceLogEvent(id, 259, csTime);
 }
@@ -268,7 +268,7 @@ void RtaTraceSupport::rtaTraceStart(UINT id, CString csTime)
 /**
  * End of a function. Equivalent to task termination in RTA-TRACE
  */
-void RtaTraceSupport::rtaTraceEnd(UINT id, CString csTime)
+void RtaTraceSupport::rtaTraceEnd(UINT id, INXString csTime)
 {
 	rtaTraceLogEvent(id, 260, csTime);
 }
@@ -276,7 +276,11 @@ void RtaTraceSupport::rtaTraceEnd(UINT id, CString csTime)
 // Method that terminates the RTA-Trace process
 void RtaTraceSupport::terminateRtaTraceProc()
 {
-	CString csRtaFilePath = (CString)"localhost.Generic-Debugger:" + workDir + TRACEDIR + TRACE_CONFIG_FILE + " - RTA-TRACE";
+	INXString csRtaFilePath = "localhost.Generic-Debugger:" 
+		+ (INXString)workDir 
+		+ TRACEDIR 
+		+ TRACE_CONFIG_FILE 
+		+ " - RTA-TRACE";
 
 	TCHAR psAppName[300];
 	_tcscpy_s( psAppName, 300, _T("RTA-TRACE.exe") );	
@@ -296,7 +300,7 @@ bool RtaTraceSupport::isRtaTraceRunning()
 {
 	HWND hWnd = NULL;
 	bool bRet;
-	CString csRtaFilePath = (CString)"localhost.Generic-Debugger:" + workDir + TRACEDIR + TRACE_CONFIG_FILE + " - RTA-TRACE";
+	INXString csRtaFilePath = "localhost.Generic-Debugger:" + (INXString)workDir + TRACEDIR + TRACE_CONFIG_FILE + " - RTA-TRACE";
 
 	TCHAR psAppName[300];
 	_tcscpy_s( psAppName, 300, _T("RTA-TRACE.exe") );	

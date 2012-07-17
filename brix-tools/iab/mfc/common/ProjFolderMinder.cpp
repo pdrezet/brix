@@ -12,7 +12,7 @@ ProjFolderMinder::ProjFolderMinder()
 {
 }
 
-void ProjFolderMinder::setProjectFolder( const CString &projFolder )
+void ProjFolderMinder::setProjectFolder( const INXString &projFolder )
 {
 	m_csProjDir = projFolder;
 }
@@ -54,7 +54,7 @@ LucidErrEnum ProjFolderMinder::createProjectFolderStructure( )
 	return kErr_NoErr;
 }
 
-LucidErrEnum ProjFolderMinder::assessProjectFolderStructure( CString &csMissingFolder )
+LucidErrEnum ProjFolderMinder::assessProjectFolderStructure( INXString &csMissingFolder )
 {
 
 	RevisionGuru cGuruInst;;
@@ -99,7 +99,7 @@ LucidErrEnum ProjFolderMinder::moveSodl_1(void)
 	// Now delete the old sodl folder
 	bSucceed = fo.Delete( m_csProjDir + "\\SODL\\" );
 
-	CString okDum = "NB. Automatic Project-Folder Structure Update!\nSODL folder and file has been moved, from:\n";
+	INXString okDum = "NB. Automatic Project-Folder Structure Update!\nSODL folder and file has been moved, from:\n";
 	okDum+= m_csProjDir;
 	okDum += "\nto\n";
 	okDum += m_csProjDir + DEVICEDATADIR;
@@ -133,7 +133,7 @@ LucidErrEnum ProjFolderMinder::moveExports_1(void)
 	// Now delete the old exports folder
 	bSucceed = fo.Delete( m_csProjDir + "\\exports\\" );
 
-	CString okDum = "NB. Automatic Project-Folder Structure Update!\nexports folder and file has been moved, from:\n";
+	INXString okDum = "NB. Automatic Project-Folder Structure Update!\nexports folder and file has been moved, from:\n";
 	okDum+= m_csProjDir;
 	okDum += "\nto\n";
 	okDum += m_csProjDir + DDATADIR;

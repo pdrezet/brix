@@ -84,9 +84,9 @@ void CMyTreeCtrl::OnLButtonDown(UINT nFlags, CPoint _point)
 	INXPoint point(_point.x, _point.x);
 	// TODO: Add your message handler code here and/or call default
 	UINT uFlags;
-	CString filename, drawGui, depPath, csProjectDir;
+	INXString filename, drawGui, depPath, csProjectDir;
 	Project* thisProject;
-	CString type = "";
+	INXString type = "";
 	HTREEITEM hParent;
 
 	hSelItem = HitTest( point, &uFlags );
@@ -137,17 +137,17 @@ void CMyTreeCtrl::OnLButtonDown(UINT nFlags, CPoint _point)
 		
 		
 		/* For debugging 
-		CString tmp;
+		INXString tmp;
 		int remove = strlen( (LPCSTR) AfxGetAppName() ); + 1;
 		int workdir_size = strlen( workDir );
-		tmp = (CString)workDir;
+		tmp = (INXString)workDir;
 		drawGui = tmp.GetBufferSetLength(workdir_size - remove);
 		drawGui += "LucidGUIBuilder\\LucidGUIBuilder.exe"; 
 		//drawGui += "Debug\\LucidGUIBuilder\\LucidGUIBuilder.exe"; 
 		*/
 		/*
 		// For installation
-		drawGui = (CString)workDir;
+		drawGui = (INXString)workDir;
 		drawGui += "\\bin\\LucidGUIBuilder.exe"; 
 		ShellExecute(NULL, "open", drawGui, filename, NULL, SW_SHOWNORMAL);
 	}
@@ -171,9 +171,9 @@ void CMyTreeCtrl::OnRButtonDown(UINT nFlags, CPoint _point)
 {
 	INXPoint point(_point.x, _point.y);
 	UINT uFlags;
-	CString filename, drawGui, depPath, csProjectDir;
+	INXString filename, drawGui, depPath, csProjectDir;
 	Project* thisProject;
-	CString type = "";
+	INXString type = "";
 	HTREEITEM hParent;
 
 	hSelItem = HitTest( point, &uFlags );
@@ -272,7 +272,7 @@ Project* CMyTreeCtrl::GetProjectPtr(int projectNum) {
 Project* CMyTreeCtrl::GetProjectPtr(HTREEITEM hItem) {
 	HTREEITEM hParent, hTmpItem;
 	Project* itemProject;
-	CString csProjectName, hItemName;
+	INXString csProjectName, hItemName;
 
 	// get project name
 	hParent = GetParentItem(hItem);
@@ -306,7 +306,7 @@ void CMyTreeCtrl::PopulateProjectTree(INXObjList* iconList, Project* pProject) {
 	HTREEITEM projItem, childItem, depItem, guiItem, pngItem, hNlsItem, topDEP, hRscItem, descItem;
 	INXPOSITION iconPos;
 	ConData* blob;
-	CString fileName, csProjectName, csProjectDir;
+	INXString fileName, csProjectName, csProjectDir;
 	vector<ExtGuiFile> guiFileVec;
 	vector<ExtPngFile> pngFileVec;
 	vector<ExtDataFile> dataFileVec;
@@ -376,17 +376,17 @@ void CMyTreeCtrl::PopulateProjectTree(INXObjList* iconList, Project* pProject) {
 	InsertItem(_T("Description: " + pProject->pProjMData->m_csProjectAppDescription), TREE_INDEX_INFO, TREE_INDEX_INFO, descItem);
 }
 
-void CMyTreeCtrl::PopulateNextLevel(HTREEITEM hItem, CString projectDir)
+void CMyTreeCtrl::PopulateNextLevel(HTREEITEM hItem, INXString projectDir)
 {
 	INXObjList* encapsulated;
 	INXPOSITION iconPos;
 	ConData* blob;
-	CString blockFile, newInstName, depPath;
+	INXString blockFile, newInstName, depPath;
 	HTREEITEM childItem;
 	BlockOperations bo;
 
 	// Load the encapsulated block into a temporary list and check for any sub-blocks
-	blockFile = projectDir + DEPDIR + GetDEPPath(hItem) + GetItemText(hItem) + ".prg";
+	blockFile = projectDir + DEPDIR + GetDEPPath(hItem) + (INXString)GetItemText(hItem) + ".prg";
 	encapsulated = bo.LoadBlock(blockFile);
 	iconPos = encapsulated->GetHeadPosition();
 	while(iconPos) {
@@ -404,7 +404,7 @@ void CMyTreeCtrl::PopulateNextLevel(HTREEITEM hItem, CString projectDir)
 // Add an item to the project tree
 void CMyTreeCtrl::AddItem2ProjectTree(ConData* userDefBlob, Project* pProject, HTREEITEM hItem) {
 	HTREEITEM childItem;
-	CString csProjectDir;
+	INXString csProjectDir;
 
 	pProject->pProjMData->getProjectDir(csProjectDir);
 	childItem = InsertItem(_T(userDefBlob->description), TREE_INDEX_APP, TREE_INDEX_APP, hItem);
@@ -428,13 +428,13 @@ HTREEITEM CMyTreeCtrl::GetUserDefChildItem(ConData* userDefBlob, HTREEITEM hItem
 
 	// get the child item that corresponds to userDefBlob
 	childItem = GetChildItem(hItem);
-	if (GetItemText(childItem) == userDefBlob->description) {
+	if ((INXString)GetItemText(childItem) == userDefBlob->description) {
 		userDefItem = childItem;
 	}
 	else {
 		childItem = GetNextSiblingItem(childItem);
 		while (childItem) {
-			if (GetItemText(childItem) == userDefBlob->description) {
+			if ((INXString)GetItemText(childItem) == userDefBlob->description) {
 				userDefItem = childItem;
 				childItem = NULL;
 			}
@@ -446,29 +446,29 @@ HTREEITEM CMyTreeCtrl::GetUserDefChildItem(ConData* userDefBlob, HTREEITEM hItem
 	return userDefItem;
 }
 
-CString CMyTreeCtrl::GetDEPPath(HTREEITEM hItem) {
+INXString CMyTreeCtrl::GetDEPPath(HTREEITEM hItem) {
 	HTREEITEM hParent;
-	CString depPath = "";
+	INXString depPath = "";
 
 	hParent = GetParentItem(hItem);
-	while (GetItemText(hParent) != APP) {
-		depPath  = GetItemText(hParent) + "\\" + depPath;
+	while ((INXString)GetItemText(hParent) != APP) {
+		depPath  = (INXString)GetItemText(hParent) + "\\" + depPath;
 		hParent = GetParentItem(hParent);
 	}
 	return depPath;
 }
 
 // This function checks that the block doesn't already exist in the project. Required by encapsulation
-bool CMyTreeCtrl::NameExist(CString blockName, HTREEITEM hItem) {
+bool CMyTreeCtrl::NameExist(INXString blockName, HTREEITEM hItem) {
 	HTREEITEM hProject, hParent;
 	Project* activeProject;
 
 	// get the first item in the tree for the project
 	hParent = GetParentItem(hItem);
-	if (GetItemText(hParent) == APP) {
+	if ((INXString)GetItemText(hParent) == APP) {
 		hProject = hItem;
 	}
-	while (GetItemText(hParent) != APP) {
+	while ((INXString)GetItemText(hParent) != APP) {
 		hProject = hParent;
 		hParent = GetParentItem(hProject);
 	}
@@ -480,13 +480,13 @@ bool CMyTreeCtrl::NameExist(CString blockName, HTREEITEM hItem) {
 }
 
 // Search the project tree to see if the block name exists
-bool CMyTreeCtrl::CheckItem(HTREEITEM hItem, Project* activeProject, CString blockName) {
+bool CMyTreeCtrl::CheckItem(HTREEITEM hItem, Project* activeProject, INXString blockName) {
 	HTREEITEM hChild;
 	INXPOSITION pos;
 	INXObjList* tmpList;
 	ConData* blob;
 	BlockOperations bo;
-	CString csProjectDir;
+	INXString csProjectDir;
 
 	activeProject->pProjMData->getProjectDir(csProjectDir);
 	hChild = GetChildItem(hItem);
@@ -494,7 +494,7 @@ bool CMyTreeCtrl::CheckItem(HTREEITEM hItem, Project* activeProject, CString blo
 		//check hItem block
 		// Could use inheritance instead. i.e. have a class that inherits from HTREEITEM and
 		// has an attribute that is the library name of the encapsulated block
-		tmpList = bo.LoadBlock(csProjectDir + DEPDIR + GetDEPPath(hItem) + GetItemText(hItem) + ".prg");
+		tmpList = bo.LoadBlock(csProjectDir + DEPDIR + GetDEPPath(hItem) + (INXString)GetItemText(hItem) + ".prg");
 		pos = tmpList->GetHeadPosition();
 		while (pos) {
 			blob = (ConData*)tmpList->GetNext(pos);
@@ -545,14 +545,14 @@ void CMyTreeCtrl::CloseProject(HTREEITEM hItem, Project* activeProject) {
 
 // Saves the hierarchy name for each encapsulated block.These are used by flattening process when
 // writing SODL.
-void CMyTreeCtrl::SaveHierName(HTREEITEM hItem, CString projectDir, Project* pProject) {
+void CMyTreeCtrl::SaveHierName(HTREEITEM hItem, INXString projectDir, Project* pProject) {
 	INXObjList* tmpList = new INXObjList;
 	INXPOSITION pos;
 	ConData* blob;
-	CString hierName;
+	INXString hierName;
 	BlockOperations bo;
 	
-	hierName = GetDEPPath(hItem) + GetItemText(hItem);
+	hierName = GetDEPPath(hItem) + (INXString)GetItemText(hItem);
 	// if top level then want to update dep in memory
 	if (pProject->pDEP[0]->hItem == hItem) {
 		tmpList = pProject->pDEP[0]->condata;
@@ -583,21 +583,21 @@ void CMyTreeCtrl::SaveHierName(HTREEITEM hItem, CString projectDir, Project* pPr
  */
 bool CMyTreeCtrl::IsSubsytem(Project* pProject, DEP* pDEP) {
 	HTREEITEM hParent;
-	CString csProjectDir;
+	INXString csProjectDir;
 	bool bHasParent = false;
 
 	pProject->pProjMData->getProjectDir(csProjectDir);
 	hParent = GetParentItem(pDEP->hItem);
 	//@todo - is this the best test we have for a DEP having a parent?
-	if (GetItemText(hParent) != APP) {
+	if ((INXString)GetItemText(hParent) != APP) {
 		bHasParent = true;
 	}
 	return bHasParent;
 }
 
-ConData* CMyTreeCtrl::AddXPort(CString type, CString portLabel, INXPoint point, Project* pProject, DEP* pDEP) {
+ConData* CMyTreeCtrl::AddXPort(INXString type, INXString portLabel, INXPoint point, Project* pProject, DEP* pDEP) {
 	HTREEITEM hParent;
-	CString parentName, csProjectDir;
+	INXString parentName, csProjectDir;
 	ConData* xport;
 	DEP* pParentDEP;
 	CDrawProgView* pView;
@@ -605,7 +605,7 @@ ConData* CMyTreeCtrl::AddXPort(CString type, CString portLabel, INXPoint point, 
 	pProject->pProjMData->getProjectDir(csProjectDir);
 	// When adding an xport find the parent item and add a port to the block icon
 	hParent = GetParentItem(pDEP->hItem);
-	if (GetItemText(hParent) != APP) {
+	if ((INXString)GetItemText(hParent) != APP) {
 		parentName = GetItemText(hParent);
 		// Open parent if it isn't already
 		openProject = FALSE;
@@ -635,7 +635,7 @@ ConData* CMyTreeCtrl::AddXPort(CString type, CString portLabel, INXPoint point, 
 void CMyTreeCtrl::DeleteIcon(INXPOSITION iconPos, Project* pProject, DEP* pDEP, bool bDelOutputs) {
 	ConData* blob;
 	HTREEITEM hParent, hUserDefItem;
-	CString parentName, csProjectDir;
+	INXString parentName, csProjectDir;
 	DEP* pParentDEP;
 	CDrawProgView* pView;
 	bool topLevelXport = TRUE;
@@ -647,7 +647,7 @@ void CMyTreeCtrl::DeleteIcon(INXPOSITION iconPos, Project* pProject, DEP* pDEP, 
 	if (blob->m_csIconType.Find("XINPUT") != -1 || blob->m_csIconType.Find("XOUTPUT") != -1 || 
 		blob->m_csIconType == "XSTART" || blob->m_csIconType == "XFINISH") {
 		hParent = GetParentItem(pDEP->hItem);
-		if (GetItemText(hParent) != APP) {
+		if ((INXString)GetItemText(hParent) != APP) {
 			topLevelXport = FALSE;
 			parentName = GetItemText(hParent);
 			// Open parent if it isn't already
@@ -700,7 +700,7 @@ void CMyTreeCtrl::RenameBlockPort(INXPOSITION iconPos, int portNum, int portType
 void CMyTreeCtrl::RenameXport(INXPOSITION iconPos, Project* pProject, DEP* pDEP) {
 	ConData* blob;
 	HTREEITEM hParent;
-	CString parentName, csProjectDir, csNewPortLabel, csOldPortLabel;
+	INXString parentName, csProjectDir, csNewPortLabel, csOldPortLabel;
 	DEP* pParentDEP;
 	CDrawProgView* pView;
 	bool topLevelXport = TRUE;
@@ -715,7 +715,7 @@ void CMyTreeCtrl::RenameXport(INXPOSITION iconPos, Project* pProject, DEP* pDEP)
 		blob->m_csIconType == "XSTART" || blob->m_csIconType == "XFINISH") {
 		pProject->pProjMData->getProjectDir(csProjectDir);
 		hParent = GetParentItem(pDEP->hItem);
-		if (GetItemText(hParent) != APP) {
+		if ((INXString)GetItemText(hParent) != APP) {
 			topLevelXport = FALSE;
 			parentName = GetItemText(hParent);
 			// Open parent if it isn't already
@@ -739,7 +739,7 @@ void CMyTreeCtrl::RenameXport(INXPOSITION iconPos, Project* pProject, DEP* pDEP)
  */
 void CMyTreeCtrl::UpdateProjectDescrptionOnTree(Project* pProject, DEP* pDEP) {
 	HTREEITEM projItem, descItem, childItem;
-	CString childName;
+	INXString childName;
 	int ind = 0;
 
 	projItem = GetProjectItem(pDEP->hItem);
@@ -790,7 +790,7 @@ void CMyTreeCtrl::UpdateProjectDescrptionOnTree(Project* pProject, DEP* pDEP) {
 void CMyTreeCtrl::UpdateTree(Project* pProject, DEP* pDEP) {
 	INXPOSITION pos;
 	ConData* blob;
-	CString childName;
+	INXString childName;
 	bool blockExists;
 	HTREEITEM childItem;
 
@@ -826,15 +826,15 @@ void CMyTreeCtrl::UpdateTree(Project* pProject, DEP* pDEP) {
 
 void CMyTreeCtrl::OpenParent(HTREEITEM hItem, Project* pProject) {
 	HTREEITEM hParent;
-	CString csProjectDir;
+	INXString csProjectDir;
 
 	pProject->pProjMData->getProjectDir(csProjectDir);
 	hParent = GetParentItem(hItem);
-	if (GetItemText(hParent) != APP) {
+	if ((INXString)GetItemText(hParent) != APP) {
 		openProject = FALSE;
 		hSelItem = hParent;
 		CDocument* Subsystem = AfxGetApp( )->OpenDocumentFile(csProjectDir + DEPDIR + 
-			GetDEPPath(hParent) + GetItemText(hParent) + ".prg");
+			GetDEPPath(hParent) + (INXString)GetItemText(hParent) + ".prg");
 		openProject = TRUE;
 
 		// Propagate debug data
@@ -858,14 +858,14 @@ void CMyTreeCtrl::OpenParent(HTREEITEM hItem, Project* pProject) {
  */
 void CMyTreeCtrl::AddDataFile(ExtDataFile &dataFile, HTREEITEM hItem) {
 	HTREEITEM hProject, childItem, txtItem;
-	CString filename;
+	INXString filename;
 
 	dataFile.getHostFileName(filename);
 	// Get the project item
-	CString depStr = GetItemText(hItem);
+	INXString depStr = GetItemText(hItem);
 	hProject = GetProjectItem(hItem);
 	if (ItemHasChildren(hProject)) {
-		CString projectStr = GetItemText(hProject);
+		INXString projectStr = GetItemText(hProject);
 	}
 	
 	// Get the text item 
@@ -893,14 +893,14 @@ void CMyTreeCtrl::AddDataFile(ExtDataFile &dataFile, HTREEITEM hItem) {
 // Method that adds a resource file to the project tree
 void CMyTreeCtrl::AddResourceFile(ExtResourceFile &xResourceFile, HTREEITEM hItem) {
 	HTREEITEM hProject, hChildItem, hRscItem;
-	CString csFileName;
+	INXString csFileName;
 
 	xResourceFile.getHostFileName(csFileName);
 	// Get the project item
-	CString csDepStr = GetItemText(hItem);
+	INXString csDepStr = GetItemText(hItem);
 	hProject = GetProjectItem(hItem);
 	if (ItemHasChildren(hProject)) {
-		CString csProjectStr = GetItemText(hProject);
+		INXString csProjectStr = GetItemText(hProject);
 	}
 	
 	// Get the text item 
@@ -927,9 +927,9 @@ void CMyTreeCtrl::AddResourceFile(ExtResourceFile &xResourceFile, HTREEITEM hIte
 
 // Method that adds a widget group to the project explorer
 // hItem is an item in the project to be added to
-void CMyTreeCtrl::addWidgetGroup(CString csWidgetGroupName, HTREEITEM hItem) {
+void CMyTreeCtrl::addWidgetGroup(INXString csWidgetGroupName, HTREEITEM hItem) {
 	HTREEITEM hProject, hChildItem, hGuiItem;
-	CString csDefaultName;
+	INXString csDefaultName;
 
 	// Get the project item
 	hProject = GetProjectItem(hItem);
@@ -961,7 +961,7 @@ void CMyTreeCtrl::addWidgetGroup(CString csWidgetGroupName, HTREEITEM hItem) {
 // It removes all widget groups, and then inserts the ones in the project meta data
 void CMyTreeCtrl::updateWidgetGroups(HTREEITEM hItem) {
 	HTREEITEM hProject, hChildItem, hGuiItem, hGuiChildItem;
-	CString csWidgetGroupName;
+	INXString csWidgetGroupName;
 	Project* pProject;
 	vector<ExtGuiFile> vGuiFileVec;
 
@@ -1016,7 +1016,7 @@ HTREEITEM CMyTreeCtrl::GetProjectItem(HTREEITEM hItem) {
 	return hProject;
 }
 
-void CMyTreeCtrl::SaveProjectAs(CString projectName, HTREEITEM hItem) {
+void CMyTreeCtrl::SaveProjectAs(INXString projectName, HTREEITEM hItem) {
 	HTREEITEM hProject, hDEPItem;
 
 	// Rename the project item
@@ -1031,9 +1031,9 @@ void CMyTreeCtrl::SaveProjectAs(CString projectName, HTREEITEM hItem) {
 void CMyTreeCtrl::OnNMDblclk(NMHDR *pNMHDR, LRESULT *pResult)
 {
 
-	CString filename, drawGui, depPath, csProjectDir, csFullPathProjFile;
+	INXString filename, drawGui, depPath, csProjectDir, csFullPathProjFile;
 	Project* thisProject;
-	CString type = "";
+	INXString type = "";
 	HTREEITEM hParent;
 
 	//hSelItem = HitTest( point, &uFlags );
@@ -1071,7 +1071,7 @@ void CMyTreeCtrl::OnNMDblclk(NMHDR *pNMHDR, LRESULT *pResult)
 		// open document and view
 		openProject = FALSE;
 		CDocument* Subsystem = AfxGetApp( )->OpenDocumentFile(csProjectDir + DEPDIR +
-			GetDEPPath(hSelItem) + GetItemText(hSelItem) + ".prg");
+			GetDEPPath(hSelItem) + (INXString)GetItemText(hSelItem) + ".prg");
 		openProject = TRUE;
 			POSITION pos = Subsystem->GetFirstViewPosition();
 			CDrawProgView* pView = (CDrawProgView*) Subsystem->GetNextView(pos);
@@ -1084,7 +1084,7 @@ void CMyTreeCtrl::OnNMDblclk(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 
 	else if (type == "PNG") {
-		filename = csProjectDir + GUIDIR + GetItemText(hSelItem);
+		filename = csProjectDir + GUIDIR + (INXString)GetItemText(hSelItem);
 		filename = cloneBackSlashes(filename);
 		ShellExecute(NULL, "open", filename, NULL, NULL, SW_SHOW);
 	}
@@ -1097,7 +1097,7 @@ void CMyTreeCtrl::OnNMDblclk(NMHDR *pNMHDR, LRESULT *pResult)
 */
 	// open using windows file association
 	else if (type == "RESOURCE") {
-		filename = csProjectDir + RESOURCEDIR + GetItemText(hSelItem);
+		filename = csProjectDir + RESOURCEDIR + (INXString)GetItemText(hSelItem);
 		//@todo - this works in windows ok, but in wine most file types fail. .txt files do open using notepad but png, jpgs all open Wine Explorer with a blank document
 		// should we detect wine environment and do something more intelligent based on file extension?
 		// note that in wine registry, image files are all associated with iexplorer.exe where as text files are associated with notepad.exe - so could use wine registry to make some associations at install time
@@ -1139,11 +1139,11 @@ void CMyTreeCtrl::OnNMDblclk(NMHDR *pNMHDR, LRESULT *pResult)
 
 		!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 
-		filename = csProjectDir + GUIDIR + GetItemText(hSelItem) + ".gui\0";
+		filename = csProjectDir + GUIDIR + (INXString)GetItemText(hSelItem) + ".gui\0";
 
-		CString csLgbShortExecName;
-		CString csLgbExecutablePath;
-		CString csInstalledLgbExecName;
+		INXString csLgbShortExecName;
+		INXString csLgbExecutablePath;
+		INXString csInstalledLgbExecName;
 
 
 #ifdef _DEBUG
@@ -1152,17 +1152,17 @@ void CMyTreeCtrl::OnNMDblclk(NMHDR *pNMHDR, LRESULT *pResult)
 
 		CLabLgbBaseApp *pApp = ( CLabLgbBaseApp * ) AfxGetApp();
 
-		CString csDevExecDir;
+		INXString csDevExecDir;
 		pApp->GetInstallationBaseDir( csDevExecDir );
 
 		csDevExecDir += LUCID_DIST_DIR;
 		csDevExecDir += LUCID_EXECUTABLES_DIR;
 
-		CString csLabFullExecName;
+		INXString csLabFullExecName;
 		pApp->GetExecutableName( csLabFullExecName );
 
 		int iPos = csLabFullExecName.Find("Application");
-		CString csLgbFullExecName = csLabFullExecName.Left( iPos );
+		INXString csLgbFullExecName = csLabFullExecName.Left( iPos );
 
 		csLabFullExecName = csLabFullExecName.Right( csLabFullExecName.GetLength() - iPos - 11  );
 		csLgbFullExecName = csLgbFullExecName + "GUI" + csLabFullExecName;
@@ -1224,7 +1224,7 @@ void CMyTreeCtrl::OnNMDblclk(NMHDR *pNMHDR, LRESULT *pResult)
 			// with 'no project set'.  If so, take this over for our project,
 			// rather than opening a completely new one, and leaving the empty one doing nowt.
 
-			CString csNoProjWarning = NO_PROJECT_WARNING;
+			INXString csNoProjWarning = NO_PROJECT_WARNING;
 			//TCHAR* psWindowTitle = _T(csNoProjWarning.GetBuffer());
 			TCHAR psWindowTitle[300];
 			_tcscpy( psWindowTitle, _T(csNoProjWarning) );
@@ -1237,10 +1237,10 @@ void CMyTreeCtrl::OnNMDblclk(NMHDR *pNMHDR, LRESULT *pResult)
 				// There is a null-project LGB.  Take it over with the project we want to see opened
 				::SetForegroundWindow( hWnd );
 
-				CString csFullProjectFilePath;
+				INXString csFullProjectFilePath;
 				thisProject->pProjMData->getFullPathProjectFile(csFullProjectFilePath);
 
-				CString csArgument = csFullPathProjFile + "#" + filename;
+				INXString csArgument = csFullPathProjFile + "#" + filename;
 
 				COPYDATASTRUCT cpd;
 				cpd.dwData = 0;
@@ -1257,13 +1257,13 @@ void CMyTreeCtrl::OnNMDblclk(NMHDR *pNMHDR, LRESULT *pResult)
 
 				// There is *NO* LGB running this proj.
 
-				CString csFullProjectFilePath;
+				INXString csFullProjectFilePath;
 				thisProject->pProjMData->getFullPathProjectFile(csFullProjectFilePath);
-				CString csInstallDir;
+				INXString csInstallDir;
 				CLabLgbBaseApp *pApp = ( CLabLgbBaseApp * )AfxGetApp();
 				pApp->GetInstallationBaseDir( csInstallDir );
 
-				CString csArgument = "\"" + csFullPathProjFile + "#" + filename + "\"";
+				INXString csArgument = "\"" + csFullPathProjFile + "#" + filename + "\"";
 
 				ShellExecute(NULL, NULL, cloneBackSlashes( csLgbExecutablePath ), csArgument, NULL, SW_SHOW);
 
@@ -1271,7 +1271,7 @@ void CMyTreeCtrl::OnNMDblclk(NMHDR *pNMHDR, LRESULT *pResult)
 				SHELLEXECUTEINFO fred;
 				memset( &fred, 0, sizeof(fred) );
 				fred.lpVerb = "open";
-				//CString crp = cloneBackSlashes( filename );
+				//INXString crp = cloneBackSlashes( filename );
 				fred.lpFile = cloneBackSlashes( csLgbExecutablePath );
 				fred.lpParameters = 0;//csArgument;
 				fred.nShow = SW_SHOW;

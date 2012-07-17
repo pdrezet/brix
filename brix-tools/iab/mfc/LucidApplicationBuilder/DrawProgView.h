@@ -21,6 +21,7 @@
 #include "FunctionBlockSubstitution.h"
 #include "../common/EHSInitParams.h"
 #include "../common/LabLgbBaseApp.h"
+#include "Porting_Classes/INXString.h"
 
 
 //#include "C:\\downloads\\ZipArchive\\ZipArchive.h"
@@ -155,14 +156,14 @@ public:
 	INXRect GetViewExtent();
 	void ResetScrollSizes();
 	void SaveHierName();
-	bool LibExist(CString libName);
+	bool LibExist(INXString libName);
 	void SetIconID();
 	bool XportNameExist(INXObjList* list);
 	void SetPointToTestAgainst(INXRect rect); //needed for canvas support
 	void RedrawZoom();
 	void readProjectFile();
 	void SubsetEncapsulate();
-	void setStatusBarText(CString csText);
+	void setStatusBarText(INXString csText);
 	void toggleMonitoredLine(ConData* pBlob);
 	void startTraceTimer();
 	void stopTraceTimer();
@@ -283,7 +284,7 @@ public:
 	void setLftBtnDownState(const int &val);
 	virtual DROPEFFECT OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, INXPoint point);
 	virtual BOOL OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, INXPoint point);
-	ConData* processComponentDrop(INXPoint point, CString &csIconType, CString &csBlock );
+	ConData* processComponentDrop(INXPoint point, INXString &csIconType, INXString &csBlock );
 	afx_msg void OnRenamePort();
 	afx_msg void OnRenameXport();
 	afx_msg void OnAddToLibrary();

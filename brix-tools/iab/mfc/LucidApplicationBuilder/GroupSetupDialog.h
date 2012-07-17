@@ -7,7 +7,7 @@
 // GroupSetupDialog.h : header file
 //
 #include "Project.h"
-
+#include "Porting_Classes/INXString.h"
 /////////////////////////////////////////////////////////////////////////////
 // CGroupSetupDialog dialog
 
@@ -25,12 +25,12 @@ public:
 
 	// Attributes
 	Project* pProject;
-	CString group;
+	INXString group;
 	UINT groupID;
 
 	// Methods
-	CString ExtractParam();
-	bool GroupInUse(UINT selectedID, CString blockName);
+	INXString ExtractParam();
+	bool GroupInUse(UINT selectedID, INXString blockName);
 
 // Overrides
 	// ClassWizard generated virtual function overrides

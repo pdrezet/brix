@@ -13,6 +13,7 @@
 #include <fstream>
 using namespace std;
 #include "string.h"
+#include "Porting_Classes/INXObjArray.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -86,7 +87,7 @@ Initialise attributes from data held within the file located at the path
 // 'block' is the IDF file name for an encapsulated icon. For an encapsulated icon, the variable 'type' is 
 // 'ENCAPSULATE' (bitmap file name) which is different to the IDF file name. For all other icons it is the same. 
 // Therefore, can't use 'type' to read the IDF for an encapsulated icon.
-void ConData::init(CString csIconType, CString csBlockName, INXPoint point, int iShow) {
+void ConData::init(INXString csIconType, INXString csBlockName, INXPoint point, int iShow) {
 	m_iShow = iShow;
 	m_csIconType = csIconType;
 
@@ -114,7 +115,7 @@ void ConData::init(CString csIconType, CString csBlockName, INXPoint point, int 
 
 void ConData::initBmp(INXPoint _point) 
 {
-	CString bitmappath;
+	INXString bitmappath;
 	CFileOperation fo;
 
 	// don't assume bitmap is in a particular directory, check CDF dir first then IDF
@@ -167,7 +168,7 @@ void ConData::Draw(CDC * theDC, bool _onlyDrawAnim, int _toggleAnim) {
 	INXRect highlightRect;
 	CPen highlightpen;
 	COLORREF oldTxtColor;
-	CString csValue;
+	INXString csValue;
 
 	highlightpen.CreatePen(PS_DASH,1,RGB(0,255,0));
 
@@ -239,19 +240,19 @@ void ConData::Draw(CDC * theDC, bool _onlyDrawAnim, int _toggleAnim) {
 				}
 				if (theDC->IsPrinting()) {
 
-					theDC->TextOut(rectangle.TopLeft().x+15,rectangle.BottomRight().y+23,csValue.Left(13));
+					theDC->TextOut(rectangle.TopLeft().x+15,rectangle.BottomRight().y+23,(CString&)csValue.Left(13));
 				}
 				else {
-					theDC->TextOut(rectangle.TopLeft().x+15,rectangle.BottomRight().y-23,csValue.Left(13));
+					theDC->TextOut(rectangle.TopLeft().x+15,rectangle.BottomRight().y-23,(CString&)csValue.Left(13));
 				}
 			}
 			else if(m_csIconType == "STATE")
 			{
 				if (theDC->IsPrinting()) {
-					theDC->TextOut(rectangle.TopLeft().x+20,rectangle.BottomRight().y+35,iconParam[1]->value.Left(13));
+					theDC->TextOut(rectangle.TopLeft().x+20,rectangle.BottomRight().y+35,(CString&)iconParam[1]->value.Left(13));
 				}
 				else {
-					theDC->TextOut(rectangle.TopLeft().x+20,rectangle.BottomRight().y-35,iconParam[1]->value.Left(13));
+					theDC->TextOut(rectangle.TopLeft().x+20,rectangle.BottomRight().y-35,(CString&)iconParam[1]->value.Left(13));
 				}
 			}
 
@@ -262,15 +263,15 @@ void ConData::Draw(CDC * theDC, bool _onlyDrawAnim, int _toggleAnim) {
 			// printing uses th MM_LOENGLISH mapping mode
 			
 			if (theDC->IsPrinting()) {
-				theDC->TextOut(rectangle.TopLeft().x+7,rectangle.BottomRight().y-1,description.Left(15));
+				theDC->TextOut(rectangle.TopLeft().x+7,rectangle.BottomRight().y-1,(CString&)description.Left(15));
 				if (description.GetLength()>15) {
-					theDC->TextOut(rectangle.TopLeft().x+7,rectangle.BottomRight().y-15,description.Mid(15,15));
+					theDC->TextOut(rectangle.TopLeft().x+7,rectangle.BottomRight().y-15,(CString&)description.Mid(15,15));
 				}
 			}
 			else {
-				theDC->TextOut(rectangle.TopLeft().x+7,rectangle.BottomRight().y+1,description.Left(15));
+				theDC->TextOut(rectangle.TopLeft().x+7,rectangle.BottomRight().y+1,(CString&)description.Left(15));
 				if (description.GetLength()>15) {
-					theDC->TextOut(rectangle.TopLeft().x+7,rectangle.BottomRight().y+15,description.Mid(15,15));
+					theDC->TextOut(rectangle.TopLeft().x+7,rectangle.BottomRight().y+15,(CString&)description.Mid(15,15));
 				}
 			}
 			theDC->SetTextColor(oldTxtColor);
@@ -636,15 +637,15 @@ void ConData::DrawDescription(CDC* theDC) {
 			theDC->SetTextColor(RGB(0,0,255));
 			// printing uses th MM_LOENGLISH mapping mode
 			if (theDC->IsPrinting()) {
-				theDC->TextOut(rectangle.TopLeft().x+7,rectangle.BottomRight().y-1,description.Left(15));
+				theDC->TextOut(rectangle.TopLeft().x+7,rectangle.BottomRight().y-1,(CString&)description.Left(15));
 				if (description.GetLength()>15) {
-					theDC->TextOut(rectangle.TopLeft().x+7,rectangle.BottomRight().y-15,description.Mid(15,15));
+					theDC->TextOut(rectangle.TopLeft().x+7,rectangle.BottomRight().y-15,(CString&)description.Mid(15,15));
 				}
 			}
 			else  {
-				theDC->TextOut(rectangle.TopLeft().x+7,rectangle.BottomRight().y+1,description.Left(15));
+				theDC->TextOut(rectangle.TopLeft().x+7,rectangle.BottomRight().y+1,(CString&)description.Left(15));
 				if (description.GetLength()>15) {
-					theDC->TextOut(rectangle.TopLeft().x+7,rectangle.BottomRight().y+15,description.Mid(15,15));
+					theDC->TextOut(rectangle.TopLeft().x+7,rectangle.BottomRight().y+15,(CString&)description.Mid(15,15));
 				}
 			}
 			theDC->SetTextColor(oldTxtColor);
@@ -698,8 +699,8 @@ void ConData::DrawTitle(CDC* theDC) {
 /*
 		//@todo - only if the display name is set in the CDF, display at bottom of FB, raised as issue #526
 		//if...
-//		CString cropDesc = className.Left(10); // limit name to n chrs
-		CString cropDesc = className;
+//		INXString cropDesc = className.Left(10); // limit name to n chrs
+		INXString cropDesc = className;
 		double nChrDisplaySize = 1.65; // factor to account for font size - for pt8=1, pt12~1.65
 		int nDescLen = cropDesc.GetLength();
 		int nPadding = 25;	// combined left and right padding for text
@@ -742,7 +743,7 @@ int ConData::Load(istream* file)
 	//uniqueidgenerator=1; //reset the global static id counter 
 //	*file >> temp; //read the BEGIN_CONDATA MARKER
 	*file >> temp;
-	m_csIconType = (CString)temp;
+	m_csIconType = (INXString)temp;
 	if(m_csIconType == "") return 1; //file name empty
 	*file >> temp;
 	m_csBlockName = temp;
@@ -851,14 +852,14 @@ void ConData::Save(ostream* file)
 
 
 
-void ConData::readFromIDFFile(CString filepath, INXPoint point) {
-	CString portDesc, csPortType, xCoord, yCoord, csDataType, csAtomicFlag, csPortOrientation, csMandatoryFlag;
-	CString paramName, minRange, maxRange, defaultVal, paramDesc, csUserDef, enumVal, enumLabel;
-	vector<CString> vPortKeysVec;
-	CString port = "Port", param = "Parameter";
-	CString enumValKey = "", enumLabelKey = "";
-	CString portSection = "";
-	CString paramSection = "";
+void ConData::readFromIDFFile(INXString filepath, INXPoint point) {
+	INXString portDesc, csPortType, xCoord, yCoord, csDataType, csAtomicFlag, csPortOrientation, csMandatoryFlag;
+	INXString paramName, minRange, maxRange, defaultVal, paramDesc, csUserDef, enumVal, enumLabel;
+	vector<INXString> vPortKeysVec;
+	INXString port = "Port", param = "Parameter";
+	INXString enumValKey = "", enumLabelKey = "";
+	INXString portSection = "";
+	INXString paramSection = "";
 	int iEquals = 0, iPortNum = 1, iEnumNum = 0;
 	char cPortNum[8], cParamNum[8], cEnumNum[8];
 	int iPortType = -1, iDataType = -1, iAtomicFlag = 1, iMandatoryFlag = 0;
@@ -899,7 +900,7 @@ void ConData::readFromIDFFile(CString filepath, INXPoint point) {
 		// Initialise the function array index for the new port
 		// and create new instances of funcName and funcArg arrays
 		funcInd = 0;
-		funcName = new CStringArray;
+		funcName = new INXObjArray<INXString>;
 		funcArg = new CUIntArray;
 		
 		vPortKeysVec.clear();
@@ -913,7 +914,7 @@ void ConData::readFromIDFFile(CString filepath, INXPoint point) {
 			}
 			else if (vPortKeysVec[i].Find(KEYPORTTYPE) != -1) {
 				csPortType = GetIniValue(portSection, KEYPORTTYPE, filepath);
-				//convert CString to int
+				//convert INXString to int
 				iPortType = portType2Int(csPortType);
 			}
 			else if (vPortKeysVec[i].Find(KEYXCOORD) != -1) {
@@ -998,8 +999,8 @@ void ConData::readFromIDFFile(CString filepath, INXPoint point) {
 		minRange = GetIniValue(paramSection, KEYMINRANGE, filepath);
 		maxRange = GetIniValue(paramSection, KEYMAXRANGE, filepath);
 		// Extract enumerated values and labels and add to an array
-		CStringArray* enumValArr = new CStringArray;
-		CStringArray* enumLabelArr = new CStringArray;
+		INXObjArray<INXString>* enumValArr = new INXObjArray<INXString>;
+		INXObjArray<INXString>* enumLabelArr = new INXObjArray<INXString>;
 		if (iDataType == 1) {
 			// Get values
 			_itoa_s(iEnumNum, cEnumNum, 10);
@@ -1120,7 +1121,7 @@ void ConData::updateFunctionArg(struct definedFunctions *funcs){
 		// offset the arg number of the output ports by the max argument number of the input ports for a given function
 		j = 0;
 		while(funcs[j].funcName) {
-			CString temp(funcs[j].funcName);
+			INXString temp(funcs[j].funcName);
 			for (int k=0; k<outputport[i]->funcName->GetSize(); k++) {
 				if (strcmp(temp, outputport[i]->funcName->GetAt(k)) == 0) {
 					outputport[i]->funcArg->SetAt(k, outputport[i]->funcArg->GetAt(k) + funcs[j].maxInputArg);			
@@ -1133,7 +1134,7 @@ void ConData::updateFunctionArg(struct definedFunctions *funcs){
 		// offset the arg number of the finish ports by the sum of the max argument number of the input and output ports for a given function
 		j = 0;
 		while(funcs[j].funcName) {
-			CString temp(funcs[j].funcName);
+			INXString temp(funcs[j].funcName);
 			for (int k=0; k<finishport[i]->funcName->GetSize(); k++) {
 				if (strcmp(temp, finishport[i]->funcName->GetAt(k)) == 0) {
 					finishport[i]->funcArg->SetAt(k, finishport[i]->funcArg->GetAt(k) + funcs[j].maxInputArg + funcs[j].maxOutputArg);			
@@ -1145,10 +1146,10 @@ void ConData::updateFunctionArg(struct definedFunctions *funcs){
 }
 
 
-void ConData::readFromCDFFile(CString filepath, INXPoint point) {
-	CString csDataType;
-	CString portDesc;
-	CString paramName, minRange, maxRange, defaultVal, paramDesc, csUserDef;
+void ConData::readFromCDFFile(INXString filepath, INXPoint point) {
+	INXString csDataType;
+	INXString portDesc;
+	INXString paramName, minRange, maxRange, defaultVal, paramDesc, csUserDef;
 	int iPortType = -1, iDataType = -1, iAtomicFlag = 1, iMandatoryFlag = 0;
 	UINT x,y;
 	UINT funcInd, iFuncArg;
@@ -1229,8 +1230,8 @@ void ConData::readFromCDFFile(CString filepath, INXPoint point) {
 
 				longDesc = value;
 			} else if ((strcmp(NODE_PARAM_ELEMENT, name) == 0)) {
-				CStringArray* enumValArr = new CStringArray;
-				CStringArray* enumLabelArr = new CStringArray;
+				INXObjArray<INXString>* enumValArr = new INXObjArray<INXString>;
+				INXObjArray<INXString>* enumLabelArr = new INXObjArray<INXString>;
 
 				// read next node
 				ret = xmlTextReaderRead(reader);
@@ -1356,7 +1357,7 @@ void ConData::readFromCDFFile(CString filepath, INXPoint point) {
 				// Initialise the function array index for the new port
 				// and create new instances of funcName and funcArg arrays
 				funcInd = 0;
-				funcName = new CStringArray;
+				funcName = new INXObjArray<INXString>;
 				funcArg = new CUIntArray;
 
 				// read next node
@@ -1485,8 +1486,8 @@ void ConData::readFromCDFFile(CString filepath, INXPoint point) {
 
 // Function that reads an icon's description file (IDF) to establish the graphics
 // and port geometry.
-void ConData::ReadIDFFile(CString csIconType, INXPoint point) {
-	CString filepath;
+void ConData::ReadIDFFile(INXString csIconType, INXPoint point) {
+	INXString filepath;
 	CFileOperation fo;
 	int pos = 0;
 
@@ -1530,8 +1531,8 @@ void ConData::ReadIDFFile(CString csIconType, INXPoint point) {
 }
 
 
-// Function that converts a port type CString to an int
-int ConData::portType2Int(CString str) {
+// Function that converts a port type INXString to an int
+int ConData::portType2Int(INXString str) {
 	if (str == "InputPort") {
 		return INPUTPORT;
 	}
@@ -1552,8 +1553,8 @@ int ConData::portType2Int(CString str) {
 	}
 }
 
-//Function that converts a data type CString to an int
-int ConData::dataType2Int(CString str)
+//Function that converts a data type INXString to an int
+int ConData::dataType2Int(INXString str)
 {
 	if (str == "B") {
 		return 0;
@@ -1600,8 +1601,8 @@ int ConData::In(INXPoint point)  //Is this point in the icon area
 		
 }
 
-void ConData::LoadNewBMP(CString csIconType) {
-	CString bitmappath = csIconType + ".bmp";	
+void ConData::LoadNewBMP(INXString csIconType) {
+	INXString bitmappath = csIconType + ".bmp";	
 	bitmappath = workDir + BMPDIR + bitmappath;
 	INXSize tempSize = bitmap.Init(bitmappath);
 	INXPoint _point = rectangle.TopLeft();
@@ -1631,8 +1632,8 @@ void ConData::ResizeIcon()
 	}
 
 	_itoa_s(p,szPortNum,10);
-	LoadNewBMP("ENCAPSULATE" + (CString)szPortNum );
-	m_csIconType = ("ENCAPSULATE" + (CString)szPortNum );
+	LoadNewBMP("ENCAPSULATE" + (INXString)szPortNum );
+	m_csIconType = ("ENCAPSULATE" + (INXString)szPortNum );
 	repositionVerticalPorts(); //make sure vertical ports stay level with the bottom.
 }
 
@@ -1696,7 +1697,7 @@ INXPoint ConData::CalculateXPortPosition(int iPortType)
 		
 }
 
-CString ConData::BuildXPortString(int iPortType,int iDataType)
+INXString ConData::BuildXPortString(int iPortType,int iDataType)
 {
 
 	if(iPortType == STARTPORT)
@@ -1851,7 +1852,7 @@ bool ConData::isGuiWidget()
 	return ret;
 }
 
-LucidErrEnum ConData::getWidgetTag(CString &csWidgetTag)
+LucidErrEnum ConData::getWidgetTag(INXString &csWidgetTag)
 {
 	LucidErrEnum ret = kErr_NoWidgetTag;
 
@@ -1867,7 +1868,7 @@ LucidErrEnum ConData::getWidgetTag(CString &csWidgetTag)
 }
 
 // Method that gets a widget group name (formerly known as a screen tag)
-LucidErrEnum ConData::getScreenTag(CString &csScreenTag)
+LucidErrEnum ConData::getScreenTag(INXString &csScreenTag)
 {
 	LucidErrEnum ret = kErr_NoScreenTag;
 
@@ -1883,7 +1884,7 @@ LucidErrEnum ConData::getScreenTag(CString &csScreenTag)
 }
 
 // Method that sets a widget group name (formerly known as a screen tag)
-LucidErrEnum ConData::setScreenTag(CString csScreenTag)
+LucidErrEnum ConData::setScreenTag(INXString csScreenTag)
 {
 	LucidErrEnum ret = kErr_NoScreenTag;
 

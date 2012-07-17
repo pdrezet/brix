@@ -7,6 +7,7 @@
 // EditGroupDialog.h : header file
 //
 #include "Project.h"
+#include "Porting_Classes/INXString.h"
 /////////////////////////////////////////////////////////////////////////////
 // CEditGroupDialog dialog
 
@@ -21,7 +22,7 @@ public:
 	enum { IDD = IDD_EDIT_GROUP };
 	int		m_Alloc;
 	int		m_Period;
-	CString	m_Name;
+	INXString	m_Name;
 	//}}AFX_DATA
 
 	Project* pProject;

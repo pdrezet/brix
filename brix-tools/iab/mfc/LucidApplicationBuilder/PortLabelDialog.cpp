@@ -29,7 +29,7 @@ void CPortLabelDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CPortLabelDialog)
-	DDX_Text(pDX, IDC_PORT_EDIT, m_PortLabel);
+	DDX_Text(pDX, IDC_PORT_EDIT, (CString)m_PortLabel);
 	//}}AFX_DATA_MAP
 }
 

@@ -14,10 +14,10 @@ public:
 		push_back(obj);
 	};
 	// get object from a vector
-	T GetAt(unsigned int index){
+	T GetAt(unsigned int index) const{
 		return at(index);
 	};
-	int GetCount(){
+	int GetCount() const{
 		return size();
 	};
 	int GetUpperBound(){
@@ -42,6 +42,9 @@ public:
 			// add the item
 			at(index) = obj;
 		}else at(index) = obj;	
+	};
+	void SetSize(int newSize, int growBy = -1){
+		resize(newSize);
 	};
 	void RemoveAt(unsigned int index){
 		erase(begin() + index);

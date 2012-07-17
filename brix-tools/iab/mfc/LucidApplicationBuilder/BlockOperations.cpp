@@ -5,7 +5,7 @@
 #include "stdafx.h"
 #include "DrawProg.h"
 #include "BlockOperations.h"
-
+#include "Porting_Classes/INXString.h"
 #ifdef _DEBUG
 #undef THIS_FILE
 static char THIS_FILE[]=__FILE__;
@@ -67,7 +67,7 @@ ConData* BlockOperations::GetBlockIconFromID(long id, INXObjList* encapsulated) 
 }
 
 // Loads an encapsulated block into a temporary list
-INXObjList* BlockOperations::LoadBlock(CString Info) {
+INXObjList* BlockOperations::LoadBlock(INXString Info) {
 	ifstream datafile(Info);
 	INXObjList* encapsulated = new INXObjList;
 	char type[256];
@@ -101,7 +101,7 @@ INXObjList* BlockOperations::LoadBlock(CString Info) {
 	}
 	else
 	{
-		CString a;
+		INXString a;
 		a.Format("Can't open file: %s",Info);
 		AfxMessageBox(a);
 
@@ -115,7 +115,7 @@ INXObjList* BlockOperations::LoadBlock(CString Info) {
 	return encapsulated;
 }
 
-INXObjList* BlockOperations::NewBlock(CString Info) {
+INXObjList* BlockOperations::NewBlock(INXString Info) {
 	
 	INXObjList* encapsulated = new INXObjList;
 
@@ -125,7 +125,7 @@ INXObjList* BlockOperations::NewBlock(CString Info) {
 }
 
 // Saves an encapsulated block
-int BlockOperations::SaveBlock(CString Info, INXObjList* encapsulated) {
+int BlockOperations::SaveBlock(INXString Info, INXObjList* encapsulated) {
 	ofstream datafile(Info);
 	//put an error trap
 	ConData *blob;

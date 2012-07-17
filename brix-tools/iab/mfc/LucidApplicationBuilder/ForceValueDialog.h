@@ -6,6 +6,7 @@
 #endif // _MSC_VER > 1000
 // ForceValueDialog.h : header file
 //
+#include "Porting_Classes/INXString.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CForceValueDialog dialog
@@ -19,7 +20,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CForceValueDialog)
 	enum { IDD = IDD_FORCE_VALUE };
-	CString	m_ForceValue;
+	INXString	m_ForceValue;
 	//}}AFX_DATA
 
 	int dataType;

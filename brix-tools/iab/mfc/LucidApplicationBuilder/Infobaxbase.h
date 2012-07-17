@@ -8,6 +8,7 @@
 #if _MSC_VER >= 1000
 #pragma once
 #endif // _MSC_VER >= 1000
+#include "Porting_Classes/INXString.h"
 /*
 
 Note: DeleteMe I am a copy of IconData
@@ -24,12 +25,12 @@ protected:
 	int		negedge;
 	int		plusedge;
 	int wantoption;
-	CString	recorddelim;
-	CString	fielddelim;
-	CString	option2;
-	CString	option1;
-	CString	description;
-	CString	fixedinfo;
+	INXString	recorddelim;
+	INXString	fielddelim;
+	INXString	option2;
+	INXString	option1;
+	INXString	description;
+	INXString	fixedinfo;
 
 //virtual int DoModal();
 

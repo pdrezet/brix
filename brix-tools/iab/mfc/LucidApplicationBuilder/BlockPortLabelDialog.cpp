@@ -9,7 +9,7 @@
 
 IMPLEMENT_DYNAMIC(CBlockPortLabelDialog, CDialog)
 
-CBlockPortLabelDialog::CBlockPortLabelDialog(CString csOldLabel, ConData* pBlock, DEP* pDEP, CWnd* pParent /*=NULL*/)
+CBlockPortLabelDialog::CBlockPortLabelDialog(INXString csOldLabel, ConData* pBlock, DEP* pDEP, CWnd* pParent /*=NULL*/)
 	: CDialog(CBlockPortLabelDialog::IDD, pParent)
 {
 	m_csPortLabel = csOldLabel;
@@ -74,7 +74,7 @@ void CBlockPortLabelDialog::OnOk()
 	}
 }
 
-CString CBlockPortLabelDialog::GetPortLabel()
+INXString CBlockPortLabelDialog::GetPortLabel()
 {
 	return m_csPortLabel;
 }

@@ -32,7 +32,7 @@ bool ProjectMetaData::checkProjectFileData(void)
 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 	bool bGotPlaceHolder = false;
-	CString csDum;
+	INXString csDum;
 	std::vector < ExtPngFile > pngFiles;
 	getPngFiles( pngFiles );
 
@@ -54,7 +54,7 @@ bool ProjectMetaData::checkProjectFileData(void)
 
 	// Get list of all screen tags.
 
-	std::vector < CString > tags;
+	std::vector < INXString > tags;
 	getScreenTags( tags );
 
 	// For each tag, get active layout name, and check it is present.
@@ -100,7 +100,7 @@ void ProjectMetaData::initProjFolderMinder()
 	m_cProjFolderMinder.setProjectRevision( m_iCodeMajorRev, m_iCodeMinorRev );
 }
 
-CString ProjectMetaData::getVersionString(void)
+INXString ProjectMetaData::getVersionString(void)
 {
 	return intToString(m_iCodeMajorRev) + "." + intToString(m_iCodeMinorRev);
 }
@@ -118,12 +118,12 @@ void ProjectMetaData::getVersionInts(void)
 }
 */
 
-LucidErrEnum ProjectMetaData::folderStructureNotOk() //CString csProjectDir
+LucidErrEnum ProjectMetaData::folderStructureNotOk() //INXString csProjectDir
 {
 
 	bool keepGoing = true;
 	CFileOperation fo;
-	CString csMissingFolder;
+	INXString csMissingFolder;
 
 	LucidErrEnum returnErr = kErr_InvalidFolderStructure;
 
@@ -138,7 +138,7 @@ LucidErrEnum ProjectMetaData::folderStructureNotOk() //CString csProjectDir
 
 				if(kErr_NoErr !=m_cProjFolderMinder.moveSodl_1() ){
 
-					CString failDum = "NB. Automatic Update attempted to move SODL folder\nfrom:\n";
+					INXString failDum = "NB. Automatic Update attempted to move SODL folder\nfrom:\n";
 					failDum+= m_csProjectDir;
 					failDum += "\nto\n";
 					failDum += m_csProjectDir + SODLDIR;
@@ -154,7 +154,7 @@ LucidErrEnum ProjectMetaData::folderStructureNotOk() //CString csProjectDir
 
 				if(kErr_NoErr !=m_cProjFolderMinder.moveExports_1() ){
 
-					CString failDum = "NB. Automatic Update attempted to move exports folder\nfrom:\n";
+					INXString failDum = "NB. Automatic Update attempted to move exports folder\nfrom:\n";
 					failDum+= m_csProjectDir;
 					failDum += "\nto\n";
 					failDum += m_csProjectDir + EXPORTDIR;
@@ -170,7 +170,7 @@ LucidErrEnum ProjectMetaData::folderStructureNotOk() //CString csProjectDir
 
 				if(kErr_NoErr !=m_cProjFolderMinder.createTemp() ){
 
-					CString failDum = "NB. Automatic Update attempted to move exports folder\nfrom:\n";
+					INXString failDum = "NB. Automatic Update attempted to move exports folder\nfrom:\n";
 					failDum+= m_csProjectDir;
 					failDum += "\nto\n";
 					failDum += m_csProjectDir + EXPORTDIR;
@@ -186,7 +186,7 @@ LucidErrEnum ProjectMetaData::folderStructureNotOk() //CString csProjectDir
 
 				if(kErr_NoErr !=m_cProjFolderMinder.createLgbTemp() ){
 
-					CString failDum = "NB. Automatic Update attempted to move exports folder\nfrom:\n";
+					INXString failDum = "NB. Automatic Update attempted to move exports folder\nfrom:\n";
 					failDum+= m_csProjectDir;
 					failDum += "\nto\n";
 					failDum += m_csProjectDir + EXPORTDIR;
@@ -200,7 +200,7 @@ LucidErrEnum ProjectMetaData::folderStructureNotOk() //CString csProjectDir
 			} else if( NLSDIR == csMissingFolder ){
 				if (kErr_NoErr != m_cProjFolderMinder.CreateNlsDir()) {
 
-					CString failDum = "NB. Automatic Update attempted to create NLS folder in:\n";
+					INXString failDum = "NB. Automatic Update attempted to create NLS folder in:\n";
 					failDum += m_csProjectDir + NLSDIR;
 					failDum += ".\nThis action failed:\nSeek support from nCapsa";
 
@@ -211,7 +211,7 @@ LucidErrEnum ProjectMetaData::folderStructureNotOk() //CString csProjectDir
 			} else if( RESOURCEDIR == csMissingFolder ){
 				if (kErr_NoErr != m_cProjFolderMinder.CreateResourceDir()) {
 
-					CString failDum = "NB. Automatic Update attempted to create Resource folder in:\n";
+					INXString failDum = "NB. Automatic Update attempted to create Resource folder in:\n";
 					failDum += m_csProjectDir + RESOURCEDIR;
 					failDum += ".\nThis action failed:\nSeek support from nCapsa";
 
@@ -250,22 +250,22 @@ void ProjectMetaData::copyDummyBmp()
 
 	try {
 
-		CString installnDir;
+		INXString installnDir;
 		CLabLgbBaseApp *baseApp = (CLabLgbBaseApp *) AfxGetApp();
 		baseApp->GetInstallationBaseDir(installnDir);
 
-		CString sourceDir = installnDir + IMAGEDIR;
-		CString sourceFile = ICON_PLACEHOLDER_FILE;
+		INXString sourceDir = installnDir + IMAGEDIR;
+		INXString sourceFile = ICON_PLACEHOLDER_FILE;
 
 		if( fileOp.CheckPath( sourceDir + sourceFile) != PATH_IS_FILE  ){
 			AfxMessageBox( "Problem with provision of installation 'placeholder' file - seek assistance!" );
 			assert(1==0);
 		}
 
-		CString destDir;
+		INXString destDir;
 		getProjectDir(destDir);
 		destDir += GUIDIR;
-		CString destFile = ICON_PLACEHOLDER_FILE;
+		INXString destFile = ICON_PLACEHOLDER_FILE;
 
 
 		if( fileOp.CheckPath( destDir + destFile) != PATH_IS_FILE  ){
@@ -275,7 +275,7 @@ void ProjectMetaData::copyDummyBmp()
 	}catch ( CFExeption(sError)  ){
 
 		// For some reason, this catch doesn' work, as the handling of the exception's
-		// cstring thows its own exception.
+		// INXString thows its own exception.
 
 		AfxMessageBox( "Problem with 'placeholder' bitmap - seek assistance!" );
 		assert(1==0);

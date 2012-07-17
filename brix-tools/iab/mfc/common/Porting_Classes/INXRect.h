@@ -33,7 +33,6 @@ public:
 		CPoint _cpoint(x,y);
 		return _cpoint;
 	};
-	
 	operator LPPOINT(){
 		_point.x = x;
 		_point.y = y;
@@ -128,16 +127,6 @@ public:
 				_rect.bottom = bottom;
 		#endif
 	};
-	/*INXRect(INXRect &rect){
-		x = rect.left;
-		y = rect.top;
-		width = abs(rect.right - x);
-		height = abs(rect.bottom - y);
-		left = rect.left;
-		top = rect.top;
-		right = rect.right;
-		bottom = rect.bottom;
-	};*/
 	INXRect(LPCRECT lpRect){
 		left = lpRect->left;
 		top = lpRect->top;

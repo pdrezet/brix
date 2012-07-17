@@ -29,7 +29,7 @@ void CInstanceNameDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CInstanceNameDialog)
-	DDX_Text(pDX, IDC_INSTANCE_EDIT, m_InstanceName);
+	DDX_Text(pDX, IDC_INSTANCE_EDIT, (CString)m_InstanceName);
 	//}}AFX_DATA_MAP
 }
 

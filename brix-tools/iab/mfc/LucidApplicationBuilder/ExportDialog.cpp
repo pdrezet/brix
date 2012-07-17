@@ -54,7 +54,7 @@ BOOL CExportDialog::OnInitDialog()
 	
 	// TODO: Add extra initialization here
 	CFileFind finder;
-	CString fileName;
+	INXString fileName;
 	int bWorking = finder.FindFile(workDir + USERDEFDIR + "*.prg");
 	
 	// read in ini files and construct menu tree
@@ -75,17 +75,17 @@ BOOL CExportDialog::OnInitDialog()
 
 void CExportDialog::OnOK() 
 {
-	CString lib, exDir;
+	INXString lib, exDir;
 	CFileOperation fo;
 
 	// TODO: Add extra validation here
 	// Copy selected libraries from userdefined to export
-	exDir = (CString)workDir + EXPORTDIR;
+	exDir = (INXString)workDir + EXPORTDIR;
 	fo.SetOverwriteMode(true); // set OverwriteMode flag
 	fo.Delete(exDir);
 	CreateDirectory(exDir, NULL);
 	for (int i=0; i<m_Export.GetCount(); i++) {
-		m_Export.GetText(i, lib);
+		m_Export.GetText(i, (CString)lib);
 		fo.Copy(workDir + USERDEFDIR + lib + ".prg", exDir);
 		fo.Copy(workDir + USERDEFDIR + lib, exDir);
 		fo.Copy(workDir + USERDEFDIR + lib + ".idf.ini", exDir);
@@ -97,7 +97,7 @@ void CExportDialog::OnOK()
 // Add a library component to the export list
 void CExportDialog::OnAdd() 
 {
-	CString lib;
+	INXString lib;
 
 	int index = m_Library.GetCurSel();
 	if (index == LB_ERR) {
@@ -107,8 +107,8 @@ void CExportDialog::OnAdd()
 		AfxMessageBox("The library component selected is already in the export list.");
 	}
 	else {
-		m_Library.GetText(index, lib);	
-		m_Export.AddString(lib);
+		m_Library.GetText(index, (CString)lib);	
+		m_Export.AddString((CString)lib);
 	}
 }	
 
@@ -125,11 +125,11 @@ void CExportDialog::OnDelete()
 
 // returns true if the selected library component is already in the export list
 bool CExportDialog::ExportExist(int index) {
-	CString lib, exportLib;
+	INXString lib, exportLib;
 
-	m_Library.GetText(index, lib);
+	m_Library.GetText(index, (CString)lib);
 	for (int i=0; i<m_Export.GetCount(); i++) {
-		m_Export.GetText(i, exportLib);
+		m_Export.GetText(i, (CString)exportLib);
 		if (lib == exportLib) {
 			return TRUE;
 		}

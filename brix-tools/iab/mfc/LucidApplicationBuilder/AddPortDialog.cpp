@@ -31,7 +31,7 @@ void CAddPortDialog::DoDataExchange(CDataExchange* pDX)
 	//{{AFX_DATA_MAP(CAddPortDialog)
 	DDX_Control(pDX, IDC_DATA_TYPE, m_DataType);
 	DDX_Control(pDX, IDC_PORT_TYPE, m_PortType);
-	DDX_Text(pDX, IDC_PORT_EDIT, m_PortLabel);
+	DDX_Text(pDX, IDC_PORT_EDIT, (CString)m_PortLabel);
 	//}}AFX_DATA_MAP
 }
 

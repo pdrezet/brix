@@ -71,11 +71,11 @@ void FTPOptions::SaveFTPOptions()
 }
 
 // Function that gets the data from an ini file by specifying the section and key
-CString FTPOptions::GetIniString(CString section, CString key, CString iniFile) 
+INXString FTPOptions::GetIniString(INXString section, INXString key, INXString iniFile) 
 {
 	char szDestBuff[256]={'\0'};
 	LPTSTR pDestBuff = &szDestBuff[0];
-	CString csDestBuff = "";
+	INXString csDestBuff = "";
 	char szDefault[]={""};
 
 	GetPrivateProfileString(section, key, szDefault, szDestBuff, sizeof(szDestBuff), iniFile);

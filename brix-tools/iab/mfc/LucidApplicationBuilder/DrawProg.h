@@ -18,6 +18,7 @@
 #include "../common/LabLgbBaseApp.h"
 //#include "TransferAppDialog.h"
 #include "TgtTransProgDlog.h"
+#include "Porting_Classes/INXString.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CDrawProgApp:
@@ -40,8 +41,8 @@ public:
 	void CloseUserDefDoc(HTREEITEM hItem);
 	bool IsModified(Project* pProject);
 	int GetOrientation();
-	void CreateProjectFile(CString ProjectDir, CString ProjectName);
-	//void addProjectToMRUList(CString csProjectPathName); Now moved to parent class so LGB can use it.
+	void CreateProjectFile(INXString ProjectDir, INXString ProjectName);
+	//void addProjectToMRUList(INXString csProjectPathName); Now moved to parent class so LGB can use it.
 	
 // Overrides
 	// ClassWizard generated virtual function overrides

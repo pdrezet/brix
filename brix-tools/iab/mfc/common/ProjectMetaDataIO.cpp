@@ -21,6 +21,7 @@
 #include "libxml/xmlreader.h"
 #include <sys/stat.h>
 
+
 #define APPINFO_ROOT "root"
 #define APPINFO_CANONICAL_NAME "Name"
 #define APPINFO_COMMERCIAL_NAME "CommercialName"
@@ -40,7 +41,7 @@ LucidErrEnum ProjectMetaData::readProjectFile()
 
 	}else{
 
-		CString dummyCs = "";
+		INXString dummyCs = "";
 		getFullPathProjectFile(dummyCs);
 		LucidErrEnum err = readProjectFile( dummyCs );
 
@@ -61,7 +62,7 @@ void ProjectMetaData::initProjFolderMinder()
 	m_cProjFolderMinder.setProjectRevision( m_iCodeMajorRev, m_iCodeMinorRev );
 }
 
-CString ProjectMetaData::getVersionString(void)
+INXString ProjectMetaData::getVersionString(void)
 {
 	return intToString(m_iCodeMajorRev) + "." + intToString(m_iCodeMinorRev);
 }
@@ -88,7 +89,7 @@ LucidErrEnum ProjectMetaData::readProjectDescriptionFile()
 	int ret = 0;
 	bool foundFile = false;
 
-	CString infoFilePath = m_csProjectDir + APP_DESC_DIR + APP_DESC_FILE;
+	INXString infoFilePath = m_csProjectDir + APP_DESC_DIR + APP_DESC_FILE;
 
 	if (m_csProjectAppCanonicalName == "")
 		m_csProjectAppCanonicalName = m_csProjectName;
@@ -169,7 +170,7 @@ LucidErrEnum ProjectMetaData::writeProjectDescriptionFile()
 	errno_t error;		
 	CFileOperation fo;
 
-	CString infoFilePath = m_csProjectDir + APP_DESC_DIR + APP_DESC_FILE;
+	INXString infoFilePath = m_csProjectDir + APP_DESC_DIR + APP_DESC_FILE;
 
 	// Create a new 'description' folder in the right place, if necessary
 	if( PATH_NOT_FOUND == fo.CheckPath( m_csProjectDir + APP_DESC_DIR )){
@@ -193,7 +194,7 @@ LucidErrEnum ProjectMetaData::writeProjectDescriptionFile()
 	return kErr_NoErr;
 }
 
-LucidErrEnum ProjectMetaData::readProjectFile( CString csProjectPathName )
+LucidErrEnum ProjectMetaData::readProjectFile( INXString csProjectPathName )
 {
 
 	//@todo - this is called twice when a project is opened!!
@@ -207,11 +208,11 @@ LucidErrEnum ProjectMetaData::readProjectFile( CString csProjectPathName )
 	ifstream projectfile(csProjectPathName);
 	char type[WORK_DIR_SIZE] = {'\0'};
 	CMarkup xml;
-	CString csXML, csWidgetTag, csScreenTag, csTmpProjectDir;
+	INXString csXML, csWidgetTag, csScreenTag, csTmpProjectDir;
 	Group groupObj;
 
 	if (projectfile.fail()) {
-		CString dummy = "Unable to open project file.";
+		INXString dummy = "Unable to open project file.";
 		dummy += csProjectPathName;
 		AfxMessageBox(dummy);
 		return kErr_ProjectFileNotRead;
@@ -258,7 +259,7 @@ LucidErrEnum ProjectMetaData::readProjectFile( CString csProjectPathName )
 	m_csProjectName = xml.GetData();
 
 	xml.FindElem("LastTransferToTarget");
-	CString dummyTS = xml.GetData();
+	INXString dummyTS = xml.GetData();
 
 	// handle case where ts isn't present
 	if( dummyTS == m_csProjectName)
@@ -477,7 +478,7 @@ LucidErrEnum ProjectMetaData::readProjectFile( CString csProjectPathName )
 
 		if(xml.FindChildElem("ActiveHostLayout") ){
 
-			CString dummy = xml.GetChildData();	
+			INXString dummy = xml.GetChildData();	
 			suppData.activeHostFilename = dummy;
 
 		}else{
@@ -514,7 +515,7 @@ LucidErrEnum ProjectMetaData::readProjectFile( CString csProjectPathName )
 	xml.IntoElem();
 
 	xml.FindElem("NumberOfHighestGuiFile");
-	CString dum = xml.GetData();
+	INXString dum = xml.GetData();
 	m_iLastGuiFileAddedKey = atoi(dum);
 
 	xml.FindElem("NumberOfHighestPngFile");
@@ -542,8 +543,8 @@ LucidErrEnum ProjectMetaData::readProjectFile( CString csProjectPathName )
 
 	LccPmdXfers::TypesEnum dummy = LccPmdXfers::kData; // LccPmdXfers::kData;
 
-	CString csHostFileName;
-	CString csTargetFileName;
+	INXString csHostFileName;
+	INXString csTargetFileName;
 
 	xml.FindElem("DataFileSet");
 	while ( xml.FindChildElem("Location") )
@@ -625,12 +626,12 @@ LucidErrEnum ProjectMetaData::readProjectFile( CString csProjectPathName )
 LucidErrEnum ProjectMetaData::writeProjectFile()
 {
     assert(m_bLocked);
-	CString csProjectPathName = m_csProjectDir + "\\" + m_csProjectName + PROJECTEXT;
+	INXString csProjectPathName = m_csProjectDir + "\\" + m_csProjectName + PROJECTEXT;
 	return writeProjectFileAs(csProjectPathName);
 }
 
 // writes the project file to a specific path name
-LucidErrEnum ProjectMetaData::writeProjectFileAs(CString csProjectPathName)
+LucidErrEnum ProjectMetaData::writeProjectFileAs(INXString csProjectPathName)
 {
 
 	// don't assert m_bLocked, as this api is called mainly for writing the 'undo' versions.
@@ -640,7 +641,7 @@ LucidErrEnum ProjectMetaData::writeProjectFileAs(CString csProjectPathName)
 		char csID[8] = {'\0'};
 		char csPeriod[8] = {'\0'};
 		char csAlloc[8] ={'\0'};
-		CString csExtFileName, csWidgetTag, csScreenTag;
+		INXString csExtFileName, csWidgetTag, csScreenTag;
 		ofstream projectfile(csProjectPathName);
 
 		// put an error trap
@@ -684,7 +685,7 @@ LucidErrEnum ProjectMetaData::writeProjectFileAs(CString csProjectPathName)
 	// Add gui files
 	//-----------------------------------
 
-		CString cstr;
+		INXString cstr;
 
 		xml.AddChildElem("GuiFileSet");
 		xml.IntoElem();
@@ -874,13 +875,13 @@ LucidErrEnum ProjectMetaData::writeProjectFileAs(CString csProjectPathName)
 
 		if(m_mapScreenTagProjMetas.size() > 0){
 
-			pair<CString, TagProjMetaSupportData_t> *pPair = NULL;
+			pair<INXString, TagProjMetaSupportData_t> *pPair = NULL;
 
 			ScreenProjMetaMapIt_t it = m_mapScreenTagProjMetas.begin();
 
 			while (it != m_mapScreenTagProjMetas.end()){
 
-				pPair = (pair<CString, TagProjMetaSupportData_t> *) &(*it);
+				pPair = (pair<INXString, TagProjMetaSupportData_t> *) &(*it);
 
 				xml.AddChildElem("Screen");
 					xml.IntoElem();
@@ -1047,8 +1048,8 @@ LucidErrEnum ProjectMetaData::writeProjectFileAs(CString csProjectPathName)
 
 		xml.OutOfElem(); // LucidProject
 
-		CString csXML = xml.GetDoc();
-		projectfile << csXML;
+		INXString csXML = xml.GetDoc();
+		projectfile << (CString)csXML;
 		projectfile.close();
 
 		//releaseLock();

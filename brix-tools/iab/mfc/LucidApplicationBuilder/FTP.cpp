@@ -28,7 +28,7 @@ FTP::~FTP()
 
 // Function that connects to a server
 CFtpConnection* FTP::ftpConnect(LPCSTR server, LPCSTR username, LPCSTR password) {
-	CString IDS_EXCEPTION = "An exception occurred when attempting to create an FTP connection.";
+	INXString IDS_EXCEPTION = "An exception occurred when attempting to create an FTP connection.";
 	CFtpConnection* pConn = NULL;
 	try
 	{

@@ -14,22 +14,24 @@
 #include "LucidConstants.h"
 #include "LucidString.h"
 #include "Porting_Classes/INXRect.h"
+#include "Porting_Classes/INXString.h"
+#include "Porting_Classes/INXObjArray.h"
 
 
 class Port  : public CObject
 {
 public:
 	Port(int _userdefined); 
-	Port(INXPoint _P, UINT _portNum, int _dataType, int _portType, CString _description, CStringArray* _funcName, CUIntArray* _funcArg, int _atomicFlag, bool bVerticalIn, int _userdefined, int _mandatoryFlag);
-	Port(UINT _portNum, int _portType, CStringArray* _funcName, CUIntArray* _funcArg, int _atomicFlag);
+	Port(INXPoint _P, UINT _portNum, int _dataType, int _portType, INXString _description, INXObjArray<INXString>* _funcName, CUIntArray* _funcArg, int _atomicFlag, bool bVerticalIn, int _userdefined, int _mandatoryFlag);
+	Port(UINT _portNum, int _portType, INXObjArray<INXString>* _funcName, CUIntArray* _funcArg, int _atomicFlag);
 	virtual ~Port();
 	INXPoint P;   // position
 	int porttype;   //0 input, 1 output, 2 Trig input, 3 Trig output
 	bool bPortVertical;
 	int datatype;   //0 bool, 1 int, 2 float, 3 string 
 	int portNum; // port number
-	CString description;
-	CStringArray* funcName;
+	INXString description;
+	INXObjArray<INXString>* funcName;
 	CUIntArray* funcArg;
 	int connected;
 	IconLines line; //this is the input line (one only allowed)
@@ -51,7 +53,7 @@ public:
 	INXRect rectangle;
 	int atomicFlag;
 	bool mandatoryFlag;
-	CString tag;
+	INXString tag;
 	UINT groupID;
 	int userdefined;
 	//nb - DEP::swapPortData() copies all the data from one por to another SO if add more attributes here, be sure to include it in this method - there is a bug raised to improve this architecture

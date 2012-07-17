@@ -248,7 +248,7 @@ void CScreenTagDialog::updateDisplayWithUnderlyingData()
 		dummySSD.useCount = intToString(-1);
 
 		pair<CString, ScreenMgrSupportData_t> pr("", dummySSD);
-		map<CString, ScreenMgrSupportData_t>::const_iterator it;
+		map<INXString, ScreenMgrSupportData_t>::const_iterator it;
 
 		it = m_TagDescrMap.begin();
 
@@ -313,8 +313,8 @@ void CScreenTagDialog::OnBnClickedScrntagEditdescripBt()
 
 		// get current tag and descrip from dialog.
 		// NB. The key is the screen tag itself.
-		m_ctlTagList.GetText( selPos, tagAndDescr.tag );
-		m_ctlDescrList.GetText( selPos, tagAndDescr.tagDescr );
+		m_ctlTagList.GetText( selPos, (CString)tagAndDescr.tag );
+		m_ctlDescrList.GetText( selPos, (CString)tagAndDescr.tagDescr );
 
 		// Start new dlog with these values loaded.
 		CScreenTagDescripEditor dlog( tagAndDescr );

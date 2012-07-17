@@ -73,7 +73,7 @@ BOOL CDrawProgApp::SetWorkDirGlobal(char * workDir)
 		return FALSE;
 	}
 
-	CString baseDir;
+	INXString baseDir;
 	GetInstallationBaseDir(baseDir);
 	strcpy_s( workDir, WORK_DIR_SIZE, baseDir );
 	return TRUE;
@@ -323,7 +323,7 @@ void CDrawProgApp::OnUpdateReloadEhs(CCmdUI* pCmdUI)
 }
 
 /*
-void CDrawProgApp::AddXPort(CString projectName, CString xport, CString portLabel, INXPoint point ) {
+void CDrawProgApp::AddXPort(INXString projectName, INXString xport, INXString portLabel, INXPoint point ) {
 	POSITION pos, viewPos, iconPos;
 	ConData* blob;
 
@@ -395,7 +395,7 @@ void CDrawProgApp::OnOpenProject()
 
 CDocument* CDrawProgApp::OpenProject(ProjectMetaData* pProjMData)
 {
-	CString csProjectDir, csProjectName, csProjectPathName;
+	INXString csProjectDir, csProjectName, csProjectPathName;
 	Project* pProject;
 	CFileOperation fo;
 	bool bLockReleased = false;
@@ -452,20 +452,20 @@ CDocument* CDrawProgApp::OpenProject(ProjectMetaData* pProjMData)
 	// Add project to MRU file list
 	for(int i=0;i < this->m_pRecentFileList->GetSize();i++)
 	{
-		CString strFileName(this->m_pRecentFileList->m_arrNames[i]);
+		INXString strFileName(this->m_pRecentFileList->m_arrNames[i]);
 	}
 	this->m_pRecentFileList->Add(csProjectPathName);
 	//this->m_pRecentFileList->WriteList();
 	for(int i=0;i < this->m_pRecentFileList->GetSize();i++)
 	{
-		CString strFileName(this->m_pRecentFileList->m_arrNames[i]);
+		INXString strFileName(this->m_pRecentFileList->m_arrNames[i]);
 	}
 	return Subsystem;
 }
 
 CDocument* CDrawProgApp::OpenDocumentFile(LPCTSTR lpszFileName)
 {
-	CString ext = lpszFileName;
+	INXString ext = lpszFileName;
 	ext = ext.Right(4);
 	// This function is called by MRU file list which is now a project file
 	if (ext == ".prg") {
@@ -473,7 +473,7 @@ CDocument* CDrawProgApp::OpenDocumentFile(LPCTSTR lpszFileName)
 		// Remove .prg from MRU file list
 		for(int i=0;i < this->m_pRecentFileList->GetSize();i++)
 		{
-			CString strFileName(this->m_pRecentFileList->m_arrNames[i]);
+			INXString strFileName(this->m_pRecentFileList->m_arrNames[i]);
 			if (strFileName.Right(4) == ".prg") {
 				this->m_pRecentFileList->Remove(i);
 			}
@@ -482,8 +482,8 @@ CDocument* CDrawProgApp::OpenDocumentFile(LPCTSTR lpszFileName)
 	}
 	else if (ext == ".lpj") {
 
-		CString pathName = ((CString)lpszFileName) + "\\..";
-		ProjectMetaData* pProjMData = new ProjectMetaData(pathName);
+		INXString pathName = ((INXString)lpszFileName) + "\\..";
+		ProjectMetaData* pProjMData = new ProjectMetaData((CString)pathName);
 
 		if(!pProjMData->getLock()){
 

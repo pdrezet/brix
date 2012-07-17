@@ -31,7 +31,7 @@ LucidErrEnum ExtTransferableFile::setTargetFileName(const int &fileStemNumber)
 	cStr1 = buffer;
 
 	// Now build up to the actual target filename
-	cStr1 = m_csFilePrefix + cStr1 + m_csFileExtension;	
+	cStr1 = m_csFilePrefix + (INXString)cStr1 + m_csFileExtension;	
 	m_csTargetFileName = cStr1;
 	return kErr_NoErr;
 }

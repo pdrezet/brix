@@ -53,7 +53,7 @@ CLabLgbBaseApp::CLabLgbBaseApp(void)
 
 
 	// set the current working directory - needed by WINE to start EHS using shellExecute
-	CString baseDir;
+	INXString baseDir;
 	CLabLgbBaseApp *pApp = ( CLabLgbBaseApp * ) AfxGetApp();
 	pApp->GetInstallationBaseDir(baseDir);	//base dir is something like C:/Program Files/inx/tools (whereever the iab exe is being run from)
 	SetCurrentDirectory(baseDir);
@@ -61,7 +61,7 @@ CLabLgbBaseApp::CLabLgbBaseApp(void)
 
 
 	// determine which OS we are installed in - windows or linux
-	CString testPath = "/etc";	//this can be any file that is always found on a linux system
+	INXString testPath = "/etc";	//this can be any file that is always found on a linux system
 	isInstalledInWindows = false;			
 
 	struct stat xFileInfo;
@@ -100,7 +100,7 @@ double CLabLgbBaseApp::MyGetFreeDiskSpaceMB()
 	ULARGE_INTEGER totalFreeBytes;
 	BOOL succ = false;
 
-	CString baseDir;
+	INXString baseDir;
 	GetInstallationBaseDir(baseDir);	//base dir is where the inx exe is being run from
 
 	succ = GetDiskFreeSpaceEx(baseDir, &freeBytes, &totalBytes, &totalFreeBytes);
@@ -109,13 +109,13 @@ double CLabLgbBaseApp::MyGetFreeDiskSpaceMB()
 	dUserFreeSpace *= (double) freeBytes.QuadPart;
 
 /*
-	CString strValue,strInt, strDecimal;
+	INXString strValue,strInt, strDecimal;
 	int decimal,sign;
 	strValue = _fcvt(dUserFreeSpace,3,&decimal,&sign); 
 	strInt = strValue.Left(decimal); // strInt contains 4
 	strDecimal = strValue.Mid(decimal); // strDecimal contains 125
 
-	CString strFinalVal;
+	INXString strFinalVal;
 	strFinalVal.Format("%s.%s",strInt,strDecimal);
 	AfxMessageBox("user free MB: " + strFinalVal);
 */
@@ -145,10 +145,10 @@ void CLabLgbBaseApp::getEHSParamsFromFile()
 	xmlTextReaderPtr reader;
 	int ret = 0;
 
-	CString baseDir;
+	INXString baseDir;
 	GetInstallationBaseDir(baseDir);	//base dir is where the inx exe is being run from
 
-	CString csEHSParamFilePath = baseDir;
+	INXString csEHSParamFilePath = baseDir;
 	if (isInstalledInWindows) {
 		csEHSParamFilePath += EHS_WIN_VAR_DIR;
 	} else { /* assume windows, in which case we need to check EHS's install directory */
@@ -279,7 +279,7 @@ BOOL CLabLgbBaseApp::CheckExecutableFolderContextIsOk()
 
 	BOOL retVal = false;
 
-	CString baseDir;
+	INXString baseDir;
 	GetInstallationBaseDir(baseDir);
 
 	CFileOperation fo;
@@ -287,7 +287,7 @@ BOOL CLabLgbBaseApp::CheckExecutableFolderContextIsOk()
 	// Check various 'child' folders are present, otherwise the app won't
 	// find bitmaps etc and will fail.
 
-	// For some reason, the const CStrings defining these 
+	// For some reason, the const INXStrings defining these 
 	// in LucidConstants.h haven't been set
 	// at this point!
 
@@ -305,7 +305,7 @@ BOOL CLabLgbBaseApp::CheckExecutableFolderContextIsOk()
 }
 
 
-BOOL CLabLgbBaseApp::GetInstallationBaseDir( CString &installationBaseDir ) 
+BOOL CLabLgbBaseApp::GetInstallationBaseDir( INXString &installationBaseDir ) 
 {
 
 	//TCHAR test1[PATHBUFFER_SIZE];
@@ -317,7 +317,7 @@ BOOL CLabLgbBaseApp::GetInstallationBaseDir( CString &installationBaseDir )
 	// MR
 	//GetCurrentDirectory( PATHBUFFER_SIZE, test1 );
 
-	CString choppable;
+	INXString choppable;
 	GetExecutableName( choppable); // Should now have full path to LucidDiddlyDo.exe file.
 
 	int dumPos = choppable.Find( "\\bin" );
@@ -337,7 +337,7 @@ BOOL CLabLgbBaseApp::GetInstallationBaseDir( CString &installationBaseDir )
 
 }
 
-void CLabLgbBaseApp::GetExecutableName(CString & execName)
+void CLabLgbBaseApp::GetExecutableName(INXString & execName)
 {
 
 	LPTSTR test1 = GetCommandLine();
@@ -350,12 +350,12 @@ void CLabLgbBaseApp::GetExecutableName(CString & execName)
 	}
 
 	// remove all trailing quotes and white spaces:
-	execName = execName.MakeReverse();
+	execName.MakeReverse();
 	while( execName.FindOneOf(" \"") == 0 ){
 		execName = execName.Right(execName.GetLength()-1);
 	}
 
-	execName = execName.MakeReverse();
+	execName.MakeReverse();
 
 	// Now detect whether there is just one arg, or more than one, and strip off the
 	// trailing args if present.
@@ -375,8 +375,8 @@ LucidErrEnum CLabLgbBaseApp::openDocInBackground(
 				   const LucidManualsEnum manualTypeEnum )
 {
 
-	CString appExecName = "";
-	CString docToBeOpened = "";
+	INXString appExecName = "";
+	INXString docToBeOpened = "";
 
 	if(manualTypeEnum == kLgbRefManual){
 
@@ -413,12 +413,12 @@ LucidErrEnum CLabLgbBaseApp::openDocInBackground(
 */
 
 
-	CString baseDir = "";
+	INXString baseDir = "";
 
 
 	GetInstallationBaseDir(baseDir);
 
-	CString fullManualFilePath = baseDir + MANUALSDIR + docToBeOpened;
+	INXString fullManualFilePath = baseDir + MANUALSDIR + docToBeOpened;
 	fullManualFilePath = cloneBackSlashes( fullManualFilePath );
 
 	// Put proj file in quotes so a path with a spaces gets treated as a single arg.
@@ -437,11 +437,11 @@ LucidErrEnum CLabLgbBaseApp::openDocInBackground(
 	return kErr_NoErr;
 }
 
-void CLabLgbBaseApp::addProjectToMRUList(CString csProjectPathName)
+void CLabLgbBaseApp::addProjectToMRUList(INXString csProjectPathName)
 {
 	// Remove .prg from MRU file list
 	for(int i=0;i < this->m_pRecentFileList->GetSize();i++)	{
-		CString strFileName(this->m_pRecentFileList->m_arrNames[i]);
+		INXString strFileName(this->m_pRecentFileList->m_arrNames[i]);
 		if (strFileName.Right(4) != ".lpj") {
 			this->m_pRecentFileList->Remove(i);
 		}
@@ -450,7 +450,7 @@ void CLabLgbBaseApp::addProjectToMRUList(CString csProjectPathName)
 	this->m_pRecentFileList->Add(csProjectPathName);
 }
 
-LucidErrEnum CLabLgbBaseApp::getActiveImages(ProjectMetaData *pProjMetaData, std::set< CString > &vImageNames )
+LucidErrEnum CLabLgbBaseApp::getActiveImages(ProjectMetaData *pProjMetaData, std::set< INXString > &vImageNames )
 { 
 
 	if( pProjMetaData->projectIsSet() ){
@@ -461,14 +461,14 @@ LucidErrEnum CLabLgbBaseApp::getActiveImages(ProjectMetaData *pProjMetaData, std
 			//pProjMetaData->readProjectFile();
 
 			LucidErrEnum err;
-			CString layoutHostStub;
-			CString fileName;
+			INXString layoutHostStub;
+			INXString fileName;
 
-			std::set<CString> vLayoutNames;
+			std::set<INXString> vLayoutNames;
 
 			pProjMetaData->getActiveLayouts( vLayoutNames );
 
-			std::set<CString>::iterator it = vLayoutNames.begin();
+			std::set<INXString>::iterator it = vLayoutNames.begin();
 
 			while(it != vLayoutNames.end() ){
 
@@ -495,18 +495,18 @@ LucidErrEnum CLabLgbBaseApp::getActiveImages(ProjectMetaData *pProjMetaData, std
 
 }
 
-LucidErrEnum CLabLgbBaseApp::getActiveFonts(ProjectMetaData *pProjMetaData, std::set< CString > &vFontNames )
+LucidErrEnum CLabLgbBaseApp::getActiveFonts(ProjectMetaData *pProjMetaData, std::set< INXString > &vFontNames )
 { 
 	if( pProjMetaData->projectIsSet() ){
 			LucidErrEnum err;
-			CString layoutHostStub;
-			CString fileName;
+			INXString layoutHostStub;
+			INXString fileName;
 
-			std::set<CString> vLayoutNames;
+			std::set<INXString> vLayoutNames;
 			pProjMetaData->getActiveLayouts( vLayoutNames );
 
 			// iterate through GUI layouts, parse each layout for fonts used
-			std::set<CString>::iterator it = vLayoutNames.begin();
+			std::set<INXString>::iterator it = vLayoutNames.begin();
 			while(it != vLayoutNames.end() ){
 				err = pProjMetaData->getProjectDir(fileName);
 				fileName += GUIDIR + *it + ".gui";
@@ -529,7 +529,7 @@ LucidErrEnum CLabLgbBaseApp::getActiveFonts(ProjectMetaData *pProjMetaData, std:
 
 bool gbUpdatedOnly;
 int giFilesToBeTransferred;
-CString gcsProjDir;
+INXString gcsProjDir;
 Project *gpProject;
 ProjectMetaData *gpProjMetaData;
 
@@ -544,7 +544,7 @@ void CLabLgbBaseApp::transferToTarget(const bool &updatedOnly)
 /*
 	char* res;
 	sprintf(res, "%d", giFilesToBeTransferred);
-	AfxMessageBox("nFilesToGo:" + CString(res));
+	AfxMessageBox("nFilesToGo:" + INXString(res));
 */
 
 	//LucidErrEnum err = m_pProjMetaData->getProjectDir(gcsProjDir);
@@ -574,7 +574,7 @@ UINT CLabLgbBaseApp::transferToTargetThread( LPVOID ptr )
 
 UINT CLabLgbBaseApp::showTransferDialogThread( LPVOID ptr ) 
 {
-	CString *cs = ( CString * )ptr;
+	INXString *cs = ( INXString * )ptr;
 	c_pTgtTransProgressDlog->setPromptOverall( *cs );
 	c_pTgtTransProgressDlog->ShowWindow( SW_NORMAL );
 
@@ -590,14 +590,14 @@ int CLabLgbBaseApp::copyTransferrablesToExports( ProjectMetaData *pProjMetaData,
 												 const bool &updatedOnly, const bool &bAppUpload
 												 ) 
 {
-	CString csFileName, csFileExt;
+	INXString csFileName, csFileExt;
 
 	assert(pProjMetaData->isLocked() );
 
 	pProjMetaData->readProjectFile();
 
 	CFileOperation fo;
-	CString projDir;
+	INXString projDir;
 	vector<ExtResourceFile> xResourceFilesVec;
 
 	// 0th thing to do is to save all changed files
@@ -621,14 +621,14 @@ int CLabLgbBaseApp::copyTransferrablesToExports( ProjectMetaData *pProjMetaData,
 	// Note that any 'gui' files need special translation because they need any refs to
 	// png files (inside them) to be mapped to the targetfile name also.
 
-	CString csFullHostFileName;
-	CString csTargetFileName;
+	INXString csFullHostFileName;
+	INXString csTargetFileName;
 	
 	for(size_t i=0;i<vTransferData.size(); i++)
 	{
 		if( vTransferData[i].type == LccPmdXfers::kLayouts ){
 
-			//CString csFullHostFileName = projDir + GUIDIR + vTransferData[i].csHostFileFullPath;
+			//INXString csFullHostFileName = projDir + GUIDIR + vTransferData[i].csHostFileFullPath;
 			translateGuiFile(	pProjMetaData, 
 				vTransferData[i].csHostFileFolder + vTransferData[i].csHostFileFullName, 
 								projDir + EXPORTDIR + vTransferData[i].csTargetFileName );
@@ -722,7 +722,7 @@ int CLabLgbBaseApp::copyTransferrablesToExports( ProjectMetaData *pProjMetaData,
 }
 
 
-void CLabLgbBaseApp::LoadImageInfFromGuiFile( const CString &layoutName , std::set<CString> &vNames)
+void CLabLgbBaseApp::LoadImageInfFromGuiFile( const INXString &layoutName , std::set<INXString> &vNames)
 {
 	
 /* Load background bitmaps from layout file */
@@ -743,7 +743,7 @@ void CLabLgbBaseApp::LoadImageInfFromGuiFile( const CString &layoutName , std::s
 /**
  * Retrieve a list of fonts used by the layout passed in
  */
-void CLabLgbBaseApp::LoadFontInfFromGuiFile( const CString &layoutName , std::set< CString > &vFontNames)
+void CLabLgbBaseApp::LoadFontInfFromGuiFile( const INXString &layoutName , std::set< INXString > &vFontNames)
 {
 	std::vector< LgbTextIconEssentialData_t > textIcons;
 	std::vector< LgbPatchIconEssentialData_t > patchIcons;
@@ -758,8 +758,8 @@ void CLabLgbBaseApp::LoadFontInfFromGuiFile( const CString &layoutName , std::se
 
 void CLabLgbBaseApp::translateGuiFile( 
 								ProjectMetaData *pProjMetaData,
-						const CString &translatableFullPath,
-						const CString &translatedFullPath
+						const INXString &translatableFullPath,
+						const INXString &translatedFullPath
 						)
 {
 
@@ -802,7 +802,7 @@ void CLabLgbBaseApp::translateGuiFile(
 
 	parseGuiFile( translatableFullPath, tIcons, pIcons, iIcons, vTextStyles );
 
-	CString targetFileName;
+	INXString targetFileName;
 	ofstream targetGuiFile( translatedFullPath );
 
 	targetGuiFile << GUI_FILE_VERSION;
@@ -827,7 +827,7 @@ void CLabLgbBaseApp::translateGuiFile(
 		targetGuiFile << tIcons[i].bgBlue  << ',';
 
 		pProjMetaData->getTargetFileNameForBdfHostFileName(tIcons[i].csFont + ".bdf", targetFileName);
-		targetGuiFile << targetFileName << ',';
+		targetGuiFile << (CString)targetFileName << ',';
 		targetGuiFile << tIcons[i].leftIndent << ',';
 		targetGuiFile << tIcons[i].rightIndent << ',';
 		targetGuiFile << tIcons[i].topIndent << ',';
@@ -865,14 +865,14 @@ void CLabLgbBaseApp::translateGuiFile(
 			pProjMetaData->getTargetFileNameForPngHostFileName( iIcons[i].bitmapFileName, targetFileName );
 
 		if(err != kErr_NoErr){
-			CString dum = "Transfer Error! Program will not run in EHS!\n";
+			INXString dum = "Transfer Error! Program will not run in EHS!\n";
 			dum += "No target file name found for host bitmap file:\n";
 			dum += iIcons[i].bitmapFileName;
 			dum += "\nPlease report this bug to nCapsa";
 			AfxMessageBox(dum);
 		}
 
-		targetGuiFile << targetFileName << '\n';
+		targetGuiFile << (CString)targetFileName << '\n';
 	}
 
 	targetGuiFile.close();
@@ -886,8 +886,8 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 {
 	LucidTcpipClient tcpClient;
 	LtsStatusType ltsStatusType;
-	CString csReply;
-	CString projDir;
+	INXString csReply;
+	INXString projDir;
 	pProjMetaData->getProjectDir(projDir);
 
 	c_pTgtTransProgressDlog->setReset();
@@ -907,7 +907,7 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 
 		int nFilesGone = 0;
 
-		CString csDum = intToString(nFilesGone) + "/" + intToString(nFilesToGo) + " Files Transferred";
+		INXString csDum = intToString(nFilesGone) + "/" + intToString(nFilesToGo) + " Files Transferred";
 		c_pTgtTransProgressDlog->setPromptOverall( csDum );
 		c_pTgtTransProgressDlog->setProgbarOverall( 100 * nFilesGone / nFilesToGo );
 
@@ -945,11 +945,11 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 			int nLines = 0;
 			int iCount = 0;
 
-			CString csDelim = "> \n";
+			INXString csDelim = "> \n";
 			const bool bLeftOnly = true;
 
-			CString csReply = "";
-			std::list<CString> guiText;
+			INXString csReply = "";
+			std::list<INXString> guiText;
 
 			// Get any text / errors that are alreay in the pipeline from previous transfers.
 			// If there are any errors, display them, then underwwrite them with a "Starting new transfer" line.
@@ -976,12 +976,12 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 			}
 
 			nLines = parseLines( csReply, guiText );
-			std::list<CString> tmpList;
+			std::list<INXString> tmpList;
 
 
 			bool bIntroLineAdded = false;
 
-			std::list<CString>::iterator it = guiText.begin();
+			std::list<INXString>::iterator it = guiText.begin();
 
 			while(it != guiText.end() ){
 
@@ -1024,11 +1024,11 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 
 				bRes = ff.FindNextFile();
 
-				int iFileSize = FileSize( projDir + EXPORTDIR + ff.GetFileName() );
-				CString csDum = ff.GetFileName() + "(" + intToString(iFileSize) + " bytes)";
+				int iFileSize = FileSize( projDir + EXPORTDIR + (INXString)ff.GetFileName() );
+				INXString csDum = (INXString)ff.GetFileName() + "(" + intToString(iFileSize) + " bytes)";
 
 				c_pTgtTransProgressDlog->setPromptFile( csDum );
-				ltsStatusType = tcpClient.SendFile(projDir + EXPORTDIR + ff.GetFileName(), ff.GetFileName(), c_pTgtTransProgressDlog );
+				ltsStatusType = tcpClient.SendFile(projDir + EXPORTDIR + (INXString)ff.GetFileName(), (INXString)ff.GetFileName(), c_pTgtTransProgressDlog );
 				if(ltsStatusType == LTS_STATUS_FAIL) bGotConnection = false;
 
 				while( (csReply.Right(csDelim.GetLength()) != csDelim) && (iCount<100) && !c_pTgtTransProgressDlog->m_bCancelled && bGotConnection )  {
@@ -1043,9 +1043,9 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 				}
 
 				nLines = parseLines( csReply, guiText );
-				std::list<CString> tmpList;
+				std::list<INXString> tmpList;
 
-				std::list<CString>::iterator it = guiText.begin();
+				std::list<INXString>::iterator it = guiText.begin();
 				while(it != guiText.end() ){
 					if( (*it).Left(3) == "**E"){
 						tmpList.push_back( *it );
@@ -1085,11 +1085,11 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 
 				bRes = ff.FindNextFile();
 
-				int iFileSize = FileSize( projDir + EXPORTDIR + ff.GetFileName() );
-				CString csDum = ff.GetFileName() + "(" + intToString(iFileSize) + " bytes)";
+				int iFileSize = FileSize( projDir + EXPORTDIR + (INXString)ff.GetFileName() );
+				INXString csDum = (INXString)ff.GetFileName() + "(" + intToString(iFileSize) + " bytes)";
 
 				c_pTgtTransProgressDlog->setPromptFile( ff.GetFileName() );
-				ltsStatusType = tcpClient.SendFile(projDir + EXPORTDIR + ff.GetFileName(), ff.GetFileName(), c_pTgtTransProgressDlog );
+				ltsStatusType = tcpClient.SendFile(projDir + EXPORTDIR + (INXString)ff.GetFileName(), (INXString)ff.GetFileName(), c_pTgtTransProgressDlog );
 
 				if(ltsStatusType == LTS_STATUS_FAIL) bGotConnection = false;
 
@@ -1105,9 +1105,9 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 				}
 
 				nLines = parseLines( csReply, guiText );
-				std::list<CString> tmpList;
+				std::list<INXString> tmpList;
 
-				std::list<CString>::iterator it = guiText.begin();
+				std::list<INXString>::iterator it = guiText.begin();
 				while(it != guiText.end() ){
 					if( (*it).Left(3) == "**E"){
 						tmpList.push_back( *it );
@@ -1146,11 +1146,11 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 
 				bRes = ff.FindNextFile();
 
-				int iFileSize = FileSize( projDir + EXPORTDIR + ff.GetFileName() );
-				CString csDum = ff.GetFileName() + "(" + intToString(iFileSize) + " bytes)";
+				int iFileSize = FileSize( projDir + EXPORTDIR + (INXString)ff.GetFileName() );
+				INXString csDum = (INXString)ff.GetFileName() + "(" + intToString(iFileSize) + " bytes)";
 
 				c_pTgtTransProgressDlog->setPromptFile( ff.GetFileName() );
-				ltsStatusType = tcpClient.SendFile(projDir + EXPORTDIR + ff.GetFileName(), ff.GetFileName(), c_pTgtTransProgressDlog );
+				ltsStatusType = tcpClient.SendFile(projDir + EXPORTDIR + (INXString)ff.GetFileName(), (INXString)ff.GetFileName(), c_pTgtTransProgressDlog );
 
 				if(ltsStatusType == LTS_STATUS_FAIL) bGotConnection = false;
 
@@ -1166,9 +1166,9 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 				}
 
 				nLines = parseLines( csReply, guiText );
-				std::list<CString> tmpList;
+				std::list<INXString> tmpList;
 
-				std::list<CString>::iterator it = guiText.begin();
+				std::list<INXString>::iterator it = guiText.begin();
 				while(it != guiText.end() ){
 					if( (*it).Left(3) == "**E"){
 						tmpList.push_back( *it );
@@ -1208,11 +1208,11 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 				csReply = "";
 				bRes = ff.FindNextFile();
 
-				int iFileSize = FileSize( projDir + EXPORTDIR + ff.GetFileName() );
-				CString csDum = ff.GetFileName() + "(" + intToString(iFileSize) + " bytes)";
+				int iFileSize = FileSize( projDir + EXPORTDIR + (INXString)ff.GetFileName() );
+				INXString csDum = (INXString)ff.GetFileName() + "(" + intToString(iFileSize) + " bytes)";
 
 				c_pTgtTransProgressDlog->setPromptFile( ff.GetFileName() );
-				ltsStatusType = tcpClient.SendFile(projDir + EXPORTDIR + ff.GetFileName(), ff.GetFileName(), c_pTgtTransProgressDlog );
+				ltsStatusType = tcpClient.SendFile(projDir + EXPORTDIR + (INXString)ff.GetFileName(), (INXString)ff.GetFileName(), c_pTgtTransProgressDlog );
 				if(ltsStatusType == LTS_STATUS_FAIL) bGotConnection = false;
 
 				while( (csReply.Right(csDelim.GetLength()) != csDelim) && 
@@ -1232,9 +1232,9 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 
 				nLines = parseLines( csReply, guiText );
 
-				std::list<CString> tmpList;
+				std::list<INXString> tmpList;
 
-				std::list<CString>::iterator it = guiText.begin();
+				std::list<INXString>::iterator it = guiText.begin();
 				while(it != guiText.end() ){
 					if( (*it).Left(3) == "**E"){
 						tmpList.push_back( *it );
@@ -1272,11 +1272,11 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 
 				bRes = ff.FindNextFile();
 
-				int iFileSize = FileSize( projDir + EXPORTDIR + ff.GetFileName() );
-				CString csDum = ff.GetFileName() + "(" + intToString(iFileSize) + " bytes)";
+				int iFileSize = FileSize( projDir + EXPORTDIR + (INXString)ff.GetFileName() );
+				INXString csDum = (INXString)ff.GetFileName() + "(" + intToString(iFileSize) + " bytes)";
 
-				c_pTgtTransProgressDlog->setPromptFile( ff.GetFileName() );
-				ltsStatusType = tcpClient.SendFile(projDir + EXPORTDIR + ff.GetFileName(), ff.GetFileName(), c_pTgtTransProgressDlog );
+				c_pTgtTransProgressDlog->setPromptFile( (INXString)ff.GetFileName() );
+				ltsStatusType = tcpClient.SendFile(projDir + EXPORTDIR + (INXString)ff.GetFileName(), (INXString)ff.GetFileName(), c_pTgtTransProgressDlog );
 
 				if(ltsStatusType == LTS_STATUS_FAIL) bGotConnection = false;
 
@@ -1292,9 +1292,9 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 				}
 
 				nLines = parseLines( csReply, guiText );
-				std::list<CString> tmpList;
+				std::list<INXString> tmpList;
 
-				std::list<CString>::iterator it = guiText.begin();
+				std::list<INXString>::iterator it = guiText.begin();
 				while(it != guiText.end() ){
 					if( (*it).Left(3) == "**E"){
 						tmpList.push_back( *it );
@@ -1322,7 +1322,7 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 			sprintf_s( buff, BUFFSZ, "%s", "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\nProcessing resource files...\n" );
 			OutputDebugString(buff);
 #endif
-			CString csFileName;
+			INXString csFileName;
 			vector<ExtResourceFile> xResourceFileVec;
 			pProjMetaData->getResourceFiles(xResourceFileVec);
 			
@@ -1332,7 +1332,7 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 				while (bRes && !c_pTgtTransProgressDlog->m_bCancelled && bGotConnection )
 				{
 					int iFileSize = FileSize( projDir + EXPORTDIR + csFileName);
-					CString csDum = csFileName + "(" + intToString(iFileSize) + " bytes)";
+					INXString csDum = csFileName + "(" + intToString(iFileSize) + " bytes)";
 
 					c_pTgtTransProgressDlog->setPromptFile( csDum );
 					ltsStatusType = tcpClient.SendFile(projDir + EXPORTDIR + csFileName, csFileName, c_pTgtTransProgressDlog );
@@ -1350,9 +1350,9 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 					}
 
 					nLines = parseLines( csReply, guiText );
-					std::list<CString> tmpList;
+					std::list<INXString> tmpList;
 
-					std::list<CString>::iterator it = guiText.begin();
+					std::list<INXString>::iterator it = guiText.begin();
 					while(it != guiText.end() ){
 						if( (*it).Left(3) == "**E"){
 							tmpList.push_back( *it );
@@ -1395,11 +1395,11 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 				csReply = "";
 				bRes = ff.FindNextFile();
 
-				int iFileSize = FileSize( projDir + EXPORTDIR + ff.GetFileName() );
-				csDum = ff.GetFileName() + "(" + intToString(iFileSize) + " bytes)";
+				int iFileSize = FileSize( projDir + EXPORTDIR + (INXString)ff.GetFileName() );
+				csDum = (INXString)ff.GetFileName() + "(" + intToString(iFileSize) + " bytes)";
 
 				c_pTgtTransProgressDlog->setPromptFile( ff.GetFileName() );
-				ltsStatusType = tcpClient.SendFile(projDir + EXPORTDIR + ff.GetFileName(), ff.GetFileName(), c_pTgtTransProgressDlog );
+				ltsStatusType = tcpClient.SendFile(projDir + EXPORTDIR + (INXString)ff.GetFileName(), (INXString)ff.GetFileName(), c_pTgtTransProgressDlog );
 
 				if(ltsStatusType == LTS_STATUS_FAIL) bGotConnection = false;
 
@@ -1419,9 +1419,9 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 
 				nLines = parseLines( csReply, guiText );
 
-				std::list<CString> tmpList;
+				std::list<INXString> tmpList;
 
-				std::list<CString>::iterator it = guiText.begin();
+				std::list<INXString>::iterator it = guiText.begin();
 				while(it != guiText.end() ){
 					if( (*it).Left(3) == "**E"){
 						tmpList.push_back( *it );
@@ -1435,7 +1435,7 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 				}
 
 				nFilesGone++;
-				CString csDum = intToString(nFilesGone) + "/" + intToString(nFilesToGo) + " Files Transferred";
+				INXString csDum = intToString(nFilesGone) + "/" + intToString(nFilesToGo) + " Files Transferred";
 				c_pTgtTransProgressDlog->setPromptOverall( csDum );
 				c_pTgtTransProgressDlog->setProgbarOverall( 100 * nFilesGone / nFilesToGo );
 				Sleep(150);
@@ -1476,8 +1476,8 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 
 					nLines = parseLines( csReply, guiText );
 
-					std::list<CString> tmpList;
-					std::list<CString>::iterator it = guiText.begin();
+					std::list<INXString> tmpList;
+					std::list<INXString>::iterator it = guiText.begin();
 
 					while(it != guiText.end() ){
 						if( (*it).Left(3) == "**E"){
@@ -1562,9 +1562,9 @@ void CLabLgbBaseApp::showTransferDialog( const bool & bVisible )
 // Method that loads a vector with a pair of tool id and executable path from the file, tools.ini
 void CLabLgbBaseApp::LoadToolVec()
 {
-	CString csInstallDir, csToolsFilePath, csToolExecPath;
-	vector<CString> vToolKeysVec;
-	pair<CString, CString> prToolPair;
+	INXString csInstallDir, csToolsFilePath, csToolExecPath;
+	vector<INXString> vToolKeysVec;
+	pair<INXString, INXString> prToolPair;
 
 	GetInstallationBaseDir(csInstallDir);
 	csToolsFilePath = csInstallDir + LUCID_EXECUTABLES_DIR + "\\" + TOOLSFILE;
@@ -1578,9 +1578,9 @@ void CLabLgbBaseApp::LoadToolVec()
 	}
 }
 
-CString CLabLgbBaseApp::GetToolExecPath(const CString csTool)
+INXString CLabLgbBaseApp::GetToolExecPath(const INXString csTool)
 {
-	CString csToolExecPath = "";
+	INXString csToolExecPath = "";
 
 	for (size_t i=0; i<m_vToolsPairVec.size(); i++) {
 		if (m_vToolsPairVec[i].first == csTool) {
@@ -1632,14 +1632,14 @@ bool CLabLgbBaseApp::startEHS(bool aboutToSendAllSODL){
 // alt. can escape spaces instead of quoting whole path...	HINSTANCE h = ShellExecute(NULL, "open", "/bin/bash ./.wine/drive_c/Program\ Files/inx/tools/EHS/bin/run_ehs.sh NO_RESTART", NULL, NULL, SW_SHOW);
 			
 			// use base dir to get install path 
-			CString baseDir;
+			INXString baseDir;
 			GetInstallationBaseDir(baseDir);	//base dir is something like C:/Program Files/inx/tools (whereever the iab exe is being run from)
 //			AfxMessageBox("base dir:" + baseDir); 
 
 
 			// if we are about to send SODL after start EHS then delete any old SODL first (don't care whether it exists or not try anyway)
 			if (aboutToSendAllSODL) {
-				CString csSODLPath = baseDir;
+				INXString csSODLPath = baseDir;
 				if (isInstalledInWindows) {
 					csSODLPath = csSODLPath + EHS_WIN_VAR_DIR + EHS_APPDATA_DEFAULT_DIR + EHS_SODL_FILE;
 				} else {
@@ -1657,8 +1657,8 @@ bool CLabLgbBaseApp::startEHS(bool aboutToSendAllSODL){
 
 			// are we in linux or windows, construct path to start EHS accordingly
 			HINSTANCE h;
-			CString csEHSExePath = "";
-			CString csWorkingPath = "";
+			INXString csEHSExePath = "";
+			INXString csWorkingPath = "";
 			if (isInstalledInWindows) {
 				// call to EHS.exe
 				csEHSExePath = baseDir + EHS_WIN_VAR_DIR + EHS_BIN_DIR + "\\ehs.exe";
@@ -1769,10 +1769,10 @@ void CLabLgbBaseApp::openEHSInitParamsDialog(){
 		pParams->nHasFrame = paramDlg.nHasFrame;
 		pParams->nZOrder = paramDlg.nZOrder;
 
-		CString baseDir;
+		INXString baseDir;
 		GetInstallationBaseDir(baseDir);	//base dir is where the inx exe is being run from
 
-		CString csEHSParamFilePath = baseDir;
+		INXString csEHSParamFilePath = baseDir;
 		if (isInstalledInWindows) {
 			csEHSParamFilePath += EHS_WIN_VAR_DIR;
 		} else {

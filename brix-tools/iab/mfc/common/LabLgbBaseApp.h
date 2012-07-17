@@ -6,6 +6,7 @@
 #include "Log.h"
 #include "EHSInitParams.h"
 #include "LucidEnums.h"
+#include "Porting_Classes/INXString.h"
 
 //class ProjectMetaData;
 #include <set>
@@ -18,7 +19,7 @@ class CLabLgbBaseApp :
 {
 
 private:
-	vector<pair<CString, CString> > m_vToolsPairVec;
+	vector<pair<INXString, INXString> > m_vToolsPairVec;
 
 public:
 
@@ -42,30 +43,30 @@ public:
 
 	static UINT showTransferDialogThread( LPVOID ptr );
 
-	void LoadImageInfFromGuiFile( const CString	&layoutName,
-										std::set<CString>	&vNames);
+	void LoadImageInfFromGuiFile( const INXString	&layoutName,
+										std::set<INXString>	&vNames);
 
-	void LoadFontInfFromGuiFile( const CString &layoutName , std::set< CString > &vFontNames);
+	void LoadFontInfFromGuiFile( const INXString &layoutName , std::set< INXString > &vFontNames);
 
 	void translateGuiFile(			ProjectMetaData *pProjMetaData,
-							const	CString &translatableFullPath,
-							const	CString &translatedFullPath );
+							const	INXString &translatableFullPath,
+							const	INXString &translatedFullPath );
 
 
-	virtual BOOL GetInstallationBaseDir( CString &baseDir );
+	virtual BOOL GetInstallationBaseDir( INXString &baseDir );
 
-	void GetExecutableName(CString & execName);
+	void GetExecutableName(INXString & execName);
 
 	BOOL CheckExecutableFolderContextIsOk() ;
 
 	LucidErrEnum openDocInBackground(
 					   const LucidManualsEnum manualTypeEnum );
 
-	void addProjectToMRUList(CString csProjectPathName);
+	void addProjectToMRUList(INXString csProjectPathName);
 
-	LucidErrEnum getActiveImages( ProjectMetaData *pProjMetaData, std::set< CString > &vImageFiles );
+	LucidErrEnum getActiveImages( ProjectMetaData *pProjMetaData, std::set< INXString > &vImageFiles );
 
-	LucidErrEnum getActiveFonts(ProjectMetaData *pProjMetaData, std::set< CString > &vFontNames );
+	LucidErrEnum getActiveFonts(ProjectMetaData *pProjMetaData, std::set< INXString > &vFontNames );
 
 	bool anyDocsHaveUnsavedChanges(void);
 
@@ -93,10 +94,10 @@ public:
 	// ! set to true when 'all' has been sent to target at least once
 	void showTransferDialog(const bool & bVisible);
 	void LoadToolVec();
-	CString GetToolExecPath(const CString csTool);
+	INXString GetToolExecPath(const INXString csTool);
 	EHSInitParams* pEHSInitParams;
 	bool isInstalledInWindows;	// flag to distinguish between windows and wine installation
-	CString csCurrentTarget;	// holds current target - local, remote or appserver
+	INXString csCurrentTarget;	// holds current target - local, remote or appserver
 	bool isEHSLocalInstallPathKnown; // flag to indicate if EHS is installed in a known location
 	LtsStatusType ltsStatusType;	// tcpip connection status
 

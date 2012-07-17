@@ -13,17 +13,18 @@
 #define PATH_IS_FILE		1
 #define PATH_IS_FOLDER		2
 
+#include "Porting_Classes/INXString.h"
 
 class CFExeption
 {
 public:
 	CFExeption(DWORD dwErrCode);
-	CFExeption(CString sErrText);
-	CString GetErrorText() {return m_sError;}
+	CFExeption(INXString sErrText);
+	INXString GetErrorText() {return m_sError;}
 	DWORD GetErrorCode() {return m_dwError;}
 
 private:
-	CString m_sError;
+	INXString m_sError;
 	DWORD m_dwError;
 };
 
@@ -34,17 +35,17 @@ class CFileOperation
 {
 public:
 	CFileOperation(); // constructor
-	bool Delete(CString sPathName); // delete file or folder
-	bool DeleteFolderFiles(CString sPathName); // delete file-contents of a folder
-	bool Copy(CString sSource, CString sDest); // copy file or folder
-	bool CopyFileGood(const CString &sSourceFolder, 
-				  const CString &sSourceFile,
-				  const CString &sDestFolder, 
-				  const CString &sDestFile );
+	bool Delete(INXString sPathName); // delete file or folder
+	bool DeleteFolderFiles(INXString sPathName); // delete file-contents of a folder
+	bool Copy(INXString sSource, INXString sDest); // copy file or folder
+	bool CopyFileGood(const INXString &sSourceFolder, 
+				  const INXString &sSourceFile,
+				  const INXString &sDestFolder, 
+				  const INXString &sDestFile );
 
-	bool Replace(CString sSource, CString sDest); // move file or folder
-	bool Rename(CString sSource, CString sDest); // rename file or folder
-	CString GetErrorString() {return m_sError;} // return error description
+	bool Replace(INXString sSource, INXString sDest); // move file or folder
+	bool Rename(INXString sSource, INXString sDest); // rename file or folder
+	INXString GetErrorString() {return m_sError;} // return error description
 	DWORD GetErrorCode() {return m_dwError;} // return error code
 	void ShowError() // show error message
 		{MessageBox(NULL, m_sError, _T("Error"), MB_OK | MB_ICONERROR);}
@@ -52,37 +53,37 @@ public:
 		{m_bAskIfReadOnly = bAsk;}
 	bool IsAskIfReadOnly() // return current behavior with readonly files(folders)
 		{return m_bAskIfReadOnly;}
-	bool CanDelete(CString sPathName); // check attributes
+	bool CanDelete(INXString sPathName); // check attributes
 	void SetOverwriteMode(bool bOverwrite = false) // sets overwrite mode on/off
 		{m_bOverwriteMode = bOverwrite;}
 	bool IsOverwriteMode() {return m_bOverwriteMode;} // return current overwrite mode
-	int CheckPath(CString sPath);
+	int CheckPath(INXString sPath);
 	bool IsAborted() {return m_bAborted;}
-	CString getExecutablePath(LPCTSTR lpFileName);
+	INXString getExecutablePath(LPCTSTR lpFileName);
 
 protected:
-	void DoDelete(CString sPathName);
-	void DoCopy(CString sSource, CString sDest, bool bDelteAfterCopy = false);
-	void DoFileCopy(CString sSourceFile, CString sDestFile, bool bDeleteAfterCopy=false, const bool bUpdateAfterCopy=true );
-	void DoFolderCopy(CString sSourceFolder, CString sDestFolder, bool bDelteAfterCopy = false);
-	void DoRename(CString sSource, CString sDest);
-	bool IsFileExist(CString sPathName);
-	void PreparePath(CString &sPath);
+	void DoDelete(INXString sPathName);
+	void DoCopy(INXString sSource, INXString sDest, bool bDelteAfterCopy = false);
+	void DoFileCopy(INXString sSourceFile, INXString sDestFile, bool bDeleteAfterCopy=false, const bool bUpdateAfterCopy=true );
+	void DoFolderCopy(INXString sSourceFolder, INXString sDestFolder, bool bDelteAfterCopy = false);
+	void DoRename(INXString sSource, INXString sDest);
+	bool IsFileExist(INXString sPathName);
+	void PreparePath(INXString &sPath);
 	void Initialize();
-	void CheckSelfRecursion(CString sSource, CString sDest);
-	bool CheckSelfCopy(CString sSource, CString sDest);
-	CString ChangeFileName(CString sFileName);
-	CString ParseFolderName(CString sPathName);
+	void CheckSelfRecursion(INXString sSource, INXString sDest);
+	bool CheckSelfCopy(INXString sSource, INXString sDest);
+	INXString ChangeFileName(INXString sFileName);
+	INXString ParseFolderName(INXString sPathName);
 
 private:
-	CString m_sError;
+	INXString m_sError;
 	DWORD m_dwError;
 	bool m_bAskIfReadOnly;
 	bool m_bOverwriteMode;
 	bool m_bAborted;
 	int m_iRecursionLimit;
-	void getStatus( const CString &csFileName, CFileStatus & status );
-	DBTIMESTAMP getLastUpdate( const CString &csFileName );
+	void getStatus( const INXString &csFileName, CFileStatus & status );
+	DBTIMESTAMP getLastUpdate( const INXString &csFileName );
 };
 
 

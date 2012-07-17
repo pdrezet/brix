@@ -13,7 +13,7 @@ ExtGuiFile::ExtGuiFile(const ExtGuiFile &egf)
 	*this = egf;
 }
 
-ExtGuiFile::ExtGuiFile(const CString &hostFileName)
+ExtGuiFile::ExtGuiFile(const INXString &hostFileName)
 {
 	m_csHostFileName = hostFileName;
 }
@@ -29,13 +29,13 @@ ExtGuiFile::~ExtGuiFile(void)
 {
 }
 
-LucidErrEnum ExtGuiFile::getScreenTag(CString &tag) const
+LucidErrEnum ExtGuiFile::getScreenTag(INXString &tag) const
 {
 	tag = m_csScreenTag;
 	return kErr_NoErr;
 }
 
-LucidErrEnum ExtGuiFile::setScreenTag(const CString &tag)
+LucidErrEnum ExtGuiFile::setScreenTag(const INXString &tag)
 {
 	m_csScreenTag = tag;
 	return kErr_NoErr;

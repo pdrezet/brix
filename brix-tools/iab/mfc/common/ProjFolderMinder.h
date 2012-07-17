@@ -2,7 +2,7 @@
 #include "stdafx.h"
 
 #include "LucidEnums.h"
-
+#include "Porting_Classes/INXString.h"
 class ProjectMetaData;
 
 //!author: M Rutherford.  Copyright nCapsa ltd 2007.
@@ -23,10 +23,10 @@ class ProjFolderMinder
 public:
 	ProjFolderMinder();
 
-	void setProjectFolder( const CString &projFolder );
+	void setProjectFolder( const INXString &projFolder );
 	void setProjectRevision( const int &projMajorRev, const int &projMinorRev );
 
-	LucidErrEnum assessProjectFolderStructure( CString &csMissingFolder );
+	LucidErrEnum assessProjectFolderStructure( INXString &csMissingFolder );
 	LucidErrEnum createProjectFolderStructure( );
 	LucidErrEnum moveSodl_1(void);
 	LucidErrEnum moveExports_1(void);
@@ -36,7 +36,7 @@ public:
 	LucidErrEnum CreateResourceDir(void);
 
 private:
-	CString m_csProjDir;
+	INXString m_csProjDir;
 	int m_iCodeMajorRev;
 	int m_iCodeMinorRev; 
 

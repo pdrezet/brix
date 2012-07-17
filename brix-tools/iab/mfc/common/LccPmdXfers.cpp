@@ -57,7 +57,7 @@ int LccPmdXfers::getItems( const LccPmdXfers::TypesEnum &type, std::vector<DataP
 	return 	items.size();
 }
 /*
-int LccPmdXfers::getOverallIndex( const LccPmdXfers::TypesEnum type ,  const CString &value )
+int LccPmdXfers::getOverallIndex( const LccPmdXfers::TypesEnum type ,  const INXString &value )
 {
 	for(size_t i=0; i<m_vContents.size();i++){
 		if(m_vContents[i].type == type){
@@ -71,7 +71,7 @@ int LccPmdXfers::getOverallIndex( const LccPmdXfers::TypesEnum type ,  const CSt
 }
 */
 /*
-LucidErrEnum LccPmdXfers::removeItem( const LccPmdXfers::TypesEnum &type ,  CString value )
+LucidErrEnum LccPmdXfers::removeItem( const LccPmdXfers::TypesEnum &type ,  INXString value )
 {
 	int overallIndex = getOverallIndex( type, value );
 
@@ -96,7 +96,7 @@ LucidErrEnum LccPmdXfers::removeItem( const LccPmdXfers::TypesEnum &type ,  CStr
 */
 LucidErrEnum LccPmdXfers::addItem( 
 						const TypesEnum &type ,  
-						const CString &hostFileName )
+						const INXString &hostFileName )
 {
 	DataPair_t dum;
 	dum.hostFileName = hostFileName;

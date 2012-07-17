@@ -203,7 +203,7 @@ void CanvasSupport::DebugTrace(const char* pszFormat, ...)
 {
 	if (m_bDebugTrace)
 	{
-		CString szText;
+		INXString szText;
 		char buf[1024];
 
 		va_list arglist;
@@ -213,7 +213,7 @@ void CanvasSupport::DebugTrace(const char* pszFormat, ...)
 
 		//Add time to messages
 		CTime tNow;
-		CString szTime;
+		INXString szTime;
 		tNow = CTime::GetCurrentTime();
 		szTime = tNow.Format( "%H:%M:%S " );
 

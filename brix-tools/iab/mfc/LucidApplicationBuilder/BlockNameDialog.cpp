@@ -28,7 +28,7 @@ void CBlockNameDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CBlockNameDialog)
-	DDX_Text(pDX, IDC_BLOCK_EDIT, m_BlockName);
+	DDX_Text(pDX, IDC_BLOCK_EDIT, (CString)m_BlockName);
 	//}}AFX_DATA_MAP
 }
 

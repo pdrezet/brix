@@ -6,6 +6,7 @@
 #endif // _MSC_VER >= 1000
 // Datsrc.h : header file
 //
+#include "Porting_Classes/INXString.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // Datsrc dialog - Support for DDX
@@ -20,10 +21,10 @@ public:
 // Dialog Data
 	//{{AFX_DATA(Datsrc)
 	enum { IDD = IDD_DATASRC };
-	CString	m_directory;
-	CString	m_filenaame;
-	CString	m_option1;
-	CString	m_option2;
+	INXString	m_directory;
+	INXString	m_filenaame;
+	INXString	m_option1;
+	INXString	m_option2;
 	//}}AFX_DATA
 
 

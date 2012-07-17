@@ -259,7 +259,7 @@ void IconLines::Load(istream * file) {
 	char temp[256];
 	INXPoint ReadPoint;
 	nodeCount = 0;
-	CString csTmpStr;
+	INXString csTmpStr;
 
 	file->ignore(1,'\n');
 	file->getline(temp,254); // BEGIN_LINE 

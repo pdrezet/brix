@@ -25,19 +25,19 @@ bool ExtFile::operator==(const ExtFile &file)const
 	}
 }
 
-LucidErrEnum ExtFile::getHostFileName(CString &csFileName) const
+LucidErrEnum ExtFile::getHostFileName(INXString &csFileName) const
 {
 	csFileName = m_csHostFileName;
 	return kErr_NoErr;
 }
 
-LucidErrEnum ExtFile::setHostFileName(const CString &csFileName)
+LucidErrEnum ExtFile::setHostFileName(const INXString &csFileName)
 {
 	m_csHostFileName = csFileName;
 	return kErr_NoErr;
 }
 
-LucidErrEnum ExtFile::getDescription(CString &csDescr) const
+LucidErrEnum ExtFile::getDescription(INXString &csDescr) const
 {
 	csDescr = m_csDescription;
 	return kErr_NoErr;
@@ -45,7 +45,7 @@ LucidErrEnum ExtFile::getDescription(CString &csDescr) const
 
 
 
-LucidErrEnum ExtFile::setDescription(const CString &csDescr)
+LucidErrEnum ExtFile::setDescription(const INXString &csDescr)
 {
 	m_csDescription = csDescr;
 	return kErr_NoErr;

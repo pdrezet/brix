@@ -2,7 +2,7 @@
 #include "ProjectMetaData.h"
 #include "resource.h"
 #include "afxwin.h"
-
+#include "Porting_Classes/INXString.h"
 // CWidgetGroupManagerDlg dialog
 
 class CWidgetGroupManagerDlg : public CDialog
@@ -10,14 +10,14 @@ class CWidgetGroupManagerDlg : public CDialog
 	DECLARE_DYNAMIC(CWidgetGroupManagerDlg)
 
 public:
-	CWidgetGroupManagerDlg(vector<CString> _vWidgetGroupNames, CWnd* pParent = NULL);   // standard constructor
+	CWidgetGroupManagerDlg(vector<INXString> _vWidgetGroupNames, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CWidgetGroupManagerDlg();
 
 	// methods
-	CString getWidgetGroupName();
-	void setWidgetGroupName(CString csWidgetGroupName);
-	void setDialogCountString(CString csDialogCount);
-	void setWidgetGroupDropList(vector<CString> vWidgetGrpNames);
+	INXString getWidgetGroupName();
+	void setWidgetGroupName(INXString csWidgetGroupName);
+	void setDialogCountString(INXString csDialogCount);
+	void setWidgetGroupDropList(vector<INXString> vWidgetGrpNames);
 
 // Dialog Data
 	enum { IDD = IDD_WIDGET_GROUP_NAME };
@@ -27,10 +27,10 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 private:
-	CString m_csWidgetGroupName;
-	CString m_csDialogNum;
+	INXString m_csWidgetGroupName;
+	INXString m_csDialogNum;
 	CComboBox m_ctlWidgetGroupName;
-	vector<CString> vWidgetGroupNames;
+	vector<INXString> vWidgetGroupNames;
 
 	// event handlers
 	afx_msg void OnBnClickedOk();

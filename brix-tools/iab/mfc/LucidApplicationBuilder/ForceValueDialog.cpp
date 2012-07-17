@@ -37,7 +37,7 @@ void CForceValueDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CForceValueDialog)
-	DDX_Text(pDX, IDC_EDIT_VALUE, m_ForceValue);
+	DDX_Text(pDX, IDC_EDIT_VALUE, (CString)m_ForceValue);
 	//}}AFX_DATA_MAP
 }
 

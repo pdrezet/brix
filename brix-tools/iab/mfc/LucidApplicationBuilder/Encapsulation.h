@@ -21,8 +21,8 @@ public:
 	virtual ~Encapsulation();
 
 	// Attributes
-	CString blockName;
-	CString iconBitmap;
+	INXString blockName;
+	INXString iconBitmap;
 	//CMainFrame *pFrame;	
 	INXObjList* encapsulated;
 	HTREEITEM hItem;
@@ -33,20 +33,20 @@ public:
 	int SelectEncapsulateIcon();
 	int SaveEncapsulated(Encapsulate* dialog, int iconNum, int nLib);
 	void WriteIDF(Encapsulate *dialog, int iconNum);
-	void WriteIDF(const ConData *block, const int nIconNum, const CString csL2MenuName);
+	void WriteIDF(const ConData *block, const int nIconNum, const INXString csL2MenuName);
 	int GetFirstInPortYCoord();
 	int GetFirstOutPortYCoord();
-	CString IconNum2Bitmap(int iconNum);
+	INXString IconNum2Bitmap(int iconNum);
 	ConData* GetIconFromID(long int id, INXObjList* list);
-	ConData* AddXPort(CString type, INXPoint point);
+	ConData* AddXPort(INXString type, INXPoint point);
 	bool IsUniqueSubsetID(long id);
 	void EditEncapsulation(POSITION selectedIcon);
-	//void SaveSubBlocks(CObList* subBlock, CString hierarchyName);
+	//void SaveSubBlocks(CObList* subBlock, INXString hierarchyName);
 	void repositionEncapsulated();
 	void setLineSelected(ConData* blob);
 	void ResetXportConnected(INXObjList* depList);
 	void SetEncapsulated(INXObjList* _encapsulated);
-	bool IsLibComponentUnique(const CString csLibName);
+	bool IsLibComponentUnique(const INXString csLibName);
 	bool HasXPorts(INXRect xEncapsulate, INXObjList* xDepList);
 };
 

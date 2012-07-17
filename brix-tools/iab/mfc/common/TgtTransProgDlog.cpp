@@ -56,7 +56,7 @@ LRESULT CTgtTransProgDlog::OnSetProgbarOverall(WPARAM, LPARAM lParam)
 
 LRESULT CTgtTransProgDlog::OnSetPromptOverall(WPARAM, LPARAM lParam)
 {
-	CString *cs = (CString *)lParam;
+	INXString *cs = (INXString *)lParam;
 	m_ctlStaticOverallPrompt.SetWindowTextA( *cs );
 
 	UpdateData(FALSE);
@@ -78,7 +78,7 @@ LRESULT CTgtTransProgDlog::OnSetProgbarFile(WPARAM, LPARAM lParam)
 
 LRESULT CTgtTransProgDlog::OnSetPromptFile(WPARAM, LPARAM lParam)
 {
-	CString *cs = (CString *)lParam;
+	INXString *cs = (INXString *)lParam;
 	m_ctlStaticFilePrompt.SetWindowTextA( *cs );
 
 	UpdateData(FALSE);
@@ -142,22 +142,22 @@ void CTgtTransProgDlog::setProgbarFile(const int & pos)
 	PostMessage( UWM_SET_FILE_PROGBAR, 0, (LPARAM)i );
 }
 
-void CTgtTransProgDlog::setPromptOverallDirect(const CString & textVal)
+void CTgtTransProgDlog::setPromptOverallDirect(const INXString & textVal)
 {
 	m_ctlStaticOverallPrompt.SetWindowText( textVal );
 	UpdateData(false);
 	RedrawWindow();
 }
 
-void CTgtTransProgDlog::setPromptOverall(const CString & fileName)
+void CTgtTransProgDlog::setPromptOverall(const INXString & fileName)
 {
-	CString *cs = new CString(fileName);
+	INXString *cs = new INXString(fileName);
 	PostMessage( UWM_SET_OVERALL_PROMPT, 0, (LPARAM)cs );
 }
 
-void CTgtTransProgDlog::setPromptFile(const CString & fileName)
+void CTgtTransProgDlog::setPromptFile(const INXString & fileName)
 {
-	CString *cs = new CString(fileName);
+	INXString *cs = new INXString(fileName);
 	PostMessage( UWM_SET_FILE_PROMPT, 0, (LPARAM)cs );
 }
 

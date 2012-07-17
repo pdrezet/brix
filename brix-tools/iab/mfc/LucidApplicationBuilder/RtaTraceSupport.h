@@ -4,7 +4,7 @@
 using namespace std;
 #include "DEP.h"
 #include "LucidConstants.h"
-
+#include "Porting_Classes/INXString.h"
 class CDrawProgView;
 
 class RtaTraceSupport
@@ -30,16 +30,16 @@ public:
 	bool getRtaTrace();
 	int createRtaConfigFile();
 	void rtaTraceDefineAll();
-	void rtaTraceDefineTask(CString csTaskName, int iTaskNum);
-	void rtaTraceDefineTracepoint(CString csName, int iIdNum, int iDataType);
+	void rtaTraceDefineTask(INXString csTaskName, int iTaskNum);
+	void rtaTraceDefineTracepoint(INXString csName, int iIdNum, int iDataType);
 	void rtaTraceLogFlush();
-	void rtaTraceLogEvent(UINT kind, UINT info, CString csTime);
-	void rtaTraceLogData(UINT iKind, UINT iInfo, CString csVal, CString csTime);
-	void rtaTraceLogDataFloat(UINT iKind, UINT iInfo, CString csVal, CString csTime);
-	void rtaTraceLogDataString(UINT iKind, UINT iInfo, CString csVal, CString csTime);
-	void rtaTraceActivate(UINT id, CString csTime);
-	void rtaTraceStart(UINT id, CString csTime);
-	void rtaTraceEnd(UINT id, CString csTime);
+	void rtaTraceLogEvent(UINT kind, UINT info, INXString csTime);
+	void rtaTraceLogData(UINT iKind, UINT iInfo, INXString csVal, INXString csTime);
+	void rtaTraceLogDataFloat(UINT iKind, UINT iInfo, INXString csVal, INXString csTime);
+	void rtaTraceLogDataString(UINT iKind, UINT iInfo, INXString csVal, INXString csTime);
+	void rtaTraceActivate(UINT id, INXString csTime);
+	void rtaTraceStart(UINT id, INXString csTime);
+	void rtaTraceEnd(UINT id, INXString csTime);
 	void terminateRtaTraceProc();
 	bool isRtaTraceRunning();
 
@@ -49,7 +49,7 @@ private:
 	bool m_bRtaTrace;
 	int m_iRtaTraceLogIndex;
 	ofstream m_RtaFile;
-	// It should be possible to have an array of int rather than CString
-	CString m_csaRtaTraceLog[RTA_TRACE_SIZE];
+	// It should be possible to have an array of int rather than INXString
+	INXString m_csaRtaTraceLog[RTA_TRACE_SIZE];
 
 };

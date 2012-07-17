@@ -36,8 +36,8 @@ void CEditGroupDialog::DoDataExchange(CDataExchange* pDX)
 	DDV_MinMaxInt(pDX, m_Alloc, 0, 2147483647);
 	DDX_Text(pDX, IDC_PERIOD_EDIT, m_Period);
 	DDV_MinMaxInt(pDX, m_Period, 0, 2147483647);
-	DDX_Text(pDX, IDC_NAME_EDIT, m_Name);
-	DDV_MaxChars(pDX, m_Name, 20);
+	DDX_Text(pDX, IDC_NAME_EDIT, (CString)m_Name);
+	DDV_MaxChars(pDX, (CString&)m_Name, 20);
 	//}}AFX_DATA_MAP
 }
 

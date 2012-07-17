@@ -8,7 +8,7 @@
 
 #define LEGACYINX
 class INXPoint: public wxPoint{
-//LPPOINT
+
 public:
 	// @todo using temporary CPoint conversion function, to test it with the mfc code 
 #ifdef LEGACYINX

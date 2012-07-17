@@ -21,12 +21,12 @@
 
 #include "../common/LgbIconDataStrucs.h"
 
-extern CString intToString(const int val);
+extern INXString intToString(const int val);
 
-bool cleanupGuiLayoutBasics( LgbIconEssentialData_t &rEssDat, CString &csWarnings  );
+bool cleanupGuiLayoutBasics( LgbIconEssentialData_t &rEssDat, INXString &csWarnings  );
 
 void parseGuiFile(
-				const CString &csFileName, 
+				const INXString &csFileName, 
 				std::vector< LgbTextIconEssentialData_t > &textIcons, 
 				std::vector< LgbPatchIconEssentialData_t > &patchIcons, 
 				std::vector< LgbImageIconEssentialData_t > &imageIcons,
@@ -39,7 +39,7 @@ void parseGuiFile(
 	char sepsWithSpace[]   = " ,\t\n\r";
 
 
-	CString dummy;
+	INXString dummy;
 
 	char fileLine[STD_LINE_LENGTH];
 	char versionTagLabel[STD_FIELD_LENGTH];
@@ -132,9 +132,10 @@ void parseGuiFile(
 
 					dummy = tokenPtr[0];
 					basicDat.tag = dummy.TrimLeft().TrimRight();
+	
 
 					dummy = tokenPtr[1];
-					basicDat.type = dummy.TrimLeft().TrimRight();
+					basicDat.type = dummy.TrimLeft().TrimRight(); 
 					
 					if (basicDat.type == "TextStyle") {
 						textStyleDat.csClass = basicDat.tag;
@@ -152,7 +153,7 @@ void parseGuiFile(
 
 						basicDat.zPos = atoi( tokenPtr[6] );
 
-						CString csWarnings;
+						INXString csWarnings;
 						if(cleanupGuiLayoutBasics( basicDat, csWarnings  ))
 							AfxMessageBox(csWarnings);
 					}
@@ -167,7 +168,7 @@ void parseGuiFile(
 
 					// strip-off any leading or trailing spaces..
 						dummy =  tokenPtr[8];
-						imageIconDat.bitmapFileName = dummy.TrimLeft().TrimRight();
+						imageIconDat.bitmapFileName = dummy.TrimLeft().TrimRight(); 
 						//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 						// new item added to GUI file for images, set to 0 for old versions
@@ -235,10 +236,11 @@ void parseGuiFile(
 				//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 					dummy = tokenPtr[0];
-					basicDat.tag = dummy.TrimLeft().TrimRight();
+					basicDat.tag = dummy.TrimLeft().TrimRight(); 
 
 					dummy = tokenPtr[1];
 					basicDat.type = dummy.TrimLeft().TrimRight();
+					
 
 					basicDat.xTopLft = atoi( tokenPtr[2] );
 					basicDat.yTopLft = atoi( tokenPtr[3] );
@@ -246,7 +248,7 @@ void parseGuiFile(
 					basicDat.height = atoi( tokenPtr[5] );
 					basicDat.location = atoi( tokenPtr[6] );
 
-					CString csWarnings;
+					INXString csWarnings;
 					if(cleanupGuiLayoutBasics( basicDat, csWarnings  ))
 						AfxMessageBox(csWarnings);
 
@@ -256,8 +258,8 @@ void parseGuiFile(
 
 					// strip-off any leading or trailing spaces..
 						dummy =  tokenPtr[8];
-						dummy = dummy.TrimLeft().TrimRight();
-
+						dummy = dummy.TrimLeft().TrimRight(); 
+						
 						if(dummy == "dummy.bmp")
 							dummy=ICON_PLACEHOLDER_FILE;
 
@@ -285,7 +287,7 @@ void parseGuiFile(
 
 				if (basicDat.type=="GUI_Bitmap") {
 
-					CString projDir = "";
+					INXString projDir = "";
 					imageIcons.push_back( imageIconDat );
 
 				} else if (basicDat.type=="GUI_TextBox" || basicDat.type=="GUI_TextBox2") {
@@ -317,7 +319,7 @@ void parseGuiFile(
 
 }
 
-bool cleanupGuiLayoutBasics( LgbIconEssentialData_t &rEssDat, CString &csWarnings  )
+bool cleanupGuiLayoutBasics( LgbIconEssentialData_t &rEssDat, INXString &csWarnings  )
 {
 	bool warningsExist = false;
 

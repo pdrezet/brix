@@ -19,15 +19,15 @@ public:
 // Dialog Data
 	//{{AFX_DATA(FTPOptions)
 	enum { IDD = IDD_FTP_OPTIONS };
-	CString	m_server;
-	CString	m_username;
-	CString	m_password;
-	CString	m_serverDir;
+	INXString	m_server;
+	INXString	m_username;
+	INXString	m_password;
+	INXString	m_serverDir;
 	//}}AFX_DATA
 
 // methods
 	void SaveFTPOptions();
-	CString GetIniString(CString section, CString key, CString iniFile);
+	INXString GetIniString(INXString section, INXString key, INXString iniFile);
 
 // Overrides
 	// ClassWizard generated virtual function overrides

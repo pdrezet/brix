@@ -4,6 +4,7 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
+#include "Porting_Classes/INXString.h"
 // LucidStateMachineDialog1.h : header file
 //
 
@@ -19,8 +20,8 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CLucidStateMachineDialog)
 	enum { IDD = IDD_DIALOG4 };
-	CString	m_csState;
-	CString	m_csNumTransitionsTo;
+	INXString	m_csState;
+	INXString	m_csNumTransitionsTo;
 	//}}AFX_DATA
 
 

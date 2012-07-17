@@ -21,8 +21,8 @@ public:
 	enum { IDD = IDD_NEW_PROJECT };
 	CEdit	m_ctrlProjectName;
 	CEdit	m_ctrlPathName;
-	CString	m_strPathName;
-	CString	m_strProjectName;
+	INXString	m_strPathName;
+	INXString	m_strProjectName;
 	//}}AFX_DATA
 
 

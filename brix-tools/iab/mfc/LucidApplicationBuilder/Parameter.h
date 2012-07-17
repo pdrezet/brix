@@ -10,6 +10,8 @@
 #endif // _MSC_VER > 1000
 
 #include "ParameterStore.h"
+#include "Porting_Classes/INXString.h"
+#include "Porting_Classes/INXObjArray.h"
 
 #include <fstream>
 using namespace std;
@@ -23,14 +25,14 @@ public:
 	// constructors
 	Parameter();
 
-	Parameter(	CString _name, 
+	Parameter(	INXString _name, 
 				int _dataType, 
-				CString _minRange, 
-				CString _maxRange, 
-				CString defaultVal, 
-				CString _description, 
-				CStringArray* _enumValArr, 
-				CStringArray* _enumLabelArr);
+				INXString _minRange, 
+				INXString _maxRange, 
+				INXString defaultVal, 
+				INXString _description, 
+				INXObjArray<INXString>* _enumValArr, 
+				INXObjArray<INXString>* _enumLabelArr);
 
 	virtual ~Parameter();
 
@@ -42,19 +44,19 @@ public:
 	void Load(istream *);
 	bool IsTextbox();
 
-	CString GetEnumLabel(CString enumVal);
-	CString GetEnumVal(CString enumLabel);
+	INXString GetEnumLabel(INXString enumVal);
+	INXString GetEnumVal(INXString enumLabel);
 	
 	// attributes
-	CString name;
-	CString description;
+	INXString name;
+	INXString description;
 	int dataType;
-	CString minRange;
-	CString maxRange;
-	CString value;
+	INXString minRange;
+	INXString maxRange;
+	INXString value;
 
-	CStringArray* enumValArr;
-	CStringArray* enumLabelArr;
+	INXObjArray<INXString>* enumValArr;
+	INXObjArray<INXString>* enumLabelArr;
 
 };
 

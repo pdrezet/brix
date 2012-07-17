@@ -13,7 +13,7 @@ FunctionBlockSubstitution::~FunctionBlockSubstitution(void)
 	delete pInitDraggee;
 }
 
-void FunctionBlockSubstitution::createInitDraggee(CString type, CString block)
+void FunctionBlockSubstitution::createInitDraggee(INXString type, INXString block)
 {
 	INXPoint point(0,0);
 
@@ -63,11 +63,11 @@ bool FunctionBlockSubstitution::isReplaceable(ConData *droppee)
 void FunctionBlockSubstitution::connectDraggee()
 {
 	UINT j=0;
-	CString csPortDesc;
+	INXString csPortDesc;
 	INXPoint newPoint;
 	Port* tmpPort;
 	CUIntArray *tmpDraggeeFuncArg, *tmpDroppeeFuncArg;
-	CStringArray* tmpDraggeeFuncName, *tmpDroppeeFuncName;
+	INXObjArray<INXString>* tmpDraggeeFuncName, *tmpDroppeeFuncName;
 
 	for (UINT i=0; i<m_Draggee->startport_num; i++) {
 		if (i<m_Droppee->startport_num) {
@@ -193,7 +193,7 @@ bool FunctionBlockSubstitution::isSameParamNames()
 // returns 1 if successful and 0 otherwise
 int FunctionBlockSubstitution::copyParamValues()
 {
-	CString csTmpParamVal;
+	INXString csTmpParamVal;
 
 	if (isSameParamNames()) {
 		for (UINT i=1; i<m_Draggee->iParamNum; i++) {
@@ -223,7 +223,7 @@ bool FunctionBlockSubstitution::isParamValsModified()
 	if (!m_Droppee->m_iUserDefined) {
 		pBlob->init(m_Droppee->m_csIconType, "", point, 1);
 		for (UINT i=1; i<m_Droppee->iParamNum; i++) {
-			if (pBlob->iconParam[i]->value = "") {
+			if ((CString)pBlob->iconParam[i]->value = "") {
 				pBlob->iconParam[i]->value = "_";
 			}
 			if (m_Droppee->iconParam[i]->value != pBlob->iconParam[i]->value) {

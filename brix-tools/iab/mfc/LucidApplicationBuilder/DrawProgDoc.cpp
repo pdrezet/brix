@@ -74,7 +74,7 @@ CDrawProgDoc::~CDrawProgDoc()
 /*
 BOOL CDrawProgDoc::OnNewDocument()
 {
-	CString filename;
+	INXString filename;
 	//return FALSE;
 
 	if (!CDocument::OnNewDocument())
@@ -103,9 +103,9 @@ BOOL CDrawProgDoc::OnNewDocument()
 	
 	// TODO: add reinitialization code here
 	// (SDI documents will reuse this document)
-	CString strPath = "";
-	CString strYourCaption(_T("Project Creator"));
-	CString strYourTitle(_T("Select a new project directory."));
+	INXString strPath = "";
+	INXString strYourCaption(_T("Project Creator"));
+	INXString strYourTitle(_T("Select a new project directory."));
 
 	CPathDialog dlg(strYourCaption, strYourTitle, strPath);
 	if(dlg.DoModal()==IDOK)
@@ -163,7 +163,7 @@ void CDrawProgDoc::Serialize(CArchive& ar)
 
 BOOL CDrawProgDoc::OnOpenDocument(LPCTSTR lpszPathName) 
 {
-	CString filename;
+	INXString filename;
 	int len;
 	int response;
 
@@ -206,7 +206,7 @@ BOOL CDrawProgDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	}
 
 	// Check Folder Structure
-	CString csProjDir;
+	INXString csProjDir;
 
 	pProject->pProjMData->initProjFolderMinder(); 
 
@@ -249,8 +249,8 @@ BOOL CDrawProgDoc::OnSaveDocument(LPCTSTR lpszPathName)
 BOOL CDrawProgDoc::OnSaveDocument(LPCTSTR lpszPathName) 
 {
 	//lpszPathName = projectDir + "\\DEP\\" + projectName + ".prg"; 
-	CString sdlFile = lpszPathName;
-	CString filename = lpszPathName;
+	INXString sdlFile = lpszPathName;
+	INXString filename = lpszPathName;
 	// Remove .prg
 	sdlFile = sdlFile.SpanExcluding(".");
 	sdlFile = sdlFile + ".sdl";
@@ -325,11 +325,11 @@ void CDrawProgDoc::Dump(CDumpContext& dc) const
 
 void CDrawProgDoc::OnFileSave() 
 {
-	CString depFilename, csProjectDir;
-	CString sdlFile;
+	INXString depFilename, csProjectDir;
+	INXString sdlFile;
 
 	pProject->pProjMData->getProjectDir(csProjectDir);
-	if (csProjectDir == (CString)workDir + USERDEFDIR) {
+	if (csProjectDir == (INXString)workDir + USERDEFDIR) {
 		AfxMessageBox("Saving a temporary copy to temporary.dep. To create a reusable subsystem use the pink file save button on the toolbar");
 			POSITION pos = GetFirstViewPosition();
 			CDrawProgView* pView = (CDrawProgView*) GetNextView(pos);
@@ -341,7 +341,7 @@ void CDrawProgDoc::OnFileSave()
 	}
 	
 	// if a library component
-	if (csProjectDir == (CString)workDir + USERDEFDIR) {
+	if (csProjectDir == (INXString)workDir + USERDEFDIR) {
 		depFilename = csProjectDir + "\\" + pDEP->depFilename + ".prg"; 
 		sdlFile = csProjectDir + "\\t.sdl";
 	}
@@ -375,9 +375,9 @@ void CDrawProgDoc::OnFileSaveAs()
 // disable file save as menu item
 void CDrawProgDoc::OnUpdateFileSaveAs(CCmdUI* pCmdUI) 
 {
-	CString csProjectDir;
+	INXString csProjectDir;
 	pProject->pProjMData->getProjectDir(csProjectDir);
-	pCmdUI->Enable(csProjectDir == (CString)workDir + USERDEFDIR);	
+	pCmdUI->Enable(csProjectDir == (INXString)workDir + USERDEFDIR);	
 }
 
 void CDrawProgDoc::OnUpdateNewsubsystem(CCmdUI* pCmdUI) 
@@ -388,19 +388,19 @@ void CDrawProgDoc::OnUpdateNewsubsystem(CCmdUI* pCmdUI)
 
 void CDrawProgDoc::OnNewsubsystem() 
 {
-	CString csProjectDir;
+	INXString csProjectDir;
 	pProject->pProjMData->getProjectDir(csProjectDir);
-	csProjectDir == (CString)workDir + USERDEFDIR;
+	csProjectDir == (INXString)workDir + USERDEFDIR;
 	//InitialUpdateFrame(pFrame, pDocument, bMakeVisible);
 
 }
 
 void CDrawProgDoc::OnCloseDocument() 
 {
-	CString csProjectName;
+	INXString csProjectName;
 	/* brings up an assertion when a sub-block is modified
 	if (IsModified()) {
-		CString message = "Save changes to " + pDEP->depFilename + ".prg?";
+		INXString message = "Save changes to " + pDEP->depFilename + ".prg?";
 		int response = AfxMessageBox(message ,MB_YESNO);
 		if (response == IDYES) {
 			OnFileSave();

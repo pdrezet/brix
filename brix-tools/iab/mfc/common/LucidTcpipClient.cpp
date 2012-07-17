@@ -17,8 +17,9 @@
 #include <stdio.h>
 
 
+
 int LucidTcpipClient::s_iPort;
-CString LucidTcpipClient::s_csIpAddress;
+INXString LucidTcpipClient::s_csIpAddress;
 long TcpLogger::s_lLogCount = 0;
 int TcpLogger::s_iRunOnce = 1;
 
@@ -53,16 +54,16 @@ LucidTcpipClient::~LucidTcpipClient(void)
 void LucidTcpipClient::InitTcpipClient()
 {
 	// Get the IP Address and Port from the registry
-	CString csPort;
-	CString csLocation = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_LOCATION_VALUE),_T(DEFAULT_TARGET_LOCATION));
+	INXString csPort;
+	INXString csLocation = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_LOCATION_VALUE),_T((CString)DEFAULT_TARGET_LOCATION));
 
 	if (csLocation == REG_TARGET_LOCATION_DATA_REMOTE) {
-		s_csIpAddress = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_REMOTE_IP_VALUE),_T(DEFAULT_TARGET_REMOTE_IP));
-		csPort = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_REMOTE_PORT_VALUE),_T(DEFAULT_TARGET_PORT));
+		s_csIpAddress = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_REMOTE_IP_VALUE),_T((CString)DEFAULT_TARGET_REMOTE_IP));
+		csPort = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_REMOTE_PORT_VALUE),_T((CString)DEFAULT_TARGET_PORT));
 	}
 	else {
 		s_csIpAddress = DEFAULT_TARGET_LOCAL_IP;
-		csPort = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_LOCAL_PORT_VALUE),_T(DEFAULT_TARGET_PORT));
+		csPort = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_LOCAL_PORT_VALUE),_T((CString)DEFAULT_TARGET_PORT));
 	}
 	s_iPort = atoi(csPort);
 }
@@ -131,7 +132,7 @@ LtsStatusType LucidTcpipClient::SetSocketOptions()
 /**
  * Cater for standard calls from SendText
  */
-LtsStatusType LucidTcpipClient::SendData(CString csSendBuffer)
+LtsStatusType LucidTcpipClient::SendData(INXString csSendBuffer)
 {
 	return SendData((const char *)csSendBuffer,csSendBuffer.GetLength());
 }
@@ -236,7 +237,7 @@ LtsStatusType LucidTcpipClient::SendRawData(const char *szSendBuffer, int size)
 /**
  * Cater for calls made from ReceiveTextLine and ReceiveTextBlock
  */
-LtsStatusType LucidTcpipClient::RecvData(CString &csRecvBuffer)
+LtsStatusType LucidTcpipClient::RecvData(INXString &csRecvBuffer)
 {
 	LtsStatusType ltsStatusType = LTS_STATUS_OK;
 
@@ -269,7 +270,7 @@ LtsStatusType LucidTcpipClient::RecvData(CString &csRecvBuffer)
 		long cs_size = csRecvBuffer.GetLength();
 		long sz_size = TCPIP_BUFFER_SIZE;	
 
-		assert( cs_size <= sz_size );//ensure nothings lost in cstring copy
+		assert( cs_size <= sz_size );//ensure nothings lost in INXString copy
 	}
 
 	delete szReceiveBuffer;
@@ -342,12 +343,12 @@ LtsStatusType LucidTcpipClient::DisConnect()
  *
  * @return LtsStatusType
  */
-LtsStatusType LucidTcpipClient::SendFileContents( CString csFilePath, CTgtTransProgDlog *pDlog )
+LtsStatusType LucidTcpipClient::SendFileContents( INXString csFilePath, CTgtTransProgDlog *pDlog )
 {
 	LtsStatusType ltsStatusType = LTS_STATUS_OK;
 	char pszFullContent[65535];	
 
-	CString csFullContent;
+	INXString csFullContent;
 	int iFileSize = this->FileSize(csFilePath);
 	int iSizeRemaining = iFileSize;
 	const int arraysize = sizeof(pszFullContent);
@@ -402,12 +403,12 @@ LtsStatusType LucidTcpipClient::SendFileContents( CString csFilePath, CTgtTransP
  *
  * @return LtsStatusType
  */
-LtsStatusType LucidTcpipClient::SendFileContents(CString csFilePath)
+LtsStatusType LucidTcpipClient::SendFileContents(INXString csFilePath)
 {
 	LtsStatusType ltsStatusType = LTS_STATUS_OK;
 	char szFullContent[65535];	
 
-	CString csFullContent;
+	INXString csFullContent;
 	int filesize = this->FileSize(csFilePath);
 	const int arraysize = sizeof(szFullContent);
 
@@ -454,7 +455,7 @@ LtsStatusType LucidTcpipClient::SendFileContents(CString csFilePath)
  *
  * @return LtsStatusType
  */
-LtsStatusType LucidTcpipClient::SendText(CString csText)
+LtsStatusType LucidTcpipClient::SendText(INXString csText)
 {
 	LtsStatusType ltsStatusType = LTS_STATUS_OK;
 	ltsStatusType = this->SendData(csText);
@@ -495,7 +496,7 @@ LtsStatusType LucidTcpipClient::SendText(char *szText, int size)
  *
  * @return LtsStatusType
  */
-LtsStatusType LucidTcpipClient::ReceiveTextLine(CString &csReceiveText)
+LtsStatusType LucidTcpipClient::ReceiveTextLine(INXString &csReceiveText)
 {
 	LtsStatusType retVal = LTS_STATUS_OK;
 	//csReceiveText = "";
@@ -571,8 +572,8 @@ LtsStatusType LucidTcpipClient::ReceiveTextLine(CString &csReceiveText)
  * @return LtsStatusType
  */
 LtsStatusType LucidTcpipClient::ReceiveTextBlock(
-		CString &csReceiveText, 
-		CString &csDelimToken, 
+		INXString &csReceiveText, 
+		INXString &csDelimToken, 
 		const bool &bGetFirstBlockOnly )
 {
 	LtsStatusType ltsStatusType = LTS_STATUS_OK;
@@ -633,7 +634,7 @@ LtsStatusType LucidTcpipClient::ReceiveTextBlock(
  *
  * @return LtsStatusType
  */
-LtsStatusType LucidTcpipClient::ReceiveTextBlock(CString &csReceiveText)
+LtsStatusType LucidTcpipClient::ReceiveTextBlock(INXString &csReceiveText)
 {
 	LtsStatusType ltsStatusType = LTS_STATUS_OK;
 	csReceiveText = "";
@@ -660,7 +661,7 @@ LtsStatusType LucidTcpipClient::ReceiveTextBlock(CString &csReceiveText)
  *	GetPort()
  *	GetIPAddress()
  *	SetPort(int iPort)
- *	SetIPAddress(CString csIpAddress)
+ *	SetIPAddress(INXString csIpAddress)
  */
 void LucidTcpipClient::ConfigDlg()
 {
@@ -679,7 +680,7 @@ int LucidTcpipClient::GetPort()
 { 	return this->s_iPort;
 }
 
-CString LucidTcpipClient::GetIPAddress()
+INXString LucidTcpipClient::GetIPAddress()
 { 	return this->s_csIpAddress;
 }
 
@@ -687,7 +688,7 @@ void LucidTcpipClient::SetPort(int iPort)
 {	s_iPort = iPort;
 }
 
-void LucidTcpipClient::SetIPAddress(CString csIpAddress)
+void LucidTcpipClient::SetIPAddress(INXString csIpAddress)
 {	s_csIpAddress = csIpAddress;
 }
 
@@ -696,7 +697,7 @@ void LucidTcpipClient::SetIPAddress(CString csIpAddress)
  *  FileSize()	Obtaining the file size
  *	SendFile()  Makes it easier for user to pass file to be sent and target file name 
  */
-int LucidTcpipClient::FileSize(CString csFilePath)
+int LucidTcpipClient::FileSize(INXString csFilePath)
 {
 	long begin,end;
 	ifstream myfile(csFilePath,ios::in);	
@@ -708,7 +709,7 @@ int LucidTcpipClient::FileSize(CString csFilePath)
 	return (end-begin);
 }
 
-LtsStatusType LucidTcpipClient::WaitForServer( CString &csReceive )
+LtsStatusType LucidTcpipClient::WaitForServer( INXString &csReceive )
 {
 	//Recv timeout 50ms. We will wait 500ms (10*50)
 	int timeout = 10; 
@@ -753,12 +754,12 @@ LtsStatusType LucidTcpipClient::WaitForServer( CString &csReceive )
  *
  * @return LtsStatusType
  */
-LtsStatusType LucidTcpipClient::SendFile(CString csFilePath, CString csTargetFileName )
+LtsStatusType LucidTcpipClient::SendFile(INXString csFilePath, INXString csTargetFileName )
 {
 	LtsStatusType ltsStatusType = LTS_STATUS_OK;
-	CString command;
+	INXString command;
 	command.Format("L %s %d\n", csTargetFileName, this->FileSize(csFilePath));	
-	if (strstr(csTargetFileName, "\\")) 
+	if (strstr((CString)csTargetFileName, "\\")) 
 	{
 		AfxMessageBox("SendFile: Target file name without path expected");
 		return LTS_STATUS_FAIL;
@@ -789,14 +790,14 @@ LtsStatusType LucidTcpipClient::SendFile(CString csFilePath, CString csTargetFil
  * @return LtsStatusType
  */
 
-LtsStatusType LucidTcpipClient::SendFile(CString csFilePath, CString csTargetFileName, CTgtTransProgDlog *pDlog )
+LtsStatusType LucidTcpipClient::SendFile(INXString csFilePath, INXString csTargetFileName, CTgtTransProgDlog *pDlog )
 {
 	pDlog->setProgbarFile(0);
 
 	LtsStatusType ltsStatusType = LTS_STATUS_OK;
-	CString command;
+	INXString command;
 	command.Format("L %s %d\n", csTargetFileName, this->FileSize(csFilePath));	
-	if (strstr(csTargetFileName, "\\")) 
+	if (strstr((CString)csTargetFileName, "\\")) 
 	{
 		AfxMessageBox("SendFile: Target file name without path expected");
 		return LTS_STATUS_FAIL;
@@ -836,7 +837,7 @@ TcpLogger::TcpLogger()
 #endif
 }
 
-void TcpLogger::LogAddMessage(CString csLog)
+void TcpLogger::LogAddMessage(INXString csLog)
 {
 #ifdef TCP_LOGGER
 	FILE *fp;
@@ -962,12 +963,12 @@ long TcpLogger::Log(const char* pszFormat, ...)
     
 	// Append timestamp
 	CTime tNow;
-	CString csTime;
+	INXString csTime;
 
 	tNow = CTime::GetCurrentTime();
 	csTime = tNow.Format( "%d/%m/%y %H:%M:%S ");
 
-    CString csBuffer;
+    INXString csBuffer;
 	csBuffer.Format("%s%s", csTime, buffer);
     // Note: vsprintf is deprecated; consider using vsprintf_s instead
 

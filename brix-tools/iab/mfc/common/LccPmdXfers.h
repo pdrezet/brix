@@ -1,7 +1,7 @@
 #pragma once
 #include "LucidEnums.h"
 #include "stdafx.h"
-
+#include "Porting_Classes/INXString.h"
 #include <vector>
 
 class ProjectMetaData;
@@ -26,16 +26,16 @@ public:
 
 	struct DataPair_t {
 		TypesEnum type;
-		CString hostFileName;
+		INXString hostFileName;
 	};
 
 public:
 	int getCount( const TypesEnum &type );
 	int getCount();
 
-	LucidErrEnum addItem( const TypesEnum &type ,  const CString &hostFileName );
+	LucidErrEnum addItem( const TypesEnum &type ,  const INXString &hostFileName );
 
-	//LucidErrEnum removeItem( const TypesEnum &type ,  CString value );
+	//LucidErrEnum removeItem( const TypesEnum &type ,  INXString value );
 
 	int getItems( const TypesEnum &type, std::vector<DataPair_t> &items );
 
@@ -50,12 +50,12 @@ public:
 
 private:
 	std::vector< DataPair_t > m_vContents;
-	//int getOverallIndex( const TypesEnum type ,  const CString &value );
-	//LucidErrEnum getItem( const TypesEnum &type , const int &index, CString &value );
+	//int getOverallIndex( const TypesEnum type ,  const INXString &value );
+	//LucidErrEnum getItem( const TypesEnum &type , const int &index, INXString &value );
 
 
 
-	//bool alreadyExists( const TypesEnum &type ,  CString value );
+	//bool alreadyExists( const TypesEnum &type ,  INXString value );
 
 
 };

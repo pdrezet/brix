@@ -36,10 +36,10 @@ void Datsrc::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(Datsrc)
-	DDX_Text(pDX, IDC_DIRECTORY, m_directory);
-	DDX_Text(pDX, IDC_FILENAME, m_filenaame);
-	DDX_Text(pDX, IDC_MACHINE, m_option1);
-	DDX_Text(pDX, IDC_SUBJECT, m_option2);
+	DDX_Text(pDX, IDC_DIRECTORY, (CString)m_directory);
+	DDX_Text(pDX, IDC_FILENAME, (CString)m_filenaame);
+	DDX_Text(pDX, IDC_MACHINE, (CString)m_option1);
+	DDX_Text(pDX, IDC_SUBJECT, (CString)m_option2);
 	//}}AFX_DATA_MAP
 }
 

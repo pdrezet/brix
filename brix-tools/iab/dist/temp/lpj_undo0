@@ -1,6 +1,6 @@
 <LucidProject>
 <Version>1.4</Version>
-<ProjectName>try</ProjectName>
+<ProjectName>try3</ProjectName>
 <LastTransferToTarget>-128-65-00 00:00:00:000</LastTransferToTarget>
 <GroupSet>
 <Group>
@@ -22,7 +22,7 @@
 <PngFile>
 <HostFileName>placeholder.png</HostFileName>
 <Description/>
-<TargetFileName>p0000000.png</TargetFileName>
+<TargetFileName/>
 </PngFile>
 </PngFileSet>
 <BmpFileSet/>

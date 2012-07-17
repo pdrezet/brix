@@ -1,4 +1,5 @@
-#include <windef.h>        
+#include <windef.h>  
+#include "Porting_Classes/INXString.h"
 
 #ifndef BITMAP
 #define BITMAP
@@ -9,7 +10,7 @@ public:
 Bitmap();
 ~Bitmap(void);
 
-CSize Init(CString FileName) ;
+CSize Init(INXString FileName) ;
 int Draw(CDC* pDC, CPoint point);
 
 LONG  GetWidth(); 
@@ -22,7 +23,7 @@ BYTE * MakeDwordAlignedBuf(BYTE *dataBuf);
 									 //UINT height,
 									 //UINT *uiOutWidthBytes)	;	// bytes!!!;
 
-BYTE * LoadBMP(CString fileName);  //UINT *width, UINT *height,BYTE* planes,BYTE *bp
+BYTE * LoadBMP(INXString fileName);  //UINT *width, UINT *height,BYTE* planes,BYTE *bp
 
 
 

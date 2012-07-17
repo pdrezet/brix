@@ -82,9 +82,9 @@ CPathDialog::CPathDialog(LPCTSTR lpszCaption,
 /////////////////////////////////////////////////////////////////////////////
 // CPathDialog message handlers
 
-CString CPathDialog::GetPathName()
+INXString CPathDialog::GetPathName()
 {
-	return CString(m_szPathName);
+	return INXString(m_szPathName);
 }
 
 int CALLBACK CPathDialog::BrowseCallbackProc(HWND hwnd,UINT uMsg,LPARAM lParam, LPARAM pData) 
@@ -217,7 +217,7 @@ BOOL CPathDialog::IsFileNameValid(LPCTSTR lpFileName)
 		return FALSE;
 	}
 	
-	CString filename = (CString)lpFileName;
+	INXString filename = (INXString)lpFileName;
 	if (filename == APP || filename == "GUI" || filename == "BMP" || filename == "TXT") {
 		return FALSE;
 	}
@@ -292,7 +292,7 @@ const TCHAR c_szErrCreatePath[] = _T(
 //return 2: can not create lpPath
 int CPathDialog::MakeSurePathExists(LPCTSTR lpPath)
 {
-	CString strMsg;
+	INXString strMsg;
 	int iRet;
 	try
 	{
@@ -347,7 +347,7 @@ int CPathDialog::MakeSurePathExists(LPCTSTR lpPath)
 //return 1: project is empty
 int CPathDialog::ValidProject(LPCTSTR lpProject)
 {
-	if ((CString)lpProject == "") {
+	if ((INXString)lpProject == "") {
 		AfxMessageBox("You must specify a project name.");
 		return 1;
 	}

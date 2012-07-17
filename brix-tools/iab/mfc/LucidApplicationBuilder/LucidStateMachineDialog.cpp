@@ -32,8 +32,8 @@ void LucidStateMachineDialog::DoDataExchange(CDataExchange* pDX)
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(LucidStateMachineDialog)
 	DDX_Control(pDX, IDC_RADIO1, m_RadioButton);
-	DDX_Text(pDX, IDC_EDIT1, m_csState);
-	DDX_Text(pDX, IDC_EDIT3, m_csTransitionsTo);
+	DDX_Text(pDX, IDC_EDIT1, (CString)m_csState);
+	DDX_Text(pDX, IDC_EDIT3, (CString)m_csTransitionsTo);
 	DDX_Check(pDX, IDC_CHECK1, m_bEntryActionCheckBox);
 	DDX_Check(pDX, IDC_CHECK2, m_bTransitionActionCheck);
 	//}}AFX_DATA_MAP

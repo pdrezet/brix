@@ -49,10 +49,10 @@ BOOL CZoomDialog::OnInitDialog()
 
 	// TODO: Add extra initialization here
 	_itoa_s(iScale, tmp, RADIX);
-	m_scale.SetWindowText((CString)tmp);
+	m_scale.SetWindowText((INXString)tmp);
 	for (int i=MAX_ZOOM; i>=MIN_ZOOM; i=i-ZOOM_DELTA) {
 		_itoa_s(i, tmp, RADIX);
-		m_scale.AddString((CString)tmp);
+		m_scale.AddString((INXString)tmp);
 	}
 	
 	return TRUE;  // return TRUE unless you set the focus to a control

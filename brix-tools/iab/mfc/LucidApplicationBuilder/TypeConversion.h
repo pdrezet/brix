@@ -8,7 +8,7 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-
+#include "Porting_Classes/INXString.h"
 class TypeConversion  
 {
 public:
@@ -18,7 +18,7 @@ public:
 	// Methods
 	char DataType2Char(int dataType);
 	int DataType2Int(char dataType);
-	int DataType2Int(CString dataType);
+	int DataType2Int(INXString dataType);
 
 };
 

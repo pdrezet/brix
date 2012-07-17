@@ -13,7 +13,7 @@
 // PathDialog.h : header file
 //
 #include "shlobj.h"
-
+#include "Porting_Classes/INXString.h"
 class CPathDialog;
 
 // CPathDialogSub - intercepts messages from child controls
@@ -42,7 +42,7 @@ public:
 		LPCTSTR lpszInitialPath=NULL, 
 		CWnd* pParent = NULL);
 
-	CString GetPathName();
+	INXString GetPathName();
 	virtual int DoModal();
 
 	static int Touch(LPCTSTR lpPath, BOOL bValidate=TRUE);

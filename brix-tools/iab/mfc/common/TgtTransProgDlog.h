@@ -3,6 +3,7 @@
 #include "afxwin.h"
 #include "afxcmn.h"
 #include "ProjectMetaData.h"
+#include "Porting_Classes/INXString.h"
 
 #define UWM_SET_FILE_PROGBAR (WM_APP + 1)
 #define UWM_SET_OVERALL_PROGBAR (WM_APP + 2)
@@ -42,12 +43,12 @@ protected:
 
 public:
 
-	void setPromptOverall(const CString & fileName);
-	void setPromptOverallDirect(const CString & fileName);
+	void setPromptOverall(const INXString & fileName);
+	void setPromptOverallDirect(const INXString & fileName);
 
 	void setProgbarOverall(const int & pos);
 
-	void setPromptFile(const CString & fileName);
+	void setPromptFile(const INXString & fileName);
 	void setProgbarFile(const int & pos);
 
 	void setReset();

@@ -35,12 +35,12 @@ CProjectDialog::~CProjectDialog()
 void CProjectDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	DDX_Text(pDX, IDC_PROJ_NAME_EDIT, m_ProjectName);
-	DDX_Text(pDX, IDC_PROJ_DIR_EDIT, m_ProjectDir);
+	DDX_Text(pDX, IDC_PROJ_NAME_EDIT, (CString)m_ProjectName);
+	DDX_Text(pDX, IDC_PROJ_DIR_EDIT, (CString)m_ProjectDir);
 	DDX_Control(pDX, IDC_PROJ_DIR_EDIT, m_ProjectDirEdit);
-	DDX_Text(pDX, IDC_PROJECT_COMMERCIALNAME, m_ProjectCommercialName);
-	DDX_Text(pDX, IDC_PROJECT_VERSION, m_ProjectVersion);
-	DDX_Text(pDX, IDC_PROJECT_DESCRIPTION, m_ProjectDescription);
+	DDX_Text(pDX, IDC_PROJECT_COMMERCIALNAME, (CString)m_ProjectCommercialName);
+	DDX_Text(pDX, IDC_PROJECT_VERSION, (CString)m_ProjectVersion);
+	DDX_Text(pDX, IDC_PROJECT_DESCRIPTION, (CString)m_ProjectDescription);
 }
 
 
@@ -102,9 +102,9 @@ void CProjectDialog::OnOk()
 void CProjectDialog::OnFindProjDir()
 {
 	// TODO: Add your control notification handler code here
-	CString projDirPath = "";
-	CString projDirCaption(_T("Project Root Directory"));
-	CString projDirTitle(_T("Select a new project root directory."));
+	INXString projDirPath = "";
+	INXString projDirCaption(_T("Project Root Directory"));
+	INXString projDirTitle(_T("Select a new project root directory."));
 
 	UINT uFlags	= BIF_RETURNONLYFSDIRS | BIF_USENEWUI;
 	//NOTE - new folder button in CFolderDialog doesn't work in Wine, so have disabled it
@@ -147,7 +147,7 @@ bool CProjectDialog::IsValidName()
 
 bool CProjectDialog::ProjectExists()
 {
-	CString projectFilename = m_ProjectDir + "\\" + m_ProjectName + "\\" + m_ProjectName + PROJECTEXT;
+	INXString projectFilename = m_ProjectDir + "\\" + m_ProjectName + "\\" + m_ProjectName + PROJECTEXT;
 
 	ifstream projectfile(projectFilename);
 

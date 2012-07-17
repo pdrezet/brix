@@ -13,6 +13,7 @@
 #include "Porting_Classes/INXPoint.h"
 #include "Porting_Classes/INXSize.h"
 #include "Porting_Classes/INXRect.h"
+#include "Porting_Classes/INXString.h"
 
 
 using namespace std;
@@ -67,7 +68,7 @@ public:
 	int portType; // port type line is connected to
 	int dataType;
 	int nodeCount;
-	CString dbgValue;
+	INXString dbgValue;
 	INXRect valueRect;
 	int dbgEvent;
 	int lineSelected;

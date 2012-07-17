@@ -6,7 +6,7 @@
 #include <cassert>
 
 #include "LucidConstants.h"
-
+#include "Porting_Classes/INXString.h"
 #define BUFFSIZE 50
 #define RADIX 10
 
@@ -16,12 +16,12 @@
 
 // yyyy-mm-dd HH:MM:SS:mmm
 
-DBTIMESTAMP parseTimeStamp( CString &cs )
+DBTIMESTAMP parseTimeStamp( INXString &cs )
 {
 	DBTIMESTAMP ts ;
 	memset( &ts, 0, sizeof(DBTIMESTAMP) ); 
 
-	CString cs2;
+	INXString cs2;
     const size_t newsize = 100;
     char buff[newsize];
 int i;
@@ -39,13 +39,13 @@ int i;
 	return ts;
 }
 
-CString csPrintTimeStamp( const DBTIMESTAMP &ts )
+INXString csPrintTimeStamp( const DBTIMESTAMP &ts )
 {
 	char buff[100];
 	sprintf_s(buff, 100, "%4d-%2d-%2d %2d:%2d:%2d:%3d", 
 		ts.year, ts.month, ts.day, ts.hour, ts.minute, ts.second, ts.fraction/1000000 );
 
-	return CString(buff);
+	return INXString(buff);
 }
 
 bool firstStampIsNewer( const DBTIMESTAMP &ts1,  const DBTIMESTAMP &ts2 )
@@ -123,7 +123,7 @@ bool firstStampIsNewer( const DBTIMESTAMP &ts1,  const DBTIMESTAMP &ts2 )
  *  FileSize()	Obtaining the file size
  *	SendFile()  Makes it easier for user to pass file to be sent and target file name 
  */
-int FileSize(const CString &csFilePath)
+int FileSize(const INXString &csFilePath)
 {
 	long begin,end;
 	std::ifstream myfile(csFilePath,std::ios::in);	
@@ -135,17 +135,17 @@ int FileSize(const CString &csFilePath)
 	return (end-begin);
 }
 
-CString intToString(const int val)
+INXString intToString(const int val)
 {
 	char buff[BUFFSIZE];
 
 	_itoa_s( val, buff, BUFFSIZE, RADIX);
 		
-	return	CString(buff);
+	return	INXString(buff);
 
 } 
 
-void parseSodlWidgetData( const CString &fileLine, CString &widgetTag, CString &targetFileName )
+void parseSodlWidgetData( const INXString &fileLine, INXString &widgetTag, INXString &targetFileName )
 {
 
 	// A GUI tag is preceded by %%%_ which needs to be removed from the GUI file
@@ -155,7 +155,7 @@ void parseSodlWidgetData( const CString &fileLine, CString &widgetTag, CString &
 	targetFileName = widgetTag;
 
 	// where is space between widget tag and target file name
-	int posnOfSeparatorSpace = widgetTag.Find(CString(" "));
+	int posnOfSeparatorSpace = widgetTag.Find(INXString(" "));
 
 	// get the characters of the widget tag (ie up to, not including, the space).
 	widgetTag = widgetTag.Left(posnOfSeparatorSpace);
@@ -169,7 +169,7 @@ void parseSodlWidgetData( const CString &fileLine, CString &widgetTag, CString &
 
 }
 
-int parseLines( CString &csTextBlock, std::list<CString> &rLines )
+int parseLines( INXString &csTextBlock, std::list<INXString> &rLines )
 {
 
 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -225,14 +225,14 @@ int parseLines( CString &csTextBlock, std::list<CString> &rLines )
 
 }
 
-CString cloneBackSlashes( const CString &csText )
+INXString cloneBackSlashes( const INXString &csText )
 {
-	CString csRetval = "";
+	INXString csRetval = "";
 
 	for(int i=0;i<csText.GetLength();i++)
 	{
-		csRetval.AppendChar( csText[i] );
-		if(csText[i] == '\\'){
+		csRetval.AppendChar(((INXString)csText)[i] );
+		if( ((INXString)csText)[i] == '\\'){
 			csRetval.AppendChar( '\\' );
 		}
 	}
@@ -240,21 +240,21 @@ CString cloneBackSlashes( const CString &csText )
 }
 
 // Function that gets the data from an ini file by specifying the section and key
-CString GetIniValue(CString csSection, CString csKey, CString csIniFileName) 
+INXString GetIniValue(INXString csSection, INXString csKey, INXString csIniFileName) 
 {
 	char szDestBuff[256]={'\0'};
 	LPCTSTR pDestBuff = &szDestBuff[0];
-	CString csDestBuff = "";
+	INXString csDestBuff = "";
 	char szDefault[]={""};
 
 	GetPrivateProfileString(csSection, csKey, szDefault, szDestBuff, sizeof(szDestBuff), csIniFileName);
 
-	csDestBuff = (CString)pDestBuff;
+	csDestBuff = (INXString)pDestBuff;
 	return csDestBuff;
 }
 
 // Function that gets the data from an ini file by specifying the section and key
-void GetIniKeys(CString csSection, CString csIniFileName, std::vector<CString> &vKeysVec) 
+void GetIniKeys(INXString csSection, INXString csIniFileName, std::vector<INXString> &vKeysVec) 
 {
 	char szDestBuff[32767]={'\0'};
 	LPTSTR pDestBuff = &szDestBuff[0];
@@ -262,7 +262,7 @@ void GetIniKeys(CString csSection, CString csIniFileName, std::vector<CString> &
 	bool endOfBuffer = FALSE;
 	int i = 0, j = 0, iEquals;
 	char szTmpBuff[256]={'\0'};
-	CString csTmpBuff, csToolKey;
+	INXString csTmpBuff, csToolKey;
 
 	GetPrivateProfileSection(csSection, pDestBuff, sizeof(szDestBuff), csIniFileName);
 
@@ -271,7 +271,7 @@ void GetIniKeys(CString csSection, CString csIniFileName, std::vector<CString> &
 		// if '\0' then end of string so add to array
 		if (szDestBuff[i] == '\0') {
 			szTmpBuff[j] = szDestBuff[i];
-			csTmpBuff = (CString)szTmpBuff;
+			csTmpBuff = (INXString)szTmpBuff;
 			// Only want to add key to vector
 			iEquals = csTmpBuff.Find('=');
 			csToolKey = csTmpBuff.Left(iEquals);

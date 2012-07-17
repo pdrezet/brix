@@ -7,6 +7,7 @@
 #include "ProjectMetaData.h"
 #include "../LucidGUIBuilder/ScreenTagListBox.h"
 #include "HScrollListBox.h"
+#include "Porting_Classes/INXString.h"
 
 //#define IDD_SCREEN_TAGS 50
 using namespace std;
@@ -45,7 +46,7 @@ public:
 
 protected:
 	ProjectMetaData *m_pProjectMetaData;
-	map< CString, ScreenMgrSupportData_t > m_TagDescrMap;
+	map< INXString, ScreenMgrSupportData_t > m_TagDescrMap;
 	afx_msg void OnStnClickedScrntagStaticTags();
 
 public:

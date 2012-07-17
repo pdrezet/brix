@@ -2,6 +2,8 @@
 
 #include "condat.h"
 #include "DEP.h"
+#include "Porting_Classes/INXString.h"
+
 class FunctionBlockSubstitution
 {
 public:
@@ -9,7 +11,7 @@ public:
 	~FunctionBlockSubstitution(void);
 
 	// methods
-	void createInitDraggee(CString type, CString block);
+	void createInitDraggee(INXString type, INXString block);
 	void setDraggee(ConData* draggee);
 	void setDroppee(ConData* droppee);
 	ConData* getDroppee();

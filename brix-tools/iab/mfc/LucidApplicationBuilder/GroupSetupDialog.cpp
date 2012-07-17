@@ -63,8 +63,8 @@ BOOL CGroupSetupDialog::OnInitDialog()
 		_itoa_s(vGroups.at(i).ID, szGroupID, 10);
 		_itoa_s(vGroups.at(i).Period, szGroupPeriod, 10);
 		_itoa_s(vGroups.at(i).Alloc, szGroupAlloc, 10);
-		group =  (CString)szGroupID + "\t" + vGroups.at(i).Name + "\t\t" + (CString)szGroupPeriod + 
-			"\t\t" + (CString)szGroupAlloc;
+		group =  (INXString)szGroupID + "\t" + vGroups.at(i).Name + "\t\t" + (INXString)szGroupPeriod + 
+			"\t\t" + (INXString)szGroupAlloc;
 		m_Group.AddString(group);
 		groupID = vGroups.at(i).ID;
 	}
@@ -86,8 +86,8 @@ void CGroupSetupDialog::OnAddGroup()
 		_itoa_s(groupID, szGroupID, 10);
 		_itoa_s(dialog.m_Period, szGroupPeriod, 10);
 		_itoa_s(dialog.m_Alloc, szGroupAlloc, 10);
-		group = (CString)szGroupID + "\t" + dialog.m_Name + "\t\t" + (CString)szGroupPeriod + "\t\t" + 
-			(CString)szGroupAlloc;
+		group = (INXString)szGroupID + "\t" + dialog.m_Name + "\t\t" + (INXString)szGroupPeriod + "\t\t" + 
+			(INXString)szGroupAlloc;
 		m_Group.AddString(group);
 	}
 }
@@ -95,7 +95,7 @@ void CGroupSetupDialog::OnAddGroup()
 void CGroupSetupDialog::OnEditGroup() 
 {
 	CEditGroupDialog dialog(pProject, FALSE);
-	CString szGroupID, szGroupName;
+	INXString szGroupID, szGroupName;
 	char szGroupPeriod[32];
 	char szGroupAlloc[32];
 	
@@ -105,7 +105,7 @@ void CGroupSetupDialog::OnEditGroup()
 		AfxMessageBox("Select a group to edit.");
 		return;
 	}
-	m_Group.GetText(index, group);
+	m_Group.GetText(index, (CString)group);
 	// Initialise the edit group dialog box with the parameters to edit
 	szGroupID = ExtractParam();
 	dialog.m_Name = ExtractParam();
@@ -118,7 +118,7 @@ void CGroupSetupDialog::OnEditGroup()
 	if (dialog.DoModal()==IDOK) {
 		_itoa_s(dialog.m_Period, szGroupPeriod, 10);
 		_itoa_s(dialog.m_Alloc, szGroupAlloc, 10);
-		group = szGroupID + "\t" + dialog.m_Name + "\t\t" + (CString)szGroupPeriod + "\t\t" + (CString)szGroupAlloc;
+		group = szGroupID + "\t" + dialog.m_Name + "\t\t" + (INXString)szGroupPeriod + "\t\t" + (INXString)szGroupAlloc;
 		// delete the old group and add the modified group
 		m_Group.DeleteString(index);
 		m_Group.InsertString(index, group);
@@ -127,12 +127,12 @@ void CGroupSetupDialog::OnEditGroup()
 
 void CGroupSetupDialog::OnDeleteGroup() 
 {
-	CString szGroupID;
+	INXString szGroupID;
 	UINT selectedID;
 
 	// get selected group
 	int index = m_Group.GetCurSel();
-	m_Group.GetText(index, group);
+	m_Group.GetText(index, (CString)group);
 	szGroupID = ExtractParam();
 	selectedID = atoi(szGroupID);
 	if (index == LB_ERR) {
@@ -154,9 +154,9 @@ void CGroupSetupDialog::OnDeleteGroup()
 	}
 }
 
-CString CGroupSetupDialog::ExtractParam() {
+INXString CGroupSetupDialog::ExtractParam() {
 	int tabPos = group.Find("\t");
-	CString param = group.Left(tabPos);
+	INXString param = group.Left(tabPos);
 	group.Delete(0,tabPos+1);
 
 	return param;
@@ -172,7 +172,7 @@ void CGroupSetupDialog::OnOK()
 	pProject->pProjMData->removeAllGroups();
 
 	for (int i=0; i<m_Group.GetCount(); i++) {
-		m_Group.GetText(i, group);
+		m_Group.GetText(i, (CString)group);
 		// Add the parameters from each group to the project
 		groupObj.ID = atoi(ExtractParam());		
 		groupObj.Name = ExtractParam();
@@ -189,12 +189,12 @@ void CGroupSetupDialog::OnOK()
 }
 
 // Returns true if a start or internal port has its groupID set to the same ID
-bool CGroupSetupDialog::GroupInUse(UINT selectedID, CString blockName) {
+bool CGroupSetupDialog::GroupInUse(UINT selectedID, INXString blockName) {
 	INXObjList* condata;
 	INXPOSITION pos;
 	ConData* blob;
 	BlockOperations bo;
-	CString subBlockName, csProjectDir;
+	INXString subBlockName, csProjectDir;
 	UINT i;
 	
 	pProject->pProjMData->getProjectDir(csProjectDir);

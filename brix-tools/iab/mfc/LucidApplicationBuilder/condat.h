@@ -18,6 +18,7 @@
 #include "PROC_FUNCTION.H"
 #include "../common/LucidEnums.h"
 #include "Porting_Classes/INXSize.h"
+#include "Porting_Classes/INXString.h"
 
 /*****************************************************************/
 // ConData() contains processing icon data including screen geometry, bitmap
@@ -36,7 +37,7 @@ public:
 
 	ConData();
 	void copyDialogData( const ConData &sourceData );
-	void init(CString csIconType, CString csBlockName, INXPoint point, int _iShow=1);
+	void init(INXString csIconType, INXString csBlockName, INXPoint point, int _iShow=1);
 	void initBmp(INXPoint _point);
 	void Draw(CDC *);
 	void Draw(CDC *, bool _onlyDrawAnim, int _toggleAnim);
@@ -57,15 +58,15 @@ public:
 	INXPoint GetPortPoint(int port, int portType);
 	INXPoint *GetPortPointPtr(int port, int portType);
 	int OnPort(INXPoint point,int * portType,int *portConnected);
-	void ReadIDFFile(CString csType, INXPoint point);
-	int portType2Int(CString str);
-	int dataType2Int(CString str);
+	void ReadIDFFile(INXString csType, INXPoint point);
+	int portType2Int(INXString str);
+	int dataType2Int(INXString str);
 
 	// widget methods
 	bool isGuiWidget();
-	LucidErrEnum getWidgetTag(CString &csWidgetTag);
-	LucidErrEnum getScreenTag(CString &csScreenTag);
-	LucidErrEnum setScreenTag(CString csScreenTag);
+	LucidErrEnum getWidgetTag(INXString &csWidgetTag);
+	LucidErrEnum getScreenTag(INXString &csScreenTag);
+	LucidErrEnum setScreenTag(INXString csScreenTag);
 	
 	// FB substitution methods
 	int getPortCount(int iPortType, int iDataType);
@@ -73,26 +74,26 @@ public:
 	int m_iShow, showdescript, selected;
 	long int identnum, blockID;
 
-	CString	m_csIconType;
-	CString m_csBlockName; // block name for encapsulated blocks. graphic filename is encapsulate
-	CString description;
-	CString longDesc;
-	CString className;
-	CString optionstring;
+	INXString	m_csIconType;
+	INXString m_csBlockName; // block name for encapsulated blocks. graphic filename is encapsulate
+	INXString description;
+	INXString longDesc;
+	INXString className;
+	INXString optionstring;
 	INXSize size;
 	int m_iUserDefined;
 	int instNum;
-	CString hierarchyName;
+	INXString hierarchyName;
 	bool saveSelectedFlag;
 	INXRect rectangle; /// body part of icon
 
 
 private:
 	Bitmap bitmap;
-	void LoadNewBMP(CString csType);
+	void LoadNewBMP(INXString csType);
 	bool encapsulated;
-	void readFromIDFFile(CString filepath, INXPoint point);
-	void readFromCDFFile(CString filepath, INXPoint point);
+	void readFromIDFFile(INXString filepath, INXPoint point);
+	void readFromCDFFile(INXString filepath, INXPoint point);
 	void updateFunctionArg(struct definedFunctions *funcs);
 	void growFunctionArray(struct definedFunctions *funcs, const char *funcName, int iPortType, int iFuncArg);
 
@@ -103,7 +104,7 @@ public:
 	INXPoint GetIconBottomRight();
 	INXPoint GetIconPos();
 	INXPoint GetIconCentre();
-	CString BuildXPortString(int iPortType,int DataType);
+	INXString BuildXPortString(int iPortType,int DataType);
 	INXPoint CalculateXPortPosition(int iPortType);
 	void repositionVerticalPorts();
 	void ResizeIcon();
@@ -125,7 +126,7 @@ public:
 	Port* internalport[MAXPORTS];	
 	Parameter* iconParam[MAXPARAMS];
 	Proc_function*  function[MAXFUNCS];
-	CStringArray* funcName;
+	INXObjArray<INXString>* funcName;
 	CUIntArray* funcArg;
 
 	

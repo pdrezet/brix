@@ -9,7 +9,7 @@
 
 /////////////////////////////////////////////////////////////////////////////
 // LucidStateMachineDialog dialog
-
+#include "Porting_Classes/INXString.h"
 class LucidStateMachineDialog : public CDialog
 {
 // Construction
@@ -21,8 +21,8 @@ public:
 	//{{AFX_DATA(LucidStateMachineDialog)
 	enum { IDD = IDD_DIALOG3 };
 	CButton	m_RadioButton;
-	CString	m_csState;
-	CString	m_csTransitionsTo;
+	INXString	m_csState;
+	INXString	m_csTransitionsTo;
 	BOOL	m_bEntryActionCheckBox;
 	BOOL	m_bTransitionActionCheck;
 	//}}AFX_DATA

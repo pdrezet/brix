@@ -62,7 +62,7 @@ Project::~Project()
 DEP* Project::AddDEP() {
 	DEPNum++;
 	pDEP[DEPNum] = new DEP;
-	CString csProjectDir;
+	INXString csProjectDir;
 
 	pProjMData->getProjectDir(csProjectDir);
 	pDEP[DEPNum]->projectDir = csProjectDir;
@@ -90,7 +90,7 @@ void Project::DeleteDEP(DEP* thisDEP) {
 void Project::DeleteUnused(DEP* thisDEP) {
 	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 	CFileFind finder;
-	CString fileName, depPath, csProjectDir;
+	INXString fileName, depPath, csProjectDir;
 	INXPOSITION pos;
 	ConData* blob;
 	bool fileExist = FALSE;
@@ -127,7 +127,7 @@ x-ports and changes the function box display accordingly. Obviously this should 
 
 
 // Adds a XPort to a DEP and a block port to its parent DEP
-ConData* Project::AddXPort(DEP* pParentDEP, CString type, CString portLabel, INXPoint point, DEP* pDEP) {
+ConData* Project::AddXPort(DEP* pParentDEP, INXString type, INXString portLabel, INXPoint point, DEP* pDEP) {
 	if (pParentDEP->AddBlockPort(type, portLabel, pDEP->depFilename)) {
 		return pDEP->AddXPort(type, portLabel, point);
 	}
@@ -137,16 +137,16 @@ ConData* Project::AddXPort(DEP* pParentDEP, CString type, CString portLabel, INX
 }
 
 // Adds a port to a block and a xport to its child DEP
-void Project::AddBlockPort(ConData* blob, int iDataType, int iPortType, CString portLabel, DEP* pDEP) {
+void Project::AddBlockPort(ConData* blob, int iDataType, int iPortType, INXString portLabel, DEP* pDEP) {
 	DEP* pChildDEP;
-	CString depPath, csProjectDir;
+	INXString depPath, csProjectDir;
 
 	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 	HTREEITEM childItem;
 
 	// get the type and point	
 	INXPoint point = blob->CalculateXPortPosition(iPortType);
-	CString type = blob->BuildXPortString(iPortType,iDataType);
+	INXString type = blob->BuildXPortString(iPortType,iDataType);
 
 	pProjMData->getProjectDir(csProjectDir);
 	if (pDEP->AddPort(blob, iDataType, iPortType, portLabel)) {
@@ -180,7 +180,7 @@ void Project::AddIconToGroup(INXPOSITION selectedIcon, int groupID, DEP* vwDEP)
 	DEP* pChildDEP;
 	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 	HTREEITEM childItem;
-	CString depPath, csProjectDir;
+	INXString depPath, csProjectDir;
 
 	pProjMData->getProjectDir(csProjectDir);
 	blob = (ConData*) vwDEP->condata->GetAt(selectedIcon);
@@ -215,7 +215,7 @@ void Project::AssignHierLineID()
 	ConData *blob, *subblob, *othersubblob;
 	long hierID = 0;
 	INXObjList* tmpList;
-	CString filename, csProjectDir;
+	INXString filename, csProjectDir;
 	HTREEITEM hChild, hItem;
 	BlockOperations bo;
 	UINT i;
@@ -366,7 +366,7 @@ void Project::AssignHierLineID()
 void Project::AssignSubBlockHierLineId(HTREEITEM hItem)
 {
 	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
-	CString csFileName, csProjectDir;
+	INXString csFileName, csProjectDir;
 	INXObjList* pTmpList;
 	BlockOperations bo;
 	INXPOSITION pos;
@@ -376,7 +376,7 @@ void Project::AssignSubBlockHierLineId(HTREEITEM hItem)
 
 	pProjMData->getProjectDir(csProjectDir);
 	csFileName = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hItem) + 
-					pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hItem) + ".prg";
+					(INXString)pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hItem) + ".prg";
 
 	pTmpList = bo.LoadBlock(csFileName);
 	pos = pTmpList->GetHeadPosition();
@@ -432,7 +432,7 @@ void Project::AssignSubBlockHierLineId(HTREEITEM hItem)
 void Project::PropagateHierLineId(ConData* blob, HTREEITEM hItem, long hierID, int portType, int iPortNum)
 {
 	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
-	CString filename, csProjectDir;
+	INXString filename, csProjectDir;
 	INXObjList* tmpList;
 	INXPOSITION subpos;
 	ConData *subblob, *othersubblob;
@@ -505,7 +505,7 @@ void Project::PropagateHierLineId(ConData* blob, HTREEITEM hItem, long hierID, i
 }
 
 void Project::DebugStart(int mode) {
-	CString csProjectDir;
+	INXString csProjectDir;
 
 	pProjMData->getProjectDir(csProjectDir);
 	// Create flattened list by writing out SODL
@@ -528,7 +528,7 @@ void Project::DebugStart(int mode) {
 void Project::DeleteBlockPort(INXPOSITION blockPos, int portNum, int portType, DEP* pDEP) {
 	DEP* pChildDEP;
 	ConData *block, *icon;
-	CString portLabel, depPath, csProjectDir;
+	INXString portLabel, depPath, csProjectDir;
 	INXPOSITION pos, prevPos;
 	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 	HTREEITEM childItem;
@@ -570,7 +570,7 @@ void Project::DeleteBlockPort(INXPOSITION blockPos, int portNum, int portType, D
 }
 
 // deletes a port from a block in a parent DEP
-void Project::DeleteXPort(DEP* pParentDEP, CString portLabel, CString blockName) {
+void Project::DeleteXPort(DEP* pParentDEP, INXString portLabel, INXString blockName) {
 	INXPOSITION pos, prevPos;
 	ConData* icon;
 	UINT i;
@@ -608,7 +608,7 @@ void Project::DeleteXPort(DEP* pParentDEP, CString portLabel, CString blockName)
 void Project::RenameBlockPort(INXPOSITION blockPos, int iPortNum, int iPortType, DEP* pDEP) {
 	DEP* pChildDEP;
 	ConData *block, *icon;
-	CString csOldPortLabel, csNewPortLabel, depPath, csProjectDir;
+	INXString csOldPortLabel, csNewPortLabel, depPath, csProjectDir;
 	INXPOSITION pos, prevPos;
 	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 	HTREEITEM childItem;
@@ -656,9 +656,9 @@ void Project::RenameBlockPort(INXPOSITION blockPos, int iPortNum, int iPortType,
 		pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(pDEP->hItem) + pDEP->depFilename + ".prg");	
 }
 
-void Project::RenameXport(INXPOSITION iconPos, DEP* pDEP, CString &csNewPortLabel) 
+void Project::RenameXport(INXPOSITION iconPos, DEP* pDEP, INXString &csNewPortLabel) 
 {
-	CString csProjectDir, csOldPortLabel;
+	INXString csProjectDir, csOldPortLabel;
 	ConData* icon;
 
 	pProjMData->getProjectDir(csProjectDir);
@@ -691,7 +691,7 @@ void Project::EditGroupSetup() {
 
 /*
 // returns a pointer to a DEP for a matching dep filename
-DEP* Project::GetDEPPtr(CString depFilename) {
+DEP* Project::GetDEPPtr(INXString depFilename) {
 	for (int i=0; i<=DEPNum; i++) {
 		if (depFilename == pDEP[i]->depFilename) {
 			return pDEP[i];
@@ -701,7 +701,7 @@ DEP* Project::GetDEPPtr(CString depFilename) {
 }
 */
 
-CDrawProgView* Project::OpenView(CString depFilename) {
+CDrawProgView* Project::OpenView(INXString depFilename) {
 	CDocument* Subsystem = AfxGetApp( )->OpenDocumentFile(depFilename);		
 	// Need to initialise undo for case when the view is already open
 	POSITION pos = Subsystem->GetFirstViewPosition();
@@ -722,7 +722,7 @@ void Project::ResetDebug() {
 void Project::SaveProjectDep() {
 	CLabLgbBaseApp *pApp = ( CLabLgbBaseApp * ) AfxGetApp();
 	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
-	CString csProjectDir;
+	INXString csProjectDir;
 	pProjMData->getProjectDir(csProjectDir);
 
 	int response;
@@ -768,7 +768,7 @@ void Project::SaveProject()
 }
 
 
-INXObjList* Project::WriteSODL(CString sodlfile) {
+INXObjList* Project::WriteSODL(INXString sodlfile) {
 
 	SODL compile(this);
 
@@ -791,9 +791,9 @@ void Project::addPastedGuiWidgets(HTREEITEM hItem, INXObjList* pasteList)
 	ConData* blob;
 	HTREEITEM hUserDefItem;
 	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
-	set<CString> sWidgetGroupSet;
-	vector<pair<CString, CString> > vWidgetGroupPairVec;
-	CString csWidgetGroupName;
+	set<INXString> sWidgetGroupSet;
+	vector<pair<INXString, INXString> > vWidgetGroupPairVec;
+	INXString csWidgetGroupName;
 
 	if (IsPastedGuiWidgetsInProject(pasteList, hItem)) {
 		// Get a set of all the widget group names in the paste list
@@ -832,7 +832,7 @@ void Project::addPastedGuiWidgets(HTREEITEM hItem, INXObjList* pasteList)
 // This method adds a widget to the project meta-data
 void Project::addGuiWidget(ConData* blob) 
 {
-	CString csWidgetTag = "", csScreenTag = "", csScreenTagDescr = "";
+	INXString csWidgetTag = "", csScreenTag = "", csScreenTagDescr = "";
 	UINT iTagNum = 0, iWidgetParamNum = 0;
 	char szTagNum[8] = {'\0'};
 
@@ -861,13 +861,13 @@ void Project::addGuiWidget(ConData* blob)
 		GuiWidget widget;
 		// adding a new widget
 		if (csWidgetTag == "widget") {
-			widget.setWidgetTag(csWidgetTag + szTagNum);
-			widget.setScreenTag(csScreenTag);
+			widget.setWidgetTag((CString &)(csWidgetTag + szTagNum));
+			widget.setScreenTag((CString &)csScreenTag);
 		}
 		// copying an existing widget
 		else {
-			widget.setWidgetTag(csWidgetTag);
-			widget.setScreenTag(csScreenTag);
+			widget.setWidgetTag((CString&)csWidgetTag);
+			widget.setScreenTag((CString&)csScreenTag);
 		}
 
 		while (pProjMData->guiWidgetInVec(widget)) {
@@ -878,7 +878,7 @@ void Project::addGuiWidget(ConData* blob)
 		}
 		pProjMData->addGuiWidget(widget);
 		// add default screen tag
-		pProjMData->createNewScreenTag(csScreenTag, csScreenTagDescr);
+		pProjMData->createNewScreenTag((CString&)csScreenTag, (CString&)csScreenTagDescr);
 		if (csWidgetTag == "widget") {
 			blob->iconParam[iWidgetParamNum]->value = csWidgetTag + szTagNum;
 		}
@@ -890,7 +890,7 @@ void Project::addGuiWidget(ConData* blob)
 
 void Project::removeWidgetsInUserDefBlock(HTREEITEM hItem)
 {
-	CString csProjectDir, csBlockFile;
+	INXString csProjectDir, csBlockFile;
 	BlockOperations bo;
 	INXObjList* encapsulated;
 	INXPOSITION pos;
@@ -907,7 +907,7 @@ void Project::removeWidgetsInUserDefBlock(HTREEITEM hItem)
 	}
 	else {
 		pProjMData->getProjectDir(csProjectDir);
-		csBlockFile = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hItem) + pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hItem) + ".prg";
+		csBlockFile = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hItem) + (INXString)pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hItem) + ".prg";
 		encapsulated = bo.LoadBlock(csBlockFile);
 	}
 			
@@ -931,20 +931,20 @@ void Project::removeWidgetsInUserDefBlock(HTREEITEM hItem)
 
 void Project::removeGuiWidget(ConData* blob)
 {
-	CString csWidgetTag, csScreenTag;
+	INXString csWidgetTag, csScreenTag;
 
 	pProjMData->setDirtyWidgetsFlag();
 
 	blob->getWidgetTag(csWidgetTag);
 	blob->getScreenTag(csScreenTag);
-	GuiWidget widget(csWidgetTag, csScreenTag);
+	GuiWidget widget((CString&)csWidgetTag, (CString&)csScreenTag);
 	pProjMData->removeGuiWidget(widget);
 }
 
 // This method gets a set of unique widget group names in a subsystem
-void Project::getWidgetGroupNames(HTREEITEM hItem, set<CString> &sWidgetGroupSet)
+void Project::getWidgetGroupNames(HTREEITEM hItem, set<INXString> &sWidgetGroupSet)
 {
-	CString csProjectDir, csBlockFile, csWidgetGroupName;
+	INXString csProjectDir, csBlockFile, csWidgetGroupName;
 	BlockOperations bo;
 	INXObjList* encapsulated;
 	INXPOSITION pos;
@@ -953,7 +953,7 @@ void Project::getWidgetGroupNames(HTREEITEM hItem, set<CString> &sWidgetGroupSet
 	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 
 	pProjMData->getProjectDir(csProjectDir);
-	csBlockFile = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hItem) + pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hItem) + ".prg";
+	csBlockFile = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hItem) + (INXString)pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hItem) + ".prg";
 	encapsulated = bo.LoadBlock(csBlockFile);
 			
 	pos = encapsulated->GetHeadPosition();
@@ -972,19 +972,19 @@ void Project::getWidgetGroupNames(HTREEITEM hItem, set<CString> &sWidgetGroupSet
 }
 
 // This method prompts the user to set the set of widget group names in a subsystem
-void Project::setWidgetGroupNames(set<CString> sWidgetGroupSet, vector<pair<CString, CString> > &vWidgetGroupPairVec)
+void Project::setWidgetGroupNames(set<INXString> sWidgetGroupSet, vector<pair<INXString, INXString> > &vWidgetGroupPairVec)
 {
-	pair<CString, CString> prWidgetGroupPair;
-	CString csWidgetGroupDesc;
+	pair<INXString, INXString> prWidgetGroupPair;
+	INXString csWidgetGroupDesc;
 	UINT iSize = sWidgetGroupSet.size();
 	int count = 1;
-	vector<CString> vWidgetGroupNames;
+	vector<INXString> vWidgetGroupNames;
 	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 
 	pProjMData->getScreenTags(vWidgetGroupNames);
 	CWidgetGroupManagerDlg dlg(vWidgetGroupNames);
 
-	set<CString>::iterator it = sWidgetGroupSet.begin();
+	set<INXString>::iterator it = sWidgetGroupSet.begin();
 	while( it != sWidgetGroupSet.end() ){
 		prWidgetGroupPair.first = (*it);
 		dlg.setWidgetGroupName(*it);
@@ -992,7 +992,7 @@ void Project::setWidgetGroupNames(set<CString> sWidgetGroupSet, vector<pair<CStr
 		if (dlg.DoModal()==IDOK) {
 			prWidgetGroupPair.second = dlg.getWidgetGroupName();
 			csWidgetGroupDesc = "Copy of " + (*it);
-			if (!pProjMData->createNewScreenTag(prWidgetGroupPair.second, csWidgetGroupDesc)) {
+			if (!pProjMData->createNewScreenTag((CString&)prWidgetGroupPair.second, (CString&)csWidgetGroupDesc)) {
 				// Add widget group to project explorer
 				pFrame->m_wndProjectBar.m_cProjTree.addWidgetGroup(prWidgetGroupPair.second, pDEP[0]->hItem);
 			}
@@ -1000,7 +1000,7 @@ void Project::setWidgetGroupNames(set<CString> sWidgetGroupSet, vector<pair<CStr
 		else {
 			prWidgetGroupPair.second = dlg.getWidgetGroupName();
 			csWidgetGroupDesc = "Copy of " + (*it);
-			pProjMData->createNewScreenTag(prWidgetGroupPair.second, csWidgetGroupDesc);
+			pProjMData->createNewScreenTag((CString&)prWidgetGroupPair.second, (CString&)csWidgetGroupDesc);
 		}
 		vWidgetGroupPairVec.push_back(prWidgetGroupPair);
 		it++;
@@ -1009,9 +1009,9 @@ void Project::setWidgetGroupNames(set<CString> sWidgetGroupSet, vector<pair<CStr
 }
 
 // This method updates the widget group names in a subsystem
-void Project::updateWidgetGroupNames(HTREEITEM hItem, vector<pair<CString, CString> > vWidgetGroupPairVec)
+void Project::updateWidgetGroupNames(HTREEITEM hItem, vector<pair<INXString, INXString> > vWidgetGroupPairVec)
 {
-	CString csProjectDir, csBlockFile, csWidgetGroupName;
+	INXString csProjectDir, csBlockFile, csWidgetGroupName;
 	BlockOperations bo;
 	INXObjList* encapsulated;
 	INXPOSITION pos;
@@ -1020,7 +1020,7 @@ void Project::updateWidgetGroupNames(HTREEITEM hItem, vector<pair<CString, CStri
 	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 
 	pProjMData->getProjectDir(csProjectDir);
-	csBlockFile = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hItem) + pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hItem) + ".prg";
+	csBlockFile = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hItem) + (INXString)pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hItem) + ".prg";
 	encapsulated = bo.LoadBlock(csBlockFile);
 			
 	pos = encapsulated->GetHeadPosition();
@@ -1039,9 +1039,9 @@ void Project::updateWidgetGroupNames(HTREEITEM hItem, vector<pair<CString, CStri
 }
 
 // This method updates a widget group name in a single widget FB.
-void Project::updateWidgetGroup(ConData* pBlob, vector<pair<CString, CString> > vWidgetGroupPairVec)
+void Project::updateWidgetGroup(ConData* pBlob, vector<pair<INXString, INXString> > vWidgetGroupPairVec)
 {
-	CString csWidgetGroupName;
+	INXString csWidgetGroupName;
 	// Add Gui widgets for the case when the widgets are not already in the project
 	if (vWidgetGroupPairVec.size() == 0) {
 		addGuiWidget(pBlob);
@@ -1074,7 +1074,7 @@ bool Project::IsPastedGuiWidgetsInProject(INXObjList* pPasteList, HTREEITEM hIte
 	ConData* pBlob;
 	bool bRet = false;
 	GuiWidget xWidget;
-	CString csBlockFile, csProjectDir;
+	INXString csBlockFile, csProjectDir;
 	BlockOperations bo;
 	HTREEITEM hUserDefItem;
 	INXObjList* pEncapsulated;
@@ -1086,7 +1086,7 @@ bool Project::IsPastedGuiWidgetsInProject(INXObjList* pPasteList, HTREEITEM hIte
 		if (pBlob->m_iUserDefined) {
 			pProjMData->getProjectDir(csProjectDir);
 			hUserDefItem = pFrame->m_wndProjectBar.m_cProjTree.GetUserDefChildItem(pBlob, hItem);
-			csBlockFile = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hUserDefItem) + pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hUserDefItem) + ".prg";
+			csBlockFile = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hUserDefItem) + (INXString)pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hUserDefItem) + ".prg";
 			pEncapsulated = bo.LoadBlock(csBlockFile);
 			if (IsPastedGuiWidgetsInProject(pEncapsulated, hUserDefItem)) {
 				bRet = true;
@@ -1108,7 +1108,7 @@ bool Project::IsPastedGuiWidgetsInProject(INXObjList* pPasteList, HTREEITEM hIte
 // The ConData object must be a GuiWidget
 void Project::GetWidget(const ConData *pBlob, GuiWidget &xWidget)
 {
-	CString csWidgetTag, csScreenTag;
+	INXString csWidgetTag, csScreenTag;
 
 	for (UINT i=1; i<pBlob->iParamNum; i++) {
 		// get widget tag
@@ -1121,8 +1121,8 @@ void Project::GetWidget(const ConData *pBlob, GuiWidget &xWidget)
 		}
 	}
 
-	xWidget.setWidgetTag(csWidgetTag);
-	xWidget.setScreenTag(csScreenTag);
+	xWidget.setWidgetTag((CString&)csWidgetTag);
+	xWidget.setScreenTag((CString&)csScreenTag);
 }
 
 DEP* Project::depIsLoaded(HTREEITEM hItem)
@@ -1140,7 +1140,7 @@ DEP* Project::depIsLoaded(HTREEITEM hItem)
 
 void Project::closeUserDefDoc(HTREEITEM hItem)
 {
-	CString csProjectDir, csBlockFile;
+	INXString csProjectDir, csBlockFile;
 	BlockOperations bo;
 	INXObjList* encapsulated;
 	INXPOSITION pos;
@@ -1149,7 +1149,7 @@ void Project::closeUserDefDoc(HTREEITEM hItem)
 	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 
 	pProjMData->getProjectDir(csProjectDir);
-	csBlockFile = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hItem) + pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hItem) + ".prg";
+	csBlockFile = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hItem) + (INXString)pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hItem) + ".prg";
 	encapsulated = bo.LoadBlock(csBlockFile);
 	
 	// Find all the user defined blocks within an encapsualted block
@@ -1183,7 +1183,7 @@ void Project::setDefineMonitors(bool bDefineMonitors)
 // Method that runs the National Language Support tool
 bool Project::RunNlsExec()
 {
-	CString csProjectDir, csProjectName, csExec, csInstallDir, csParams;
+	INXString csProjectDir, csProjectName, csExec, csInstallDir, csParams;
 	CDrawProgApp *pApp = (CDrawProgApp *) AfxGetApp();
 	CFileOperation fo;
 	bool bRet = false;
@@ -1211,7 +1211,7 @@ bool Project::RunNlsExec()
 // Method that opens the nls.csv file in the application specified in tools.ini
 void Project::OpenNlsFile()
 {
-	CString csProjectDir, csNlsFilePathName, csToolExecPathName;
+	INXString csProjectDir, csNlsFilePathName, csToolExecPathName;
 	CDrawProgApp *pApp = (CDrawProgApp *) AfxGetApp();
 	CFileOperation fo;
 
