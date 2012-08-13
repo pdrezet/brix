@@ -465,7 +465,7 @@ CDocument* CDrawProgApp::OpenProject(ProjectMetaData* pProjMData)
 
 CDocument* CDrawProgApp::OpenDocumentFile(LPCTSTR lpszFileName)
 {
-	INXString ext = lpszFileName;
+	INXString ext = (INXString)lpszFileName;
 	ext = ext.Right(4);
 	// This function is called by MRU file list which is now a project file
 	if (ext == ".prg") {
@@ -482,7 +482,7 @@ CDocument* CDrawProgApp::OpenDocumentFile(LPCTSTR lpszFileName)
 	}
 	else if (ext == ".lpj") {
 
-		INXString pathName = ((INXString)lpszFileName) + "\\..";
+		INXString pathName = (INXString)lpszFileName + "\\..";
 		ProjectMetaData* pProjMData = new ProjectMetaData((CString)pathName);
 
 		if(!pProjMData->getLock()){
@@ -490,7 +490,7 @@ CDocument* CDrawProgApp::OpenDocumentFile(LPCTSTR lpszFileName)
 			AfxMessageBox( PMD_LOCK_FAILURE_MESSAGE );
 
 		}else{
-			LucidErrEnum err = pProjMData->readProjectFile(lpszFileName);
+			LucidErrEnum err = pProjMData->readProjectFile((INXString)lpszFileName);
 			pProjMData->releaseLock();
 
 			if (kErr_NoErr == err) {

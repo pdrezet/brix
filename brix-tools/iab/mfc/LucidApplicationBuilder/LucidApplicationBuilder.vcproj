@@ -82,11 +82,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="psapi.lib wxmsw28d_core.lib wxbase28d.lib wxtiffd.lib wxjpegd.lib wxpngd.lib wxzlibd.lib wxregexd.lib wxexpatd.lib winmm.lib comctl32.lib rpcrt4.lib wsock32.lib odbc32.lib"
+				AdditionalDependencies="psapi.lib wxmsw28d_core.lib wxbase28d.lib wxtiffd.lib wxjpegd.lib wxpngd.lib wxzlibd.lib wxregexd.lib wxexpatd.lib winmm.lib comctl32.lib rpcrt4.lib wsock32.lib odbc32.lib &quot;opengl32.lib  glu32.lib glew32mxd.lib  freeglut.lib wxmsw28d_gl.lib"
 				OutputFile="$(OutDir)\$(ProjectName)Debug.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;..\contrib\wxWidgets-2.8.12\lib\vc_lib&quot;"
+				AdditionalLibraryDirectories="&quot;C:\glew-1.8.0\lib&quot;;C:\freeglut\lib;&quot;..\contrib\wxWidgets-2.8.12\lib\vc_lib&quot;"
 				IgnoreDefaultLibraryNames="nafxcwd;libcd.lib;libcpd.lib"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
@@ -1911,6 +1911,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\common\Porting_Classes\INXObject.h"
+				>
+			</File>
+			<File
 				RelativePath="..\common\Porting_Classes\INXObjList.h"
 				>
 			</File>
@@ -2188,11 +2192,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\BMP\BlueIcon.bmp"
+				RelativePath="..\..\dist\BMP\BlueIcon.bmp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\dist\BMP\BlueIcon.bmp"
+				RelativePath="..\..\BMP\BlueIcon.bmp"
 				>
 			</File>
 			<File
@@ -2268,11 +2272,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\dist\BMP\treectrl.bmp"
+				RelativePath="BMP\treectrl.bmp"
 				>
 			</File>
 			<File
-				RelativePath="BMP\treectrl.bmp"
+				RelativePath="..\..\dist\BMP\treectrl.bmp"
 				>
 			</File>
 			<File
@@ -2328,11 +2332,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\dist\BMP\YellowIcon.bmp"
+				RelativePath="BMP\YellowIcon.bmp"
 				>
 			</File>
 			<File
-				RelativePath="BMP\YellowIcon.bmp"
+				RelativePath="..\..\dist\BMP\YellowIcon.bmp"
 				>
 			</File>
 		</Filter>

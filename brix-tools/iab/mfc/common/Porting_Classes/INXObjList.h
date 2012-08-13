@@ -2,12 +2,12 @@
 #define _INXOBJLIST_H
 
 #pragma once
-#include "afx.h"// CObject class in MFC
+#include "Porting_Classes/INXObject.h"
 
 struct __INXPOSITION {};
 typedef __INXPOSITION* INXPOSITION;
 
-typedef CObject* object; // set data type for object
+typedef INXObject* object; // set data type for object
 typedef unsigned char byte;
 
 struct INXPlex{ /* @todo this is legacy code that needs reviewing */

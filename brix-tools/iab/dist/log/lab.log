@@ -1,0 +1,16 @@
+getLock() called by .\DrawProg.cpp:371
+
+releaseLock() called by .\DrawProg.cpp:426
+
+getLock() called by .\DrawProg.cpp:431
+
+releaseLock() called by .\DrawProg.cpp:436
+
+getLock() called by .\DrawProg.cpp:440
+
+releaseLock() called by .\DrawProg.cpp:382
+
+getLock() called by .\DrawProgview.cpp:3514
+
+releaseLock() called by .\DrawProgview.cpp:3523
+
