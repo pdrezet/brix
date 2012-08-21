@@ -6,6 +6,7 @@
 #include "stdafx.h"
 //#include "DrawProg.h"
 #include "port.h"
+#include "Porting_Classes/INXGLFont.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -370,6 +371,7 @@ void Port::DrawGL(CDC* theDC){
 }
 void Port::DrawGL(CDC* theDC, bool _onlyDrawAnim, int _toggleAnim){
 int _portState = 0;
+
 #define inputGLPort 0
 #define outputGLPort 1
 
@@ -391,6 +393,10 @@ int _portState = 0;
 		descLen = description.GetLength();
 		dbgValLen = line.dbgValue.GetLength();
 		// define font for port text
+		INXGLFont *fonts = new INXGLFont();
+		fonts->setFontSize(9);
+		
+//fonts->textOut(10,10,"hello World");
 		LOGFONT logFont;
 		// pitch size is 7
 		/*if (theDC->IsPrinting()) {
@@ -454,22 +460,28 @@ int _portState = 0;
 					//theDC->TextOut(P.x-6-((int)nStrOffset), P.y+7, (CString&)cropDescript);
 				}
 			}
-			else {
+			else {*/
 				if (porttype == STARTPORT || porttype == INPUTPORT) {
 					//theDC->TextOut(P.x+8,P.y-7,(CString)cropDescript);
+		
+					fonts->textOut(P.x+8 - 6,P.y-7 + 10,cropDescript);
+				
 				}
 				else if (porttype == FINISHPORT || porttype == OUTPUTPORT) {
 					//theDC->TextOut(P.x-6-((int)nStrOffset), P.y-7, (CString&)cropDescript);
+					fonts->textOut(P.x-6-((int)nStrOffset) + 6, P.y-7 + 10, cropDescript);
+					
 				}
-			}*/
+			//}
 		}
 		// write out debug values
-		/*if (porttype == INPUTPORT && line.getDbgMonitor()) {
-			theDC->SetBkMode(OPAQUE);
-			theDC->SetBkColor(RGB(225,225,0));
-			theDC->TextOut(P.x-(dbgValLen*5),P.y+2,(CString&)line.dbgValue);
-			theDC->SetBkColor(RGB(255,255,255));
-		}*/
+		if (porttype == INPUTPORT && line.getDbgMonitor()) {
+			//theDC->SetBkMode(OPAQUE);
+			//theDC->SetBkColor(RGB(225,225,0));
+			//theDC->TextOut(P.x-(dbgValLen*5),P.y+2,(CString&)line.dbgValue);
+			//theDC->SetBkColor(RGB(255,255,255));
+			fonts->textOut(P.x-(dbgValLen*5) - 6,P.y+2 + 10,line.dbgValue);
+		}
 		
 		// if the port is tagged then write out tag and don't draw line
 		if (tag != "") {

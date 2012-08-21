@@ -14,8 +14,7 @@
 class CTgtTransProgDlog;
 class CTransferErrorDlog;
 
-class CLabLgbBaseApp :  
-	public CWinApp
+class CLabLgbBaseApp :  public CWinApp
 {
 
 private:

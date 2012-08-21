@@ -538,3 +538,5 @@ BOOL CDrawProgApp::OnIdle(LONG lCount)
 	// Force idle to update toolbar ie force lCount to -1. Required for debugger step mode.
     return CWinApp::OnIdle(-1);
 }
+
+

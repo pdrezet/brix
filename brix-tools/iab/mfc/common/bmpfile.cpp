@@ -49,7 +49,7 @@ int Bitmap::DrawGL(CDC* theDC,CPoint point) {
 }
 void Bitmap::drawGLRect(float x, float y, float width, float height){
 		glBegin(GL_POLYGON);
-		glColor3f(0.5, 0, 1); // yellow
+		glColor3f(0.7, 0.5, 1); // light purple
 		glVertex2f(x, y);
 		glVertex2f(x, y + height);
 		glVertex2f(x + width, y + height);

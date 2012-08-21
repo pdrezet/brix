@@ -967,7 +967,7 @@ void IconLines::setPointForGLLine(std::list< INXPoint > _pointsList){
 					if(ny3 > ny4){
 						a = 3;
 						drawBend(nx3,ny3,a);
-						py3 = py3 - 10;
+						ny3 = ny3 - 10;
 					}else{
 						a = 2;
 						drawBend(nx3,ny3,a);

@@ -87,7 +87,7 @@ void Initialize(){
 	glClearDepth(1);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
+	glLoadIdentity();	
 }
 class wxGLCanvasSubClass: public wxGLCanvas {
         void Render();
