@@ -22,16 +22,11 @@
 
 /* @todo to get rid of flickering look at the opengl/cube sample code from wxWidgets samples */
 
-#include "wx/wxprec.h"
 
-#ifdef __BORLANDC__
-    #pragma hdrstop
-#endif
 
-#ifndef WX_PRECOMP
     #include "wx/wx.h"
     #include "wx/mdi.h"
-#endif
+
 
 #include "wx/toolbar.h"
 
@@ -206,7 +201,6 @@ void MyFrame::OnClose(wxCloseEvent& event)
             return;
         }
     }
-
     event.Skip();
 }
 

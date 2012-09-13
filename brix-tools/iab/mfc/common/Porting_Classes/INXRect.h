@@ -283,7 +283,7 @@ bool temp = false;
 if(rect1.Intersects(rect2)){
 temp = true;
 *this = rect1.Intersect(rect2);
-};
+}
 left = x;
 top = y;
 right = width + x;

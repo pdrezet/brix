@@ -709,7 +709,6 @@ ConData* CDrawProgView::processComponentDrop(
 	if((blob->className == "TRANSITIONACTION")||(blob->className  == "ENTRYACTION"))
 	{
 
-
 			CBlockNameDialog blockDlg;
 
 			if (blockDlg.DoModal() == IDOK) {
@@ -723,10 +722,8 @@ ConData* CDrawProgView::processComponentDrop(
 				return NULL;
 			}
 
-
 			/*				CLucidStateMachine::AddActionPortsBelow(blob,pDEP,pProject);
 			return blob;
-
 */
 
 	}

@@ -2196,11 +2196,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\BMP\BlueIcon.bmp"
+				RelativePath="..\..\dist\BMP\BlueIcon.bmp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\dist\BMP\BlueIcon.bmp"
+				RelativePath="..\..\BMP\BlueIcon.bmp"
 				>
 			</File>
 			<File
@@ -2276,11 +2276,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\dist\BMP\treectrl.bmp"
+				RelativePath="BMP\treectrl.bmp"
 				>
 			</File>
 			<File
-				RelativePath="BMP\treectrl.bmp"
+				RelativePath="..\..\dist\BMP\treectrl.bmp"
 				>
 			</File>
 			<File
@@ -2336,11 +2336,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\dist\BMP\YellowIcon.bmp"
+				RelativePath="BMP\YellowIcon.bmp"
 				>
 			</File>
 			<File
-				RelativePath="BMP\YellowIcon.bmp"
+				RelativePath="..\..\dist\BMP\YellowIcon.bmp"
 				>
 			</File>
 		</Filter>

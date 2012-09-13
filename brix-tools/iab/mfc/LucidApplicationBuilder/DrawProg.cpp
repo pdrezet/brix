@@ -454,6 +454,7 @@ CDocument* CDrawProgApp::OpenProject(ProjectMetaData* pProjMData)
 	{
 		INXString strFileName(this->m_pRecentFileList->m_arrNames[i]);
 	}
+	
 	this->m_pRecentFileList->Add(csProjectPathName);
 	//this->m_pRecentFileList->WriteList();
 	for(int i=0;i < this->m_pRecentFileList->GetSize();i++)
