@@ -14,7 +14,8 @@
 #include <wx/event.h>
 #include <wx/toolbar.h>
 #include <wx/combobox.h>
-#include "ProjectBar.h"
+#include "FunctionBlockTree.h"
+
 
 class MainFrame: public wxMDIParentFrame
 {
@@ -23,13 +24,15 @@ public:
 public:
 	~MainFrame(void);
 public:
-	CProjectBar m_wndProjectBar;
+	FunctionBlockTree *m_treeCtrl;
 protected:
 	wxMenuBar *m_menu_bar;
 
 protected:
+	void CreateTree(long style, wxWindow* parent);
 	void InitToolBar(wxToolBar* toolBar);
     void OnQuit(wxCommandEvent& event);
+	void OnSize(wxSizeEvent& event);
     DECLARE_EVENT_TABLE()
 };
 

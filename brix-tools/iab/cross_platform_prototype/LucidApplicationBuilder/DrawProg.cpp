@@ -378,7 +378,7 @@ void DrawProg::displayView(Project *proj, INXString doc_file){
 
 	int width, height;
     subframe->GetClientSize(&width, &height);
-    DrawProgView *canvas = new DrawProgView(subframe, wxDefaultPosition, wxSize(width, height),0);
+    DrawProgView *canvas = new DrawProgView(subframe, wxDefaultPosition, wxSize(width, height),WX_GL_DOUBLEBUFFER);
 	canvas->pDEP = pDEP;
     subframe->canvas = canvas;
 	subframe->Show();

@@ -16,6 +16,7 @@ DrawProgView::DrawProgView(wxWindow *parent, const wxPoint& pos,
 
 DrawProgView::~DrawProgView(void)
 {
+	delete pDEP;
 }
 
 void DrawProgView::OnPaint(wxPaintEvent& WXUNUSED(event)){
@@ -49,12 +50,12 @@ void DrawProgView::Render(){
     if(pDEP != NULL){
     		pDEP->DrawGL();
     	}else{
-    		INXGLFont *newViewText = new INXGLFont();
-    		newViewText->setFontSize(18);
-    		newViewText->textOut(25,100,"New INX OpenGL Window");
-    		newViewText->setFontSize(14);
-    		newViewText->textOut(80,100 + 25,"still in progress");
-			delete newViewText;	
+    		INXGLFont newViewText;
+    		newViewText.setFontSize(18);
+    		newViewText.textOut(25,100,"New INX OpenGL Window");
+    		newViewText.setFontSize(14);
+    		newViewText.textOut(80,100 + 25,"still in progress");
+			
 	}
     glFlush();
     SwapBuffers();

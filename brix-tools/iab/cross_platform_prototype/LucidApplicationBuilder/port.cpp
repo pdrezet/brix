@@ -397,8 +397,8 @@ int _portState = 0;
 		descLen = description.GetLength();
 		dbgValLen = line.dbgValue.GetLength();
 		// define font for port text
-		INXGLFont *fonts = new INXGLFont();
-		fonts->setFontSize(9);
+		INXGLFont fonts;
+		fonts.setFontSize(9);
 		
 //fonts->textOut(10,10,"hello World");
 		//LOGFONT logFont;
@@ -468,12 +468,12 @@ int _portState = 0;
 				if (porttype == STARTPORT || porttype == INPUTPORT) {
 					//theDC->TextOut(P.x+8,P.y-7,(CString)cropDescript);
 		
-					fonts->textOut(P.x+8 - 6,P.y-7 + 10,cropDescript);
+					fonts.textOut(P.x+8 - 6,P.y-7 + 10,cropDescript);
 				
 				}
 				else if (porttype == FINISHPORT || porttype == OUTPUTPORT) {
 					//theDC->TextOut(P.x-6-((int)nStrOffset), P.y-7, (CString&)cropDescript);
-					fonts->textOut(P.x-6-((int)nStrOffset) + 6, P.y-7 + 10, cropDescript);
+					fonts.textOut(P.x-6-((int)nStrOffset) + 6, P.y-7 + 10, cropDescript);
 					
 				}
 			//}
@@ -484,7 +484,7 @@ int _portState = 0;
 			//theDC->SetBkColor(RGB(225,225,0));
 			//theDC->TextOut(P.x-(dbgValLen*5),P.y+2,(CString&)line.dbgValue);
 			//theDC->SetBkColor(RGB(255,255,255));
-			fonts->textOut(P.x-(dbgValLen*5) - 6,P.y+2 + 10,line.dbgValue);
+			fonts.textOut(P.x-(dbgValLen*5) - 6,P.y+2 + 10,line.dbgValue);
 			
 		}
 		
@@ -545,7 +545,7 @@ int _portState = 0;
 //		else {
 //			line.Draw(theDC);
 //		}	
-		delete fonts;
+		
 	}
 	if (porttype == INPUTPORT || porttype == OUTPUTPORT) {
 				switch (datatype) {

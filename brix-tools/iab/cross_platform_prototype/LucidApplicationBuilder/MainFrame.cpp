@@ -14,16 +14,20 @@
 
 
 #define NUMBER_OF_TOOLS 26 // number of tools in the toolbar
+#define WIDTH_OF_TREE_VIEW 200
 
 BEGIN_EVENT_TABLE(MainFrame, wxMDIParentFrame)
     EVT_MENU(wxID_EXIT, MainFrame::OnQuit)
+	EVT_SIZE(MainFrame::OnSize)
 END_EVENT_TABLE()
 
 MainFrame::MainFrame(wxWindow *parent):
 wxMDIParentFrame(parent, wxID_ANY, wxT("INX"), wxPoint(100,100), wxSize(1000,550),
 		 wxDEFAULT_FRAME_STYLE | wxHSCROLL | wxVSCROLL)
 {
-	// create an inx icon for the main frame
+	// create tree view 
+	CreateTree(wxTR_DEFAULT_STYLE|wxSUNKEN_BORDER, this);
+	//create an inx icon for the main frame
 #if __WXMSW__
 		wxIcon inxIcon(wxT("./res/DrawProg.ico"),wxBITMAP_TYPE_ICO ,-1,-1);
 #else
@@ -87,6 +91,22 @@ void MainFrame::InitToolBar(wxToolBar* toolBar){
 	m_combo_box->Append(_T("toolbar"));
 	toolBar->AddControl(m_combo_box);
 	toolBar->Realize();
+}
+
+void MainFrame::CreateTree(long style, wxWindow* parent){
+	m_treeCtrl = new FunctionBlockTree(parent, /*TreeTest_Ctrl*/-1, wxDefaultPosition, wxDefaultSize, style);
+
+	m_treeCtrl->SetBackgroundColour(wxColour(225, 225, 225));
+	int w, h;
+    GetClientSize(&w, &h);
+	m_treeCtrl->SetSize(0, 0, WIDTH_OF_TREE_VIEW, h);	
+}
+
+void MainFrame::OnSize(wxSizeEvent&  WXUNUSED(event)){
+	int w, h;
+    GetClientSize(&w, &h);
+    m_treeCtrl->SetSize(0, 0, WIDTH_OF_TREE_VIEW, h);
+    GetClientWindow()->SetSize(200, 0, w - WIDTH_OF_TREE_VIEW, h);
 }
 
 void MainFrame::OnQuit(wxCommandEvent& event){

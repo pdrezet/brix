@@ -11,7 +11,7 @@
 #include "Porting_Classes/INXPoint.h"
 
 #include "condat.h"
-#include "MainFrame.h"
+//#include "MainFrame.h"
 #include "FSM.h" //@todo 
 #include "LucidEnums.h" //@todo 
 #include <vector> // stl class

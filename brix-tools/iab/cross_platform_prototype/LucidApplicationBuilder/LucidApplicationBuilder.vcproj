@@ -254,6 +254,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FunctionBlockTree.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\common\GlobalFuncs_2.cpp"
 				>
 			</File>
@@ -413,6 +417,10 @@
 			</File>
 			<File
 				RelativePath=".\FSM.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FunctionBlockTree.h"
 				>
 			</File>
 			<File
