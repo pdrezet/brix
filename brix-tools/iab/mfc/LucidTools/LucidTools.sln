@@ -1,18 +1,17 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LucidApplicationBuilder", "..\LucidApplicationBuilder\LucidApplicationBuilder.vcproj", "{1191E491-C6B0-45E5-8DB9-F10E1902079B}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2013 for Windows Desktop
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9F3F12FE-84BD-4433-8982-1B47041C0D2A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LucidGUIBuilder", "..\LucidGUIBuilder\LucidGUIBuilder.vcproj", "{F2597A9C-7B2B-4EEB-8F1E-5673E387B917}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5B7FB265-B46F-4C78-910F-1681794EADF3} = {5B7FB265-B46F-4C78-910F-1681794EADF3}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LucidApplicationBuilder", "..\LucidApplicationBuilder\LucidApplicationBuilder.vcxproj", "{1191E491-C6B0-45E5-8DB9-F10E1902079B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LucidGUIBuilder", "..\LucidGUIBuilder\LucidGUIBuilder.vcxproj", "{F2597A9C-7B2B-4EEB-8F1E-5673E387B917}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LucidObjectBuilder", "..\LucidObjectBuilder\LucidObjectBuilder.vcproj", "{EEDE93AB-842E-4A35-B4A2-B90CF555B635}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9F3F12FE-84BD-4433-8982-1B47041C0D2A}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LABUnitTest", "..\LABUnitTest\LABUnitTest.vcproj", "{41297A2A-916E-4D71-8102-E74E28926437}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LABUnitTest", "..\LABUnitTest\LABUnitTest.vcxproj", "{41297A2A-916E-4D71-8102-E74E28926437}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PngImage", "..\..\environment\PngImage\PngImage.vcproj", "{5B7FB265-B46F-4C78-910F-1681794EADF3}"
 	ProjectSection(ProjectDependencies) = postProject
