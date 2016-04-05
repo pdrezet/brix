@@ -1,0 +1,495 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="LGB|Win32">
+      <Configuration>LGB</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{1191E491-C6B0-45E5-8DB9-F10E1902079B}</ProjectGuid>
+    <RootNamespace>LucidApplicationBuilder</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LGB|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <UseOfMfc>Static</UseOfMfc>
+    <CLRSupport>false</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CLRSupport>false</CLRSupport>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='LGB|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>12.0.30501.0</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ReferencePath>..\..\..\..\..\..\wxWidgets-2.8.12;$(ReferencePath)</ReferencePath>
+    <OutDir>..\..\dist\bin\</OutDir>
+    <IntDir>.\Debug\</IntDir>
+    <PreBuildEventUseInBuild>false</PreBuildEventUseInBuild>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ReferencePath>..\..\..\..\..\..\wxWidgets-2.8.12;$(ReferencePath)</ReferencePath>
+    <OutDir>..\..\dist\bin\</OutDir>
+    <IntDir>.\Release\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LGB|Win32'">
+    <ReferencePath>..\..\..\..\..\..\wxWidgets-2.8.12;$(ReferencePath)</ReferencePath>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <PreBuildEvent>
+      <Message>LAB create version.h</Message>
+      <Command>..\..\scripts\GetVersionNum.vbs -N -V -T.\revision_template.h -O.\revision.h .</Command>
+    </PreBuildEvent>
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Debug/DrawProg.tlb</TypeLibraryName>
+      <HeaderFileName />
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../contrib/include;../common;..\contrib\wxWidgets-2.8.12\include;..\contrib\wxWidgets-2.8.12\lib\vc_lib\mswd;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_DEBUG;__WXMSW__;__WXDEBUG__;NOPCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>.\Debug/DrawProg.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\Debug/</AssemblerListingLocation>
+      <ObjectFileName>.\Debug/</ObjectFileName>
+      <ProgramDataBaseFileName>.\Debug/</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0809</Culture>
+    </ResourceCompile>
+    <PreLinkEvent>
+      <Command />
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>psapi.lib;wxmsw28d_core.lib;wxbase28d.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;wxregexd.lib;wxexpatd.lib;winmm.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;odbc32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName)Debug.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>..\contrib\wxWidgets-2.8.12\lib\vc_lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>nafxcwd;libcd.lib;libcpd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AssemblyDebug>true</AssemblyDebug>
+      <ProgramDatabaseFile>.\Debug/DrawProg.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Debug/DrawProg.bsc</OutputFile>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <PreBuildEvent>
+      <Command />
+    </PreBuildEvent>
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Release/DrawProg.tlb</TypeLibraryName>
+      <HeaderFileName />
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>C:\wxWidgets-2.8.12\lib\vc_lib\mswd;C:\wxWidgets-2.8.12\include;../contrib/include;../common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;__WXMSW__;__WXDEBUG__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>.\Release/DrawProg.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\Release/</AssemblerListingLocation>
+      <ObjectFileName>.\Release/</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release/</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat />
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0809</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName)Release.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>C:\wxWidgets-2.8.12\lib\vc_lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>nafxcwd.lib;libcd.lib;libcpd.lib;wxmsw28d_core.lib;wxbase28d.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;wxregexd.lib;wxexpatd.lib;winmm.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;odbc32.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>.\Release/DrawProg.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release/DrawProg.bsc</OutputFile>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\common\bmpfile.cpp" />
+    <ClCompile Include="..\common\common.cpp" />
+    <ClCompile Include="..\common\EHSInitParams.cpp" />
+    <ClCompile Include="..\common\EHSParamsDialog.cpp" />
+    <ClCompile Include="..\common\ExtBdfFile.cpp" />
+    <ClCompile Include="..\common\ExtBmpFile.cpp" />
+    <ClCompile Include="..\common\ExtDataFile.cpp" />
+    <ClCompile Include="..\common\ExtFile.cpp" />
+    <ClCompile Include="..\common\ExtGuiFile.cpp" />
+    <ClCompile Include="..\common\ExtNlsFile.cpp" />
+    <ClCompile Include="..\common\ExtPngFile.cpp" />
+    <ClCompile Include="..\common\ExtResourceFile.cpp" />
+    <ClCompile Include="..\common\ExtTransferableFile.cpp" />
+    <ClCompile Include="..\common\FolderDlg.cpp" />
+    <ClCompile Include="..\common\General_Utilities\EnumProc.cpp" />
+    <ClCompile Include="..\common\General_Utilities\GlobalFuncs_3.cpp" />
+    <ClCompile Include="..\common\GlobalFuncs_1.cpp" />
+    <ClCompile Include="..\common\GlobalFuncs_2.cpp" />
+    <ClCompile Include="..\common\GUIWidget.cpp" />
+    <ClCompile Include="..\common\HScrollListBox.cpp" />
+    <ClCompile Include="..\common\LabLgbBaseApp.cpp" />
+    <ClCompile Include="..\common\LccPmdXfers.cpp" />
+    <ClCompile Include="..\common\LccTimeStamp.cpp" />
+    <ClCompile Include="..\common\Log.cpp" />
+    <ClCompile Include="..\common\LucidRegAccess.cpp" />
+    <ClCompile Include="..\common\LucidString.cpp" />
+    <ClCompile Include="..\common\LucidTcpipClient.cpp" />
+    <ClCompile Include="..\common\LucidTcpipClientDlg.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+      <XMLDocumentationFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.xdc</XMLDocumentationFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+      <XMLDocumentationFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.xdc</XMLDocumentationFileName>
+    </ClCompile>
+    <ClCompile Include="..\common\Markup.cpp" />
+    <ClCompile Include="..\common\ProjectMetaData.cpp" />
+    <ClCompile Include="..\common\ProjectMetaDataChecks.cpp" />
+    <ClCompile Include="..\common\ProjectMetaDataIO.cpp" />
+    <ClCompile Include="..\common\ProjFolderMinder.cpp" />
+    <ClCompile Include="..\common\ResizingDialog.cpp" />
+    <ClCompile Include="..\common\RevisionGuru.cpp" />
+    <ClCompile Include="..\common\ScreenTagDescripEditor.cpp" />
+    <ClCompile Include="..\common\ScreenTagDialog.cpp" />
+    <ClCompile Include="..\common\TgtTransProgDlog.cpp" />
+    <ClCompile Include="..\common\TransferErrorDlog.cpp" />
+    <ClCompile Include="AddPortDialog.cpp" />
+    <ClCompile Include="BlockNameDialog.cpp" />
+    <ClCompile Include="BlockOperations.cpp" />
+    <ClCompile Include="BlockPortLabelDialog.cpp" />
+    <ClCompile Include="CanvasSupport.cpp" />
+    <ClCompile Include="ChildFrm.cpp" />
+    <ClCompile Include="colourKey.cpp" />
+    <ClCompile Include="ComponentMenuItem.cpp" />
+    <ClCompile Include="condat.cpp" />
+    <ClCompile Include="ConDataTempStore.cpp" />
+    <ClCompile Include="Datsrc.cpp" />
+    <ClCompile Include="DbgMsgDialog.cpp" />
+    <ClCompile Include="Debugger.cpp" />
+    <ClCompile Include="delims.cpp" />
+    <ClCompile Include="DEP.cpp" />
+    <ClCompile Include="DrawProg.cpp" />
+    <ClCompile Include="DrawProgDoc.cpp" />
+    <ClCompile Include="DrawProgView.cpp" />
+    <ClCompile Include="EditGroupDialog.cpp" />
+    <ClCompile Include="EditList.cpp" />
+    <ClCompile Include="Encapsulate.cpp" />
+    <ClCompile Include="Encapsulation.cpp" />
+    <ClCompile Include="explorer1.cpp" />
+    <ClCompile Include="ExportDialog.cpp" />
+    <ClCompile Include="FileOperations.cpp" />
+    <ClCompile Include="ForceValueDialog.cpp" />
+    <ClCompile Include="FSM.cpp" />
+    <ClCompile Include="FTP.cpp" />
+    <ClCompile Include="FunctionBlockBar.cpp" />
+    <ClCompile Include="FunctionBlockSubstitution.cpp" />
+    <ClCompile Include="FunctionBlockTree.cpp" />
+    <ClCompile Include="GetInput.cpp" />
+    <ClCompile Include="GotoTimeDialog.cpp" />
+    <ClCompile Include="Group.cpp" />
+    <ClCompile Include="GroupSetupDialog.cpp" />
+    <ClCompile Include="IconData.cpp" />
+    <ClCompile Include="IconLines.cpp" />
+    <ClCompile Include="IconParams.cpp" />
+    <ClCompile Include="Infobaxbase.cpp" />
+    <ClCompile Include="InstanceNameDialog.cpp" />
+    <ClCompile Include="InterfaceDropTarget.cpp" />
+    <ClCompile Include="LibraryDialog.cpp" />
+    <ClCompile Include="LucidStateMachine.cpp" />
+    <ClCompile Include="LucidStateMachineDialog.cpp" />
+    <ClCompile Include="LucidStateMachineDialog1.cpp" />
+    <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="MenuNameDialog.cpp" />
+    <ClCompile Include="MyTreeCtrl.cpp" />
+    <ClCompile Include="Parameter.cpp" />
+    <ClCompile Include="ParameterStore.cpp" />
+    <ClCompile Include="PathDialog.cpp" />
+    <ClCompile Include="port.cpp" />
+    <ClCompile Include="PortLabelDialog.cpp" />
+    <ClCompile Include="PrintData.cpp" />
+    <ClCompile Include="proc_function.cpp" />
+    <ClCompile Include="Project.cpp" />
+    <ClCompile Include="ProjectBar.cpp" />
+    <ClCompile Include="ProjectDescriptionDialog.cpp" />
+    <ClCompile Include="ProjectDialog.cpp" />
+    <ClCompile Include="RJMFileFind2.cpp" />
+    <ClCompile Include="RtaTraceSupport.cpp" />
+    <ClCompile Include="scbarg.cpp" />
+    <ClCompile Include="SelectGroupDialog.cpp" />
+    <ClCompile Include="sizecbar.cpp" />
+    <ClCompile Include="SODL.cpp" />
+    <ClCompile Include="TagDialog.cpp" />
+    <ClCompile Include="Tags.cpp" />
+    <ClCompile Include="TypeConversion.cpp" />
+    <ClCompile Include="WidgetGroupManagerDlg.cpp" />
+    <ClCompile Include="ZoomDialog.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\common\EHSParamsDialogNRes.rc" />
+    <ResourceCompile Include="..\common\LucidTcpipClientDlg.rc" />
+    <ResourceCompile Include="..\common\ScreenTagDescripEditor.rc" />
+    <ResourceCompile Include="..\common\ScreenTagDialog.rc" />
+    <ResourceCompile Include="..\common\TgtTransProgDlog.rc" />
+    <ResourceCompile Include="..\common\TransferErrorDlog.rc" />
+    <ResourceCompile Include="DrawProg.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\common\bmpfile.h" />
+    <ClInclude Include="..\common\EHSInitParams.h" />
+    <ClInclude Include="..\common\EHSParamsDialog.h" />
+    <ClInclude Include="..\common\ExtBdfFile.h" />
+    <ClInclude Include="..\common\ExtBmpFile.h" />
+    <ClInclude Include="..\common\ExtDataFile.h" />
+    <ClInclude Include="..\common\ExtFile.h" />
+    <ClInclude Include="..\common\ExtGuiFile.h" />
+    <ClInclude Include="..\common\ExtNlsFile.h" />
+    <ClInclude Include="..\common\ExtPngFile.h" />
+    <ClInclude Include="..\common\ExtResourceFile.h" />
+    <ClInclude Include="..\common\ExtTransferableFile.h" />
+    <ClInclude Include="..\common\FolderDlg.h" />
+    <ClInclude Include="..\common\General_Utilities\EnumProc.h" />
+    <ClInclude Include="..\common\General_Utilities\GlobalFuncs_3.h" />
+    <ClInclude Include="..\common\GlobalFuncs_1.h" />
+    <ClInclude Include="..\common\GlobalFuncs_2.h" />
+    <ClInclude Include="..\common\GUIWidget.h" />
+    <ClInclude Include="..\common\HScrollListBox.h" />
+    <ClInclude Include="..\common\LabLgbBaseApp.h" />
+    <ClInclude Include="..\common\LccPmdXfers.h" />
+    <ClInclude Include="..\common\LccTimeStamp.h" />
+    <ClInclude Include="..\common\Log.h" />
+    <ClInclude Include="..\common\LucidConstants.h" />
+    <ClInclude Include="..\common\LucidEnums.h" />
+    <ClInclude Include="..\common\LucidRegAccess.h" />
+    <ClInclude Include="..\common\LucidString.h" />
+    <ClInclude Include="..\common\LucidTcpipClient.h" />
+    <ClInclude Include="..\common\LucidTcpipClientDlg.h" />
+    <ClInclude Include="..\common\LucidTcpipClientDlgRes.h" />
+    <ClInclude Include="..\common\LucidTcpipClientRes.h" />
+    <ClInclude Include="..\common\LucidTypedefs.h" />
+    <ClInclude Include="..\common\Markup.h" />
+    <ClInclude Include="..\common\Porting_Classes\INXObjArray.h" />
+    <ClInclude Include="..\common\Porting_Classes\INXObjList.h" />
+    <ClInclude Include="..\common\Porting_Classes\INXPoint.h" />
+    <ClInclude Include="..\common\Porting_Classes\INXRect.h" />
+    <ClInclude Include="..\common\Porting_Classes\INXSize.h" />
+    <ClInclude Include="..\common\Porting_Classes\INXString.h" />
+    <ClInclude Include="..\common\ProjectMetaData.h" />
+    <ClInclude Include="..\common\ProjFolderMinder.h" />
+    <ClInclude Include="..\common\ResizingDialog.h" />
+    <ClInclude Include="..\common\resource1.h" />
+    <ClInclude Include="..\common\RevisionGuru.h" />
+    <ClInclude Include="..\common\ScreenTagDescripEditor.h" />
+    <ClInclude Include="..\common\ScreenTagDescripEditorRes.h" />
+    <ClInclude Include="..\common\ScreenTagDialog.h" />
+    <ClInclude Include="..\common\ScreenTagDialogRes.h" />
+    <ClInclude Include="..\common\TgtTransProgDlog.h" />
+    <ClInclude Include="..\common\TgtTransProgDlogRes.h" />
+    <ClInclude Include="..\common\TransferErrorDlog.h" />
+    <ClInclude Include="..\common\TransferErrorDlogRes.h" />
+    <ClInclude Include="..\common\userDefinedMessages.h" />
+    <ClInclude Include="AddPortDialog.h" />
+    <ClInclude Include="BlockNameDialog.h" />
+    <ClInclude Include="BlockOperations.h" />
+    <ClInclude Include="BlockPortLabelDialog.h" />
+    <ClInclude Include="CanvasSupport.h" />
+    <ClInclude Include="ChildFrm.h" />
+    <ClInclude Include="colourKey.h" />
+    <ClInclude Include="ComponentMenuItem.h" />
+    <ClInclude Include="condat.h" />
+    <ClInclude Include="ConDataTempStore.h" />
+    <ClInclude Include="Datsrc.h" />
+    <ClInclude Include="DbgMsgDialog.h" />
+    <ClInclude Include="Debugger.h" />
+    <ClInclude Include="delims.h" />
+    <ClInclude Include="DEP.h" />
+    <ClInclude Include="DrawProg.h" />
+    <ClInclude Include="DrawProgDoc.h" />
+    <ClInclude Include="DrawProgView.h" />
+    <ClInclude Include="EditGroupDialog.h" />
+    <ClInclude Include="EditList.h" />
+    <ClInclude Include="Encapsulate.h" />
+    <ClInclude Include="Encapsulation.h" />
+    <ClInclude Include="explorer1.h" />
+    <ClInclude Include="ExportDialog.h" />
+    <ClInclude Include="FileOperations.h" />
+    <ClInclude Include="ForceValueDialog.h" />
+    <ClInclude Include="FSM.h" />
+    <ClInclude Include="FTP.h" />
+    <ClInclude Include="FunctionBlockBar.h" />
+    <ClInclude Include="FunctionBlockSubstitution.h" />
+    <ClInclude Include="FunctionBlockTree.h" />
+    <ClInclude Include="GetInput.h" />
+    <ClInclude Include="GotoTimeDialog.h" />
+    <ClInclude Include="Group.h" />
+    <ClInclude Include="GroupSetupDialog.h" />
+    <ClInclude Include="IconData.h" />
+    <ClInclude Include="IconLines.h" />
+    <ClInclude Include="IconParams.h" />
+    <ClInclude Include="Infobaxbase.h" />
+    <ClInclude Include="InstanceNameDialog.h" />
+    <ClInclude Include="InterfaceDropTarget.h" />
+    <ClInclude Include="LibraryDialog.h" />
+    <ClInclude Include="LucidStateMachine.h" />
+    <ClInclude Include="LucidStateMachineDialog.h" />
+    <ClInclude Include="LucidStateMachineDialog1.h" />
+    <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="memdc.h" />
+    <ClInclude Include="MenuNameDialog.h" />
+    <ClInclude Include="MyTreeCtrl.h" />
+    <ClInclude Include="Parameter.h" />
+    <ClInclude Include="ParameterStore.h" />
+    <ClInclude Include="PathDialog.h" />
+    <ClInclude Include="port.h" />
+    <ClInclude Include="PortLabelDialog.h" />
+    <ClInclude Include="PrintData.h" />
+    <ClInclude Include="proc_function.h" />
+    <ClInclude Include="Project.h" />
+    <ClInclude Include="ProjectBar.h" />
+    <ClInclude Include="ProjectDescriptionDialog.h" />
+    <ClInclude Include="ProjectDialog.h" />
+    <ClInclude Include="ProjectItem.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="revision.h" />
+    <ClInclude Include="RJMFileFind2.h" />
+    <ClInclude Include="RtaTraceSupport.h" />
+    <ClInclude Include="scbarg.h" />
+    <ClInclude Include="SelectGroupDialog.h" />
+    <ClInclude Include="sizecbar.h" />
+    <ClInclude Include="SODL.h" />
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="TagDialog.h" />
+    <ClInclude Include="Tags.h" />
+    <ClInclude Include="TypeConversion.h" />
+    <ClInclude Include="WidgetGroupManagerDlg.h" />
+    <ClInclude Include="ZoomDialog.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\BMP\BlueIcon.bmp" />
+    <Image Include="..\..\dist\BMP\bitmap1.bmp" />
+    <Image Include="..\..\dist\BMP\BlueIcon.bmp" />
+    <Image Include="..\..\dist\BMP\GreyIcon.bmp" />
+    <Image Include="..\..\dist\BMP\Lines.bmp" />
+    <Image Include="..\..\dist\BMP\PurpleIcon.bmp" />
+    <Image Include="..\..\dist\BMP\treectrl.bmp" />
+    <Image Include="..\..\dist\BMP\treeIcon_A1.bmp" />
+    <Image Include="..\..\dist\BMP\treeIcon_A2.bmp" />
+    <Image Include="..\..\dist\BMP\treeIcon_B1.bmp" />
+    <Image Include="..\..\dist\BMP\treeIcon_B2.bmp" />
+    <Image Include="..\..\dist\BMP\treeIcon_C1.bmp" />
+    <Image Include="..\..\dist\BMP\treeIcon_C2.bmp" />
+    <Image Include="..\..\dist\BMP\treeIcon_component_default.bmp" />
+    <Image Include="..\..\dist\BMP\treeIcon_D1.bmp" />
+    <Image Include="..\..\dist\BMP\treeIcon_D2.bmp" />
+    <Image Include="..\..\dist\BMP\treeIcon_DEFAULT.bmp" />
+    <Image Include="..\..\dist\BMP\treeIcon_E1.bmp" />
+    <Image Include="..\..\dist\BMP\treeIcon_E2.bmp" />
+    <Image Include="..\..\dist\BMP\treeIcon_test24bit.bmp" />
+    <Image Include="..\..\dist\BMP\YellowIcon.bmp" />
+    <Image Include="BMP\treectrl.bmp" />
+    <Image Include="BMP\YellowIcon.bmp" />
+    <Image Include="res\DrawProg.ico" />
+    <Image Include="res\DrawProgDoc.ico" />
+    <Image Include="res\ledOff.ico" />
+    <Image Include="res\ledOn.ico" />
+    <Image Include="res\Toolbar.bmp" />
+    <Image Include="res\Toolbar_16bit.bmp" />
+    <Image Include="res\Toolbar_256.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DrawProg.reg" />
+    <None Include="res\cur00001.cur" />
+    <None Include="res\cursor1.cur" />
+    <None Include="res\cursor_labblock.cur" />
+    <None Include="res\cursor_labnode.cur" />
+    <None Include="res\cursor_labport.cur" />
+    <None Include="res\cur_labline.cur" />
+    <None Include="res\cur_labmonitorline.cur" />
+    <None Include="res\DrawProg.rc2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\contrib\lib\archive.lib" />
+    <Library Include="..\contrib\lib\libcurl.lib" />
+    <Library Include="..\contrib\lib\libxml2.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties _x007B_8856F961-340A-11D0-A96B-00C04FD705A2_x007D_="CExplorer1" RESOURCE_FILE="DrawProg.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

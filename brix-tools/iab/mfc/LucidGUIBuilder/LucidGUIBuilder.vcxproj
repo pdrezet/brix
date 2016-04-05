@@ -1,0 +1,505 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="LGB|Win32">
+      <Configuration>LGB</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F2597A9C-7B2B-4EEB-8F1E-5673E387B917}</ProjectGuid>
+    <RootNamespace>LucidGUIBuilder</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LGB|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <UseOfMfc>Static</UseOfMfc>
+    <CLRSupport>false</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CLRSupport>false</CLRSupport>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='LGB|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>12.0.30501.0</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\..\dist\bin\</OutDir>
+    <IntDir>.\Debug\</IntDir>
+    <PreBuildEventUseInBuild>false</PreBuildEventUseInBuild>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\..\dist\bin\</OutDir>
+    <IntDir>.\Release\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LGB|Win32'">
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <PreBuildEvent>
+      <Message>create  LGB revision.h </Message>
+      <Command>..\..\scripts\GetVersionNum.vbs -N -V -T.\revision_template.h -O.\revision.h .</Command>
+    </PreBuildEvent>
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Debug/DrawGUI.tlb</TypeLibraryName>
+      <HeaderFileName />
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\LucidFontBlit\Kernel;..\LucidFontBlit\HAL\include;..\common;..\LucidFontBlit\win_x86;..\LucidFontBlit\HAL\Graphics;..\contrib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>.\Debug/DrawGUI.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\Debug/</AssemblerListingLocation>
+      <ObjectFileName>.\Debug/</ObjectFileName>
+      <ProgramDataBaseFileName>.\Debug/</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0809</Culture>
+    </ResourceCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+    <Link>
+      <OutputFile>$(OutDir)$(ProjectName)Debug.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>mfc80ud.lib; mfcs80ud.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AssemblyDebug>true</AssemblyDebug>
+      <ProgramDatabaseFile>.\Debug/DrawGUI.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Debug/DrawGUI.bsc</OutputFile>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <PreBuildEvent>
+      <Message>LGB create version.h </Message>
+      <Command>rem ..\..\scripts\GetVersionNum.vbs -N -V -T.\revision_template.h -O.\revision.h .</Command>
+    </PreBuildEvent>
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Release/DrawGUI.tlb</TypeLibraryName>
+      <HeaderFileName />
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\LucidFontBlit\Kernel;..\LucidFontBlit\HAL\include;..\common;..\LucidFontBlit\win_x86;..\LucidFontBlit\HAL\Graphics;../contrib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>false</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>.\Release/DrawGUI.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\Release/</AssemblerListingLocation>
+      <ObjectFileName>.\Release/</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release/</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat />
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0809</Culture>
+    </ResourceCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+    <Link>
+      <OutputFile>$(OutDir)$(ProjectName)Release.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>uafxcw.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ProgramDatabaseFile>.\Release/DrawGUI.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release/DrawGUI.bsc</OutputFile>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\common\bmpfile.cpp" />
+    <ClCompile Include="..\common\common.cpp" />
+    <ClCompile Include="..\common\EHSInitParams.cpp" />
+    <ClCompile Include="..\common\EHSParamsDialog.cpp" />
+    <ClCompile Include="..\common\ExtBdfFile.cpp" />
+    <ClCompile Include="..\common\ExtBmpFile.cpp" />
+    <ClCompile Include="..\common\ExtDataFile.cpp" />
+    <ClCompile Include="..\common\ExtFile.cpp" />
+    <ClCompile Include="..\common\ExtGuiFile.cpp" />
+    <ClCompile Include="..\common\ExtNlsFile.cpp" />
+    <ClCompile Include="..\common\ExtPngFile.cpp" />
+    <ClCompile Include="..\common\ExtResourceFile.cpp" />
+    <ClCompile Include="..\common\ExtTransferableFile.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+      <XMLDocumentationFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.xdc</XMLDocumentationFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+      <XMLDocumentationFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.xdc</XMLDocumentationFileName>
+    </ClCompile>
+    <ClCompile Include="..\common\FolderDlg.cpp" />
+    <ClCompile Include="..\common\GlobalFuncs_1.cpp" />
+    <ClCompile Include="..\common\GlobalFuncs_2.cpp" />
+    <ClCompile Include="..\common\GuiWidget.cpp" />
+    <ClCompile Include="..\common\HScrollListBox.cpp" />
+    <ClCompile Include="..\common\LabLgbBaseApp.cpp" />
+    <ClCompile Include="..\common\LccPmdXfers.cpp" />
+    <ClCompile Include="..\common\LccTimeStamp.cpp" />
+    <ClCompile Include="..\common\Log.cpp" />
+    <ClCompile Include="..\common\LucidRegAccess.cpp" />
+    <ClCompile Include="..\common\LucidTcpipClient.cpp" />
+    <ClCompile Include="..\common\LucidTcpipClientDlg.cpp" />
+    <ClCompile Include="..\common\Markup.cpp" />
+    <ClCompile Include="..\common\ProjectMetaData.cpp" />
+    <ClCompile Include="..\common\ProjectMetaDataChecks.cpp" />
+    <ClCompile Include="..\common\ProjectMetaDataIO.cpp" />
+    <ClCompile Include="..\common\ProjFolderMinder.cpp" />
+    <ClCompile Include="..\common\ResizingDialog.cpp" />
+    <ClCompile Include="..\common\RevisionGuru.cpp" />
+    <ClCompile Include="..\common\ScreenTagDescripEditor.cpp" />
+    <ClCompile Include="..\common\ScreenTagDialog.cpp" />
+    <ClCompile Include="..\common\TgtTransProgDlog.cpp" />
+    <ClCompile Include="..\common\TransferErrorDlog.cpp" />
+    <ClCompile Include="..\common\TransferToTargetDialog.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\FileOperations.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\Group.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\PathDialog.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\ProjectDialog.cpp" />
+    <ClCompile Include="..\LucidFontBlit\HAL\file\hal_file.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\LucidFontBlit\HAL\graphics\font.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\LucidFontBlit\HAL\graphics\graphics.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\LucidFontBlit\HAL\graphics\html.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\LucidFontBlit\HAL\graphics\widget.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\LucidFontBlit\HAL\graphics\widget_textbox.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\LucidFontBlit\HAL\string\hal_string.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\LucidFontBlit\Kernel\mem.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\LucidFontBlit\win_x86\target_viewport.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ChildFrm.cpp" />
+    <ClCompile Include="ColourEdit.cpp" />
+    <ClCompile Include="ColourStatic.cpp" />
+    <ClCompile Include="CopyGuiFileDlog.cpp" />
+    <ClCompile Include="CreateGuiFileDlog.cpp" />
+    <ClCompile Include="DeleteGUIFileDlog.cpp" />
+    <ClCompile Include="DrawGUI.cpp" />
+    <ClCompile Include="DrawGUIDoc.cpp" />
+    <ClCompile Include="DrawGUIView.cpp" />
+    <ClCompile Include="DrawGUIViewStore.cpp" />
+    <ClCompile Include="IconSelectionTester.cpp" />
+    <ClCompile Include="InlineText.cpp" />
+    <ClCompile Include="InlineTextDialog.cpp" />
+    <ClCompile Include="LgbColorsDef.cpp" />
+    <ClCompile Include="LgbCommandLineInfo.cpp" />
+    <ClCompile Include="LgbDrawable.cpp" />
+    <ClCompile Include="LgbDrawableBag.cpp" />
+    <ClCompile Include="LgbFont.cpp" />
+    <ClCompile Include="LgbImageIcon.cpp" />
+    <ClCompile Include="LgbListCtrl.cpp" />
+    <ClCompile Include="LgbPatchIcon.cpp" />
+    <ClCompile Include="LgbProjFileMgrTabCtrl.cpp" />
+    <ClCompile Include="LgbRect.cpp" />
+    <ClCompile Include="LgbResizedDrawable.cpp" />
+    <ClCompile Include="LgbSliderCtrl.cpp" />
+    <ClCompile Include="LgbTextIcon.cpp" />
+    <ClCompile Include="LgbUndoStore.cpp" />
+    <ClCompile Include="LgbZOrderDlogBar.cpp" />
+    <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="ODrawLBox.cpp" />
+    <ClCompile Include="OkCnclDlog.cpp" />
+    <ClCompile Include="PicDrawC.cpp" />
+    <ClCompile Include="ProjectFileManagerDialog.cpp" />
+    <ClCompile Include="Properties_Drawable.cpp" />
+    <ClCompile Include="Properties_Image.cpp" />
+    <ClCompile Include="Properties_Patch.cpp" />
+    <ClCompile Include="Properties_textbox.cpp" />
+    <ClCompile Include="ReadOnlyEdit.cpp" />
+    <ClCompile Include="ScreenTagListBox.cpp" />
+    <ClCompile Include="StdAfx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="TextStyleListBox.cpp" />
+    <ClCompile Include="YesY2ANoCnclDlog.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\common\EHSParamsDialogNRes.rc" />
+    <ResourceCompile Include="..\common\LucidTcpipClientDlg.rc" />
+    <ResourceCompile Include="..\common\ScreenTagDescripEditor.rc" />
+    <ResourceCompile Include="..\common\ScreenTagDialog.rc" />
+    <ResourceCompile Include="..\common\TgtTransProgDlog.rc" />
+    <ResourceCompile Include="..\common\TransferErrorDlog.rc" />
+    <ResourceCompile Include="..\common\TransferToTargetDialog.rc" />
+    <ResourceCompile Include="DrawGUI.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\common\bmpfile.h" />
+    <ClInclude Include="..\common\common.h" />
+    <ClInclude Include="..\common\EHSInitParams.h" />
+    <ClInclude Include="..\common\EHSParamsDialog.h" />
+    <ClInclude Include="..\common\ExtBdfFile.h" />
+    <ClInclude Include="..\common\ExtBmpFile.h" />
+    <ClInclude Include="..\common\ExtDataFile.h" />
+    <ClInclude Include="..\common\ExtFile.h" />
+    <ClInclude Include="..\common\ExtGuiFile.h" />
+    <ClInclude Include="..\common\ExtNlsFile.h" />
+    <ClInclude Include="..\common\ExtPngFile.h" />
+    <ClInclude Include="..\common\ExtResourceFile.h" />
+    <ClInclude Include="..\common\ExtTransferableFile.h" />
+    <ClInclude Include="..\common\FolderDlg.h" />
+    <ClInclude Include="..\common\GlobalFuncs_1.h" />
+    <ClInclude Include="..\common\GlobalFuncs_2.h" />
+    <ClInclude Include="..\common\GuiWidget.h" />
+    <ClInclude Include="..\common\HScrollListBox.h" />
+    <ClInclude Include="..\common\LabLgbBaseApp.h" />
+    <ClInclude Include="..\common\LccPmdXfers.h" />
+    <ClInclude Include="..\common\LccTimeStamp.h" />
+    <ClInclude Include="..\common\LgbIconDataStrucs.h" />
+    <ClInclude Include="..\common\Log.h" />
+    <ClInclude Include="..\common\LucidConstants.h" />
+    <ClInclude Include="..\common\LucidEnums.h" />
+    <ClInclude Include="..\common\LucidRegAccess.h" />
+    <ClInclude Include="..\common\LucidTcpipClient.h" />
+    <ClInclude Include="..\common\LucidTcpipClientDlg.h" />
+    <ClInclude Include="..\common\LucidTcpipClientDlgRes.h" />
+    <ClInclude Include="..\common\LucidTypedefs.h" />
+    <ClInclude Include="..\common\Markup.h" />
+    <ClInclude Include="..\common\ProjectMetaData.h" />
+    <ClInclude Include="..\common\ProjFolderMinder.h" />
+    <ClInclude Include="..\common\ResizingDialog.h" />
+    <ClInclude Include="..\common\resource1.h" />
+    <ClInclude Include="..\common\RevisionGuru.h" />
+    <ClInclude Include="..\common\ScreenTagDescripEditor.h" />
+    <ClInclude Include="..\common\ScreenTagDescripEditorRes.h" />
+    <ClInclude Include="..\common\ScreenTagDialog.h" />
+    <ClInclude Include="..\common\ScreenTagDialogRes.h" />
+    <ClInclude Include="..\common\TgtTransProgDlog.h" />
+    <ClInclude Include="..\common\TgtTransProgDlogRes.h" />
+    <ClInclude Include="..\common\TransferErrorDlog.h" />
+    <ClInclude Include="..\common\TransferErrorDlogRes.h" />
+    <ClInclude Include="..\common\TransferToTargetDialog.h" />
+    <ClInclude Include="..\common\TransferToTargetDialogRes.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\FileOperations.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\Group.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\PathDialog.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\ProjectDialog.h" />
+    <ClInclude Include="..\LucidFontBlit\HAL\graphics\font.h" />
+    <ClInclude Include="..\LucidFontBlit\HAL\graphics\graphics.h" />
+    <ClInclude Include="..\LucidFontBlit\HAL\graphics\html.h" />
+    <ClInclude Include="..\LucidFontBlit\HAL\graphics\widget.h" />
+    <ClInclude Include="..\LucidFontBlit\HAL\graphics\widget_textbox.h" />
+    <ClInclude Include="..\LucidFontBlit\HAL\include\ehs_types.h" />
+    <ClInclude Include="..\LucidFontBlit\HAL\include\globals.h" />
+    <ClInclude Include="..\LucidFontBlit\HAL\include\hal_console.h" />
+    <ClInclude Include="..\LucidFontBlit\HAL\include\hal_file.h" />
+    <ClInclude Include="..\LucidFontBlit\HAL\include\hal_string.h" />
+    <ClInclude Include="..\LucidFontBlit\Kernel\mem.h" />
+    <ClInclude Include="..\LucidFontBlit\Kernel\messages.h" />
+    <ClInclude Include="..\LucidFontBlit\win_x86\target_viewport.h" />
+    <ClInclude Include="ChildFrm.h" />
+    <ClInclude Include="ColourEdit.h" />
+    <ClInclude Include="ColourStatic.h" />
+    <ClInclude Include="CopyGuiFileDlog.h" />
+    <ClInclude Include="CreateGuiFileDlog.h" />
+    <ClInclude Include="DeleteGUIFileDlog.h" />
+    <ClInclude Include="DrawC.h" />
+    <ClInclude Include="DrawGUI.h" />
+    <ClInclude Include="DrawGUIDoc.h" />
+    <ClInclude Include="DrawGUIView.h" />
+    <ClInclude Include="DrawGUIViewStore.h" />
+    <ClInclude Include="IconSelection.h" />
+    <ClInclude Include="IconSelectionTester.h" />
+    <ClInclude Include="InlineText.h" />
+    <ClInclude Include="InlineTextDialog.h" />
+    <ClInclude Include="LgbColorsDef.h" />
+    <ClInclude Include="LgbCommandLineInfo.h" />
+    <ClInclude Include="LgbDeque.h" />
+    <ClInclude Include="LgbDrawable.h" />
+    <ClInclude Include="LgbDrawableBag.h" />
+    <ClInclude Include="LgbFont.h" />
+    <ClInclude Include="LgbImageIcon.h" />
+    <ClInclude Include="LgbListCtrl.h" />
+    <ClInclude Include="LgbPatchIcon.h" />
+    <ClInclude Include="LgbProjFileMgrTabCtrl.h" />
+    <ClInclude Include="LgbRect.h" />
+    <ClInclude Include="LgbResizedDrawable.h" />
+    <ClInclude Include="LgbSliderCtrl.h" />
+    <ClInclude Include="LgbTextIcon.h" />
+    <ClInclude Include="LgbUndoStore.h" />
+    <ClInclude Include="LgbUndoTemplateStore.h" />
+    <ClInclude Include="LgbZOrderDlogBar.h" />
+    <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="ODrawLBox.h" />
+    <ClInclude Include="OkCnclDlog.h" />
+    <ClInclude Include="PicDrawC.h" />
+    <ClInclude Include="ProjectFileManagerDialog.h" />
+    <ClInclude Include="Properties_Drawable.h" />
+    <ClInclude Include="Properties_Image.h" />
+    <ClInclude Include="Properties_Patch.h" />
+    <ClInclude Include="Properties_textbox.h" />
+    <ClInclude Include="ReadOnlyEdit.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="revision_template.h" />
+    <ClInclude Include="ScreenTagListBox.h" />
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="TextStyleListBox.h" />
+    <ClInclude Include="YesY2ANoCnclDlog.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\1.bmp" />
+    <Image Include="res\2.bmp" />
+    <Image Include="res\bitmap1.bmp" />
+    <Image Include="res\bitmap10.bmp" />
+    <Image Include="res\bitmap11.bmp" />
+    <Image Include="res\bitmap12.bmp" />
+    <Image Include="res\bitmap13.bmp" />
+    <Image Include="res\bitmap14.bmp" />
+    <Image Include="res\bitmap15.bmp" />
+    <Image Include="res\bitmap16.bmp" />
+    <Image Include="res\bitmap17.bmp" />
+    <Image Include="res\bitmap18.bmp" />
+    <Image Include="res\bitmap19.bmp" />
+    <Image Include="res\bitmap20.bmp" />
+    <Image Include="res\bitmap21.bmp" />
+    <Image Include="res\bitmap3.bmp" />
+    <Image Include="res\bitmap4.bmp" />
+    <Image Include="res\bitmap5.bmp" />
+    <Image Include="res\bitmap6.bmp" />
+    <Image Include="res\bitmap7.bmp" />
+    <Image Include="res\bitmap8.bmp" />
+    <Image Include="res\bitmap9.bmp" />
+    <Image Include="res\bmp00001.bmp" />
+    <Image Include="res\bmp00002.bmp" />
+    <Image Include="res\bmp00003.bmp" />
+    <Image Include="res\bmp00004.bmp" />
+    <Image Include="res\bmp00005.bmp" />
+    <Image Include="res\DrawGUI.ico" />
+    <Image Include="res\DrawGUIDoc.ico" />
+    <Image Include="res\green.bmp" />
+    <Image Include="res\red.bmp" />
+    <Image Include="res\textbox_props_1b.bmp" />
+    <Image Include="res\Toolbar.bmp" />
+    <Image Include="res\toolbar1.bmp" />
+    <Image Include="res\toolbar2.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\PCEngine\default.gui" />
+    <None Include="DrawGUI.reg" />
+    <None Include="LgbResource" />
+    <None Include="Resource" />
+    <None Include="res\DrawGUI.rc2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\contrib\lib\libcurl.lib" />
+    <Library Include="..\contrib\lib\libxml2.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="DrawGUI.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

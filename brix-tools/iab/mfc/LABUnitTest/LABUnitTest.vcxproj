@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{41297A2A-916E-4D71-8102-E74E28926437}</ProjectGuid>
+    <RootNamespace>LABUnitTest</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>12.0.30501.0</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>false</ValidateAllParameters>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../common;C:\work\source\tools\common;C:\UnitTesting\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>cppunitd_dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\UnitTesting\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Message>CustomBuild: Copy UnitTest DLL</Message>
+      <Command>copy c:\UnitTesting\lib\testrunnerd.dll testrunnerd.dll</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <PreBuildEvent>
+      <Message>Generate revision number for this build</Message>
+      <Command>..\..\scripts\GetVersionNum.vbs -N -T..\common\revision_template.h -O..\common\revision.h ..\..</Command>
+    </PreBuildEvent>
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>false</ValidateAllParameters>
+    </Midl>
+    <ClCompile>
+      <AdditionalIncludeDirectories>../common;C:\work\source\tools\common;C:\UnitTesting\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>cppunit_dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\UnitTesting\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\common\bmpfile.cpp" />
+    <ClCompile Include="..\common\common.cpp" />
+    <ClCompile Include="..\common\ExtBmpFile.cpp" />
+    <ClCompile Include="..\common\ExtDataFile.cpp" />
+    <ClCompile Include="..\common\ExtFile.cpp" />
+    <ClCompile Include="..\common\ExtGuiFile.cpp" />
+    <ClCompile Include="..\common\ExtPngFile.cpp" />
+    <ClCompile Include="..\common\ExtTransferableFile.cpp" />
+    <ClCompile Include="..\common\FolderDlg.cpp" />
+    <ClCompile Include="..\common\GlobalFuncs_2.cpp" />
+    <ClCompile Include="..\common\GuiWidget.cpp" />
+    <ClCompile Include="..\common\LabLgbBaseApp.cpp" />
+    <ClCompile Include="..\common\LccPmdXfers.cpp" />
+    <ClCompile Include="..\common\LccTimeStamp.cpp" />
+    <ClCompile Include="..\common\LucidRegAccess.cpp" />
+    <ClCompile Include="..\common\LucidString.cpp" />
+    <ClCompile Include="..\common\LucidTcpipClient.cpp" />
+    <ClCompile Include="..\common\LucidTcpipClientDlg.cpp" />
+    <ClCompile Include="..\common\Markup.cpp" />
+    <ClCompile Include="..\common\ProjectMetaData.cpp" />
+    <ClCompile Include="..\common\ScreenTagDescripEditor.cpp" />
+    <ClCompile Include="..\common\ScreenTagDialog.cpp" />
+    <ClCompile Include="..\common\TransferToTargetDialog.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\BlockOperations.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\BlockPortLabelDialog.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\CanvasSupport.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\Condat.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\Debugger.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\DEP.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\EditGroupDialog.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\Encapsulate.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\Encapsulation.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\FileOperations.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\ForceValueDialog.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\FSM.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\FTP.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\FTPOptions.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\GotoTimeDialog.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\Group.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\GroupSetupDialog.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\IconLines.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\IconParams.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\MyTreeCtrl.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\Parameter.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\PathDialog.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\port.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\Project.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\ProjectDialog.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\SODL.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\tagdialog.cpp" />
+    <ClCompile Include="..\LucidApplicationBuilder\TypeConversion.cpp" />
+    <ClCompile Include="BlockPortLabelDialogTest.cpp" />
+    <ClCompile Include="ConDataTest.cpp" />
+    <ClCompile Include="DEPTest.cpp" />
+    <ClCompile Include="DrawProgApp.cpp" />
+    <ClCompile Include="EncapsulationTest.cpp" />
+    <ClCompile Include="HandleTests.cpp" />
+    <ClCompile Include="IconParamsTest.cpp" />
+    <ClCompile Include="LABUnitTest.cpp" />
+    <ClCompile Include="LABUnitTestDlg.cpp" />
+    <ClCompile Include="ParameterTest.cpp" />
+    <ClCompile Include="PathDialogTest.cpp" />
+    <ClCompile Include="ProjectMetaDataTest.cpp" />
+    <ClCompile Include="ProjectTest.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="TProjectMetaData.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\common\bmpfile.h" />
+    <ClInclude Include="..\common\ExtBmpFile.h" />
+    <ClInclude Include="..\common\ExtDataFile.h" />
+    <ClInclude Include="..\common\ExtFile.h" />
+    <ClInclude Include="..\common\ExtGuiFile.h" />
+    <ClInclude Include="..\common\ExtPngFile.h" />
+    <ClInclude Include="..\common\ExtTransferableFile.h" />
+    <ClInclude Include="..\common\FolderDlg.h" />
+    <ClInclude Include="..\common\GlobalFuncs_2.h" />
+    <ClInclude Include="..\common\GuiWidget.h" />
+    <ClInclude Include="..\common\LabLgbBaseApp.h" />
+    <ClInclude Include="..\common\LccPmdXfers.h" />
+    <ClInclude Include="..\common\LccTimeStamp.h" />
+    <ClInclude Include="..\common\LucidConstants.h" />
+    <ClInclude Include="..\common\LucidEnums.h" />
+    <ClInclude Include="..\common\LucidRegAccess.h" />
+    <ClInclude Include="..\common\LucidString.h" />
+    <ClInclude Include="..\common\LucidTcpipClient.h" />
+    <ClInclude Include="..\common\LucidTcpipClientDlg.h" />
+    <ClInclude Include="..\common\Markup.h" />
+    <ClInclude Include="..\common\ProjectMetaData.h" />
+    <ClInclude Include="..\common\ScreenTagDescripEditor.h" />
+    <ClInclude Include="..\common\ScreenTagDialog.h" />
+    <ClInclude Include="..\common\TransferToTargetDialog.h" />
+    <ClInclude Include="..\common\TransferToTargetDialogRes.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\BlockOperations.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\BlockPortLabelDialog.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\CanvasSupport.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\condat.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\Debugger.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\DEP.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\EditGroupDialog.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\Encapsulate.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\Encapsulation.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\FileOperations.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\ForceValueDialog.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\FSM.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\FTP.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\FTPOptions.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\GotoTimeDialog.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\Group.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\GroupSetupDialog.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\IconLines.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\IconParams.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\MyTreeCtrl.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\Parameter.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\PathDialog.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\port.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\Project.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\ProjectDialog.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\SODL.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\tagdialog.h" />
+    <ClInclude Include="..\LucidApplicationBuilder\TypeConversion.h" />
+    <ClInclude Include="BlockPortLabelDialogTest.h" />
+    <ClInclude Include="ConDataTest.h" />
+    <ClInclude Include="DEPTest.h" />
+    <ClInclude Include="DrawProgApp.h" />
+    <ClInclude Include="EncapsulationTest.h" />
+    <ClInclude Include="HandleTests.h" />
+    <ClInclude Include="IconParamsTest.h" />
+    <ClInclude Include="LABUnitTestDlg.h" />
+    <ClInclude Include="ParameterTest.h" />
+    <ClInclude Include="PathDialogTest.h" />
+    <ClInclude Include="ProjectMetaDataTest.h" />
+    <ClInclude Include="ProjectTest.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TProjectMetaData.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\LABUnitTest.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\common\LucidTcpipClientDlg.rc" />
+    <ResourceCompile Include="..\common\TransferToTargetDialog.rc" />
+    <ResourceCompile Include="LABUnitTest.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\LABUnitTest.rc2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
