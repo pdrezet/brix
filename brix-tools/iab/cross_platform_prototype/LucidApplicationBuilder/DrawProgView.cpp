@@ -52,10 +52,9 @@ void DrawProgView::Render(){
     	}else{
     		INXGLFont newViewText;
     		newViewText.setFontSize(18);
-    		newViewText.textOut(25,100,"New INX OpenGL Window");
+    		newViewText.textOut(25,100,"Couldn't read DEP file");
     		newViewText.setFontSize(14);
-    		newViewText.textOut(80,100 + 25,"still in progress");
-			
+    		newViewText.textOut(80,100 + 25,"Old version?");	
 	}
     glFlush();
     SwapBuffers();

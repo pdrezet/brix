@@ -1,6 +1,8 @@
 // LucidConstants.h: global constants
 //
 //////////////////////////////////////////////////////////////////////
+#ifndef _LUCIDCONSTANTS_H
+#define _LUCIDCONSTANTS_H
 
 #pragma once
 #include "Porting_Classes/INXString.h"
@@ -407,3 +409,5 @@ const int TCPIP_BUFFER_SIZE = (1024 * 1024) * sizeof(char);
 #define DISK_SPACE_WARNING_MB 50.0
 #define DISK_SPACE_CRITICAL_MB 10.0
 #define DISK_SPACE_NONE_MB 0.1
+
+#endif

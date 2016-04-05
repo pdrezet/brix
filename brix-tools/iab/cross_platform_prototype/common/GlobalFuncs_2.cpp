@@ -259,7 +259,7 @@ INXString GetIniValue(INXString csSection, INXString csKey, INXString csIniFileN
 	INXString csDestBuff = "";
 	char szDefault[]={""};
 
-	//GetPrivateProfileString(csSection, csKey, szDefault, szDestBuff, sizeof(szDestBuff), csIniFileName);
+//	GetPrivateProfileString(csSection, csKey, szDefault, szDestBuff, sizeof(szDestBuff), csIniFileName);
 
 	csDestBuff = pDestBuff;
 	return csDestBuff;

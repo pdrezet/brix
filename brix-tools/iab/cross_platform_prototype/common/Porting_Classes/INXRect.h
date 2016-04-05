@@ -13,6 +13,15 @@
 #endif
 
 class INXRect: public wxRect{
+typedef struct tagINXRECT
+{
+    long    left;
+    long    top;
+    long    right;
+    long    bottom;
+} INXRECT; 
+typedef const INXRECT *INXPRECT;
+
 public:
 	int left;
 	int right;

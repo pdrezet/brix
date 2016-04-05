@@ -1,6 +1,8 @@
 #ifndef _INXSTRING_H
 #define _INXSTRING_H
 
+
+
 #include <wx/string.h>
 #include <algorithm>
 using namespace std;

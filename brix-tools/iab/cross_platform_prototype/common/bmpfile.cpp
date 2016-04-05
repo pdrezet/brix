@@ -3,6 +3,7 @@
 #include <errno.h>
 #include <stdio.h>
 
+
 #define WIDTHBYTES(bits)    (((bits) + 31) / 32 * 4)
 #define BI_RGB 0L
 
