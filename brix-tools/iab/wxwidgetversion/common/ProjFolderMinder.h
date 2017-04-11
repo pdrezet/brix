@@ -2,7 +2,9 @@
 //#include "stdafx.h"
 
 #include "LucidEnums.h"
+
 #include "Porting_Classes/INXString.h"
+
 class ProjectMetaData;
 
 //!author: M Rutherford.  Copyright nCapsa ltd 2007.

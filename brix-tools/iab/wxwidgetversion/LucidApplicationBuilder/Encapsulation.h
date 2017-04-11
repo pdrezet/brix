@@ -25,11 +25,11 @@ public:
 	INXString iconBitmap;
 	//CMainFrame *pFrame;	
 	INXObjList* encapsulated;
-	HTREEITEM hItem;
+	INXTREEITEM hItem;
 
 	// Methods
-	void EncapsulateBlock(INXObjList* _encapsulated, HTREEITEM _hItem);
-	INXObjList* EncapsulateSubset(INXRect encapsulate, INXObjList* depList, HTREEITEM _hItem, int nLib);
+	void EncapsulateBlock(INXObjList* _encapsulated, INXTREEITEM _hItem);
+	INXObjList* EncapsulateSubset(INXRect encapsulate, INXObjList* depList, INXTREEITEM _hItem, int nLib);
 	int SelectEncapsulateIcon();
 	int SaveEncapsulated(Encapsulate* dialog, int iconNum, int nLib);
 	void WriteIDF(Encapsulate *dialog, int iconNum);
@@ -40,8 +40,8 @@ public:
 	ConData* GetIconFromID(long int id, INXObjList* list);
 	ConData* AddXPort(INXString type, INXPoint point);
 	bool IsUniqueSubsetID(long id);
-	//void EditEncapsulation(POSITION selectedIcon);
-	//void SaveSubBlocks(CObList* subBlock, INXString hierarchyName);
+	void EditEncapsulation(INXPOSITION selectedIcon);
+	void SaveSubBlocks(INXObjList* subBlock, INXString hierarchyName);
 	void repositionEncapsulated();
 	void setLineSelected(ConData* blob);
 	void ResetXportConnected(INXObjList* depList);

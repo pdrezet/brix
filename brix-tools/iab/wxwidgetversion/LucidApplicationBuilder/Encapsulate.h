@@ -10,6 +10,7 @@
 #include "LucidConstants.h"
 #include "Porting_Classes/INXString.h"
 #include "Porting_Classes/INXObjList.h"
+#include "Porting_Classes/INXWidgets.h"
 #include <wx/dialog.h>
 #include <wx/event.h>
 #include <wx/combobox.h>
@@ -32,14 +33,15 @@ public:
 	INXString startNames[MAXXPORTS];
 	INXString finishLabels[MAXXPORTS];
 	INXString finishNames[MAXXPORTS];
-	CEdit* inEdit[MAXXPORTS];
-	CStatic* inStatic[MAXXPORTS];
-	CEdit* outEdit[MAXXPORTS];
-	CStatic* outStatic[MAXXPORTS];
-	CEdit* startEdit[MAXXPORTS];
-	CStatic* startStatic[MAXXPORTS];
-	CEdit* finishEdit[MAXXPORTS];
-	CStatic* finishStatic[MAXXPORTS];
+/* MFCism */
+	INX_Edit* inEdit[MAXXPORTS];
+	INX_Static* inStatic[MAXXPORTS];
+	INX_Edit* outEdit[MAXXPORTS];
+	INX_Static* outStatic[MAXXPORTS];
+	INX_Edit* startEdit[MAXXPORTS];
+	INX_Static* startStatic[MAXXPORTS];
+	INX_Edit* finishEdit[MAXXPORTS];
+	INX_Static* finishStatic[MAXXPORTS];
 	INXObjList* encapsulated;
 	unsigned int inNum, outNum, startNum, finishNum;
 
@@ -75,7 +77,7 @@ protected:
 	//{{AFX_MSG(Encapsulate)
 	virtual BOOL OnInitDialog();
 	void OnOK(wxCommandEvent & event);
-	DECLARE_EVENT_TABLE()
+	//DECLARE_EVENT_TABLE()
 };
 
 //{{AFX_INSERT_LOCATION}}

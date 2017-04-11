@@ -17,6 +17,7 @@
 #include "LucidEnums.h"
 //#include "WidgetGroupManagerDlg.h" //@todo
 #include <wx/msgdlg.h>
+#include "Porting_Classes/INXWidgets.h"
 
 /*
 #ifdef _DEBUG
@@ -28,7 +29,7 @@ static char THIS_FILE[]=__FILE__;
 // global variable declared in CDrawProgApp
 extern char workDir[WORK_DIR_SIZE];
 
-//LucidTcpipClient tcpClient; //@todo
+LucidTcpipClient tcpClient; //@todo
 
 
 //////////////////////////////////////////////////////////////////////
@@ -132,7 +133,7 @@ void Project::DeleteUnused(DEP* thisDEP) {
 /* @todo Somwhere in this shocking code there is something that idenfies if the bitmap file is one of a list of ones used to represent
 x-ports and changes the function box display accordingly. Obviously this should be using the class name in IDF instead. This needs sorting out! */ 
 
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 // Adds a XPort to a DEP and a block port to its parent DEP
 ConData* Project::AddXPort(DEP* pParentDEP, INXString type, INXString portLabel, INXPoint point, DEP* pDEP) {
 	if (pParentDEP->AddBlockPort(type, portLabel, pDEP->depFilename)) {
@@ -147,9 +148,9 @@ ConData* Project::AddXPort(DEP* pParentDEP, INXString type, INXString portLabel,
 void Project::AddBlockPort(ConData* blob, int iDataType, int iPortType, INXString portLabel, DEP* pDEP) {
 	DEP* pChildDEP;
 	INXString depPath, csProjectDir;
-
+#ifdef __INX_DONE_ADD_PORT
 	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
-	HTREEITEM childItem;
+	INXTREEITEM childItem;
 
 	// get the type and point	
 	INXPoint point = blob->CalculateXPortPosition(iPortType);
@@ -177,6 +178,7 @@ void Project::AddBlockPort(ConData* blob, int iDataType, int iPortType, INXStrin
 			pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(pDEP->hItem) + pDEP->depFilename + ".prg");	
 		//OpenDEP(projectDir + DEPDIR + pDEP->depFilename + ".prg");
 	}
+#endif
 }
 
 // Sets the groupID in all the start ports and internal ports for the specified icon
@@ -185,8 +187,9 @@ void Project::AddIconToGroup(INXPOSITION selectedIcon, int groupID, DEP* vwDEP)
 	ConData* blob;
 	INXPOSITION pos;
 	DEP* pChildDEP;
+#ifdef __INX_DONE_SETTING_ICON_TO_GROUP
 	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
-	HTREEITEM childItem;
+	INXTREEITEM childItem;
 	INXString depPath, csProjectDir;
 
 	pProjMData->getProjectDir(csProjectDir);
@@ -211,12 +214,14 @@ void Project::AddIconToGroup(INXPOSITION selectedIcon, int groupID, DEP* vwDEP)
 	else {
 		vwDEP->AddIconToGroup(selectedIcon, groupID);
 	}
+#endif
 }
 
 // Assigns a hierarchical line ID to lines connected to userdefined blocks and lines connected to XINPUT ports to simplify mapping 
 // in debug mode
 void Project::AssignHierLineID()
 {
+#ifdef __INX_DONELINEIDS
 	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 	INXPOSITION pos, subpos;
 	ConData *blob, *subblob, *othersubblob;
@@ -367,20 +372,21 @@ void Project::AssignHierLineID()
 		} // if (blob->userDefined)
 
 	}
+#endif
 }
 
 // Same as the AssignHierLineId method except it recursively goes through all subsystem blocks
-void Project::AssignSubBlockHierLineId(HTREEITEM hItem)
+void Project::AssignSubBlockHierLineId(INXTREEITEM hItem)
 {
-	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+	INX_MainFrame* pFrame = INX_MainFrame::INX_GetAppMainWindow();
 	INXString csFileName, csProjectDir;
 	INXObjList* pTmpList;
 	BlockOperations bo;
 	INXPOSITION pos;
 	ConData *pBlob, *pOtherBlob;
-	HTREEITEM hChildItem;
+	INXTREEITEM hChildItem;
 	long iHierId;
-
+#ifndef __INX_DONE_ASSIGNSUBBLOCK
 	pProjMData->getProjectDir(csProjectDir);
 	csFileName = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hItem) + 
 					(INXString)pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hItem) + ".prg";
@@ -432,30 +438,35 @@ void Project::AssignSubBlockHierLineId(HTREEITEM hItem)
 	}
 	bo.SaveBlock(csFileName, pTmpList);
 	bo.DeleteBlock(pTmpList);
+#endif
 }
+
+class CMainFrame {
+
+};
 
 // Works together with AssignHierLineID and AssignSubBlockHierId to propagate the hierIds into lower level 
 // subsystems. If an XINPUT port is connected to a subsystem then the hierId is propagated into the subsystem block.
-void Project::PropagateHierLineId(ConData* blob, HTREEITEM hItem, long hierID, int portType, int iPortNum)
+void Project::PropagateHierLineId(ConData* blob, INXTREEITEM hItem, long hierID, int portType, int iPortNum)
 {
-	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+	INX_MainFrame* pFrame = INX_MainFrame::INX_GetAppMainWindow();
 	INXString filename, csProjectDir;
 	INXObjList* tmpList;
 	INXPOSITION subpos;
 	ConData *subblob, *othersubblob;
-	HTREEITEM hChild;
+	INXTREEITEM hChild;
 	BlockOperations bo;
 
-	CanvasSupport cs;
-	cs.SetDebugTrace(false);
+	//CanvasSupport cs;
+	//cs.SetDebugTrace(false);
 
 	pProjMData->getProjectDir(csProjectDir);
 	filename = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hItem) + 
 		blob->description + ".prg";
 
-	cs.DebugTrace("sdg: subblock Filename: %s\n", filename);
+	//cs.DebugTrace("sdg: subblock Filename: %s\n", filename);
 	tmpList = bo.LoadBlock(filename);
-	cs.DebugTrace("sdg: subblock LoadBlock\n");
+	//cs.DebugTrace("sdg: subblock LoadBlock\n");
 
 	if (portType == INPUTPORT) {
 		subpos = tmpList->GetHeadPosition();
@@ -479,7 +490,7 @@ void Project::PropagateHierLineId(ConData* blob, HTREEITEM hItem, long hierID, i
 		}
 	}
 	else if (portType == STARTPORT) {
-		cs.DebugTrace("sdg: subblock start ports\n");
+		//cs.DebugTrace("sdg: subblock start ports\n");
 		subpos = tmpList->GetHeadPosition();
 		while (subpos) {
 			subblob = (ConData*) tmpList->GetNext(subpos);
@@ -490,23 +501,23 @@ void Project::PropagateHierLineId(ConData* blob, HTREEITEM hItem, long hierID, i
 					othersubblob = bo.GetBlockIconFromID(subblob->startport[j]->line.othericonid, tmpList);
 					if (othersubblob->m_csIconType.Find("XSTART") != -1 && othersubblob->description == blob->startport[iPortNum]->description) {
 						subblob->startport[j]->line.hierID = hierID;
-						cs.DebugTrace("sdg: subblock port label is: %s\n", subblob->startport[j]->description);
+						//cs.DebugTrace("sdg: subblock port label is: %s\n", subblob->startport[j]->description);
 						// This if block used to be outside the one its nested in
 						// Need to check it still works with the debugger
 						if (subblob->m_iUserDefined) {
-							cs.DebugTrace("sdg: subblock subblob block: %s\n", subblob->m_csBlockName);
-							cs.DebugTrace("sdg: subblock subblob GetUserDefChildItem\n");
+							//cs.DebugTrace("sdg: subblock subblob block: %s\n", subblob->m_csBlockName);
+							//cs.DebugTrace("sdg: subblock subblob GetUserDefChildItem\n");
 							hChild = pFrame->m_wndProjectBar.m_cProjTree.GetUserDefChildItem(subblob, hItem);
-							cs.DebugTrace("sdg: subblock PropagateHierLineId\n");
+							//cs.DebugTrace("sdg: subblock PropagateHierLineId\n");
 							PropagateHierLineId(subblob, hChild, hierID, STARTPORT, j);
-							cs.DebugTrace("sdg: subblock end PropagateHierLineId\n");
+							//cs.DebugTrace("sdg: subblock end PropagateHierLineId\n");
 						}
 					}
 				}
 			}	
 		}
 	}
-	cs.DebugTrace("sdg: end subblock start ports\n");
+	//cs.DebugTrace("sdg: end subblock start ports\n");
 	bo.SaveBlock(filename, tmpList);
 	bo.DeleteBlock(tmpList);
 }
@@ -519,7 +530,7 @@ void Project::DebugStart(int mode) {
 	AssignHierLineID();
 	flattened = WriteSODL(csProjectDir + SODLDIR + SODLFILENAME);
 	// reload DEP subblocks since IDs may have changed during flattening
-	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+	INX_MainFrame* pFrame = INX_MainFrame::INX_GetAppMainWindow();
 	pDEP[0]->dbgMappedFlag = FALSE;
 	//@todo is this reload why it's so slow? Perhaps do this more intellegently with dirty flags?
 	for (int i=1; i<=DEPNum; i++) {
@@ -537,9 +548,9 @@ void Project::DeleteBlockPort(INXPOSITION blockPos, int portNum, int portType, D
 	ConData *block, *icon;
 	INXString portLabel, depPath, csProjectDir;
 	INXPOSITION pos, prevPos;
-	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
-	HTREEITEM childItem;
-
+	INX_MainFrame* pFrame = INX_MainFrame::INX_GetAppMainWindow();
+	INXTREEITEM childItem;
+#ifdef __INX_DeleteBlock
 	pProjMData->getProjectDir(csProjectDir);
 	block = (ConData*) pDEP->condata->GetAt(blockPos);
 	if (!block->m_iUserDefined) {
@@ -573,7 +584,8 @@ void Project::DeleteBlockPort(INXPOSITION blockPos, int portNum, int portType, D
 	// restore original DEP in view
 	pFrame->m_wndProjectBar.m_cProjTree.hSelItem = pDEP->hItem;
 	CDocument* Subsystem = AfxGetApp( )->OpenDocumentFile(csProjectDir + DEPDIR + 
-		pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(pDEP->hItem) + pDEP->depFilename + ".prg");		
+		pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(pDEP->hItem) + pDEP->depFilename + ".prg");
+#endif
 }
 
 // deletes a port from a block in a parent DEP
@@ -617,9 +629,9 @@ void Project::RenameBlockPort(INXPOSITION blockPos, int iPortNum, int iPortType,
 	ConData *block, *icon;
 	INXString csOldPortLabel, csNewPortLabel, depPath, csProjectDir;
 	INXPOSITION pos, prevPos;
-	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
-	HTREEITEM childItem;
-
+	INX_MainFrame* pFrame = INX_MainFrame::INX_GetAppMainWindow();
+	INXTREEITEM childItem;
+#ifdef __INX_RENAME_BLOCK_PORTS
 	pProjMData->getProjectDir(csProjectDir);
 	block = (ConData*) pDEP->condata->GetAt(blockPos);
 	if (!block->m_iUserDefined) {
@@ -661,13 +673,14 @@ void Project::RenameBlockPort(INXPOSITION blockPos, int iPortNum, int iPortType,
 	pFrame->m_wndProjectBar.m_cProjTree.hSelItem = pDEP->hItem;
 	CDocument* Subsystem = AfxGetApp( )->OpenDocumentFile(csProjectDir + DEPDIR + 
 		pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(pDEP->hItem) + pDEP->depFilename + ".prg");	
+#endif
 }
 
 void Project::RenameXport(INXPOSITION iconPos, DEP* pDEP, INXString &csNewPortLabel) 
 {
 	INXString csProjectDir, csOldPortLabel;
 	ConData* icon;
-
+#ifdef __INX_RENAMEXPORT
 	pProjMData->getProjectDir(csProjectDir);
 	icon = (ConData*) pDEP->condata->GetAt(iconPos);
 	if (icon->m_csIconType.Find("XINPUT") == -1 && icon->m_csIconType.Find("XOUTPUT") == -1 && 
@@ -687,13 +700,16 @@ void Project::RenameXport(INXPOSITION iconPos, DEP* pDEP, INXString &csNewPortLa
 
 	// Rename Xport
 	icon->description = csNewPortLabel;
+#endif
 }
 
 void Project::EditGroupSetup() {
+#ifdef __INX_DONE_EDITGROUP
 	CGroupSetupDialog dialog(this);
 
 	if (dialog.DoModal()) {
 	}
+#endif
 }
 
 /*
@@ -709,9 +725,9 @@ DEP* Project::GetDEPPtr(INXString depFilename) {
 */
 
 CDrawProgView* Project::OpenView(INXString depFilename) {
-	CDocument* Subsystem = AfxGetApp( )->OpenDocumentFile(depFilename);		
+	INX_Document* Subsystem = INX_Document::OpenDocumentFile(depFilename);
 	// Need to initialise undo for case when the view is already open
-	POSITION pos = Subsystem->GetFirstViewPosition();
+	INXPOSITION pos = Subsystem->GetFirstViewPosition();
 	CDrawProgView* pView = (CDrawProgView*) Subsystem->GetNextView(pos);
 	//pView->initUndo();
 	return pView;

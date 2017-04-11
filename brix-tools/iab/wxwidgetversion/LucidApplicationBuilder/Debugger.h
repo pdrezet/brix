@@ -10,10 +10,10 @@
 #endif // _MSC_VER > 1000
 */
 #include "DEP.h"
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _INX_DONTDONE
 #include "TypeConversion.h"
 #include "LucidTcpipClient.h"
-#include "RtaTraceSupport.h"
+//#include "RtaTraceSupport.h"
 #endif
 #include "Porting_Classes/INXString.h"
 
@@ -24,7 +24,7 @@ class Debugger
 public:
 	Debugger();
 	virtual ~Debugger();
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 	// Methods
 	void DebugForce(INXPOSITION selectedIcon, int selectedPortType, int selectedPort);
 	void DbgHistStart();
@@ -36,7 +36,7 @@ public:
 	void DebugStop();
 #endif
 	void DestroyView();
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 	void FtpDbgCtrlFile(INXString filename);
 	int GetEHSState();
 	void LoadDbgHistFile(INXString filename, int dbgFileNum);
@@ -70,14 +70,14 @@ public:
 	bool dbgHistTimeFlag2;
 	bool clearAll;
 	long dbgHistTime;
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 	LucidTcpipClient tcpClient;
 #endif
 	CDrawProgView* pView;
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 	TypeConversion converter;
 	//trace 
-	RtaTraceSupport m_RtaTraceSupport;
+	//RtaTraceSupport m_RtaTraceSupport;
 #endif
 private:
 	bool m_bWriteRtaTrace;

@@ -10,19 +10,24 @@
 #include "Resource.h" 
 #include <cassert> 
 #include "FileOperations.h" 
+#ifdef __POSIX_C__
+#include <dirent.h>
+#endif
 #include <wx/filename.h>
 
 
 //************************************************************************************************************
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 CFExeption::CFExeption(unsigned int dwErrCode)
 {
 	void* lpMsgBuf;
+#ifdef __INX_DONE_ERRORMESSAGING
 	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
 			      NULL, dwErrCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&lpMsgBuf, 0, NULL);
 	m_sError = (char*)lpMsgBuf;
 	LocalFree(lpMsgBuf);
 	m_dwError = dwErrCode;
+#endif
 }
 
 
@@ -51,10 +56,10 @@ void CFileOperation::Initialize()
 	m_iRecursionLimit = -1;
 }
 
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 void CFileOperation::DoDelete(INXString sPathName)
 {
-	CFileFind ff;
+	
 	INXString sPath = sPathName;
 
 	if (CheckPath(sPath) == PATH_IS_FILE)
@@ -64,13 +69,14 @@ void CFileOperation::DoDelete(INXString sPathName)
 			m_bAborted = true;
 			return;
 		}
-		if (!DeleteFile(sPath)) throw new CFExeption(GetLastError());
+		if (remove(sPath)) throw new CFExeption("Couldn't remove path");
 		return;
 	}
-
+	/* else this is a directory */
 	PreparePath(sPath);
 	sPath += "*.*";
-
+#ifdef __MFC_
+	CFileFind ff;
 	bool bRes = ff.FindFile(sPath);
 	while(bRes)
 	{
@@ -85,11 +91,30 @@ void CFileOperation::DoDelete(INXString sPathName)
 	}
 	ff.Close();
 	if (!RemoveDirectory(sPathName) && !m_bAborted) throw new CFExeption(GetLastError());
+#else
+#ifdef __POSIX_C__
+	DIR *theFolder = opendir(sPath);
+	struct dirent *next_file;
+	char filepath[2048];
+
+	while ( (next_file = readdir(theFolder)) != NULL )
+	{
+		// build the path for each file in the folder
+		sprintf(filepath, "%s/%s", "path/of/folder", next_file->d_name);
+		remove(filepath);
+	}
+	closedir(theFolder);
+#else 
+	// @todo:
+	//#warning "Remove Directory is not implemented"
+#endif
+#endif
 }
 
 
 void CFileOperation::DoFolderCopy(INXString sSourceFolder, INXString sDestFolder, bool bDelteAfterCopy)
 {
+#ifdef __INX_DONE_FOLDER COPY	
 	CFileFind ff;
 	INXString sPathSource = sSourceFolder;
 	BOOL bRes = ff.FindFile(sPathSource);
@@ -123,6 +148,7 @@ void CFileOperation::DoFolderCopy(INXString sSourceFolder, INXString sDestFolder
 		}
 	}
 	ff.Close();
+#endif
 }
 
 bool CFileOperation::DeleteFolderFiles(INXString sPathName)
@@ -136,7 +162,7 @@ bool CFileOperation::DeleteFolderFiles(INXString sPathName)
 //	else{
 
 		try {
-
+#ifdef __INX_DONE_DELETEFOLDERFILES
 			CFileFind ff;
 			BOOL bRes = ff.FindFile(sPathName);
 
@@ -149,6 +175,7 @@ bool CFileOperation::DeleteFolderFiles(INXString sPathName)
 				}
 
 			}
+#endif
 
 		} catch(CFExeption* e) {
 
@@ -205,7 +232,7 @@ bool CFileOperation::Rename(INXString sSource, INXString sDest)
 
 void CFileOperation::DoRename(INXString sSource, INXString sDest)
 {
-	if (!MoveFile(sSource, sDest)) throw new CFExeption(GetLastError());
+	if (rename(sSource, sDest)) throw new CFExeption("Couldn't rename file");
 }
 
 
@@ -229,6 +256,7 @@ void CFileOperation::DoCopy(INXString sSource, INXString sDest, bool bDelteAfter
 	{
 		throw new CFExeption("Wrong operation");
 	}
+#ifdef __INX_DONE_CFLILEFIND
 	// folder to folder
 	if (CheckPath(sSource) == PATH_IS_FOLDER && CheckPath(sDest) == PATH_IS_FOLDER) 
 	{
@@ -265,6 +293,7 @@ void CFileOperation::DoCopy(INXString sSource, INXString sDest, bool bDelteAfter
 		ff.Close();
 		DoFolderCopy(sSource, sDest, bDelteAfterCopy);
 	}
+#endif
 	// file to file
 	if (CheckPath(sSource) == PATH_IS_FILE && CheckPath(sDest) == PATH_IS_FILE) 
 	{
@@ -284,7 +313,8 @@ void CFileOperation::DoCopy(INXString sSource, INXString sDest, bool bDelteAfter
 
 void CFileOperation::DoFileCopy( INXString sSourceFile, INXString sDestFile, const bool bDeleteAfterCopy, const bool bUpdateAfterCopy )
 {
-	BOOL bOvrwriteFails = FALSE;
+#ifdef __INX_COPYFILE_DONE
+	bool bOvrwriteFails = FALSE;
 	if (!m_bOverwriteMode)
 	{
 		while (IsFileExist(sDestFile)) 
@@ -313,6 +343,7 @@ void CFileOperation::DoFileCopy( INXString sSourceFile, INXString sDestFile, con
 		CFile::SetStatus( psFileName, status );
 
 	}
+#endif
 }
 
 
@@ -399,11 +430,12 @@ bool CFileOperation::Replace(INXString sSource, INXString sDest)
 
 INXString CFileOperation::ChangeFileName(INXString sFileName)
 {
-	INXString sName, sNewName, sResult;
+	INXString sName, sNewName, sResult="";
 	char drive[MAX_PATH];
 	char dir  [MAX_PATH];
 	char name [MAX_PATH];
 	char ext  [MAX_PATH];
+#ifdef __INX_DONE_RENAME 
 	_splitpath_s((LPCTSTR)sFileName, drive, dir, name, ext);
 	sName = name;
 
@@ -441,17 +473,19 @@ INXString CFileOperation::ChangeFileName(INXString sFileName)
 	}
 
 	sResult = INXString(drive) + INXString(dir) + sNewName;
-
+#endif
 	return sResult;
 }
 
 
 bool CFileOperation::IsFileExist(INXString sPathName)
 {
+#ifdef __INX_DONE_FILEEXISTS
 	HANDLE hFile;
 	hFile = CreateFile(sPathName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, NULL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE) return false;
 	CloseHandle(hFile);
+#endif
 	return true;
 }
 
@@ -492,7 +526,7 @@ int CFileOperation::CheckPath(INXString sPath)
 }
 
 
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 void CFileOperation::PreparePath(INXString &sPath)
 {
 	if(sPath.Right(1) != "\\") sPath += "\\";
@@ -501,6 +535,7 @@ void CFileOperation::PreparePath(INXString &sPath)
 
 bool CFileOperation::CanDelete(INXString sPathName)
 {
+#ifdef __INX_DONE_CANDELETE
 	unsigned int dwAttr = GetFileAttributes(sPathName);
 	if (dwAttr == -1) return false;
 	if (dwAttr & FILE_ATTRIBUTE_READONLY)
@@ -537,6 +572,7 @@ bool CFileOperation::CanDelete(INXString sPathName)
 			return true;
 		}
 	}
+#endif
 	return true;
 }
 
@@ -582,6 +618,7 @@ bool CFileOperation::CheckSelfCopy(INXString sSource, INXString sDest)
 	return bRes;
 }
 
+#ifdef __INX_WE_DONETNEEDTHESE
 void CFileOperation::getStatus( const INXString &csFileName, CFileStatus & status )
 {
 	CFile::GetStatus( csFileName, status ); 
@@ -608,4 +645,5 @@ INXString CFileOperation::getExecutablePath(LPCTSTR lpFileName)
 	//return (INXString)lpFilePart;
 	return "";
 }
+#endif
 #endif

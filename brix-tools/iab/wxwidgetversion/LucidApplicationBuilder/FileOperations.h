@@ -14,8 +14,11 @@
 #define PATH_IS_FILE		1
 #define PATH_IS_FOLDER		2
 
+#define MAX_PATH 2048
+
 #include "Porting_Classes/INXString.h"
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#include "Porting_Classes/INXWidgets.h"
+#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 class CFExeption
 {
 public:
@@ -36,7 +39,7 @@ class CFileOperation
 {
 public:
 	CFileOperation(); // constructor
-	#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+	#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 	bool Delete(INXString sPathName); // delete file or folder
 	bool DeleteFolderFiles(INXString sPathName); // delete file-contents of a folder
 	bool Copy(INXString sSource, INXString sDest); // copy file or folder
@@ -50,8 +53,10 @@ public:
 	
 	INXString GetErrorString() {return m_sError;} // return error description
 	unsigned int GetErrorCode() {return m_dwError;} // return error code
+	
 	void ShowError() // show error message
-		{MessageBox(NULL, m_sError, _T("Error"), MB_OK | MB_ICONERROR);}
+		{INX_MessageBox(NULL, m_sError, _T("Error"));}
+	
 	void SetAskIfReadOnly(bool bAsk = true) // sets behavior with readonly files(folders)
 		{m_bAskIfReadOnly = bAsk;}
 	bool IsAskIfReadOnly() // return current behavior with readonly files(folders)
@@ -62,12 +67,12 @@ public:
 	bool IsOverwriteMode() {return m_bOverwriteMode;} // return current overwrite mode
 	#endif
 	int CheckPath(INXString sPath);
-	#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifdef _INX_WEDONTNEEDTHESE
 	bool IsAborted() {return m_bAborted;}
 	INXString getExecutablePath(LPCTSTR lpFileName);
-	#endif
+#endif
 protected:
-	#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+	//#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 	void DoDelete(INXString sPathName);
 	void DoCopy(INXString sSource, INXString sDest, bool bDelteAfterCopy = false);
 	void DoFileCopy(INXString sSourceFile, INXString sDestFile, bool bDeleteAfterCopy=false, const bool bUpdateAfterCopy=true );
@@ -75,9 +80,9 @@ protected:
 	void DoRename(INXString sSource, INXString sDest);
 	bool IsFileExist(INXString sPathName);
 	void PreparePath(INXString &sPath);
-	#endif
+	//#endif
 	void Initialize();
-	#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+	#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 	void CheckSelfRecursion(INXString sSource, INXString sDest);
 	bool CheckSelfCopy(INXString sSource, INXString sDest);
 	INXString ChangeFileName(INXString sFileName);
@@ -90,7 +95,7 @@ private:
 	bool m_bOverwriteMode;
 	bool m_bAborted;
 	int m_iRecursionLimit;
-	#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+	#ifdef _INX_WEDONTNEEDTHESE
 	void getStatus( const INXString &csFileName, CFileStatus & status );
 	DBTIMESTAMP getLastUpdate( const INXString &csFileName );
 	#endif

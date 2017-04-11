@@ -6,17 +6,21 @@
  * @date: $Date: 2007-03-29 $
  * 
  */
-#include "stdafx.h" 
+//#include "stdafx.h" 
 #include "LucidTcpipClient.h"
+#ifdef __INX_DONE_TCPDIALOGS
 #include "LucidTcpipClientDlg.h"
 #include "TgtTransProgDlog.h"
+#endif
 #include "LucidConstants.h"
 #include "LucidRegAccess.h"
 #include "assert.h"
 #include <string>
 #include <stdio.h>
 
+#include "Porting_Classes/INXWidgets.h"
 
+#define TRACE 
 
 int LucidTcpipClient::s_iPort;
 INXString LucidTcpipClient::s_csIpAddress;
@@ -55,15 +59,15 @@ void LucidTcpipClient::InitTcpipClient()
 {
 	// Get the IP Address and Port from the registry
 	INXString csPort;
-	INXString csLocation = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_LOCATION_VALUE),_T((CString)DEFAULT_TARGET_LOCATION));
+	INXString csLocation = getLucidRegValue(_T(REG_TARGET_KEY), _T(REG_TARGET_LOCATION_VALUE), _T((INXString)DEFAULT_TARGET_LOCATION));
 
 	if (csLocation == REG_TARGET_LOCATION_DATA_REMOTE) {
-		s_csIpAddress = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_REMOTE_IP_VALUE),_T((CString)DEFAULT_TARGET_REMOTE_IP));
-		csPort = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_REMOTE_PORT_VALUE),_T((CString)DEFAULT_TARGET_PORT));
+		s_csIpAddress = getLucidRegValue(_T(REG_TARGET_KEY), _T(REG_TARGET_REMOTE_IP_VALUE), _T((INXString)DEFAULT_TARGET_REMOTE_IP));
+		csPort = getLucidRegValue(_T(REG_TARGET_KEY), _T(REG_TARGET_REMOTE_PORT_VALUE), _T((INXString)DEFAULT_TARGET_PORT));
 	}
 	else {
 		s_csIpAddress = DEFAULT_TARGET_LOCAL_IP;
-		csPort = getLucidRegValue(_T(REG_TARGET_KEY),_T(REG_TARGET_LOCAL_PORT_VALUE),_T((CString)DEFAULT_TARGET_PORT));
+		csPort = getLucidRegValue(_T(REG_TARGET_KEY), _T(REG_TARGET_LOCAL_PORT_VALUE), _T((INXString)DEFAULT_TARGET_PORT));
 	}
 	s_iPort = atoi(csPort);
 }
@@ -362,7 +366,7 @@ LtsStatusType LucidTcpipClient::SendFileContents( INXString csFilePath, CTgtTran
 
 	if(fin.is_open())
 	{			
-		while ( (iSizeRemaining > 0)  &&  ( !pDlog->m_bCancelled    ) ) {
+		while ( (iSizeRemaining > 0)   /* __INX_TODO &&  ( !pDlog->m_bCancelled    ) */) {
 
 			memset(pszFullContent, 0, arraysize);	
 
@@ -382,12 +386,12 @@ LtsStatusType LucidTcpipClient::SendFileContents( INXString csFilePath, CTgtTran
 			iSizeRemaining -= arraysize;
 
 			int iDum = (int) (100.0 * ( 1.0 - (float( iSizeRemaining) ) / iFileSize) );
-			pDlog->setProgbarFile( iDum );
+			// __INX_TODO pDlog->setProgbarFile( iDum );
 		}		
 	}
 
 	fin.close();
-	TRACE("Tcpip SendFileContents %s\n", csFilePath);
+//	TRACE("Tcpip SendFileContents %s\n", csFilePath);
 	return ltsStatusType;
 }
 
@@ -439,7 +443,7 @@ LtsStatusType LucidTcpipClient::SendFileContents(INXString csFilePath)
 	}
 
 	fin.close();
-	TRACE("Tcpip SendFileContents %s\n", csFilePath);
+//	TRACE("Tcpip SendFileContents %s\n", csFilePath);
 	return ltsStatusType;
 }
 
@@ -590,7 +594,7 @@ LtsStatusType LucidTcpipClient::ReceiveTextBlock(
 
 	}else {
 
-		int lastPos = csReceiveText.Find( csDelimToken, 0 );
+		int lastPos = csReceiveText.Find( csDelimToken[0], 0 );
 
 		if( lastPos != -1){
 
@@ -598,7 +602,7 @@ LtsStatusType LucidTcpipClient::ReceiveTextBlock(
 
 			while( lastPos != -1 ){
 				charPos = lastPos;
-				lastPos = csReceiveText.Find( csDelimToken, lastPos+1 ); // find next occurrence of substring
+				lastPos = csReceiveText.Find( csDelimToken[0], lastPos+1 ); // find next occurrence of substring
 			}
 
 		} // if( lastPos != -1)
@@ -665,6 +669,7 @@ LtsStatusType LucidTcpipClient::ReceiveTextBlock(INXString &csReceiveText)
  */
 void LucidTcpipClient::ConfigDlg()
 {
+#ifdef __INX_DONE_TCPIPDIALOGSs
 	CLucidTcpipClientDlg dlg;
 	//dlg.SetPort(this->GetPort());
 	//dlg.SetIpAddress(this->GetIPAddress());
@@ -673,6 +678,7 @@ void LucidTcpipClient::ConfigDlg()
 		this->SetPort(dlg.GetPort());
 		this->SetIPAddress(dlg.GetIpAddress());
 	}
+#endif
 }
 
 //Used for dialog interface
@@ -759,20 +765,20 @@ LtsStatusType LucidTcpipClient::SendFile(INXString csFilePath, INXString csTarge
 	LtsStatusType ltsStatusType = LTS_STATUS_OK;
 	INXString command;
 	command.Format("L %s %d\n", csTargetFileName, this->FileSize(csFilePath));	
-	if (strstr((CString)csTargetFileName, "\\")) 
+	if (strstr((char *)csTargetFileName, (char *)"\\"))
 	{
-		AfxMessageBox("SendFile: Target file name without path expected");
+		INX_MessageBox("SendFile: Target file name without path expected");
 		return LTS_STATUS_FAIL;
 	}
 	if ( (ltsStatusType = this->SendText(command)) != 0)
 	{
-		AfxMessageBox("Unable to send command over TCPIP connection.");
+		INX_MessageBox("Unable to send command over TCPIP connection.");
 		this->DisConnect();
 		return ltsStatusType;
 	}
 	if ( (ltsStatusType = this->SendFileContents(csFilePath)) !=0)
 	{
-		AfxMessageBox("Failed to transfer data file " + csFilePath + ". Stopping application transfer.");
+		INX_MessageBox("Failed to transfer data file " + csFilePath + ". Stopping application transfer.");
 		this->DisConnect();
 		return ltsStatusType;
 	}
@@ -792,25 +798,27 @@ LtsStatusType LucidTcpipClient::SendFile(INXString csFilePath, INXString csTarge
 
 LtsStatusType LucidTcpipClient::SendFile(INXString csFilePath, INXString csTargetFileName, CTgtTransProgDlog *pDlog )
 {
+#ifdef __INX_TCP_DIALOGS
 	pDlog->setProgbarFile(0);
+#endif
 
 	LtsStatusType ltsStatusType = LTS_STATUS_OK;
 	INXString command;
 	command.Format("L %s %d\n", csTargetFileName, this->FileSize(csFilePath));	
-	if (strstr((CString)csTargetFileName, "\\")) 
+	if (strstr((char *)csTargetFileName, (char *)"\\"))
 	{
-		AfxMessageBox("SendFile: Target file name without path expected");
+		INX_MessageBox("SendFile: Target file name without path expected");
 		return LTS_STATUS_FAIL;
 	}
 	if ( (ltsStatusType = this->SendText(command)) != 0)
 	{
-		AfxMessageBox("Unable to send command over TCPIP connection.");
+		INX_MessageBox("Unable to send command over TCPIP connection.");
 		this->DisConnect();
 		return ltsStatusType;
 	}
 	if ( (ltsStatusType = this->SendFileContents(csFilePath, pDlog)) !=0)
 	{
-		AfxMessageBox("Failed to transfer data file " + csFilePath + ". Stopping application transfer.");
+		INX_MessageBox("Failed to transfer data file " + csFilePath + ". Stopping application transfer.");
 		this->DisConnect();
 		return ltsStatusType;
 	}
@@ -1007,14 +1015,14 @@ long TcpLogger::Log(const char* pszFormat, ...)
  */
 void TcpTestSuite::RunTests()
 {
-	AfxMessageBox("All Tcp Tests about to start", MB_ICONINFORMATION);
+	INX_MessageBox("All Tcp Tests about to start", MB_ICONINFORMATION);
 	LoggerTest1();
 	Sleep(500);
 	LoggerTest2();
 	Sleep(500);
 	LoggerTest3();
 	Sleep(500);
-	AfxMessageBox("All Tcp Tests finished", MB_ICONINFORMATION);
+	INX_MessageBox("All Tcp Tests finished", MB_ICONINFORMATION);
 }
 
 void TcpTestSuite::RunATest()

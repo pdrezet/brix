@@ -1,7 +1,7 @@
 #pragma once
 #include "TgtTransProgDlogRes.h"
-#include "afxwin.h"
-#include "afxcmn.h"
+//#include "afxwin.h"
+//#include "afxcmn.h"
 #include "ProjectMetaData.h"
 #include "Porting_Classes/INXString.h"
 

@@ -19,6 +19,8 @@
 #include <cassert>
 #include <algorithm>
 #include <wx/msgdlg.h>
+#include "Porting_Classes/INXString.h"
+#include "Porting_Classes/INXWidgets.h"
 //#include "libxml/xmlreader.h"
 //#include <sys/stat.h>
 

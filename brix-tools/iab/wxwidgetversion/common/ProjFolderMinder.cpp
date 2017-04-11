@@ -8,6 +8,7 @@
 #include "ProjFolderMinder.h"
 #include <wx/msgdlg.h>
 #include <wx/filename.h>
+#include "Porting_Classes/INXWidgets.h"
 
 ProjFolderMinder::ProjFolderMinder()
 {

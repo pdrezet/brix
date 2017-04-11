@@ -189,7 +189,7 @@ void IconLines::addNode(INXPoint _node) {
 	nodeCount++;
 	points.InsertAt(nodeCount, new INXPoint(_node));
 }
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
 // Function that edits a node
 void IconLines::editNode(INXPoint _node) {
 	INXPoint *temp;
@@ -226,7 +226,7 @@ void IconLines::deleteAllNodes() {
 	}
 	nodeCount = 0;
 }
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
 void IconLines::Delete(){
 	int sublinnum = points.GetUpperBound(); // do an error check here
 	if (sublinnum<0) return;
@@ -243,7 +243,7 @@ void IconLines::deleteNodeMemory()
 		delete (INXPoint*)points.GetAt(i);
 	}	
 }
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
 void IconLines::Disconnect(){
 	int sublinnum=points.GetUpperBound(); // do an error check here
 	if (sublinnum<0) return;
@@ -299,7 +299,7 @@ void IconLines::Load(istream * file) {
 
 // routine to draw a set of points as a ziggy line
 // routine to draw a set of points as a ziggy line
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifdef INX_LEGACY_MFC
 void IconLines::Draw(CDC* theDC){
 
 	INXPoint begin,end;
@@ -1426,7 +1426,7 @@ void IconLines::Move(INXPoint point) {
 	nodeCount = oldNodeCount;
 }
 */
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
 void IconLines::Move(INXPoint relative_point) {
 	INXPoint *node,*nodeInputPort,*nodeOutputPort,*nodeNext,*nodeNext2; //create a new node position
 	int min_y_position=0;
@@ -1710,7 +1710,7 @@ int IconLines::GetSelectedSegment()
 
 // Method that returns the line segment the specified point is on.
 // Returns -1 if the point is not on any segment
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
 int IconLines::GetLineSegment(const INXPoint cpPoint)
 {
 	int iSegmentNum = -1;

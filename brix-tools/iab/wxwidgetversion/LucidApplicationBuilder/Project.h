@@ -17,6 +17,7 @@
 #include "ProjectMetaData.h" //@todo
 #include "Porting_Classes/INXString.h"
 #include "Porting_Classes/INXObjList.h"
+#include "Porting_Classes/INXTree.h"
 
 class Project  
 {
@@ -37,24 +38,24 @@ private:
 
 public:
 	// Methods
-	#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+	#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 	void AddBlockPort(ConData* blob, int iDataType, int iPortType, INXString portLabel, DEP* pDEP);
 	#endif
 	DEP* AddDEP();
-	#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+	#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 	void AddIconToGroup(INXPOSITION selectedIcon, int groupID, DEP* vwDEP);
 	ConData* AddXPort(DEP* pParentDEP, INXString type, INXString portLabel, INXPoint point, DEP* pDEP);
 	void AssignHierLineID();
-	void PropagateHierLineId(ConData* blob, HTREEITEM hItem, long hierID, int portType, int iPortNum);
-	void AssignSubBlockHierLineId(HTREEITEM hItem);
+	void PropagateHierLineId(ConData* blob, INXTREEITEM hItem, long hierID, int portType, int iPortNum);
+	void AssignSubBlockHierLineId(INXTREEITEM hItem);
 	void DebugStart(int mode);
 	#endif
 	void DeleteDEP(DEP* theDEP);
-	#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+	#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 	void DeleteBlockPort(INXPOSITION blockPos, int portNum, int portType, DEP* pDEP);
 	#endif
 	void DeleteUnused(DEP* thisDEP);
-	#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+	#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 	void DeleteXPort(DEP* pParentDEP, INXString portLabel, INXString blockName);
 	void EditGroupSetup();
 	//DEP* GetDEPPtr(INXString depFilename);
@@ -68,23 +69,23 @@ public:
 	#endif
 	void SaveProjectDep();
 	void SaveProject();
-	#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+	#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 	INXObjList* WriteSODL(INXString sodlfile);
 
 	// Tag Management
 	void addGuiWidget(ConData* icon);
 	void removeGuiWidget(ConData* icon);
-	void addPastedGuiWidgets(HTREEITEM hItem, INXObjList* pasteList);
-	void removeWidgetsInUserDefBlock(HTREEITEM hItem);
-	void getWidgetGroupNames(HTREEITEM hItem, set<INXString> &sWidgetGroupSet); 
+	void addPastedGuiWidgets(INXTREEITEM hItem, INXObjList* pasteList);
+	void removeWidgetsInUserDefBlock(INXTREEITEM hItem);
+	void getWidgetGroupNames(INXTREEITEM hItem, set<INXString> &sWidgetGroupSet);
 	void setWidgetGroupNames(set<INXString> sWidgetGroupSet, vector<pair<INXString, INXString> > &vWidgetGroupPairVec);
-	void updateWidgetGroupNames(HTREEITEM hItem, vector<pair<INXString, INXString> > vWidgetGroupPairVec);
+	void updateWidgetGroupNames(INXTREEITEM hItem, vector<pair<INXString, INXString> > vWidgetGroupPairVec);
 	void updateWidgetGroup(ConData* pBlob, vector<pair<INXString, INXString> > vWidgetGroupPairVec);
-	bool IsPastedGuiWidgetsInProject(INXObjList* pPasteList, HTREEITEM hItem);
+	bool IsPastedGuiWidgetsInProject(INXObjList* pPasteList, INXTREEITEM hItem);
 	void GetWidget(const ConData* pBlob, GuiWidget &xWidget);
 
-	DEP* depIsLoaded(HTREEITEM hItem);
-	void closeUserDefDoc(HTREEITEM hItem);
+	DEP* depIsLoaded(INXTREEITEM hItem);
+	void closeUserDefDoc(INXTREEITEM hItem);
 	#endif
 	// Define Monitors
 	bool getDefineMonitors();

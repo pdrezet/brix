@@ -11,7 +11,7 @@
 #include "GlobalFuncs_2.h" //@todo
 #include "Porting_Classes/INXRect.h"
 #include <wx/msgdlg.h>
-#include "MFCstruct.h"
+//#include "MFCstruct.h"
 /*
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -42,7 +42,7 @@ Encapsulation::~Encapsulation()
 }
 
 // function that performs top-down encapsulation
-void Encapsulation::EncapsulateBlock(INXObjList* _encapsulated, HTREEITEM _hItem)
+void Encapsulation::EncapsulateBlock(INXObjList* _encapsulated, INXTREEITEM _hItem)
 {
 	hItem = _hItem;
 	encapsulated = _encapsulated;
@@ -185,7 +185,7 @@ int Encapsulation::SaveEncapsulated(Encapsulate* dialog, int iconNum, int nLib)
 	// set the dialog member variables to the array values
 	//dialog->getArray();
 
-	
+#ifdef INX_RODO_DONE
 	// Don't save until the block name and ports are valid
 	while (!nameOK) {
 		errorFlag = FALSE;
@@ -257,6 +257,7 @@ int Encapsulation::SaveEncapsulated(Encapsulate* dialog, int iconNum, int nLib)
 		}
 
 	}
+#endif
 	return 1;
 }
 /*
@@ -425,29 +426,29 @@ void Encapsulation::WriteIDF(const ConData *block, const int nIconNum, INXString
 	datafile << "user defined=1" << endl;
 	datafile << endl;
 	datafile << "[Class]" << endl;
-	datafile << "class name=" << (char*)block->className << endl;
+	datafile << "class name=" << block->className << endl;
 	datafile << endl;
 	datafile << "[MenuLevel1]" << endl;
 	datafile << "level1 menu=User Components" << endl;
 	datafile << endl;
 	if (csL2MenuName == "") {
 		datafile << "[MenuLevel2]" << endl;
-		datafile << "level2 menu=" << (char*)block->className << endl;
+		datafile << "level2 menu=" << block->className << endl;
 		datafile << endl;
 	}
 	else {
 		datafile << "[MenuLevel2]" << endl;
-		datafile << "level2 menu=" << (char*)csL2MenuName << endl;
+		datafile << "level2 menu=" << csL2MenuName << endl;
 		datafile << endl;
 		datafile << "[MenuLevel3]" << endl;
-		datafile << "level3 menu=" << (char*)block->className << endl;
+		datafile << "level3 menu=" << block->className << endl;
 		datafile << endl;
 	}
 	datafile << "[Short Description]" << endl;
-	datafile << "description=" << (char*)block->description << endl;
+	datafile << "description=" << block->description << endl;
 	datafile << endl;
 	datafile << "[Long Description]" << endl;
-	datafile << "description=" << (char*)block->longDesc << endl;
+	datafile << "description=" << block->longDesc << endl;
 	datafile << endl;
 
 	// write out ports. The xports in the diagram should have the same description as in the idf
@@ -578,7 +579,7 @@ INXString Encapsulation::IconNum2Bitmap(int iconNum) {
 // The second step involves adding the encapsulate icon
 // The third step involves connecting up the encapsulate icon and removing the icons that
 // have been encapsulated. This step is performed by the connectEncapsulatedIcon function.
-INXObjList* Encapsulation::EncapsulateSubset(INXRect encapsulate, INXObjList* depList, HTREEITEM _hItem, int nLib) {
+INXObjList* Encapsulation::EncapsulateSubset(INXRect encapsulate, INXObjList* depList, INXTREEITEM _hItem, int nLib) {
 	INXPOSITION pos, otherPos;
 	ConData* blob;
 	ConData* otherBlob;

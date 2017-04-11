@@ -66,10 +66,11 @@ void Encapsulate::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }*/
 
-
+/*
 BEGIN_EVENT_TABLE(Encapsulate, wxDialog)
 	EVT_BUTTON(IDOK, OnOk)
 END_EVENT_TABLE()
+*/
 
 // Methods
 INXString Encapsulate::getMenuName()
@@ -100,15 +101,15 @@ BOOL Encapsulate::OnInitDialog()
 	INXPOSITION pos;
 	inNum = 0, outNum = 0, startNum = 0, finishNum = 0;
 	UINT i;
-	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+	INX_MainFrame* pFrame = INX_MainFrame::INX_GetAppMainWindow(); //todo - implement this properly
 	set<INXString> sL2LibMenuNames;
 
 	// populate the menu name drop-list with the library level 2 menu names
-	pFrame->m_cFuncBlockBar.m_cFuncBlckTree.getL2LibMenuNames(sL2LibMenuNames);
+//MFCism	pFrame->m_cFuncBlockBar.m_cFuncBlckTree.getL2LibMenuNames(sL2LibMenuNames);
 	setMenuNamesDropList(sL2LibMenuNames);
 
 	// Use same font as Menu Name Combo for port labels and textboxes
-	CFont *m_Font = NULL:/*//@todo m_ctlMenuName.GetFont(); */
+	//MFCism	CFont *m_Font = NULL:/*//@todo m_ctlMenuName.GetFont(); */
 
 	// Get the number of xports and port names for top down. Top down should have the xports defined.
 	pos = encapsulated->GetHeadPosition();
@@ -142,14 +143,14 @@ BOOL Encapsulate::OnInitDialog()
 
 	// create textboxes and statics
 	for (i=1; i<=inNum; i++) {
-		inStatic[i] = new CStatic;
-		inStatic[i]->Create(inLabels[i],WS_VISIBLE|WS_CHILD|SS_RIGHT,INXRect(lx1,y1,lx2,y2),this);
-		inStatic[i]->SetFont(m_Font);
-		inEdit[i] = new CEdit;
-		inEdit[i]->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | WS_TABSTOP, INXRect(x1, y1, x2, y2), this, id);
+		inStatic[i] = new INX_Static;
+	    //MFCism	inStatic[i]->Create(inLabels[i],WS_VISIBLE|WS_CHILD|SS_RIGHT,INXRect(lx1,y1,lx2,y2),this);
+		//MFCism	inStatic[i]->SetFont(m_Font);
+		inEdit[i] = new INX_Edit;
+		//MFCisminEdit[i]->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | WS_TABSTOP, INXRect(x1, y1, x2, y2), this, id);
 		//inEdit[i]->SetLimitText(PORT_LABEL);
-		inEdit[i]->SetFont(m_Font);
-		inEdit[i]->ReplaceSel((LPCTSTR)inNames[i]);
+		//MFCisminEdit[i]->SetFont(m_Font);
+		//MFCisminEdit[i]->ReplaceSel((LPCTSTR)inNames[i]);
 		y1 = y2 + 10;
 		y2 = y2 + 35;
 		id++;
@@ -160,14 +161,14 @@ BOOL Encapsulate::OnInitDialog()
 	x1 = x2 + 75;
 	x2 = x2 + 145;
 	for (i=1; i<=outNum; i++) {
-		outStatic[i] = new CStatic;
-		outStatic[i]->Create(outLabels[i],WS_VISIBLE|WS_CHILD|SS_RIGHT,INXRect(lx1,y1,lx2,y2),this);
-		outStatic[i]->SetFont(m_Font);
-		outEdit[i] = new CEdit;
-		outEdit[i]->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | WS_TABSTOP, INXRect(x1, y1, x2, y2), this, id);
+		outStatic[i] = new INX_Static;
+		//MFCism outStatic[i]->Create(outLabels[i],WS_VISIBLE|WS_CHILD|SS_RIGHT,INXRect(lx1,y1,lx2,y2),this);
+		//MFCismoutStatic[i]->SetFont(m_Font);
+		outEdit[i] = new INX_Edit;
+		//MFCism outEdit[i]->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | WS_TABSTOP, INXRect(x1, y1, x2, y2), this, id);
 		//outEdit[i]->SetLimitText(PORT_LABEL);
-		outEdit[i]->SetFont(m_Font);
-		outEdit[i]->ReplaceSel((LPCTSTR)outNames[i]);
+		//MFCismo utEdit[i]->SetFont(m_Font);
+		//MFCism outEdit[i]->ReplaceSel((LPCTSTR)outNames[i]);
 		y1 = y2 + 10;
 		y2 = y2 + 35;
 		id++;
@@ -178,14 +179,14 @@ BOOL Encapsulate::OnInitDialog()
 	x1 = x2 + 60;
 	x2 = x2 + 130;
 	for (i=1; i<=startNum; i++) {
-		startStatic[i] = new CStatic;
-		startStatic[i]->Create(startLabels[i],WS_VISIBLE|WS_CHILD|SS_RIGHT,INXRect(lx1,y1,lx2,y2),this);
-		startStatic[i]->SetFont(m_Font);
-		startEdit[i] = new CEdit;
-		startEdit[i]->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | WS_TABSTOP, INXRect(x1, y1, x2, y2), this, id);
-		startEdit[i]->SetFont(m_Font);
+		startStatic[i] = new INX_Static;
+		//MFCismstartStatic[i]->Create(startLabels[i],WS_VISIBLE|WS_CHILD|SS_RIGHT,INXRect(lx1,y1,lx2,y2),this);
+		//MFCismstartStatic[i]->SetFont(m_Font);
+		startEdit[i] = new INX_Edit;
+		//MFCism startEdit[i]->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | WS_TABSTOP, INXRect(x1, y1, x2, y2), this, id);
+		//MFCism startEdit[i]->SetFont(m_Font);
 		//startEdit[i]->SetLimitText(PORT_LABEL);
-		startEdit[i]->ReplaceSel((LPCTSTR)startNames[i]);
+		//MFCism startEdit[i]->ReplaceSel((LPCTSTR)startNames[i]);
 		y1 = y2 + 10;
 		y2 = y2 + 35;
 		id++;
@@ -196,20 +197,20 @@ BOOL Encapsulate::OnInitDialog()
 	x1 = x2 + 70;
 	x2 = x2 + 140;
 	for (i=1; i<=finishNum; i++) {
-		finishStatic[i] = new CStatic;
-		finishStatic[i]->Create(finishLabels[i],WS_VISIBLE|WS_CHILD|SS_RIGHT,INXRect(lx1,y1,lx2,y2),this);
-		finishStatic[i]->SetFont(m_Font);
-		finishEdit[i] = new CEdit;
-		finishEdit[i]->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | WS_TABSTOP, INXRect(x1, y1, x2, y2), this, id);
-		finishEdit[i]->SetFont(m_Font);
-		//finishEdit[i]->SetLimitText(PORT_LABEL);
-		finishEdit[i]->ReplaceSel((LPCTSTR)finishNames[i]);
+		finishStatic[i] = new INX_Static;
+		//MFCism finishStatic[i]->Create(finishLabels[i],WS_VISIBLE|WS_CHILD|SS_RIGHT,INXRect(lx1,y1,lx2,y2),this);
+		//MFCism finishStatic[i]->SetFont(m_Font);
+		finishEdit[i] = new INX_Edit;
+		//MFCism finishEdit[i]->Create(WS_CHILD | WS_VISIBLE | WS_DLGFRAME | ES_AUTOHSCROLL | WS_TABSTOP, INXRect(x1, y1, x2, y2), this, id);
+		//MFCism finishEdit[i]->SetFont(m_Font);
+		//finish Edit[i]->SetLimitText(PORT_LABEL);
+		//MFCism finishEdit[i]->ReplaceSel((LPCTSTR)finishNames[i]);
 		y1 = y2 + 10;
 		y2 = y2 + 35;
 		id++;
 	}
 
-	CEdit* pEdit = (CEdit*)GetDlgItem(IDC_EDIT_BLOCK);
+	INX_Edit* pEdit = NULL;//MFCism  (INX_Edit*)GetDlgItem(IDC_EDIT_BLOCK);
 	if(pEdit != NULL) {
 		pEdit->SetFocus();
 		return 0; //since we are explicity setting focus
@@ -218,15 +219,18 @@ BOOL Encapsulate::OnInitDialog()
 	              // EXCEPTION: OCX Property Pages should return FALSE
 }
 
+#ifdef INX_TODO_DONE
 void Encapsulate::OnOK(wxCommandEvent & event)
 {
+
 	bool errorFlag = FALSE;
 	INXString strText = "";
 	UINT i;
 	
 	// update attributes such as m_BlockName
-	UpdateData(TRUE);
+	//MFDism UpdateData(TRUE);
 	//get the text from the textboxes
+
 	for (i=1; i<=inNum; i++) {
 		strText = "";
 		int len = inEdit[i]->LineLength(inEdit[i]->LineIndex(0));
@@ -333,4 +337,6 @@ void Encapsulate::OnOK(wxCommandEvent & event)
 		//CDialog::OnOK();
 		EndModal(IDOK);
 	}
+
 }
+#endif

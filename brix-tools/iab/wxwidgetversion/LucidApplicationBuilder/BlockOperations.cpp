@@ -77,7 +77,7 @@ INXObjList* BlockOperations::LoadBlock(INXString Info) {
 	long int id;
 
 	// store the id value
-	id = uniqueidgenerator;
+	id = id = ConData::uniqueidgenerator;
 
 
 	if(datafile.is_open())
@@ -112,7 +112,7 @@ INXObjList* BlockOperations::LoadBlock(INXString Info) {
 
 	// restore the id value, since it will have been increased when creating flattened
 	id++;
-	uniqueidgenerator = id;
+	ConData::uniqueidgenerator = id;
 
 	AssignIconLineEndPoints(encapsulated);
 	return encapsulated;
@@ -122,7 +122,7 @@ INXObjList* BlockOperations::NewBlock(INXString Info) {
 	
 	INXObjList* encapsulated = new INXObjList;
 
-	uniqueidgenerator++;
+	ConData::uniqueidgenerator++;
 
 	return encapsulated;
 }

@@ -63,7 +63,7 @@ Port::Port(INXPoint _P, UINT _portNum, int _dataType, int _portType, INXString _
  Deprecated Constructor - new spec for cdf means that funcArg is not known at time of port creation
  and is removed from the constructor for this reason
 */
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
 Port::Port(INXPoint _P, UINT _portNum, int _dataType, int _portType, INXString _description, INXObjArray<INXString>* _funcName, INXObjArray<unsigned int>* _funcArg, int _atomicFlag, bool bVerticalIn, int _userdefined, int _mandatoryFlag)
 {
 	
@@ -190,7 +190,7 @@ int Port::addLine(INXPoint* point,long int othericon,int otherPortNum, int other
 	return 0;
 
 }
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
 int Port::RemoveLine() {
 	if (connected) line.Delete();
 	connected=0;
@@ -205,7 +205,7 @@ return 0;
 
 }
 
-
+#ifdef INX_MFC_LEGACY_REFERENCE_CODE
 void Port::Draw(CDC* theDC) {	
 	Draw(theDC, false, 0);
 }
@@ -369,6 +369,7 @@ void Port::Draw(CDC* theDC, bool _onlyDrawAnim, int _toggleAnim) {
 					rectangle.BottomRight().x, -rectangle.BottomRight().y);
 	}
 }
+#endif //MFC REFERENCE CODE
 
 #endif
 void Port::DrawGL(){
@@ -662,7 +663,7 @@ void Port::setGLPortColor(float red, float green, float blue){
 	g = green;
 	b = blue; 
 }
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
 int Port::Move(INXPoint point) {
 	P = (wxPoint)P - (wxPoint)point;
 	// renew the port position

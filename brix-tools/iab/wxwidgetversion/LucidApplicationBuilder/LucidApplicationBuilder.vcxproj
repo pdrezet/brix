@@ -151,6 +151,7 @@
     <ClCompile Include="..\common\LccPmdXfers.cpp" />
     <ClCompile Include="..\common\LccTimeStamp.cpp" />
     <ClCompile Include="..\common\LucidString.cpp" />
+    <ClCompile Include="..\common\LucidTcpipClient.cpp" />
     <ClCompile Include="..\common\Markup.cpp" />
     <ClCompile Include="..\common\ProjectMetaData.cpp" />
     <ClCompile Include="..\common\ProjectMetaDataIO.cpp" />
@@ -164,6 +165,8 @@
     <ClCompile Include="DEP.cpp" />
     <ClCompile Include="DrawProg.cpp" />
     <ClCompile Include="DrawProgView.cpp" />
+    <ClCompile Include="Encapsulate.cpp" />
+    <ClCompile Include="Encapsulation.cpp" />
     <ClCompile Include="FileOperations.cpp" />
     <ClCompile Include="FSM.cpp" />
     <ClCompile Include="FunctionBlockTree.cpp" />
@@ -174,9 +177,12 @@
     <ClCompile Include="Parameter.cpp" />
     <ClCompile Include="ParameterStore.cpp" />
     <ClCompile Include="port.cpp" />
+    <ClCompile Include="Porting_Classes\Source.cpp" />
     <ClCompile Include="Project.cpp" />
     <ClCompile Include="ProjectBar.cpp" />
     <ClCompile Include="ProjectDialog.cpp" />
+    <ClCompile Include="tagdialog.cpp" />
+    <ClCompile Include="TypeConversion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\bmpfile.h" />
@@ -206,6 +212,7 @@
     <ClInclude Include="..\common\Porting_Classes\INXRect.h" />
     <ClInclude Include="..\common\Porting_Classes\INXSize.h" />
     <ClInclude Include="..\common\Porting_Classes\INXString.h" />
+    <ClInclude Include="..\common\Porting_Classes\INXWidgets.h" />
     <ClInclude Include="..\common\ProjectMetaData.h" />
     <ClInclude Include="..\common\ProjFolderMinder.h" />
     <ClInclude Include="..\common\RevisionGuru.h" />
@@ -217,6 +224,8 @@
     <ClInclude Include="DEP.h" />
     <ClInclude Include="DrawProg.h" />
     <ClInclude Include="DrawProgView.h" />
+    <ClInclude Include="Encapsulate.h" />
+    <ClInclude Include="Encapsulation.h" />
     <ClInclude Include="FileOperations.h" />
     <ClInclude Include="FSM.h" />
     <ClInclude Include="FunctionBlockTree.h" />
@@ -232,6 +241,7 @@
     <ClInclude Include="ProjectBar.h" />
     <ClInclude Include="ProjectDialog.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="tagdialog.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

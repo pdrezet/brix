@@ -13,7 +13,11 @@ public:
 	operator char*(){
 		return (char *)c_str();
 	} 
-
+	/*
+	operator char(){
+		char * chars = (char *)c_str();
+		return (char)chars[0];
+	}*/
 public:
 	// constructors
 	INXString(): wxString(){

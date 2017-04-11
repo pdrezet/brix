@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <wx/filedlg.h>
 #include <wx/msgdlg.h>
+#include "Porting_Classes/INXWidgets.h"
 
 #define RADIX_TEN 10 // for converting ints to strings
 #define DUMMY_BUFFER_SIZE 50

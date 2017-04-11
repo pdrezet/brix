@@ -6,6 +6,7 @@
 #include "DrawProg.h"
 #include "Debugger.h"
 #include "GlobalFuncs_2.h"
+#include "Porting_Classes/INXWidgets.h"
 #ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 #include "../common/General_Utilities/GlobalFuncs_3.h"
 #endif
@@ -45,7 +46,7 @@ Debugger::Debugger()
 Debugger::~Debugger()
 {
 }
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 // separate thread used to read debug trace messages
 void DebugThread(void * data) {
 	Debugger * dbg = (Debugger *) data;
@@ -54,17 +55,19 @@ void DebugThread(void * data) {
 	while (dbg->debugMode != DBGSTOP) {
 		dbg->tcpClient.ReceiveTextBlock(csTraceMsg);
 		dbg->displayTraceMsg(csTraceMsg);
-		if (dbg->getWriteRtaTrace()) {
-			dbg->m_RtaTraceSupport.rtaTraceLogFlush();
-			dbg->setWriteRtaTrace(FALSE);
-		}
+		//if (dbg->getWriteRtaTrace()) {
+			//dbg->m_RtaTraceSupport.rtaTraceLogFlush();
+			//dbg->setWriteRtaTrace(FALSE);
+		//}
 		Sleep(DEBUG_SLEEP);
 	}
 	dbg->dbgFinished = TRUE;
+#ifdef __INX_DONE_DEBUGVIEW
 	if (dbg->pView) {
 		dbg->pView->pProject->ResetDebug();
 		dbg->pView->RedrawWindow();
 	}
+#endif
 }
 
 void Debugger::DbgHistStart() {
@@ -72,7 +75,7 @@ void Debugger::DbgHistStart() {
 	iDbgHistFileNum = 0;
 	char szDbgHistFileNum[128];
 	MSG message;
-
+#ifdef __INX_DONE_DEBUG
 	// map the line IDs in the SODL to the lines in the view
 	//*** do we need to do this, since should not be able to do history if not done debug
 	//pProject->WriteSODL(pProject->projectDir + FTPSODL);
@@ -100,9 +103,11 @@ void Debugger::DbgHistStart() {
 	// reset all debug data and events when leaving debug history mode
 	pView->pProject->ResetDebug();
 	pView->RedrawWindow();
+#endif
 }
 
 void Debugger::DbgHistTime() {
+#ifdef __INX_DONE_DEBUG
 	CGotoTimeDialog dialog;
 	ifstream dbgfile;
 	long iMaxEndTime;
@@ -161,6 +166,7 @@ void Debugger::DbgHistTime() {
 			}
 		}
 	}
+#endif
 }
 
 void Debugger::DebugForce(INXPOSITION selectedIcon, int selectedPortType, int selectedPort) {
@@ -209,7 +215,7 @@ void Debugger::DebugPause()
 {
 	// Stop app running on ehs
 	if (( tcpClient.SendText("P\n")) != 0)	{
-		AfxMessageBox("Unable to send command over TCPIP connection.");
+		INX_MessageBox("Unable to send command over TCPIP connection.");
 		tcpClient.DisConnect();
 		return;
 	}
@@ -221,7 +227,7 @@ void Debugger::DebugRestart()
 {
 	if (debugMode == DBGSTEP) {
 		if (( tcpClient.SendText("P\n")) != 0)	{
-			AfxMessageBox("Unable to send command over TCPIP connection.");
+			INX_MessageBox("Unable to send command over TCPIP connection.");
 			tcpClient.DisConnect();
 			return;
 		}
@@ -229,7 +235,7 @@ void Debugger::DebugRestart()
 
 	if (debugMode == DBGPAUSE || debugMode == DBGSTEP) {
 		if (( tcpClient.SendText("C\n")) != 0)	{
-			AfxMessageBox("Unable to send command over TCPIP connection.");
+			INX_MessageBox("Unable to send command over TCPIP connection.");
 			tcpClient.DisConnect();
 			return;
 		}
@@ -244,18 +250,20 @@ it is actually not needed as this function doesn't do any EHS control other than
 
 void Debugger::DebugStart(INXObjList *flattened,int mode)
 {
+#ifdef __INX_DONE_DEBUGGING
 	LtsStatusType ltsStatusType;
 	char szDebugStartCommand[10];
 	// connect to tcpip client
 	if (( ltsStatusType = tcpClient.Connect()) != 0){
-		AfxMessageBox("Unable to establish a TCPIP connection.");
+		INX_MessageBox("Unable to establish a TCPIP connection.");
 	} else {
 		// Start debug on ehs
 		if (mode == 1 ) if (( tcpClient.SendText("F\n")) != 0); //relaod and get ready
 		if (( tcpClient.SendText("=+\n")) != 0)
 		{
-			AfxMessageBox("Unable to send command over TCPIP connection.");
+			INX_MessageBox("Unable to send command over TCPIP connection.");
 			tcpClient.DisConnect();
+
 			delete pView->dbgMsg;
 			return;
 		}
@@ -278,13 +286,14 @@ void Debugger::DebugStart(INXObjList *flattened,int mode)
 		AfxBeginThread((AFX_THREADPROC)DebugThread, this);
 	}
 	delete pView->dbgMsg;
+#endif
 }
 
 void Debugger::DebugStep()
 {
 	// Send step command
 	if (( tcpClient.SendText("S\n")) != 0)	{
-		AfxMessageBox("Unable to send command over TCPIP connection.");
+		INX_MessageBox("Unable to send command over TCPIP connection.");
 		tcpClient.DisConnect();
 		return;
 	}
@@ -302,21 +311,21 @@ void Debugger::DebugStop()
 	if (debugMode == DBGSTEP) {
 		if (( tcpClient.SendText("P\n")) != 0)	{
 			debugMode = DBGSTOP;
-			AfxMessageBox("Unable to send command over TCPIP connection.");
+			INX_MessageBox("Unable to send command over TCPIP connection.");
 			tcpClient.DisConnect();
 			return;
 		}
 	}
 	if (( tcpClient.SendText("=-\n")) != 0)	{
 		debugMode = DBGSTOP;
-		AfxMessageBox("Unable to send command over TCPIP connection.");
+		INX_MessageBox("Unable to send command over TCPIP connection.");
 		tcpClient.DisConnect();
 		return;
 	}
 	if (debugMode == DBGPAUSE || debugMode == DBGSTEP) {
 		if (( tcpClient.SendText("C\n")) != 0)	{
 			debugMode = DBGSTOP;
-			AfxMessageBox("Unable to send command over TCPIP connection.");
+			INX_MessageBox("Unable to send command over TCPIP connection.");
 			tcpClient.DisConnect();
 			return;
 		}

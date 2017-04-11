@@ -8,7 +8,7 @@
 #include "LucidConstants.h" //@todo 
 #include "FileOperations.h" //@todo 
 #include "GlobalFuncs_2.h" //@todo 
-//#include "libxml/xmlreader.h" //@todo 
+#include "libxml/xmlreader.h" //@todo 
 
 #include <fstream>
 using namespace std;
@@ -38,13 +38,13 @@ This method is likely to cause some issues when subfunction blocks are introduce
 Unique identifiers must be ensured. I guess this will be done by the subfunction loading programming checking all the loaded identities, and 
 re-assignaing if necessary. It will also mean  that we can cross this bridge when we get to it. I haven't yet thought of a better solution! All comments welcome!
 */
-//static long int uniqueidgenerator; // one copy for all instances
+long int ConData::uniqueidgenerator=0; // one copy for all instances
 //This variable will be set to 0 when the programme is initialised, though we don't care what it it as long as it is unique.
 
 /*
 Constructor assigns defeualt values to attributes
 */
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
 void ConData::copyDialogData( const ConData &sourceData )
 {
 	this->iParamNum = sourceData.iParamNum;
@@ -90,7 +90,7 @@ Initialise attributes from data held within the file located at the path
 // 'block' is the IDF file name for an encapsulated icon. For an encapsulated icon, the variable 'type' is 
 // 'ENCAPSULATE' (bitmap file name) which is different to the IDF file name. For all other icons it is the same. 
 // Therefore, can't use 'type' to read the IDF for an encapsulated icon.
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
 void ConData::init(INXString csIconType, INXString csBlockName, INXPoint point, int iShow) {
 	m_iShow = iShow;
 	m_csIconType = csIconType;
@@ -163,11 +163,11 @@ for (i=1;i<iParamNum; i++)
 	delete iconParam[i];
 }
 
-/* Function for drawing the icon, including all the child port connections*/
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifdef INX_MFC_LEGACY_CODE
 void ConData::Draw(CDC * theDC) {
 	Draw(theDC, false, 0);
 }
+
 
 /* Function for drawing the icon, including all the child port connections*/
 void ConData::Draw(CDC * theDC, bool _onlyDrawAnim, int _toggleAnim) {
@@ -294,6 +294,7 @@ void ConData::Draw(CDC * theDC, bool _onlyDrawAnim, int _toggleAnim) {
 		
 	}
 }
+
 #endif
 void ConData::DrawGL(){
 	DrawGL(false, 0);
@@ -425,7 +426,7 @@ void ConData::DrawGL(bool _onlyDrawAnim, int _toggleAnim){
 Delete a line connected to an input port.
 This function is called when the user clicks on an input port that is already connected
   */
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
 void ConData::DeleteLine(int port, int porttype){ // this isn't very nice, but anyway
 	
 	if       (porttype == INPUTPORT) inputport[port]->RemoveLine();
@@ -566,7 +567,7 @@ void ConData::AddNodes(int selectedPort, int selectedPortType, ConData* otherico
 }
 #endif
 
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
 void ConData::ReRouteAll() {
 UINT i;
 	for (i=0;i<inputport_num;i++) {
@@ -685,7 +686,7 @@ INXPoint ConData::GetPortPoint(int port, int portType){
 	return INXPoint(0,0); //this is an error condition
 }
 
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+//#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
 /*
 Allows the positions of an Icon to be moved by changing the icon location, and also updating 
 all the children (i.e. ports and subsequently any line end points)
@@ -716,7 +717,7 @@ void ConData::RenewPosition(INXPoint newpoint, INXPoint oldpoint) {
 	}
 }
 
-
+#ifdef INX_MFC_LEGACY_CODE
 // Legacy code for displaying text data on icons - code may come in useful again later.
 void ConData::DrawFixed(CDC* theDC) {
 //	if ((theDC!=NULL)) {
@@ -988,7 +989,7 @@ void ConData::Save(ostream* file)
 }
 
 
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
 
 void ConData::readFromIDFFile(INXString filepath, INXPoint point) {
 	INXString portDesc, csPortType, xCoord, yCoord, csDataType, csAtomicFlag, csPortOrientation, csMandatoryFlag;
@@ -1211,7 +1212,7 @@ struct definedFunctions {
 /*
 	build a list of unique function names and record max of argument number for each port type
 */
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
 void ConData::growFunctionArray(struct definedFunctions *funcs, const char *funcName, int iPortType, int iFuncArg){
 	bool isNew = true;
 	int i=0;
@@ -1742,7 +1743,7 @@ int ConData::In(INXPoint point)  //Is this point in the icon area
 	return retval;
 		
 }
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
 void ConData::LoadNewBMP(INXString csIconType) {
 	INXString bitmappath = csIconType + ".bmp";	
 	bitmappath = workDir + BMPDIR + bitmappath;
@@ -1910,7 +1911,7 @@ INXPoint ConData::GetIconBottomRight()
 {
 	return rectangle.BottomRight();
 }
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
 
 void ConData::MinusYCoords()
 {

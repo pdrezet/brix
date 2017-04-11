@@ -22,8 +22,10 @@ class Port  : public INXObject
 {
 public:
 	Port(int _userdefined); 
-	//Port(INXPoint _P, unsigned int _portNum, int _dataType, int _portType, INXString _description, INXObjArray<INXString>* _funcName, INXObjArray<unsigned int>* _funcArg, int _atomicFlag, bool bVerticalIn, int _userdefined, int _mandatoryFlag);
-	//Port(UINT _portNum, int _portType, INXObjArray<INXString>* _funcName, INXObjArray<unsigned int>* _funcArg, int _atomicFlag);
+#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
+	Port(INXPoint _P, unsigned int _portNum, int _dataType, int _portType, INXString _description, INXObjArray<INXString>* _funcName, INXObjArray<unsigned int>* _funcArg, int _atomicFlag, bool bVerticalIn, int _userdefined, int _mandatoryFlag);
+	Port(UINT _portNum, int _portType, INXObjArray<INXString>* _funcName, INXObjArray<unsigned int>* _funcArg, int _atomicFlag);
+#endif
 	virtual ~Port();
 	INXPoint P;   // position
 	int porttype;   //0 input, 1 output, 2 Trig input, 3 Trig output
@@ -62,14 +64,16 @@ public:
 	void init();
 	int OnPort(INXPoint);  //accepts coordinated and returns 0 for not close amd then an int> 0 for closeness
 	int addLine(INXPoint *point,long int othericon,int otherPortNum, int otherPortType); // adds a line to inputs only otherwise return an error -1
-	//int RemoveLine();
-	//int DisconnectLine();
+#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
+	int RemoveLine();
+	int DisconnectLine();
+	int Move(INXPoint point);
+	void setLineID(long int _lineID);
 	//void Draw(CDC* theDC);
 	//void Draw(CDC* theDC, bool _onlyDrawAnim, int _toggleAnim);
+#endif
 	void DrawGL();
 	void DrawGL( bool _onlyDrawAnim, int _toggleAnim);
-	//int Move(INXPoint point);
-	//void setLineID(long int _lineID);
 	void Save(ostream *);
 	void Load(istream *);
 	//CObject* OtherIconID;

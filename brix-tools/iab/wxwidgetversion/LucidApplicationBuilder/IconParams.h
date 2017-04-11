@@ -9,20 +9,21 @@
 #include "../common/LucidConstants.h"
 #include "condat.h"
 #include "ConDataTempStore.h"
-#include "afxwin.h"
-#include "explorer1.h"
+//#include "afxwin.h"
+//#include "explorer1.h"
 #include "Porting_Classes/INXString.h"
+#include "Porting_Classes/INXDialog.h"
 //#include "ToolTipEdit.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // IconParams dialog
 
-class IconParams : public CDialog
+class IconParams : public INXDialog
 {
 // Construction
 public:
-	IconParams(ConData* pBlob, Project* _pProject, CWnd* pParent = NULL);   // standard constructor
-	//IconParams & operator=( const IconParams &rhs );
+	IconParams(ConData* pBlob, Project* _pProject, void* pParent = NULL);   // standard constructor
+	///////////IconParams & operator=( const IconParams &rhs );
 	
 	~IconParams();
 
@@ -36,6 +37,7 @@ public:
 	//attributes
 	INXString labels[MAXPARAMS];
 	INXString values[MAXPARAMS];
+	/* MFC
 	CEdit* paramVal[MAXPARAMS];
 	CStatic* paramLabel[MAXPARAMS];
 	CComboBox* enumVal[MAXPARAMS];
@@ -46,6 +48,7 @@ public:
 	CStatic* descLabel;
 	CEdit* descVal;
 	CButton* screenTagButton;
+	*/
 	ConDataTempStore		mBlobTempStore;
 	ConData		*pOrigBlob;
 	Project* pProject;
@@ -64,7 +67,7 @@ public:
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(IconParams)
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual void DoDataExchange(void* pDX);    // DDX/DDV support
 	//}}AFX_VIRTUAL
 
 // Implementation
@@ -75,12 +78,12 @@ protected:
 	virtual BOOL OnInitDialog();
 	virtual void OnOK();
 	//}}AFX_MSG
-	afx_msg void OnScreenTagManager();
-	afx_msg void OnSelChangeWidgetGroup();
-	DECLARE_MESSAGE_MAP()
+	void OnScreenTagManager();
+	void OnSelChangeWidgetGroup();
+	//DECLARE_MESSAGE_MAP()
 
 public:
-	CButton m_ctlOK;
+	//CButton m_ctlOK;
 
 protected:
 	bool errorsInData();
@@ -91,15 +94,15 @@ protected:
 	INXRect m_rect;
 
 public:
-	CExplorer1 html_control;
+	//CExplorer1 html_control;
 private:
 void SetHTML();
 protected:
 	virtual BOOL OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pResult);
 public:
-	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	void OnTimer(UINT_PTR nIDEvent);
 public:
-	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+	void OnVScroll(UINT nSBCode, UINT nPos, void* pScrollBar);
 };
 
 //{{AFX_INSERT_LOCATION}}

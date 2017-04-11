@@ -6,15 +6,17 @@
 #include "condat.h"
 #include "DEP.h"
 #include "Project.h" //@todo 
-//#include "IconParams.h" //@todo 
+#include "IconParams.h" //@todo 
 //#include "SODL.h" //@todo 
-//#include "Encapsulation.h" //@todo 
-//#include "TagDialog.h" //@todo 
+#include "Encapsulation.h" //@todo 
+#include "TagDialog.h" //@todo 
 #include "MainFrame.h"
 #include "FileOperations.h" //@todo 
 #include "BlockOperations.h" //@todo 
 #include "GlobalFuncs_2.h" 
+#include "TypeConversion.h"
 #include "Porting_Classes/INXObject.h"
+#include "Porting_Classes/INXWidgets.h"
 #include "wx/wx.h"
 #include <wx/msgdlg.h>
 #include <cmath>
@@ -26,7 +28,8 @@ static char THIS_FILE[]=__FILE__;
 #endif
 */
 // global variable declared in CDrawProgApp
-//extern char workDir[WORK_DIR_SIZE];
+extern char workDir[WORK_DIR_SIZE];
+// todo this should be in a header file
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -66,7 +69,7 @@ DEP::~DEP()
 	delete eventTags;
 }
 
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
 int DEP::AddBlockPort(INXString type, INXString portLabel, INXString blockName) {
 	int portType, dataType, ret;
 	ConData* block;
@@ -183,7 +186,7 @@ First this method identifies if the connetion is valid, and then also identifies
 is the input and which is the output
 return 1 if it was successful otherwise return 0.
 */
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE_____BUT_USED_FOR_CREATING_NEW_LINE
+#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
 int DEP::AddLine(INXPOSITION selectedIcon, int selectedPort, int selectedPortType, INXPOSITION selectedIcon2,int selectedPort2, int selectedPortType2) {
 	ConData* iconIn;
 	ConData* iconOut;
@@ -288,7 +291,7 @@ void DEP::AddNodes(INXPOSITION selectedIcon, int selectedPort, int selectedPortT
 
 // Function that adds a port to a block
 #endif
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 int DEP::AddPort(ConData* blob, int iDataType, int iPortType, INXString portLabel) {
 	INXPoint point;
 
@@ -550,7 +553,7 @@ void DEP::AddTag2List(INXString tag, int dataType) {
 		}
 	}
 }
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 // Function that adds a xport
 ConData* DEP::AddXPort(INXString type, INXString portLabel, INXPoint point) {
 	ConData* xport;
@@ -609,7 +612,7 @@ void DEP::AssignIconLineEndPoints() {
 	}
 }
 
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 // Function that checks the newID for the encapsulated icon does not already exist within the
 // encapsulated block. If it does it increments newID until it is unique.
 long int DEP::CheckNewID(INXObjList* encapsulated, long int id) {
@@ -794,7 +797,7 @@ void DEP::CreateInstance(ConData* userDefBlob, int lib) {
 	ConData* blob;
 	int instNum = 0;
 	char szInstNum[8];
-	CMainFrame* pFrame;
+	INX_MainFrame* pFrame;
 
 	origName = userDefBlob->description;
 	// determine an instance number
@@ -813,9 +816,9 @@ void DEP::CreateInstance(ConData* userDefBlob, int lib) {
 	instanceName = className + szInstNum;
 	userDefBlob->instNum = instNum;
 	userDefBlob->description = instanceName;
-	pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+	pFrame = INX_MainFrame::INX_GetAppMainWindow();
 	//userDefBlob->hierarchyName = pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(this->hItem) + depFilename + "\\";
-	depPath = pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hItem) + depFilename + "\\";
+	//MFCism depPath = pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hItem) + depFilename + "\\";
 
 	// copy library component to correct DEP dir
 	CFileOperation fo;
@@ -1181,14 +1184,13 @@ void DEP::DrawGL(bool _onlyDrawAnim, int _toggleAnim){
 
 	INXPOSITION pos;
 	ConData* icondata;
-	/* @todo ORIGINAL
-	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
-	*/
-	//@todo
+
+//MFC	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+	
 	//MainFrame* pFrame = NULL;
-#ifdef TRY_EXCLUDE_PROJECT
-	Project* pProject = pFrame->m_wndProjectBar.m_cProjTree.GetProjectPtr(hItem);
-#endif
+
+	//MFC	Project* pProject = pFrame->m_wndProjectBar.m_cProjTree.GetProjectPtr(hItem);
+
 	if (!condata->IsEmpty()) {
 		for (pos = condata->GetHeadPosition();pos !=NULL;) {
 			icondata=((ConData *) condata->GetNext(pos));
@@ -1230,62 +1232,62 @@ This function should call a parameter block that reads information from the spec
 description file to generate a data types specific parameter input dialog box,
 with descriptions and inout valiadation.
 */
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 INT_PTR DEP::EditControl(INXPOSITION selected) {
 
 	ConData *blob;
 	INXString csOldInstName, csOldFuncName;
-	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
-	Project* pProject = pFrame->m_wndProjectBar.m_cProjTree.GetProjectPtr(hItem);
-	HTREEITEM hUserdefItem;
+	//MFC CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+	//MFC Project* pProject = pFrame->m_wndProjectBar.m_cProjTree.GetProjectPtr(hItem);
+	INXTREEITEM hUserdefItem;
 
 	blob = (ConData *) condata->GetAt(selected);
-	IconParams dialog(blob, pProject);
+	//MFC IconParams dialog(blob, pProject);
 
 	//set the parameters in the dialog box to those in the icon
 	// Could do this in OnInitDialog function
 	for (UINT i=1; i<blob->iParamNum; i++) {
-		dialog.labels[i] = blob->iconParam[i]->name;
-		dialog.values[i] = blob->iconParam[i]->value;
+		//MFC dialog.labels[i] = blob->iconParam[i]->name;
+		//MFC dialog.values[i] = blob->iconParam[i]->value;
 	}
 
 	if (blob->m_iUserDefined) {
 		csOldInstName = blob->description;
 		csOldFuncName = blob->className;
-		hUserdefItem = pFrame->m_wndProjectBar.m_cProjTree.GetUserDefChildItem(blob, hItem);
+		//MFC hUserdefItem = pFrame->m_wndProjectBar.m_cProjTree.GetUserDefChildItem(blob, hItem);
 	}
 
 	// display dialog box
-	INT_PTR returnable = dialog.DoModal();
-	if ( returnable==IDOK ) {
+	//MFC	INT_PTR returnable = dialog.DoModal();
+	INT_PTR returnable = 0;
+	if ( 0 ) { //MFC returnable==IDOK ) {
 		// Rename subsystem if the name has changed
 		if (blob->m_iUserDefined && blob->className != csOldFuncName) {
 			RenameSubsystem(csOldInstName, blob->description, hUserdefItem);
 		}
 		// update widget groups in project explorer incase any were updated by the user
-		pFrame->m_wndProjectBar.m_cProjTree.updateWidgetGroups(hItem);
+		//MFC pFrame->m_wndProjectBar.m_cProjTree.updateWidgetGroups(hItem);
 
 		if (blob->isGuiWidget()) {
-			pProject->pProjMData->setDirtyWidgetsFlag(); 
+			//MFC pProject->pProjMData->setDirtyWidgetsFlag(); 
 		}
 	}
 	return returnable;
 }
 
-int DEP::GetFinishLineID(INXObjList* flattened, ConData* otherBlockIcon, ConData* flatBlob, int endNum, HTREEITEM hItem) {
-	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+int DEP::GetFinishLineID(INXObjList* flattened, ConData* otherBlockIcon, ConData* flatBlob, int endNum ,INXTREEITEM hItem) {
+//MFC	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 	INXString blockFile;
 	INXObjList* encapsulated;
 	INXPOSITION blockPos, otherFlatPos;
 	ConData *blockIcon, *otherFlatIcon;
-	HTREEITEM childItem;
+	INXTREEITEM childItem;
 	BlockOperations bo;
 
 	if (otherBlockIcon->m_iUserDefined) {
 		// load block
-		childItem = pFrame->m_wndProjectBar.m_cProjTree.GetUserDefChildItem(otherBlockIcon, hItem);
-		blockFile = projectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(childItem) + "\\" +
-			otherBlockIcon->description + ".prg";
+		//MFC childItem = pFrame->m_wndProjectBar.m_cProjTree.GetUserDefChildItem(otherBlockIcon, hItem);
+		//MFC blockFile = projectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(childItem) + "\\" + otherBlockIcon->description + ".prg";
 		encapsulated = bo.LoadBlock(blockFile);
 		blockPos = encapsulated->GetHeadPosition();
 		while (blockPos) {
@@ -1298,7 +1300,7 @@ int DEP::GetFinishLineID(INXObjList* flattened, ConData* otherBlockIcon, ConData
 	}
 
 	if (otherBlockIcon->m_iUserDefined) {
-		GetFinishLineID(flattened, otherBlockIcon, flatBlob, endNum, childItem);
+		GetFinishLineID(flattened, otherBlockIcon, flatBlob, endNum , childItem );
 	}
 //	else if (otherBlockIcon->identnum == flatBlob->blockID) {
 	else if (otherBlockIcon->identnum == flatBlob->identnum) {
@@ -1332,7 +1334,7 @@ ConData* DEP::GetIconFromID(long int id) {
 	}
 	return NULL;
 }
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 // This function searches through all hierarchical levels of encapsulation to find the line ID
 int DEP::GetInLineID(ConData* blob, ConData* flatBlob, int inNum) {
 	char szInstNum[8];
@@ -1413,15 +1415,15 @@ INXObjList* DEP::GetLine(long lineID, int dataType) {
 	return linesList;
 }
 
-int DEP::GetOutLineID(INXObjList* flattened, ConData* otherBlockIcon, ConData* flatBlob, int outNum, HTREEITEM hItem) {
-	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+int DEP::GetOutLineID(INXObjList* flattened, ConData* otherBlockIcon, ConData* flatBlob, int outNum, INXTREEITEM hItem) {
+	INX_MainFrame* pFrame = INX_MainFrame::INX_GetAppMainWindow();
 	INXString blockFile;
 	INXObjList* encapsulated;
 	INXPOSITION blockPos, otherFlatPos;
 	ConData *blockIcon, *otherFlatIcon;
-	HTREEITEM childItem;
+	INXTREEITEM childItem;
 	BlockOperations bo;
-
+#ifdef __INX_SKIP_ENCAPSULATION
 	if (otherBlockIcon->m_iUserDefined) {
 		// load block
 		childItem = pFrame->m_wndProjectBar.m_cProjTree.GetUserDefChildItem(otherBlockIcon, hItem);
@@ -1453,6 +1455,7 @@ int DEP::GetOutLineID(INXObjList* flattened, ConData* otherBlockIcon, ConData* f
 			}
 		}
 	}
+#endif
 	return 0;
 }
 
@@ -1595,7 +1598,7 @@ void DEP::InitTagLists() {
 		}
 	}
 }
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 bool DEP::IsUniqueID(long id) {
 	INXPOSITION pos;
 	ConData* blob;
@@ -1663,7 +1666,7 @@ void DEP::LoadProg(INXString Info) {
 	// Need to add 1, since uniqueidgenerator is incremented after a new icon is
 	// instantiated.
 	id++;
-	uniqueidgenerator = id;
+	ConData::uniqueidgenerator = id;
 
 	AssignIconLineEndPoints(); // this function scans all the icons and updates the line endpoint  pointers to port points.
 	depFSM.enabledraw = 1;
@@ -1945,7 +1948,7 @@ int DEP::OnConnect(INXPoint point,INXPOSITION* Icon,int * portType, int *portCon
 	}
 	return -1;
 }
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 // Function that removes a tag from a taglist
 void DEP::RemoveTag(INXString tag, int dataType) {
 	switch (dataType) {
@@ -2330,12 +2333,12 @@ void DEP::SaveProg(INXString Info) {
 // Firstly, display flattened list. This is a bad idea as there is no hierarchy since encapsulated
 // blocks have been flattened. Secondly, update condata with the line IDs. This is the option
 // implemented here.
-/*
-void DEP::SetCondataLineID(CObList* flattened) {
+
+void DEP::SetCondataLineID(INXObjList* flattened) {
 	ConData *blob;
 	ConData *flatBlob;
 	ConData *otherBlockIcon;
-	POSITION pos, flatPos;
+	INXPOSITION pos, flatPos;
 	INXString instanceName, blockFile;
 	int finishLineID, outLineID;
 
@@ -2355,7 +2358,7 @@ void DEP::SetCondataLineID(CObList* flattened) {
 					for (UINT i=0; i<blob->inputport_num; i++) {
 						blob->inputport[i]->line.idNum = flatBlob->inputport[i]->line.idNum;
 					}
-					for (i=0; i<blob->startport_num; i++) {
+					for (UINT i = 0; i<blob->startport_num; i++) {
 						blob->startport[i]->line.idNum = flatBlob->startport[i]->line.idNum;
 					}
 				}
@@ -2370,7 +2373,7 @@ void DEP::SetCondataLineID(CObList* flattened) {
 				for (UINT i=0; i<blob->inputport_num; i++) {
 					blob->inputport[i]->line.idNum = GetInLineID(blob, flatBlob, i);
 				}
-				for (i=0; i<blob->startport_num; i++) {
+				for (UINT i = 0; i<blob->startport_num; i++) {
 					blob->startport[i]->line.idNum = GetStartLineID(blob, flatBlob, i);
 				}
 			}
@@ -2378,9 +2381,9 @@ void DEP::SetCondataLineID(CObList* flattened) {
 			// flattened list that is connected to the same icon the XOUTPUT is connected to
 			else if (blob->m_csIconType.Find("XOUTPUT") > -1 && blob->inputport[0]->line.exist) {
 				otherBlockIcon = GetIconFromID(blob->inputport[0]->line.othericonid);
-				outLineID = GetOutLineID(flattened, otherBlockIcon, flatBlob, blob->inputport[0]->line.otherportno);
+				outLineID = GetOutLineID(flattened, otherBlockIcon, flatBlob, blob->inputport[0]->line.otherportno, /* MFCism? */NULL);
 				if (outLineID) {
-					blob->inputport[0]->line.idNum = GetOutLineID(flattened, otherBlockIcon, flatBlob, blob->inputport[0]->line.otherportno);
+					blob->inputport[0]->line.idNum = GetOutLineID(flattened, otherBlockIcon, flatBlob, blob->inputport[0]->line.otherportno, /* MFCism? */NULL);
 				}
 			}
 			// if the icon is an XFINISH need to get the line ID from the icon in the
@@ -2388,16 +2391,15 @@ void DEP::SetCondataLineID(CObList* flattened) {
 			else if (blob->m_csIconType == "XFINISH" && blob->startport[0]->line.exist) {
 				otherBlockIcon = GetIconFromID(blob->startport[0]->line.othericonid);
 				// only assign the line ID if it is not 0
-				finishLineID = GetFinishLineID(flattened, otherBlockIcon, flatBlob, blob->startport[0]->line.otherportno);
+				finishLineID = GetFinishLineID(flattened, otherBlockIcon, flatBlob, blob->startport[0]->line.otherportno, /* MFCism? */NULL);
 				if (finishLineID) {
-					blob->startport[0]->line.idNum = GetFinishLineID(flattened, otherBlockIcon, flatBlob, blob->startport[0]->line.otherportno);
+					blob->startport[0]->line.idNum = GetFinishLineID(flattened, otherBlockIcon, flatBlob, blob->startport[0]->line.otherportno, /* MFCism? */NULL);
 				}
 			}
 		}
 	}
 }
-*/
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 // Replace tag with a line
 void DEP::ShowLine(INXPOSITION iconPos, int portNum, int portType) {
 	ConData *blob;
@@ -2522,7 +2524,7 @@ ConData* DEP::SubsetEncapsulate(INXRect encapsulate, int lib) {
 	INXObjList *depList = NULL, *encapsulated = NULL;
 	INXPOSITION encapsulatedPos, pos, rmPos;
 	ConData *encapsulatedIcon, *blob;
-	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+//MFCism	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 	BlockOperations bo;
 
 	SaveProg(workDir + TEMPDIR + "temp");
@@ -2544,7 +2546,7 @@ ConData* DEP::SubsetEncapsulate(INXRect encapsulate, int lib) {
 		while(pos) {
 			blob = (ConData*) (encapsulated->GetNext(pos));
 			if (blob->m_iUserDefined) {
-				pFrame->m_wndProjectBar.m_cProjTree.DelItemFromProjectTree(blob, hItem);
+//MFDism				pFrame->m_wndProjectBar.m_cProjTree.DelItemFromProjectTree(blob, hItem);
 			}
 		}
 
@@ -2865,7 +2867,7 @@ INXPoint DEP::getInitScrollPos(INXRect clientRect)
 	// returns (-1,-1) if there are no icons
 	return scrollPos;
 }
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 void DEP::ResetXportConnected()
 {
 	ConData* blob;
@@ -2986,12 +2988,13 @@ void DEP::SetPortLabel(INXString csBlockName, INXString csOldPortLabel, INXStrin
 	}
 }
 
-void DEP::RenameSubsystem(INXString csOldInstName, INXString csNewInstName, HTREEITEM hUserdefItem)
+void DEP::RenameSubsystem(INXString csOldInstName, INXString csNewInstName, INXTREEITEM hUserdefItem)
 {
 	INXString csDepPath, csInstNum, csProjectDir;
 	CFileOperation fo;
-	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
-	CDrawProgApp *pApp = ( CDrawProgApp *) AfxGetApp();
+	INX_MainFrame* pFrame = INX_MainFrame::INX_GetAppMainWindow();// (CMainFrame*)AfxGetApp()->m_pMainWnd;
+#ifdef __INX_DONE_RENAMESUB
+	//DrawProg *pApp = ( CDrawProgApp *) AfxGetApp();
 	INXPOSITION pos;
 	Project* pProject = pFrame->m_wndProjectBar.m_cProjTree.GetProjectPtr(hUserdefItem);
 
@@ -3015,14 +3018,17 @@ void DEP::RenameSubsystem(INXString csOldInstName, INXString csNewInstName, HTRE
 			pDocmnt->pDEP->depFilename = csNewInstName;
 		}
 	}
+#endif
 }
 
 void DEP::AddToLibrary(INXPOSITION blockPos, INXString csMenuName)
 {
 	CFileOperation fo;
-	HTREEITEM hUserdefItem;
+	INXTREEITEM hUserdefItem;
 	INXString csDepPath, csProjectDir;
-	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+	INX_MainFrame* pFrame = INX_MainFrame::INX_GetAppMainWindow();// (CMainFrame*)AfxGetApp()->m_pMainWnd;
+	//CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+#ifdef __INX_DONE_ADD_TOLIBRARY
 	Project* pProject = pFrame->m_wndProjectBar.m_cProjTree.GetProjectPtr(hItem);
 	ConData* blob = (ConData*) condata->GetAt(blockPos);
 	Encapsulation subSystem;
@@ -3050,6 +3056,7 @@ void DEP::AddToLibrary(INXPOSITION blockPos, INXString csMenuName)
 	nIconNum = subSystem.SelectEncapsulateIcon();
 	subSystem.WriteIDF(blob, nIconNum, csMenuName);
 	delete encapsulated;
+#endif
 }
 
 bool DEP::IsRectEmpty(INXRect selectRect)
@@ -3380,9 +3387,11 @@ void DEP::setAllMonitors(bool bSetClear)
 	INXPOSITION pos;
 	ConData* pBlob;
 	TypeConversion tc;
-	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
-	Project* pProject = pFrame->m_wndProjectBar.m_cProjTree.GetProjectPtr(hItem);
+	//CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+	INX_MainFrame* pFrame = INX_MainFrame::INX_GetAppMainWindow();// (CMainFrame*)AfxGetApp()->m_pMainWnd;
 
+#ifdef __INX_DONE_SETMONITORS
+	Project* pProject = pFrame->m_wndProjectBar.m_cProjTree.GetProjectPtr(hItem);
 	pos = condata->GetHeadPosition();
 	while (pos) {
 		pBlob = (ConData *) (condata->GetNext(pos));
@@ -3411,6 +3420,7 @@ void DEP::setAllMonitors(bool bSetClear)
 			}
 		}
 	}
+#endif
 }
 
 // Method that toggles all input lines connected to the same output

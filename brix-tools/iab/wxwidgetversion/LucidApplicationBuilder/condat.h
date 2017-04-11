@@ -28,31 +28,33 @@
 // adding connections, screen painting, testing for graphical user selections
 // and checking use connection validity.
 /*****************************************************************/
-static long int uniqueidgenerator; // one copy for all instances
+
 
 class ConData : public INXObject  
 {
 
 public:
 
-	
+	static long int uniqueidgenerator; // one copy for all instances
 
 	ConData();
-	//void copyDialogData( const ConData &sourceData );
-	//void init(INXString csIconType, INXString csBlockName, INXPoint point, int _iShow=1);
+	void copyDialogData( const ConData &sourceData );
+	void init(INXString csIconType, INXString csBlockName, INXPoint point, int _iShow=1);
 	void initBmp(INXPoint _point);
 
 	void DrawGL();
 	void DrawGL(bool _onlyDrawAnim, int _toggleAnim);
-	//void DrawDescription(CDC* theDC);
+#ifdef INX_MFC_LEGACY_CODE
+	void DrawDescription(CDC* theDC);
+	void DrawFixed(CDC* theDC);
+#endif
 	void DrawTitle();
-	//void DrawFixed(CDC* theDC);
 	void Save(ostream* file);
 	int Load(istream* file);
-	//int LoadNoBmp(istream* file);
-	//void RenewPosition(INXPoint newpoint, INXPoint oldpoint);
-	//void DeleteLine(int port, int porttype);
-	//void ReRouteAll();
+	int LoadNoBmp(istream* file);
+	void RenewPosition(INXPoint newpoint, INXPoint oldpoint);
+	void DeleteLine(int port, int porttype);
+	void ReRouteAll();
 	
 	int AddLine(int inPortNum, int InPrtType, ConData* othericon,int otherPortNum, int otherPortType);
 	/*addLine is created only when new line is generated EXCLUDED temporarly*/
@@ -61,26 +63,26 @@ public:
 	/*addLine is created only when new line is generated EXCLUDED temporarly*/
 	void AddNodes(int selectedPort, int selectedPortType, ConData* othericon, int otherPortNum, int otherPortType);
 	
-	//int  CheckDatatypes(int portIn, int portInType, ConData*iconOut,int portOut,int portOutType);
-	//int  GetPortDataType(int portNum, int portType);
+	int  CheckDatatypes(int portIn, int portInType, ConData*iconOut,int portOut,int portOutType);
+	int  GetPortDataType(int portNum, int portType);
 	/*addLine is created only when new line is generated EXCLUDED temporarly*/
 	
 	INXPoint GetPortPoint(int port, int portType);
 	INXPoint *GetPortPointPtr(int port, int portType);
 	int OnPort(INXPoint point,int * portType,int *portConnected);
 	
-	//void ReadIDFFile(INXString csType, INXPoint point);
-	//int portType2Int(INXString str);
-	//int dataType2Int(INXString str);
+	void ReadIDFFile(INXString csType, INXPoint point);
+	int portType2Int(INXString str);
+	int dataType2Int(INXString str);
 
 	// widget methods
-	//bool isGuiWidget();
-	//LucidErrEnum getWidgetTag(INXString &csWidgetTag);
-	//LucidErrEnum getScreenTag(INXString &csScreenTag);
-	//LucidErrEnum setScreenTag(INXString csScreenTag);
+	bool isGuiWidget();
+	LucidErrEnum getWidgetTag(INXString &csWidgetTag);
+	LucidErrEnum getScreenTag(INXString &csScreenTag);
+	LucidErrEnum setScreenTag(INXString csScreenTag);
 	
 	// FB substitution methods
-	//int getPortCount(int iPortType, int iDataType);
+	int getPortCount(int iPortType, int iDataType);
 
 	int m_iShow, showdescript, selected;
 	long int identnum, blockID;
@@ -101,34 +103,34 @@ public:
 
 private:
 	Bitmap bitmap;
-	//void LoadNewBMP(INXString csType);
+	void LoadNewBMP(INXString csType);
 	bool encapsulated;
-	//void readFromIDFFile(INXString filepath, INXPoint point);
-	//void readFromCDFFile(INXString filepath, INXPoint point);
-	//void updateFunctionArg(struct definedFunctions *funcs);
-	//void growFunctionArray(struct definedFunctions *funcs, const char *funcName, int iPortType, int iFuncArg);
+	void readFromIDFFile(INXString filepath, INXPoint point);
+	void readFromCDFFile(INXString filepath, INXPoint point);
+	void updateFunctionArg(struct definedFunctions *funcs);
+	void growFunctionArray(struct definedFunctions *funcs, const char *funcName, int iPortType, int iFuncArg);
 
 public:
-	//int CountNonVerticalPorts(int PortType);
-	//INXRect GetBoundingRectangle();
-	//void MinusYCoords();
+	int CountNonVerticalPorts(int PortType);
+	INXRect GetBoundingRectangle();
+	void MinusYCoords();
 	INXPoint GetIconBottomRight();
 	INXPoint GetIconPos();
 	INXPoint GetIconCentre();
-	//INXString BuildXPortString(int iPortType,int DataType);
-	//INXPoint CalculateXPortPosition(int iPortType);
-	//void repositionVerticalPorts();
-	//void ResizeIcon();
+	INXString BuildXPortString(int iPortType,int DataType);
+	INXPoint CalculateXPortPosition(int iPortType);
+	void repositionVerticalPorts();
+	void ResizeIcon();
 	int In(INXPoint point);
-	//void setEncapsulated(bool encaps);
-	//bool getEncapsulated();
-	//void hideSelected();
-	//void showSelected();
+	void setEncapsulated(bool encaps);
+	bool getEncapsulated();
+	void hideSelected();
+	void showSelected();
 	
-	//INXPoint input[32];
-	//INXPoint output[32];
-	//INXPoint trigin[32];
-	//INXPoint trigout[32];
+	INXPoint input[32];
+	INXPoint output[32];
+	INXPoint trigin[32];
+	INXPoint trigout[32];
 	unsigned int inputport_num, outputport_num, startport_num, finishport_num, internalport_num, iParamNum;
 	Port* inputport[MAXPORTS];	//port object  
 	Port* outputport[MAXPORTS]; //port object  

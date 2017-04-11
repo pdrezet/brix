@@ -35,7 +35,21 @@ public:
 	void AddNode(INXPoint cpNodePt, int iNodeNum);
 	/*addLine is created only when new line is generated EXCLUDED temporarly*/
 	int AddDogLeg(int x_postion = 50,int ylevel=50); // makes a forward dogleg of the line
-	//void editNode(INXPoint _node);
+	
+#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
+	
+	void Delete();
+	void Disconnect();
+	void setIDNum(long int _idNum);
+	void setPortType(int _portType);
+	void Move(INXPoint point);
+	void MoveOutNode(INXPoint point);
+	void setShow(int _show);
+	//Debug monitor
+	void setDbgMonitor(bool bDbgMonitorSel);
+	void toggleDbgMonitor();
+	void editNode(INXPoint _node);
+#endif
 	void deleteNode();
 	void DeleteNode(int iNodeNum);
 	/*addLine is created only when new line is generated EXCLUDED temporarly*/
@@ -44,17 +58,7 @@ public:
 	//void DrawDC(CDC* theDC);
 	void DrawGL();
 	void DrawDCGL();
-	//void Delete();
-	//void Disconnect();
-	////void setIDNum(long int _idNum);
-	//void setPortType(int _portType);
-	//void Move(INXPoint point);
-	//void MoveOutNode(INXPoint point);
 	void deleteNodeMemory();
-	//void setShow(int _show);
-	// Debug monitor
-	//void setDbgMonitor(bool bDbgMonitorSel);
-	//void toggleDbgMonitor();
 
 	bool getDbgMonitor();
 
@@ -71,8 +75,8 @@ public:
 
 	void MoveSegment(INXPoint point);
 
-	//int GetLineSegment(const INXPoint cpPoint);
-	//bool IsOnSegment(const INXPoint cpPoint, const int iSegmentNum);
+	int GetLineSegment(const INXPoint cpPoint);
+	bool IsOnSegment(const INXPoint cpPoint, const int iSegmentNum);
 	
 	bool IsSegmentsAligned(const int iSegmentNum1, const int iSegmentNum2);
 	

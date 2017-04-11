@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include "LucidString.h"
 
-CString getLucidRegValue(CString csSectionPath, CString csKey, CString csDefault);
-void setLucidRegValue(const CString csSectionPath, const CString csKey, CString csValue);
+INXString getLucidRegValue(INXString csSectionPath, INXString csKey, INXString csDefault);
+void setLucidRegValue(const INXString csSectionPath, const INXString csKey, INXString csValue);
