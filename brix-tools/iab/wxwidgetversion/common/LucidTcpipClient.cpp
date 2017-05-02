@@ -34,7 +34,9 @@ const char* LucidTcpipClient::szDisconnect = "\033D"; // TCP/IP disconnect signa
 LucidTcpipClient::LucidTcpipClient(void)
 {
 	// Enable or disable to run Unit Test
+#ifdef __RUN_TESTS_ALLTHHETIME__
 	tests.RunATest();
+#endif
 	//tests.RunTests();
 	csTempLineBuffer = "";
 	csTempBlockBuffer = "";
@@ -59,6 +61,7 @@ void LucidTcpipClient::InitTcpipClient()
 {
 	// Get the IP Address and Port from the registry
 	INXString csPort;
+#ifdef __WINDOWS_ONLY__
 	INXString csLocation = getLucidRegValue(_T(REG_TARGET_KEY), _T(REG_TARGET_LOCATION_VALUE), _T((INXString)DEFAULT_TARGET_LOCATION));
 
 	if (csLocation == REG_TARGET_LOCATION_DATA_REMOTE) {
@@ -70,6 +73,7 @@ void LucidTcpipClient::InitTcpipClient()
 		csPort = getLucidRegValue(_T(REG_TARGET_KEY), _T(REG_TARGET_LOCAL_PORT_VALUE), _T((INXString)DEFAULT_TARGET_PORT));
 	}
 	s_iPort = atoi(csPort);
+#endif
 }
 
 /***********************************************************************
@@ -1006,6 +1010,7 @@ long TcpLogger::Log(const char* pszFormat, ...)
 #endif
 }
 
+#ifdef __TCPIP_TESTS__
 /**********************************************************************
  * Tcp Test Suite Class
  *
@@ -1015,14 +1020,14 @@ long TcpLogger::Log(const char* pszFormat, ...)
  */
 void TcpTestSuite::RunTests()
 {
-	INX_MessageBox("All Tcp Tests about to start", MB_ICONINFORMATION);
+	INX_MessageBox("All Tcp Tests about to start");
 	LoggerTest1();
 	Sleep(500);
 	LoggerTest2();
 	Sleep(500);
 	LoggerTest3();
 	Sleep(500);
-	INX_MessageBox("All Tcp Tests finished", MB_ICONINFORMATION);
+	INX_MessageBox("All Tcp Tests finished");
 }
 
 void TcpTestSuite::RunATest()
@@ -1104,3 +1109,5 @@ void TcpTestSuite::LoggerTest3()
 	assert(test3 == verify_test3);
 #endif
 }
+
+#endif

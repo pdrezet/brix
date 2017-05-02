@@ -14,7 +14,9 @@
 #define PATH_IS_FILE		1
 #define PATH_IS_FOLDER		2
 
+#ifndef MAX_PATH
 #define MAX_PATH 2048
+#endif
 
 #include "Porting_Classes/INXString.h"
 #include "Porting_Classes/INXWidgets.h"

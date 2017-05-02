@@ -342,7 +342,7 @@ void Debugger::DestroyView() {
 	//	debugMode = DBGSTOP;
 	//}
 }
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 /*
 void Debugger::FtpDbgCtrlFile(INXString filename) {
 	char timeBuf[9];
@@ -420,7 +420,7 @@ int Debugger::GetEHSState()
 	return iState;
 }
 */
-
+#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 // Load in a debug file in debug history mode
 void Debugger::LoadDbgHistFile(INXString filename, int dbgFileNum) {
 	ifstream dbgfile(filename);
@@ -526,9 +526,12 @@ void Debugger::LoadDbgHistFile(INXString filename, int dbgFileNum) {
 
 }
 
+#endif
+
 // Display the trace messages
 void Debugger::displayTraceMsg(INXString csTraceMsg)
 {
+#ifdef __DONE_THIS__
 	int curPos = 0;
 	INXString csToken, csSeq, csID, csMsgType, csDataType, csValue, csTime;
 	int iDataType;
@@ -675,6 +678,7 @@ void Debugger::displayTraceMsg(INXString csTraceMsg)
 	if (redrawFlag && pView) {
 		pView->RedrawWindow();
 	}
+#endif
 }
 
 INXString Debugger::Tokenize(INXString csTraceMsg, int &curPos)
@@ -690,7 +694,7 @@ INXString Debugger::Tokenize(INXString csTraceMsg, int &curPos)
 void Debugger::setView(CDrawProgView *_pView)
 {
 	pView = _pView;
-	m_RtaTraceSupport.setView(_pView);
+//	m_RtaTraceSupport.setView(_pView);
 }
 
 /*
@@ -719,6 +723,7 @@ bool Debugger::TestTimeStamp()
 // Method that sends all the lines to monitor
 void Debugger::sendAllMonitors()
 {
+	#ifdef __DONE_THIS__
 	INXPOSITION pos;
 	ConData* pBlob;
 	INXString csTcpStr;
@@ -764,6 +769,7 @@ void Debugger::sendAllMonitors()
 			}
 		}
 	}
+#endif
 }
 
 // Method that sends a monitor command to the EHS for a line specified by its ID and type
@@ -782,7 +788,7 @@ bool Debugger::sendMonitor(bool bOnOff, long iId, INXString csType)
 
 	if ((tcpClient.SendText(csTcpCmd)) != 0) {
 		ExitDebugger();
-		AfxMessageBox("Unable to send command over TCPIP connection.");
+		INX_MessageBox("Unable to send command over TCPIP connection.");
 		tcpClient.DisConnect();
 		return false;
 	}
@@ -793,6 +799,7 @@ bool Debugger::sendMonitor(bool bOnOff, long iId, INXString csType)
 // This method clears all the monitored lines in EHS.
 void Debugger::ClearAllMonitors()
 {
+#ifdef __DONE_THIS__
 	INXPOSITION pos;
 	ConData* pBlob;
 	INXString csTcpStr;
@@ -821,6 +828,7 @@ void Debugger::ClearAllMonitors()
 			}
 		}
 	}
+#endif
 }
 
 void Debugger::setWriteRtaTrace(bool bWrite)
@@ -835,6 +843,7 @@ bool Debugger::getWriteRtaTrace()
 
 void Debugger::ExitDebugger()
 {
+#ifdef __DONE_THIS__
 	clearAll=FALSE;
 	pView->pProject->setDefineMonitors(FALSE);
 	pView->setStatusBarText("Line Editing");
@@ -843,7 +852,7 @@ void Debugger::ExitDebugger()
 	pView->stopTraceTimer();
 
 	debugMode = DBGSTOP;
-
+#endif
 }
 
 int Debugger::ReStartInDebug(void)
@@ -852,4 +861,4 @@ int Debugger::ReStartInDebug(void)
 	return 0;
 }
 
-#endif
+//#endif

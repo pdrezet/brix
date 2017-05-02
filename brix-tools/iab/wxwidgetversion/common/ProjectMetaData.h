@@ -75,7 +75,7 @@ public:
 						const INXString					&tag, 
 						const TagProjMetaSupportData_t	&suppData );////
 
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 	bool checkProjectFileData( void );
 
 	int inflateTransferrableData( 
@@ -84,11 +84,10 @@ public:
 
 	bool isUpToDate();
 	void updateTransferTime();
-#endif
 	unsigned long  nBuildNo; //  @todo this is on the wrong place! this is incremented for each build of SODL to provide a UID. This should be private and the update function should be in this class.
 
 
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 private:	
 	LccTimeStamp getLastTransferTime();
 	void getListOfPreviousTransferredItems(LccPmdXfers &vAlreadyTransItems);
@@ -96,7 +95,7 @@ private:
 
 	LccTimeStamp getLastFileReadTime();
 	void updateFileReadTime();
-#endif
+
 
 // Attributes
 private:
@@ -197,7 +196,7 @@ public:
 #endif
 
 	void setDirtySODLFlag();////
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 	void clearDirtySODLFlag();
 	bool checkDirtySODL();
 	void setDirtyWidgetsFlag();
@@ -205,7 +204,7 @@ public:
 	bool checkDirtyWidgets();
 	bool checkNewerSODLAvailable();
 	void setIsSODLCheckBeingPerformed(bool val);
-#endif
+
 	int readBuildNumFromFile(void);////
 	void populateBuildNumFromFile(void);////
 #ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE

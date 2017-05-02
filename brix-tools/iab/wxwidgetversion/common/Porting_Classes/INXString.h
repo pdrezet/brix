@@ -111,18 +111,19 @@ public:
 			 return(0);
 		}return(int(strlen(s)));
 	};
-	/* @todo using mfc CString to creatre the method */
-	/*INXString Tokenize(char* str, int pos){
+	/* @todo using mfc CString to creatre the method 
+	 see http://docs.wxwidgets.org/3.1.0/classwx_string_tokenizer.html */
+	INXString Tokenize(char* str, int pos){
 		//CString _str;
 		//_str = _str.Tokenize(str, pos);
-		return NULL;
+		return "";
 	};
 	// Extraction 
 
 	INXString SpanExcluding(const char* str){
 		//CString _str = c_str();
 		//_str = _str.SpanExcluding(str);
-		return NULL;
-	};*/
+		return "";
+	};
 };
 #endif

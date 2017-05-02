@@ -70,8 +70,9 @@ public:
 };
 
 
-void INX_MessageBox(void * parent, INXString dummy, INXString  message);
-void INX_MessageBox(INXString  message);
+int INX_MessageBox(void * parent, INXString dummy, INXString  message);
+int INX_MessageBox( INXString dummy, INXString  message);
+int INX_MessageBox(INXString  message);
 
 #endif
 

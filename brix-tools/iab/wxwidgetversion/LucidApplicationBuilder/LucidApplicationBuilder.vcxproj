@@ -153,6 +153,8 @@
     <ClCompile Include="..\common\LucidString.cpp" />
     <ClCompile Include="..\common\LucidTcpipClient.cpp" />
     <ClCompile Include="..\common\Markup.cpp" />
+    <ClCompile Include="..\common\Porting_Classes\INXArrays.cpp" />
+    <ClCompile Include="..\common\Porting_Classes\INXWidgets.cpp" />
     <ClCompile Include="..\common\ProjectMetaData.cpp" />
     <ClCompile Include="..\common\ProjectMetaDataIO.cpp" />
     <ClCompile Include="..\common\ProjFolderMinder.cpp" />
@@ -181,6 +183,7 @@
     <ClCompile Include="Project.cpp" />
     <ClCompile Include="ProjectBar.cpp" />
     <ClCompile Include="ProjectDialog.cpp" />
+    <ClCompile Include="SODL.cpp" />
     <ClCompile Include="tagdialog.cpp" />
     <ClCompile Include="TypeConversion.cpp" />
   </ItemGroup>

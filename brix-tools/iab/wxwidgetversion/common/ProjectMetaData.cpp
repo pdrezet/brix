@@ -2976,7 +2976,7 @@ void ProjectMetaData::setDirtySODLFlag()////
 		}
 	}
 }
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 void ProjectMetaData::clearDirtySODLFlag()
 {
 	isDirtySODL = false;
@@ -2993,7 +2993,7 @@ void ProjectMetaData::clearDirtySODLFlag()
 		if( EhsFremove(updateSODLFileName) != 0 ) {
 			//
 			// error removing file - is it still open?
-			AfxMessageBox("Failed to remove file: " + updateSODLFileName);
+			INX_MessageBox("Failed to remove file: " + updateSODLFileName);
 		} else {
 			// success
 		}
@@ -3038,7 +3038,7 @@ void ProjectMetaData::setDirtyWidgetsFlag()
 	pFile = EhsFopen(updateWidgetsFileName,"w");
 	if (pFile == NULL) {
 		// not expecting this
-		AfxMessageBox("Failed to create file for project in: " + updateWidgetsFileName);
+		INX_MessageBox("Failed to create file for project in: " + updateWidgetsFileName);
 	} else {
 		//success
 		EhsFclose(pFile);
@@ -3059,7 +3059,7 @@ void ProjectMetaData::clearDirtyWidgetsFlag()
 		if( EhsFremove(updateWidgetsFileName) != 0 ) {
 			//
 			// error removing file - is it still open?
-			AfxMessageBox("Failed to remove file: " + updateWidgetsFileName);
+			INX_MessageBox("Failed to remove file: " + updateWidgetsFileName);
 		} else {
 			// success
 		}
@@ -3108,7 +3108,6 @@ void ProjectMetaData::setIsSODLCheckBeingPerformed(bool val)
 	isSODLCheckBeingPerformed = val;
 }
 
-#endif
 void ProjectMetaData::populateBuildNumFromFile(void){////
 	this->nBuildNo = readBuildNumFromFile();
 }

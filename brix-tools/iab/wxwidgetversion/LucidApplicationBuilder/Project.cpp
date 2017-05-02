@@ -6,7 +6,7 @@
 #include "DrawProg.h"
 #include "Project.h"
 #include "DrawProgView.h"
-//#include "SODL.h" //@todo
+#include "SODL.h" //@todo
 //#include "GroupSetupDialog.h" //@todo
 #include "FileOperations.h"
 #include "BlockOperations.h" //@todo
@@ -793,7 +793,7 @@ void Project::SaveProject()
 	// pProjMData->writeProjectFile();
 }
 
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 INXObjList* Project::WriteSODL(INXString sodlfile) {
 
 	SODL compile(this);
@@ -809,6 +809,8 @@ INXObjList* Project::WriteSODL(INXString sodlfile) {
 
 	return compile.flattened;
 }
+
+#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 
 // method that adds widgets for a pasted list
 void Project::addPastedGuiWidgets(HTREEITEM hItem, INXObjList* pasteList)
