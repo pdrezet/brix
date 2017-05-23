@@ -2,11 +2,12 @@
 
 #include "GlobalFuncs_1.h"
 #include "GlobalFuncs_2.h"
-#include "stdafx.h"
+
 #include <fstream>
 #include <cassert>
+#include "Porting_Classes/INXWidgets.h"
 
-#include "../common/LgbIconDataStrucs.h"
+#include "../common/lgbicondatastrucs.h"
 
 //#include "../LucidGUIBuilder/LgbTextIcon.h"
 //#include "../LucidGUIBuilder/LgbImageIcon.h"
@@ -19,11 +20,9 @@
 
 #include <vector>
 
-#include "../common/LgbIconDataStrucs.h"
-
 extern INXString intToString(const int val);
 
-bool cleanupGuiLayoutBasics( LgbIconEssentialData_t &rEssDat, INXString &csWarnings  );
+//bool cleanupGuiLayoutBasics( LgbIconEssentialData_t &rEssDat, INXString &csWarnings  );
 
 void parseGuiFile(
 				const INXString &csFileName, 
@@ -155,7 +154,7 @@ void parseGuiFile(
 
 						INXString csWarnings;
 						if(cleanupGuiLayoutBasics( basicDat, csWarnings  ))
-							AfxMessageBox(csWarnings);
+							INX_MessageBox(csWarnings);
 					}
 
 
@@ -250,7 +249,7 @@ void parseGuiFile(
 
 					INXString csWarnings;
 					if(cleanupGuiLayoutBasics( basicDat, csWarnings  ))
-						AfxMessageBox(csWarnings);
+						INX_MessageBox(csWarnings);
 
 					if ( (basicDat.type == "GUI_Bitmap") ||  (basicDat.type == "GUI_Image") ){
 
@@ -346,7 +345,7 @@ bool cleanupGuiLayoutBasics( LgbIconEssentialData_t &rEssDat, INXString &csWarni
 	}
 
 	if(warningsExist)
-		csWarnings = "GUI-layout post-processing message:\n" + csWarnings;
+		(INXString)csWarnings = (INXString)(INXString("GUI-layout post-processing message:\n") + (INXString)csWarnings);
 
 	return warningsExist;
 

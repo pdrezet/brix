@@ -1,12 +1,11 @@
 #pragma once
-#include "stdafx.h"
 
-#include "../common/LgbIconDataStrucs.h"
+#include "../common/lgbicondatastrucs.h"
 #include "Porting_Classes/INXString.h"
 
-extern bool cleanupGuiLayoutBasics( LgbIconEssentialData_t &rEssDat, INXString &csWarnings  );
+bool cleanupGuiLayoutBasics( LgbIconEssentialData_t &rEssDat, INXString &csWarnings  );
 
-extern void parseGuiFile(
+void parseGuiFile(
 				const INXString &csFileName, 
 				std::vector< LgbTextIconEssentialData_t > &textIcons, 
 				std::vector< LgbPatchIconEssentialData_t > &patchIcons, 

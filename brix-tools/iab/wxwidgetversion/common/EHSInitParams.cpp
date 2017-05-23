@@ -1,4 +1,4 @@
-#include "stdafx.h"
+
 #include "EHSInitParams.h"
 
 #define EHS_CONFIG_DISPLAY_HEIGHT 768	/**< Height for the OSD part of the display */

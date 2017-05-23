@@ -3,9 +3,9 @@
 
 //#include "condat.h"
 
-#include "Porting_Classes/INXString.h"
-#include "Porting_Classes/INXTree.h"
-#include "Porting_Classes/INXObjList.h"
+#include "INXString.h"
+#include "INXTree.h"
+#include "INXObjList.h"
 /* 
      Porting file to map onto platform widget library
 */

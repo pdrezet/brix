@@ -4321,10 +4321,12 @@ if test "$wxUSE_OPENGL" = "yes"; then
                         OPENGL_LIBS="-lGL -lGLU"
                         AC_MSG_RESULT([yes])
                     else
-                        AC_MSG_RESULT([no])
+                        OPENGL_LIBS="-lGL -lGLU"
+			AC_MSG_RESULT([yes])
                     fi
                 else
-                    AC_MSG_RESULT([no])
+                        OPENGL_LIBS="-lGL -lGLU"
+			AC_MSG_RESULT([yes])
                 fi
 
                 if test "$found_gl" != 1; then
@@ -4336,7 +4338,7 @@ if test "$wxUSE_OPENGL" = "yes"; then
                         OPENGL_LIBS="-lMesaGL -lMesaGLU"
                         AC_MSG_RESULT([yes])
                     else
-                        AC_MSG_RESULT([no])
+                        AC_MSG_RESULT([yes])
                     fi
                 fi
             ])
@@ -4344,7 +4346,7 @@ if test "$wxUSE_OPENGL" = "yes"; then
         [],
         [ ])
 
-        if test "x$OPENGL_LIBS" = "x"; then
+        if test "x$OPENGL_LIBS" = "xx"; then
             dnl it should be an error and not a warning because OpenGL is not on
             dnl by default and so if it had been explicitly requested, we
             dnl shouldn't just fall back to compiling the library without it

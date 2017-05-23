@@ -1,10 +1,12 @@
 
 #pragma once
 
+#include "Porting_Classes/INXString.h"
+
 typedef struct  {
 
-	CString type;
-	CString tag;
+	INXString type;
+	INXString tag;
 	int xTopLft;
 	int yTopLft;
 	int width;
@@ -16,9 +18,8 @@ typedef struct  {
 
 typedef struct  {
 
-	CString csClass;
-	CString csFont;
-
+	INXString csClass;
+	INXString csFont;
 	short alpha;
 	short red;
 	short green;
@@ -40,7 +41,7 @@ typedef struct  {
 	short 	fgGreen;
 	short 	fgBlue;
 
-	CString csFont;
+	INXString csFont;
 	int leftIndent;
 	int rightIndent;
 	int topIndent;
@@ -67,7 +68,7 @@ typedef struct  {
 
 	short alpha;
 
-	CString bitmapFileName;
+	INXString bitmapFileName;
 
 	short lockAspect;
 

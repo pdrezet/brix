@@ -2,7 +2,7 @@
 #define _INXOBJLIST_H
 
 #pragma once
-#include "Porting_Classes/INXObject.h"
+#include "INXObject.h"
 
 struct __INXPOSITION {};
 typedef __INXPOSITION* INXPOSITION;

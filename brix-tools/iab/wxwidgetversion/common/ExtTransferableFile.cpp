@@ -1,7 +1,9 @@
-//#include "stdafx.h"
+#include <cstdio>
 #include "LucidConstants.h"
 #include "ExtTransferableFile.h"
-#define sprintf_s(buffer, buffer_size, stringbuffer, number) (sprintf(buffer, stringbuffer, number))
+
+
+//#define sprintf_s(buffer,buffer_size,stringbuffer,number) sprintf(buffer,stringbuffer,number)
 
 ExtTransferableFile::ExtTransferableFile(void){
 	m_csTargetFileName = "";
@@ -28,11 +30,11 @@ LucidErrEnum ExtTransferableFile::setTargetFileName(const int &fileStemNumber)
 	INXString cStr1;
 	char buffer[FILEBUFFER_SIZE];
 	// 1st the number -count part of the file.
-	sprintf_s( buffer, FILEBUFFER_SIZE, "%07d", fileStemNumber  );
+	std::snprintf( buffer, FILEBUFFER_SIZE, "%07d", fileStemNumber  );
 	cStr1 = buffer;
 
 	// Now build up to the actual target filename
-	cStr1 = m_csFilePrefix + cStr1 + m_csFileExtension;
+	cStr1 = (INXString) (m_csFilePrefix + cStr1 + m_csFileExtension);
 	m_csTargetFileName = cStr1;
 	return kErr_NoErr;
 }

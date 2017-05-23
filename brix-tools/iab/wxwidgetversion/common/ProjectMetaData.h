@@ -44,7 +44,7 @@
 #include "GuiWidget.h" // reprsentation of GUI-widget meta data
 
 #include "LucidTypedefs.h" //@todo // definitions useful for brevity
-#include "../Group.h"
+#include "../LucidApplicationBuilder/Group.h"
 #include "LccTimeStamp.h" //@todo
 #include "LccPmdXfers.h" //@todo
 //#include "afxmt.h" //@todo

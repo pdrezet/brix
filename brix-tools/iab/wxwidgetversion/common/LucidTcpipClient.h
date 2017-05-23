@@ -9,7 +9,7 @@
 #include <fstream>
 using namespace std;
 #pragma comment(lib, "ws2_32.lib")
-#include <winsock.h>
+//#include <winsock.h>
 #include "LucidEnums.h"
 #include "LucidConstants.h"
 #include "Porting_Classes/INXString.h"

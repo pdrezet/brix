@@ -1,7 +1,6 @@
 #pragma once
 
 #include "resource1.h"
-#include "afxwin.h"
 #include "EHSInitParams.h"
 
 

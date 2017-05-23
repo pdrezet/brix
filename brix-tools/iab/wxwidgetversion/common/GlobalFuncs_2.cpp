@@ -151,7 +151,7 @@ INXString intToString(const int val)
 	//char buff[BUFFSIZE];
 	//itoa( val, buff, RADIX);
 	INXString buff;
-	buff = buff.Format(wxT("%d"),val);
+	(INXString)buff = (INXString)buff.Format(wxT("%d"),val);
 		
 	return	INXString(buff);
 
@@ -170,12 +170,12 @@ void parseSodlWidgetData( const INXString &fileLine, INXString &widgetTag, INXSt
 	int posnOfSeparatorSpace = widgetTag.Find(INXString(" "));
 
 	// get the characters of the widget tag (ie up to, not including, the space).
-	widgetTag = widgetTag.Left(posnOfSeparatorSpace);
+	(INXString)widgetTag = (INXString)widgetTag.Left(posnOfSeparatorSpace);
 
 	// Now get the target file name.
 
 	int length = targetFileName.GetLength();
-	targetFileName = targetFileName.Right(length-posnOfSeparatorSpace-1);
+	(INXString)targetFileName = (INXString)(targetFileName.Right(length-posnOfSeparatorSpace-1));
 
 	return;
 
@@ -196,7 +196,7 @@ int parseLines( INXString &csTextBlock, std::list<INXString> &rLines )
 	int charPos = csTextBlock.Find('\n');
 	int len = csTextBlock.GetLength();
 	while(charPos == 0){
-		csTextBlock = csTextBlock.Right(len-1);
+		(INXString)csTextBlock = (INXString)csTextBlock.Right(len-1);
 		charPos = csTextBlock.Find('\n');
 		len = csTextBlock.GetLength();
 	}
@@ -215,8 +215,8 @@ int parseLines( INXString &csTextBlock, std::list<INXString> &rLines )
 		while( charPos != -1 ){
 
 			// The \n is in the middle somewhere - get the left-most substring
-			rLines.push_back(csTextBlock.Left(charPos+1) );
-			csTextBlock = csTextBlock.Right(csTextBlock.GetLength() - 1 - charPos);
+			rLines.push_back((INXString)(csTextBlock.Left(charPos+1)) );
+			(INXString)csTextBlock = (INXString)csTextBlock.Right(csTextBlock.GetLength() - 1 - charPos);
 
 			charPos = csTextBlock.Find('\n');
 			len = csTextBlock.GetLength();

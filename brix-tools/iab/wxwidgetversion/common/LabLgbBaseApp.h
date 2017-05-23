@@ -1,5 +1,5 @@
 #pragma once
-#include "afxwin.h"
+//#include "afxwin.h"
 #include "LucidEnums.h"
 #include "ProjectMetaData.h"
 #include "../LucidApplicationBuilder/Project.h"

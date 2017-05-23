@@ -106,9 +106,10 @@
     #include <windowsx.h>
 #endif
 
-//#if !defined __WXWINCE__ && !defined NEED_PBT_H
-//   #include <pbt.h>
-//#endif
+// inx - the following was commented out for the windows build apparently
+#if !defined __WXWINCE__ && !defined NEED_PBT_H
+    #include <pbt.h>
+#endif
 
 #if defined(__WXWINCE__)
     #include "wx/msw/wince/missing.h"

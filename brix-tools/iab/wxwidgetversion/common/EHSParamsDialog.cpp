@@ -1,15 +1,15 @@
 // EHSParamsDialog.cpp : implementation file
 //
 
-#include "stdafx.h"
 #include "EHSParamsDialog.h"
 
 
 // EHSParamsDialog dialog
 
+/*
 IMPLEMENT_DYNAMIC(EHSParamsDialog, CDialog)
 
-EHSParamsDialog::EHSParamsDialog(EHSInitParams* pEHSInitParams, CWnd* pParent /*=NULL*/)
+EHSParamsDialog::EHSParamsDialog(EHSInitParams* pEHSInitParams, CWnd* pParent / *=NULL* /)
 	: CDialog(EHSParamsDialog::IDD, pParent)
 	, nHasFrame(0)
 	, nZOrder(0)
@@ -25,10 +25,14 @@ EHSParamsDialog::EHSParamsDialog(EHSInitParams* pEHSInitParams, CWnd* pParent /*
 	_pEHSInitParams = pEHSInitParams;
 }
 
+*/
+
 EHSParamsDialog::~EHSParamsDialog()
 {
 }
 
+
+/*
 void EHSParamsDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
@@ -55,6 +59,8 @@ BEGIN_MESSAGE_MAP(EHSParamsDialog, CDialog)
 	ON_BN_CLICKED(IDC_RADIO_NORMAL2, &EHSParamsDialog::OnBnClickedRadioNormal2)
 	ON_BN_CLICKED(IDC_RADIO_BOTTOM2, &EHSParamsDialog::OnBnClickedRadioBottom2)
 END_MESSAGE_MAP()
+
+*/
 
 
 BOOL EHSParamsDialog::OnInitDialog() 

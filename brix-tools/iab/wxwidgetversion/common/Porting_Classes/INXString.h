@@ -7,6 +7,10 @@
 #include <algorithm>
 using namespace std;
 
+// some temporary porting for gcc
+#define strcpy_s(dst, len, src ) strncpy(dst, src, len )
+#define strtok_s(str, token, a) strtok(str, token) // todo not so safe - use C11 version !!
+
 class INXString: public wxString{
 
 public:
@@ -24,7 +28,8 @@ public:
 	};
 	INXString(wxString &str):wxString(str){
 	};
-	INXString(const char *s): wxString(s){	
+
+	INXString(const char *s): wxString((const unsigned char *)s){
 	};
 	//copy constructor
 	INXString(const char &c){

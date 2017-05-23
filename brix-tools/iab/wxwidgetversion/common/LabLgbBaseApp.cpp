@@ -1,4 +1,4 @@
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "../common/LabLgbBaseApp.h"
 #include "../common/LucidConstants.h"
 #include "../common/ProjectMetaData.h"
@@ -9,8 +9,12 @@
 #include "../common/TgtTransProgDlog.h"
 #include "../common/GlobalFuncs_1.h"
 #include "../common/GlobalFuncs_2.h"
-#include "LgbIconDataStrucs.h"
-#include "TransferErrorDlog.h"
+
+#include "lgbicondatastrucs.h"
+
+
+//todo #include "TransferErrorDlog.h"
+
 #include "libxml/xmlreader.h"
 #include "LucidRegAccess.h"
 #include "../common/EHSParamsDialog.h"
