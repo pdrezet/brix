@@ -6,7 +6,9 @@
 #include "../LucidApplicationBuilder/FileOperations.h"
 #include "../common/LucidEnums.h"
 #include "../common/LucidTcpipClient.h"
-#include "../common/TgtTransProgDlog.h"
+
+// todo #include "../common/TgtTransProgDlog.h"
+
 #include "../common/GlobalFuncs_1.h"
 #include "../common/GlobalFuncs_2.h"
 
@@ -17,10 +19,10 @@
 
 #include "libxml/xmlreader.h"
 #include "LucidRegAccess.h"
-#include "../common/EHSParamsDialog.h"
+//#include "../common/EHSParamsDialog.h"
 
 #include <sys/stat.h>
-#include <afxadv.h>
+
 #include <cassert>
 #include <curl/curl.h>
 
@@ -36,8 +38,8 @@
 #define EHSGRAPHICS_HASFRAME "hasFrame"
 #define EHSGRAPHICS_ZORDER "zorder"
 
-CTgtTransProgDlog * CLabLgbBaseApp::c_pTgtTransProgressDlog;
-CTransferErrorDlog * CLabLgbBaseApp::c_pTgtTransErrorDlog;
+// todo CTgtTransProgDlog * CLabLgbBaseApp::c_pTgtTransProgressDlog;
+// todo CTransferErrorDlog * CLabLgbBaseApp::// todo c_pTgtTransErrorDlog;
 
 bool CLabLgbBaseApp::c_bSendAllToTargetHasOccurred;
 Log CLabLgbBaseApp::c_Log;
@@ -58,10 +60,10 @@ CLabLgbBaseApp::CLabLgbBaseApp(void)
 
 	// set the current working directory - needed by WINE to start EHS using shellExecute
 	INXString baseDir;
-	CLabLgbBaseApp *pApp = ( CLabLgbBaseApp * ) AfxGetApp();
-	pApp->GetInstallationBaseDir(baseDir);	//base dir is something like C:/Program Files/inx/tools (whereever the iab exe is being run from)
-	SetCurrentDirectory(baseDir);
-//	AfxMessageBox("base dir:" + baseDir); 
+	//CLabLgbBaseApp *pApp = ( CLabLgbBaseApp * ) AfxGetApp();
+	//pApp->GetInstallationBaseDir(baseDir);	//base dir is something like C:/Program Files/inx/tools (whereever the iab exe is being run from)
+	//SetCurrentDirectory("./"); // todo
+//	INX_MessageBox("base dir:" + baseDir);
 
 
 	// determine which OS we are installed in - windows or linux
@@ -72,9 +74,9 @@ CLabLgbBaseApp::CLabLgbBaseApp(void)
 	// stat returns -1 if fails, 0 otherwise
 	if (stat(testPath,&xFileInfo) == -1) {
 		isInstalledInWindows = true;		
-//		AfxMessageBox("Can't open file for reading :" + testPath + "\nRunning in Windows OS");
+//		INX_MessageBox("Can't open file for reading :" + testPath + "\nRunning in Windows OS");
 //	} else {
-//		AfxMessageBox("Found file :" + testPath + "\nRunning in Linux OS");
+//		INX_MessageBox("Found file :" + testPath + "\nRunning in Linux OS");
 	}
 	//@todo - implement some code to distinguish between wine under Linux from wine under MAC OS
 	// this means we have a three ways of running the tools:
@@ -90,7 +92,7 @@ CLabLgbBaseApp::CLabLgbBaseApp(void)
 CLabLgbBaseApp::~CLabLgbBaseApp(void)
 {
 	// Winsock dll cleanup
-	WSACleanup();
+	//WSACleanup();
 }
 
 /**
@@ -99,18 +101,19 @@ CLabLgbBaseApp::~CLabLgbBaseApp(void)
  */
 double CLabLgbBaseApp::MyGetFreeDiskSpaceMB()
 {	
-	ULARGE_INTEGER freeBytes;
-	ULARGE_INTEGER totalBytes;
-	ULARGE_INTEGER totalFreeBytes;
-	BOOL succ = false;
+	unsigned long long int freeBytes;
+	unsigned long long int totalBytes;
+	unsigned long long int totalFreeBytes;
+	bool succ = false;
 
 	INXString baseDir;
 	GetInstallationBaseDir(baseDir);	//base dir is where the inx exe is being run from
-
-	succ = GetDiskFreeSpaceEx(baseDir, &freeBytes, &totalBytes, &totalFreeBytes);
+#ifdef _WINDOWS_ONLY_TODO
+	//succ = GetDiskFreeSpaceEx(baseDir, &freeBytes, &totalBytes, &totalFreeBytes);
 //	double dUserFreeSpace = 9.31322575e-10;	// convert bytes into gigabytes
 	double dUserFreeSpace = 9.53674316e-7; // convert bytes to megabytes
 	dUserFreeSpace *= (double) freeBytes.QuadPart;
+#endif
 
 /*
 	INXString strValue,strInt, strDecimal;
@@ -121,21 +124,21 @@ double CLabLgbBaseApp::MyGetFreeDiskSpaceMB()
 
 	INXString strFinalVal;
 	strFinalVal.Format("%s.%s",strInt,strDecimal);
-	AfxMessageBox("user free MB: " + strFinalVal);
+	INX_MessageBox("user free MB: " + strFinalVal);
 */
-	return dUserFreeSpace;
+	return -1.0;// todo dUserFreeSpace;
 }
 
 
 void CLabLgbBaseApp::InitialiseWinsock()
 {	
 	ltsStatusType=LTS_STATUS_OK;
-	WSADATA wsaData;
-	int iResult = WSAStartup(MAKEWORD(2,2), &wsaData );
-	if ( iResult != NO_ERROR )
-	{
-		ltsStatusType=LTS_STATUS_FAIL;
-	}
+	//WSADATA wsaData;
+	//int iResult = WSAStartup(MAKEWORD(2,2), &wsaData );
+	//if ( iResult != NO_ERROR )
+	//{
+	//	ltsStatusType=LTS_STATUS_FAIL;
+	//}
 }
 
 
@@ -181,7 +184,7 @@ void CLabLgbBaseApp::getEHSParamsFromFile()
 
 			while (ret == 1) {
 				name = (char*) xmlTextReaderConstName(reader); // This is dealoocated with reader  -don't deallocate!
-	//			AfxMessageBox(name);
+	//			INX_MessageBox(name);
 
 				// if this is a node end type, then skip this node
 				if (xmlTextReaderNodeType(reader) == NODE_TYPE_END_ELEMENT) {
@@ -245,13 +248,13 @@ void CLabLgbBaseApp::getEHSParamsFromFile()
 		} else {
 			// write defaults to file
 			//todo - we want to show this sort of message in the error console when it is implemented instead of the first thing the user sees when they start IAB
-	//        AfxMessageBox("Unable to open file " + csEHSParamFilePath + ".\nUsing defaults for EHS initialisation parameters");
+	//        INX_MessageBox("Unable to open file " + csEHSParamFilePath + ".\nUsing defaults for EHS initialisation parameters");
 
 			FILE* pFile;
-			errno_t error;
 
-			error=fopen_s(&pFile,csEHSParamFilePath,"w");
-			if (error == 0) {
+
+			pFile=fopen(csEHSParamFilePath,"w");
+			if (pFile != 0) {
 				fprintf(pFile,"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 				fprintf(pFile,"<graphics>\n");
 				fprintf(pFile,"<initialPosition>\n");
@@ -278,12 +281,12 @@ void CLabLgbBaseApp::getEHSParamsFromFile()
 
 
 
-BOOL CLabLgbBaseApp::CheckExecutableFolderContextIsOk() 
+bool CLabLgbBaseApp::CheckExecutableFolderContextIsOk()
 {
 
-	BOOL retVal = false;
+	bool retVal = false;
 
-	INXString baseDir;
+	INXString baseDir="";
 	GetInstallationBaseDir(baseDir);
 
 	CFileOperation fo;
@@ -295,13 +298,13 @@ BOOL CLabLgbBaseApp::CheckExecutableFolderContextIsOk()
 	// in LucidConstants.h haven't been set
 	// at this point!
 
-	int result = fo.CheckPath( baseDir + "\\BMP"  );
+	int result = fo.CheckPath( (INXString)(baseDir + (INXString)"\\BMP")  );
 	if(result != PATH_IS_FOLDER) return false;
 
-	result = fo.CheckPath( baseDir + "\\IDF"  );
+	result = fo.CheckPath( (INXString)(baseDir + "\\IDF" ) );
 	if(result != PATH_IS_FOLDER) return false;
 
-	result = fo.CheckPath( baseDir + "\\temp"  );
+	result = fo.CheckPath( (INXString)(baseDir + "\\temp" )  );
 	if(result != PATH_IS_FOLDER) return false;
 
 	return true;
@@ -309,7 +312,7 @@ BOOL CLabLgbBaseApp::CheckExecutableFolderContextIsOk()
 }
 
 
-BOOL CLabLgbBaseApp::GetInstallationBaseDir( INXString &installationBaseDir ) 
+bool CLabLgbBaseApp::GetInstallationBaseDir( INXString &installationBaseDir )
 {
 
 	//TCHAR test1[PATHBUFFER_SIZE];
@@ -325,7 +328,7 @@ BOOL CLabLgbBaseApp::GetInstallationBaseDir( INXString &installationBaseDir )
 	GetExecutableName( choppable); // Should now have full path to LucidDiddlyDo.exe file.
 
 	int dumPos = choppable.Find( "\\bin" );
-	choppable = choppable.Left(dumPos);
+	choppable = (INXString)choppable.Left(dumPos);
 
 	char zappedCopy[PATHBUFFER_SIZE];
 
@@ -343,10 +346,7 @@ BOOL CLabLgbBaseApp::GetInstallationBaseDir( INXString &installationBaseDir )
 
 void CLabLgbBaseApp::GetExecutableName(INXString & execName)
 {
-
-	LPTSTR test1 = GetCommandLine();
-
-	execName = test1;
+#ifdef __INX_NOT_DONE_YET
 
 	// remove all leading quotes and white spaces:
 	while( execName.FindOneOf(" \"") == 0 ){
@@ -370,6 +370,9 @@ void CLabLgbBaseApp::GetExecutableName(INXString & execName)
 	if(pos != -1){
 		execName = execName.Left(pos);
 	}
+#else
+	execName="NOT_IMPLEMENTED";
+#endif
 
 	return;
 }
@@ -422,13 +425,13 @@ LucidErrEnum CLabLgbBaseApp::openDocInBackground(
 
 	GetInstallationBaseDir(baseDir);
 
-	INXString fullManualFilePath = baseDir + MANUALSDIR + docToBeOpened;
+	INXString fullManualFilePath = "ToDo"; //todo (INXString)(baseDir + (INXString)MANUALSDIR) + (INXString)docToBeOpened;
 	fullManualFilePath = cloneBackSlashes( fullManualFilePath );
 
 	// Put proj file in quotes so a path with a spaces gets treated as a single arg.
 	// fullProjFilePath = "\"" + fullProjFilePath + "\"";
-
-	HINSTANCE hInst = ShellExecute(
+	/* todo HINSTANCE hInst =
+			ShellExecute(
 		NULL, 
 		"open", //appExecName, 
 		//"C:\\ess2_source\\main_branch3\\dist\\manuals\\d.pdf", //
@@ -436,7 +439,7 @@ LucidErrEnum CLabLgbBaseApp::openDocInBackground(
 		NULL,
 		NULL, 
 		SW_SHOW );
-
+*/
 
 	return kErr_NoErr;
 }
@@ -444,6 +447,9 @@ LucidErrEnum CLabLgbBaseApp::openDocInBackground(
 void CLabLgbBaseApp::addProjectToMRUList(INXString csProjectPathName)
 {
 	// Remove .prg from MRU file list
+#ifndef __INX_NOT_DONE_YET
+	INX_MessageBox("Recent list Feature not implemented");
+#else
 	for(int i=0;i < this->m_pRecentFileList->GetSize();i++)	{
 		INXString strFileName(this->m_pRecentFileList->m_arrNames[i]);
 		if (strFileName.Right(4) != ".lpj") {
@@ -452,6 +458,7 @@ void CLabLgbBaseApp::addProjectToMRUList(INXString csProjectPathName)
 	}
 	// add project path name to MRU list
 	this->m_pRecentFileList->Add(csProjectPathName);
+#endif
 }
 
 LucidErrEnum CLabLgbBaseApp::getActiveImages(ProjectMetaData *pProjMetaData, std::set< INXString > &vImageNames )
@@ -542,24 +549,24 @@ void CLabLgbBaseApp::transferToTarget(const bool &updatedOnly)
 	gbUpdatedOnly = updatedOnly;
 	gpProject = m_pProject;
 
-	Sleep(50);
+	usleep(50);
 
 	giFilesToBeTransferred = copyTransferrablesToExports( m_pProjMetaData, updatedOnly, false );
 /*
 	char* res;
 	sprintf(res, "%d", giFilesToBeTransferred);
-	AfxMessageBox("nFilesToGo:" + INXString(res));
+	INX_MessageBox("nFilesToGo:" + INXString(res));
 */
 
 	//LucidErrEnum err = m_pProjMetaData->getProjectDir(gcsProjDir);
 	//assert( kErr_NoErr == err );
 	gpProjMetaData = m_pProjMetaData;
 
-	AfxBeginThread(transferToTargetThread, this);
+	// todo AfxBeginThread(transferToTargetThread, this);
 
 }
 
-UINT CLabLgbBaseApp::transferToTargetThread( LPVOID ptr ) 
+UINT CLabLgbBaseApp::transferToTargetThread( void * ptr )
 {
 	if (!transferExportsToTarget( gpProjMetaData, giFilesToBeTransferred )) {
 		// LAB
@@ -571,13 +578,16 @@ UINT CLabLgbBaseApp::transferToTargetThread( LPVOID ptr )
 			c_bSendAllToTargetHasOccurred = c_bSendAllToTargetHasOccurred || !gbUpdatedOnly;
 		}
 	}
+#ifdef __INX_DONE_THIS
 	c_pTgtTransProgressDlog->ShowWindow( SW_HIDE );
+#endif
 
 	return 0;
 }
 
-UINT CLabLgbBaseApp::showTransferDialogThread( LPVOID ptr ) 
+UINT CLabLgbBaseApp::showTransferDialogThread( void * ptr )
 {
+#ifdef __INX_DONE_THIS
 	INXString *cs = ( INXString * )ptr;
 	c_pTgtTransProgressDlog->setPromptOverall( *cs );
 	c_pTgtTransProgressDlog->ShowWindow( SW_NORMAL );
@@ -587,6 +597,7 @@ UINT CLabLgbBaseApp::showTransferDialogThread( LPVOID ptr )
 	c_pTgtTransProgressDlog->UpdateWindow();
 	c_pTgtTransProgressDlog->RedrawWindow();
 	delete cs;
+#endif
 	return 0;
 }
 
@@ -594,6 +605,8 @@ int CLabLgbBaseApp::copyTransferrablesToExports( ProjectMetaData *pProjMetaData,
 												 const bool &updatedOnly, const bool &bAppUpload
 												 ) 
 {
+
+#ifdef __INX_DONE_THIS
 	INXString csFileName, csFileExt;
 
 	assert(pProjMetaData->isLocked() );
@@ -651,7 +664,7 @@ int CLabLgbBaseApp::copyTransferrablesToExports( ProjectMetaData *pProjMetaData,
 	// the 'assert' below.
 
 	CFileFind ff;
-	BOOL bRes;
+	bool bRes;
 	int nFiles = 0;
 
 	bRes = ff.FindFile( projDir + EXPORTDIR + "*.txt" );
@@ -722,6 +735,9 @@ int CLabLgbBaseApp::copyTransferrablesToExports( ProjectMetaData *pProjMetaData,
 	//pProjMetaData->releaseLock();
 
 	return vTransferData.size();
+#else
+	return -1;
+#endif
 
 }
 
@@ -757,7 +773,7 @@ void CLabLgbBaseApp::LoadFontInfFromGuiFile( const INXString &layoutName , std::
 	parseGuiFile( layoutName, textIcons, patchIcons, imageIcons, vTextStyles );
 
 	for(size_t i=0;i<textIcons.size();i++)
-		vFontNames.insert( textIcons[i].csFont + BDF_FILE_EXTENSION );
+		vFontNames.insert((INXString)( textIcons[i].csFont + BDF_FILE_EXTENSION ) );
 }
 
 void CLabLgbBaseApp::translateGuiFile( 
@@ -777,11 +793,11 @@ void CLabLgbBaseApp::translateGuiFile(
 
 	if( err == PATH_IS_FILE ){
 
-		BOOL canDelete = fo.CanDelete(translatedFullPath);
+		bool canDelete = fo.CanDelete(translatedFullPath);
 
 		if(!canDelete){
 
-			AfxMessageBox( "temp file for tranlation of gui files can't be deleted!" );
+			INX_MessageBox( "temp file for tranlation of gui files can't be deleted!" );
 
 		}else{
 
@@ -830,8 +846,8 @@ void CLabLgbBaseApp::translateGuiFile(
 		targetGuiFile << tIcons[i].bgGreen << ',';
 		targetGuiFile << tIcons[i].bgBlue  << ',';
 
-		pProjMetaData->getTargetFileNameForBdfHostFileName(tIcons[i].csFont + ".bdf", targetFileName);
-		targetGuiFile << (CString)targetFileName << ',';
+		pProjMetaData->getTargetFileNameForBdfHostFileName((INXString)(tIcons[i].csFont + ".bdf"), targetFileName);
+		targetGuiFile << (INXString)targetFileName << ',';
 		targetGuiFile << tIcons[i].leftIndent << ',';
 		targetGuiFile << tIcons[i].rightIndent << ',';
 		targetGuiFile << tIcons[i].topIndent << ',';
@@ -873,10 +889,10 @@ void CLabLgbBaseApp::translateGuiFile(
 			dum += "No target file name found for host bitmap file:\n";
 			dum += iIcons[i].bitmapFileName;
 			dum += "\nPlease report this bug to nCapsa";
-			AfxMessageBox(dum);
+			INX_MessageBox(dum);
 		}
 
-		targetGuiFile << (CString)targetFileName << '\n';
+		targetGuiFile << (INXString)targetFileName << '\n';
 	}
 
 	targetGuiFile.close();
@@ -888,6 +904,8 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 						const int &nFilesToGo
 				) 
 {
+
+#ifdef __INX_DONE_THIS
 	LucidTcpipClient tcpClient;
 	LtsStatusType ltsStatusType;
 	INXString csReply;
@@ -895,7 +913,7 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 	pProjMetaData->getProjectDir(projDir);
 
 	c_pTgtTransProgressDlog->setReset();
-	c_pTgtTransErrorDlog->clearErrors();
+	// todo c_pTgtTransErrorDlog->clearErrors();
 
 	if(nFilesToGo == 0){
 
@@ -927,7 +945,7 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 		// connect to tcpip client
 		if (( ltsStatusType = tcpClient.Connect()) != 0){
 
-			AfxMessageBox("Unable to establish a TCPIP connection.");
+			INX_MessageBox("Unable to establish a TCPIP connection.");
 
 			c_pTgtTransProgressDlog->setReset();
 
@@ -1007,8 +1025,8 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 				tmpList.push_back( " " );
 				tmpList.push_back( "<STARTING NEW TRANSFER>" );
 
-				c_pTgtTransErrorDlog->addErrors( tmpList );
-				c_pTgtTransErrorDlog->ShowWindow( SW_NORMAL );
+				//todo c_pTgtTransErrorDlog->addErrors( tmpList );
+				//todo c_pTgtTransErrorDlog->ShowWindow( SW_NORMAL );
 			}
 
 
@@ -1021,7 +1039,7 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 			OutputDebugString(buff);
 #endif
 
-			BOOL bRes = ff.FindFile( projDir + EXPORTDIR + "*.txt" );
+			bool bRes = ff.FindFile( projDir + EXPORTDIR + "*.txt" );
 
 			while ( bRes && !c_pTgtTransProgressDlog->m_bCancelled && bGotConnection )
 			{
@@ -1059,8 +1077,8 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 
 				//tmpList.push_back("Hong Kong Fuey 1");
 				if( tmpList.size() ){
-					c_pTgtTransErrorDlog->addErrors( tmpList );
-					c_pTgtTransErrorDlog->ShowWindow( SW_NORMAL );
+					// todo c_pTgtTransErrorDlog->addErrors( tmpList );
+					// todo c_pTgtTransErrorDlog->ShowWindow( SW_NORMAL );
 				}
 
 				nFilesGone++;
@@ -1121,8 +1139,8 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 
 			//	tmpList.push_back("Hong Kong Fuey 2");
 				if( tmpList.size() ){
-					c_pTgtTransErrorDlog->addErrors( tmpList );
-					c_pTgtTransErrorDlog->ShowWindow( SW_NORMAL );
+					// todo c_pTgtTransErrorDlog->addErrors( tmpList );
+					// todo c_pTgtTransErrorDlog->ShowWindow( SW_NORMAL );
 				}
 
 				nFilesGone++;
@@ -1182,8 +1200,8 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 
 			
 				if( tmpList.size() ){
-					c_pTgtTransErrorDlog->addErrors( tmpList );
-					c_pTgtTransErrorDlog->ShowWindow( SW_NORMAL );
+					// todo c_pTgtTransErrorDlog->addErrors( tmpList );
+					// todo c_pTgtTransErrorDlog->ShowWindow( SW_NORMAL );
 				}
 
 				nFilesGone++;
@@ -1248,8 +1266,8 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 
 		//		tmpList.push_back("Hong Kong Fuey 3");
 				if( tmpList.size() ){
-					c_pTgtTransErrorDlog->addErrors( tmpList );
-					c_pTgtTransErrorDlog->ShowWindow( SW_NORMAL );
+					// todo c_pTgtTransErrorDlog->addErrors( tmpList );
+					// todo c_pTgtTransErrorDlog->ShowWindow( SW_NORMAL );
 				}
 
 				nFilesGone++;
@@ -1308,8 +1326,8 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 
 			//	tmpList.push_back("Hong Kong Fuey 2");
 				if( tmpList.size() ){
-					c_pTgtTransErrorDlog->addErrors( tmpList );
-					c_pTgtTransErrorDlog->ShowWindow( SW_NORMAL );
+					// todo c_pTgtTransErrorDlog->addErrors( tmpList );
+					// todo c_pTgtTransErrorDlog->ShowWindow( SW_NORMAL );
 				}
 
 				nFilesGone++;
@@ -1366,8 +1384,8 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 
 					//tmpList.push_back("Hong Kong Fuey 1");
 					if( tmpList.size() ){
-						c_pTgtTransErrorDlog->addErrors( tmpList );
-						c_pTgtTransErrorDlog->ShowWindow( SW_NORMAL );
+						// todo c_pTgtTransErrorDlog->addErrors( tmpList );
+						// todo c_pTgtTransErrorDlog->ShowWindow( SW_NORMAL );
 					}
 
 					nFilesGone++;
@@ -1434,8 +1452,8 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 				}
 
 				if( tmpList.size() ){
-					c_pTgtTransErrorDlog->addErrors( tmpList );
-					c_pTgtTransErrorDlog->ShowWindow( SW_NORMAL );
+					// todo c_pTgtTransErrorDlog->addErrors( tmpList );
+					// todo c_pTgtTransErrorDlog->ShowWindow( SW_NORMAL );
 				}
 
 				nFilesGone++;
@@ -1456,7 +1474,7 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 				/*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
 				if (( tcpClient.SendText("R\n")) != 0)
 				{
-					AfxMessageBox("Unable to send Run command over TCP/IP connection.");
+					INX_MessageBox("Unable to send Run command over TCP/IP connection.");
 					tcpClient.DisConnect();
 
 				} else {
@@ -1491,8 +1509,8 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 					}
 
 					if( tmpList.size() ){
-						c_pTgtTransErrorDlog->addErrors( tmpList );
-						c_pTgtTransErrorDlog->ShowWindow( SW_NORMAL );
+						// todo c_pTgtTransErrorDlog->addErrors( tmpList );
+						// todo c_pTgtTransErrorDlog->ShowWindow( SW_NORMAL );
 					}
 				}
 
@@ -1512,6 +1530,9 @@ LucidErrEnum CLabLgbBaseApp::transferExportsToTarget(
 	c_pTgtTransProgressDlog->setReset();
 
 	return kErr_NoErr;
+#else
+	return kErr_ProjectFileNotWritten;
+#endif
 
 }
 
@@ -1519,6 +1540,7 @@ int CLabLgbBaseApp::getOpenDocCount(void)
 {
 
 	int retVal = 0;
+#ifdef __INX_NOT_DONETHIS
 	POSITION templatePos = GetFirstDocTemplatePosition();
 	CDocTemplate *pTemplate = GetNextDocTemplate( templatePos );
 
@@ -1530,6 +1552,9 @@ int CLabLgbBaseApp::getOpenDocCount(void)
 	}
 
 	return retVal;
+#else
+	return -1;
+#endif
 }
 
 
@@ -1549,17 +1574,19 @@ void CLabLgbBaseApp::setProject(  Project *pProject )
 	m_pProject = pProject;
 }
 
-BOOL CLabLgbBaseApp::InitInstance()
+bool CLabLgbBaseApp::InitInstance()
 {
-	return CWinApp::InitInstance();
+	return true; // todo CWinApp::InitInstance();
 }
 
 void CLabLgbBaseApp::showTransferDialog( const bool & bVisible )
 {
+#ifdef __INX_DONE_THIS
 	if (bVisible)
 		c_pTgtTransProgressDlog->ShowWindow( SW_NORMAL );
 	else
 		c_pTgtTransProgressDlog->ShowWindow( SW_HIDE );
+#endif
 
 }
 
@@ -1571,7 +1598,7 @@ void CLabLgbBaseApp::LoadToolVec()
 	pair<INXString, INXString> prToolPair;
 
 	GetInstallationBaseDir(csInstallDir);
-	csToolsFilePath = csInstallDir + LUCID_EXECUTABLES_DIR + "\\" + TOOLSFILE;
+	csToolsFilePath = (INXString)(csInstallDir + (INXString)LUCID_EXECUTABLES_DIR + (INXString)"\\" + (INXString)TOOLSFILE);
 	GetIniKeys("tools", csToolsFilePath, vToolKeysVec);
 
 	for (size_t i=0; i<vToolKeysVec.size(); i++) {
@@ -1626,9 +1653,9 @@ bool CLabLgbBaseApp::isConnectionToEHS(void) {
 bool CLabLgbBaseApp::startEHS(bool aboutToSendAllSODL){
 	bool success = false;
 	bool ehsRunning = isConnectionToEHS();
-
+#ifdef __INX_DONE_THIS
 	if (!ehsRunning) {
-//		AfxMessageBox("EHS Not Runing"); 
+//		INX_MessageBox("EHS Not Runing");
 		// only try and start EHS if locally hosted and know its local path
 		if ((csCurrentTarget == REG_TARGET_LOCATION_DATA_LOCAL) && isEHSLocalInstallPathKnown) {			
 //			HINSTANCE h = ShellExecute(NULL, "open", "/bin/bash ./workspace/INX/TARGET_TREES/ehs_env-linux_x86_gtk/bin/run_ehs.sh NO_RESTART", NULL, NULL, SW_SHOW);
@@ -1638,7 +1665,7 @@ bool CLabLgbBaseApp::startEHS(bool aboutToSendAllSODL){
 			// use base dir to get install path 
 			INXString baseDir;
 			GetInstallationBaseDir(baseDir);	//base dir is something like C:/Program Files/inx/tools (whereever the iab exe is being run from)
-//			AfxMessageBox("base dir:" + baseDir); 
+//			INX_MessageBox("base dir:" + baseDir);
 
 
 			// if we are about to send SODL after start EHS then delete any old SODL first (don't care whether it exists or not try anyway)
@@ -1698,12 +1725,12 @@ bool CLabLgbBaseApp::startEHS(bool aboutToSendAllSODL){
 					csEHSExePath = csEHSExePath + cPath + "\" NO_RESTART LIB_HOST";
 					h = ShellExecute(NULL, "open", csEHSExePath, NULL, NULL,
 							SW_SHOW);// SW_HIDE or SW_SHOW, neither show a dos box before EHS starts
-					//				AfxMessageBox("path:" + csEHSExePath);
+					//				INX_MessageBox("path:" + csEHSExePath);
 				}
 			}
 
 			if ((UINT)h <= 32) {
-				AfxMessageBox("Failed to start EHS,\nerror code: " + (UINT)h);
+				INX_MessageBox("Failed to start EHS,\nerror code: " + (UINT)h);
 			} else {
 				//@todo what we need is a new variable to send the bash script that starts EHS telling it to not load old SODL when we are starting EHS locally from IAB/LGB
 
@@ -1715,13 +1742,13 @@ bool CLabLgbBaseApp::startEHS(bool aboutToSendAllSODL){
 					if (success) break;
 				}
 				if (!success) {
-					AfxMessageBox("Failed to start EHS, unknown error");
+					INX_MessageBox("Failed to start EHS, unknown error");
 				}
 			}
 		} else if (csCurrentTarget == REG_TARGET_LOCATION_DATA_LOCAL) {
-			AfxMessageBox("EHS not installed in a known location and unable to connect to local EHS over TCPIP connection,\nEHS cannot be started or restarted.");
+			INX_MessageBox("EHS not installed in a known location and unable to connect to local EHS over TCPIP connection,\nEHS cannot be started or restarted.");
 		} else {
-			AfxMessageBox("Unable to connect to remote EHS over TCPIP connection,\nEHS cannot be started or restarted.");
+			INX_MessageBox("Unable to connect to remote EHS over TCPIP connection,\nEHS cannot be started or restarted.");
 		}
 	} else {
 		// EHS is already running
@@ -1734,7 +1761,7 @@ bool CLabLgbBaseApp::startEHS(bool aboutToSendAllSODL){
 			if (( ltsStatusType = tcpClient.Connect()) == 0) {
 				// - reload EHS
 				if (( tcpClient.SendText("F\nR\n")) != 0)	{
-					AfxMessageBox("Could not send command to restart.\nUnable to send command over TCPIP connection.");
+					INX_MessageBox("Could not send command to restart.\nUnable to send command over TCPIP connection.");
 				}
 				// tidy up, close the port at this end
 				tcpClient.DisConnect();
@@ -1752,12 +1779,16 @@ bool CLabLgbBaseApp::startEHS(bool aboutToSendAllSODL){
 //	HINSTANCE h = ShellExecute(NULL, "open", "wineconsole cmd /c ./workspace/INX/TARGET_TREES/ehs_env-linux_x86_gtk/bin/run_ehs.sh NO_RESTART", NULL, NULL, SW_SHOW);
 
 	return success;
+#else
+	return false;
+#endif
 }
 
 void CLabLgbBaseApp::openEHSInitParamsDialog(){
 	//@todo - profiles need to be supported to show init params for different target types
 
 	EHSInitParams * pParams = pEHSInitParams;
+#ifdef __INX_DONE_THIS
 	EHSParamsDialog paramDlg(pParams);
 
 	
@@ -1790,7 +1821,7 @@ void CLabLgbBaseApp::openEHSInitParamsDialog(){
 
 		error=fopen_s(&pFile,csEHSParamFilePath,"w");
 		if (error!=0) {             
-	        AfxMessageBox("Unable to create file " + csEHSParamFilePath);
+	        INX_MessageBox("Unable to create file " + csEHSParamFilePath);
 		} else {
 			fprintf(pFile,"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 			fprintf(pFile,"<graphics>\n");
@@ -1813,4 +1844,7 @@ void CLabLgbBaseApp::openEHSInitParamsDialog(){
 		}
 
 	}
+#else
+	INX_MessageBox("EHS Settings box not implemented");
+#endif
 }

@@ -5,17 +5,32 @@
  * @version: $Revision: 000 $
  * @date: $Date: 2007-03-29 $
  */
-#pragma once
+
+#ifndef LUCIDTCPIPCLIENT_H
+#define LUCIDTCPIPCLIENT_H
+
 #include <fstream>
 using namespace std;
 #pragma comment(lib, "ws2_32.lib")
-//#include <winsock.h>
+
+
+
+
+
+#ifdef __WINDOWS_SOCKETS
+#include <winsock.h>
+
+#else
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+//#include <wx/socket.h>
+#endif
+
 #include "LucidEnums.h"
 #include "LucidConstants.h"
 #include "Porting_Classes/INXString.h"
 
-#ifndef LUCIDTCPIPCLIENT_H
-#define LUCIDTCPIPCLIENT_H
 
 class TcpLogger
 {
@@ -47,9 +62,16 @@ class CTgtTransProgDlog;
 class LucidTcpipClient
 {
 private:
-	SOCKET s_Socket;
-	SOCKET s_TempSocket; //needed by AcceptSocket
-	SOCKADDR_IN s_Connection;
+
+#ifdef __WINDOWS_SOCKETS_
+	wxSocketBase s_Socket;
+	wxSocketBase s_TempSocket; //needed by AcceptSocket
+	sockaddr_in s_Connection;  // do we need this with wx-widgets?
+#else
+	int s_Socket;
+	int s_TempSocket; //needed by AcceptSocket
+	sockaddr_in s_Connection;  // do we need this with wx-widgets?
+#endif
 	TcpLogger logger;
 	TcpTestSuite tests;
 	LtsStatusType SendText(char *szText, int size); //handles binary data

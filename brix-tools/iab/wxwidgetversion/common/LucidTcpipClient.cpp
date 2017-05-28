@@ -8,15 +8,20 @@
  */
 //#include "stdafx.h" 
 #include "LucidTcpipClient.h"
+
+
 #ifdef __INX_DONE_TCPDIALOGS
 #include "LucidTcpipClientDlg.h"
 #include "TgtTransProgDlog.h"
 #endif
+
 #include "LucidConstants.h"
 #include "LucidRegAccess.h"
 #include "assert.h"
 #include <string>
 #include <stdio.h>
+
+#include <unistd.h>
 
 #include "Porting_Classes/INXWidgets.h"
 
@@ -98,10 +103,17 @@ LtsStatusType LucidTcpipClient::CreateSocket()
 {
 	LtsStatusType ltsStatusType=LTS_STATUS_OK;
 	s_Socket = socket( AF_INET, SOCK_STREAM, IPPROTO_TCP );
+#ifdef __WINDOWS_SOCKET
 	if (s_Socket == INVALID_SOCKET) {
 		int ErrNum = WSAGetLastError();
 		ltsStatusType = LTS_STATUS_FAIL; //& LTS_STATUS_PERMANENT;
 	}
+#else
+	if (s_Socket == -1 ) {
+			int ErrNum = errno;
+			ltsStatusType = LTS_STATUS_FAIL; //& LTS_STATUS_PERMANENT;
+		}
+#endif
 	s_TempSocket = s_Socket;
 	return ltsStatusType;
 }
@@ -112,10 +124,17 @@ LtsStatusType LucidTcpipClient::ServerConnect()
 	s_Connection.sin_family = AF_INET;
 	s_Connection.sin_addr.s_addr = inet_addr( this->s_csIpAddress );
 	s_Connection.sin_port = htons( this->s_iPort );
+#ifdef __WINDOWS_SOCKETS
 	if (connect( s_Socket, (SOCKADDR*) & s_Connection, sizeof(s_Connection)) == SOCKET_ERROR) {
 		int ErrNum = WSAGetLastError();
 		ltsStatusType = LTS_STATUS_FAIL;
 	}
+#else
+	if (connect( s_Socket,  (struct sockaddr *) &s_Connection, sizeof(s_Connection)) == -1) {
+			int ErrNum = errno;
+			ltsStatusType = LTS_STATUS_FAIL;
+		}
+#endif
 	return ltsStatusType;
 }
 
@@ -124,11 +143,20 @@ LtsStatusType LucidTcpipClient::SetSocketOptions()
 	LtsStatusType ltsStatusType = LTS_STATUS_OK;
 	int timeout = 50;
 	int result = setsockopt(s_Socket, SOL_SOCKET, SO_RCVTIMEO,(char*)&timeout, sizeof(timeout));
+#ifdef __WINDOWS_SOCKETS
 	if (result == SOCKET_ERROR)
 	{
 		int ErrNum = WSAGetLastError();		
 		ltsStatusType = LTS_STATUS_FAIL;
 	}
+#else
+	if (result == -1)
+	{
+		int ErrNum = errno;
+		ltsStatusType = LTS_STATUS_FAIL;
+	}
+#endif
+
 	return ltsStatusType;
 }
 
@@ -234,11 +262,19 @@ LtsStatusType LucidTcpipClient::SendRawData(const char *szSendBuffer, int size)
 {
 	LtsStatusType ltsStatusType = LTS_STATUS_OK;
 	int result = send(s_Socket, szSendBuffer,size, 0);
+
+#ifdef __WINDOWS_SOCKETS
 	if (result == SOCKET_ERROR)
 	{
 		int ErrNum = WSAGetLastError();	
 		ltsStatusType = LTS_STATUS_FAIL;
 	}
+#else
+	if (result == -1)
+		{
+			ltsStatusType = LTS_STATUS_FAIL;
+		}
+#endif
 	return ltsStatusType;
 }
 
@@ -257,10 +293,10 @@ LtsStatusType LucidTcpipClient::RecvData(INXString &csRecvBuffer)
 	int recvBufferLength = TCPIP_BUFFER_SIZE;
 	int result = recv( s_Socket, szReceiveBuffer, recvBufferLength, 0);
 	assert(recvBufferLength >= result);
-	if (result == SOCKET_ERROR)
+	if (result == -1 ) // windows version SOCKET_ERROR)
 	{
-		int ErrNum = WSAGetLastError();
-		if (ErrNum == WSAETIMEDOUT) 
+		int ErrNum = errno; // wnindows version - WSAGetLastError();
+		if (ErrNum == EAGAIN) //WSAETIMEDOUT)
 		{
 			//ltsStatusType = LTS_STATUS_TIMEOUT & LTS_STATUS_TEMPORARY;
 			ltsStatusType = LTS_STATUS_TIMEOUT;
@@ -314,7 +350,7 @@ LtsStatusType LucidTcpipClient::Connect()
 LtsStatusType LucidTcpipClient::DisConnect()
 {
 	this->SendRawData(LucidTcpipClient::szDisconnect,strlen(LucidTcpipClient::szDisconnect));
-	Sleep(200);
+	usleep(200);
 	LtsStatusType ltsStatusType = LTS_STATUS_OK;
 
 	// recommended pattern for gracefull socket closing:
@@ -325,16 +361,19 @@ LtsStatusType LucidTcpipClient::DisConnect()
 	int ret;
 	int size = 1000;
 	char *szRecvBuffer = new char[size];
-	for (UINT i=1; i < 10; i++) {
-		Sleep(100);
+	for (int i=1; i < 10; i++) {
+		usleep(100);
 		ret = recv(s_Socket, szRecvBuffer, size, 0);
 
-		if (ret == SOCKET_ERROR) break; // non-gracefull shutdown
+		if (ret == -1) break;// windows: SOCKET_ERROR) break; // non-gracefull shutdown
 		if (ret == 0) break;	// gracefull shutdown
 	}
 	
-
+#ifdef __WINDOWS_SOCKETS
 	closesocket(s_Socket);
+#else
+	close(s_Socket);
+#endif
 	s_TempSocket = s_Socket;
 	return ltsStatusType;
 }
@@ -520,7 +559,7 @@ LtsStatusType LucidTcpipClient::ReceiveTextLine(INXString &csReceiveText)
 
 		// SDG: store messages not terminated by a newline char, and concatenate them to the next 
 		// received buffer
-		csReceiveText = csTempLineBuffer + csReceiveText;
+		csReceiveText = (INXString)(csTempLineBuffer + csReceiveText);
 
 		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		// Split-up the received text into new-line terminated pieces.
@@ -532,7 +571,7 @@ LtsStatusType LucidTcpipClient::ReceiveTextLine(INXString &csReceiveText)
 		int charPos = csReceiveText.Find('\n');
 		int len = csReceiveText.GetLength();
 		while(charPos == 0){
-			csReceiveText = csReceiveText.Right(len-1);
+			csReceiveText = (INXString)csReceiveText.Right(len-1);
 			charPos = csReceiveText.Find('\n');
 			len = csReceiveText.GetLength();
 		}
@@ -551,8 +590,8 @@ LtsStatusType LucidTcpipClient::ReceiveTextLine(INXString &csReceiveText)
 			// There is at least 1 '\n' present ...
 			if ( charPos!=len-1 ) {
 				// the \n is in the middle somewhere - get the left-most substring
-				csTempLineBuffer = csReceiveText.Right(csReceiveText.GetLength() - 1 - charPos);
-				csReceiveText = csReceiveText.Left( charPos );
+				csTempLineBuffer = (INXString)csReceiveText.Right(csReceiveText.GetLength() - 1 - charPos);
+				csReceiveText = (INXString)csReceiveText.Left( charPos );
 				retVal = LTS_STATUS_TEMPORARY;
 			}
 			else {
@@ -588,7 +627,7 @@ LtsStatusType LucidTcpipClient::ReceiveTextBlock(
 	csReceiveText = "";
 	ltsStatusType = this->RecvData(csReceiveText);	
 
-	csReceiveText = csTempBlockBuffer + csReceiveText;
+	csReceiveText = (INXString)(csTempBlockBuffer + csReceiveText);
 	int charPos;
 
 	if( bGetFirstBlockOnly ){
@@ -618,8 +657,8 @@ LtsStatusType LucidTcpipClient::ReceiveTextBlock(
 
 	if (charPos != -1) {
 		int len = csReceiveText.GetLength();
-		csTempBlockBuffer	= csReceiveText.Right(len - charPos - csDelimToken.GetLength() );
-		csReceiveText		= csReceiveText.Left(charPos + csDelimToken.GetLength() );
+		csTempBlockBuffer	= (INXString)csReceiveText.Right(len - charPos - csDelimToken.GetLength() );
+		csReceiveText		= (INXString)csReceiveText.Left(charPos + csDelimToken.GetLength() );
 
 	} else {
 		csTempBlockBuffer = csReceiveText;
@@ -648,12 +687,12 @@ LtsStatusType LucidTcpipClient::ReceiveTextBlock(INXString &csReceiveText)
 	csReceiveText = "";
 	ltsStatusType = this->RecvData(csReceiveText);	
 
-	csReceiveText = csTempBlockBuffer + csReceiveText;
+	csReceiveText = (INXString)(csTempBlockBuffer + csReceiveText);
 	int charPos = csReceiveText.ReverseFind('\n');
 	if (charPos != -1) {
 		int len = csReceiveText.GetLength();
-		csTempBlockBuffer = csReceiveText.Right(len - 1 - charPos);
-		csReceiveText = csReceiveText.Left(charPos);
+		csTempBlockBuffer = (INXString)csReceiveText.Right(len - 1 - charPos);
+		csReceiveText = (INXString)csReceiveText.Left(charPos);
 	}
 	else {
 		csTempBlockBuffer = csReceiveText;
@@ -768,7 +807,7 @@ LtsStatusType LucidTcpipClient::SendFile(INXString csFilePath, INXString csTarge
 {
 	LtsStatusType ltsStatusType = LTS_STATUS_OK;
 	INXString command;
-	command.Format("L %s %d\n", csTargetFileName, this->FileSize(csFilePath));	
+	command.Format("L %s %d\n", csTargetFileName.c_str(), this->FileSize(csFilePath));
 	if (strstr((char *)csTargetFileName, (char *)"\\"))
 	{
 		INX_MessageBox("SendFile: Target file name without path expected");
@@ -782,7 +821,7 @@ LtsStatusType LucidTcpipClient::SendFile(INXString csFilePath, INXString csTarge
 	}
 	if ( (ltsStatusType = this->SendFileContents(csFilePath)) !=0)
 	{
-		INX_MessageBox("Failed to transfer data file " + csFilePath + ". Stopping application transfer.");
+		INX_MessageBox((INXString)((INXString)"Failed to transfer data file " + (INXString)csFilePath) );//". Stopping application transfer.");
 		this->DisConnect();
 		return ltsStatusType;
 	}
@@ -808,7 +847,7 @@ LtsStatusType LucidTcpipClient::SendFile(INXString csFilePath, INXString csTarge
 
 	LtsStatusType ltsStatusType = LTS_STATUS_OK;
 	INXString command;
-	command.Format("L %s %d\n", csTargetFileName, this->FileSize(csFilePath));	
+	command.Format("L %s %d\n", csTargetFileName.c_str(), this->FileSize(csFilePath));
 	if (strstr((char *)csTargetFileName, (char *)"\\"))
 	{
 		INX_MessageBox("SendFile: Target file name without path expected");
@@ -822,7 +861,7 @@ LtsStatusType LucidTcpipClient::SendFile(INXString csFilePath, INXString csTarge
 	}
 	if ( (ltsStatusType = this->SendFileContents(csFilePath, pDlog)) !=0)
 	{
-		INX_MessageBox("Failed to transfer data file " + csFilePath + ". Stopping application transfer.");
+		INX_MessageBox((INXString)("Failed to transfer data file " + csFilePath + (INXString)". Stopping application transfer."));
 		this->DisConnect();
 		return ltsStatusType;
 	}

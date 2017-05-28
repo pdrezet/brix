@@ -1,4 +1,4 @@
-#include "stdafx.h"
+
 #include "ProjectMetaData.h"
 
 #include "../LucidApplicationBuilder/ProjectDialog.h"
@@ -69,7 +69,7 @@ bool ProjectMetaData::checkProjectFileData(void)
 		assert(kErr_NoErr == err);
 
 		if( tagDat.activeHostFilename == "" ){
-			tagDat.activeHostFilename = GUI_LAYOUT_DEFAULT_FILENAMEPREFIX + tags[i];
+			tagDat.activeHostFilename = (INXString)( (INXString)GUI_LAYOUT_DEFAULT_FILENAMEPREFIX + tags[i]);
 		}
 
 		updateScreenTag( tags[i], tagDat );
@@ -144,7 +144,7 @@ LucidErrEnum ProjectMetaData::folderStructureNotOk() //INXString csProjectDir
 					failDum += m_csProjectDir + SODLDIR;
 					failDum += ".\nThis action failed:\nSeek support from nCapsa";
 
-					AfxMessageBox( failDum ); 
+					INX_MessageBox( failDum );
 
 					keepGoing = false;
 
@@ -160,7 +160,7 @@ LucidErrEnum ProjectMetaData::folderStructureNotOk() //INXString csProjectDir
 					failDum += m_csProjectDir + EXPORTDIR;
 					failDum += ".\nThis action failed:\nSeek support from nCapsa";
 
-					AfxMessageBox( failDum ); 
+					INX_MessageBox( failDum );
 
 					keepGoing = false;
 
@@ -176,7 +176,7 @@ LucidErrEnum ProjectMetaData::folderStructureNotOk() //INXString csProjectDir
 					failDum += m_csProjectDir + EXPORTDIR;
 					failDum += ".\nThis action failed:\nSeek support from nCapsa";
 
-					AfxMessageBox( failDum ); 
+					INX_MessageBox( failDum );
 
 					keepGoing = false;
 
@@ -192,7 +192,7 @@ LucidErrEnum ProjectMetaData::folderStructureNotOk() //INXString csProjectDir
 					failDum += m_csProjectDir + EXPORTDIR;
 					failDum += ".\nThis action failed:\nSeek support from nCapsa";
 
-					AfxMessageBox( failDum ); 
+					INX_MessageBox( failDum );
 
 					keepGoing = false;
 
@@ -204,7 +204,7 @@ LucidErrEnum ProjectMetaData::folderStructureNotOk() //INXString csProjectDir
 					failDum += m_csProjectDir + NLSDIR;
 					failDum += ".\nThis action failed:\nSeek support from nCapsa";
 
-					AfxMessageBox( failDum ); 
+					INX_MessageBox( failDum );
 
 					keepGoing = false;
 				}				
@@ -215,14 +215,14 @@ LucidErrEnum ProjectMetaData::folderStructureNotOk() //INXString csProjectDir
 					failDum += m_csProjectDir + RESOURCEDIR;
 					failDum += ".\nThis action failed:\nSeek support from nCapsa";
 
-					AfxMessageBox( failDum ); 
+					INX_MessageBox( failDum );
 
 					keepGoing = false;
 				}
 			} else {
 
 				// we don't know how to fix the folders - better to bomb out than enter an endless loop.
-				AfxMessageBox("Project has an outdated folder structure,\nattempts to fix which have failed.\nSeek Support from nCapsa");
+				INX_MessageBox("Project has an outdated folder structure,\nattempts to fix which have failed.\nSeek Support from nCapsa");
 				assert(1==0);
 			}
 
@@ -251,14 +251,14 @@ void ProjectMetaData::copyDummyBmp()
 	try {
 
 		INXString installnDir;
-		CLabLgbBaseApp *baseApp = (CLabLgbBaseApp *) AfxGetApp();
+		CLabLgbBaseApp *baseApp = NULL; // todo (CLabLgbBaseApp *) AfxGetApp();
 		baseApp->GetInstallationBaseDir(installnDir);
 
-		INXString sourceDir = installnDir + IMAGEDIR;
+		INXString sourceDir = (INXString)( installnDir + (INXString)IMAGEDIR);
 		INXString sourceFile = ICON_PLACEHOLDER_FILE;
 
-		if( fileOp.CheckPath( sourceDir + sourceFile) != PATH_IS_FILE  ){
-			AfxMessageBox( "Problem with provision of installation 'placeholder' file - seek assistance!" );
+		if( fileOp.CheckPath( (INXString)(sourceDir + (INXString)sourceFile) != PATH_IS_FILE ) ){
+			INX_MessageBox( "Problem with provision of installation 'placeholder' file - seek assistance!" );
 			assert(1==0);
 		}
 
@@ -268,7 +268,7 @@ void ProjectMetaData::copyDummyBmp()
 		INXString destFile = ICON_PLACEHOLDER_FILE;
 
 
-		if( fileOp.CheckPath( destDir + destFile) != PATH_IS_FILE  ){
+		if( fileOp.CheckPath((INXString)( destDir + destFile) ) != PATH_IS_FILE  ){
 			fileOp.CopyFileGood(sourceDir, sourceFile, destDir, destFile );
 		}
 
@@ -277,7 +277,7 @@ void ProjectMetaData::copyDummyBmp()
 		// For some reason, this catch doesn' work, as the handling of the exception's
 		// INXString thows its own exception.
 
-		AfxMessageBox( "Problem with 'placeholder' bitmap - seek assistance!" );
+		INX_MessageBox( "Problem with 'placeholder' bitmap - seek assistance!" );
 		assert(1==0);
 	}
 

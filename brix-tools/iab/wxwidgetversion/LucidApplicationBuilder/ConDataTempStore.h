@@ -8,7 +8,7 @@
 
 #include "../common/LucidEnums.h"
 #include "../common/LucidConstants.h"
-#include "condat.h"
+#include "Condat.h"
 #include "Porting_Classes/INXSize.h"
 #include "Porting_Classes/INXString.h"
 

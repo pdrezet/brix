@@ -1,7 +1,7 @@
 
 IABEXENAME=iAB.exe
 
-IDIR ="./common/:./LucidApplicationBuilder/"
+#IDIR ="./common/:./LucidApplicationBuilder/:./contrib/include"
 
 ifeq ($(origin CC), default)
 CC = g++
@@ -12,14 +12,15 @@ LL = $(CC)
 endif
 
 
-CPPFLAGS:=$(shell ./contrib/wxWidgets-2.8.12/gtk-build-inx/wx-config --cppflags) -std=c++11 -I./common/ -I./LucidApplicationBuilder/
+CPPFLAGS:=$(shell ./contrib/wxWidgets-2.8.12/gtk-build-inx/wx-config --cppflags) -std=c++11 -I./common/ -I./LucidApplicationBuilder/ -I./contrib/include
 ALLCFLAGS=$(CPPFLAGS)
 
 
 
 #@echo $(CPPFLAGS)
 
-LDFLAGS:=$(shell ./contrib/wxWidgets-2.8.12/gtk-build-inx/wx-config --libs)
+LDFLAGS:=$(shell ./contrib/wxWidgets-2.8.12/gtk-build-inx/wx-config --libs) -lGL -L/usr/lib/x86_64-linux-gnu/
+#-L./contrib/wxWidgets-2.8.12/gtk-build-inx/lib/
 
 ODIR=obj
 LDIR =../lib
@@ -37,6 +38,20 @@ DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 # common/HScrollListBox.o \
 # common/TransferErrorDlog.o \
 # common/TransferToTargetDialog.o \
+# common/TgtTransProgDlog.o \
+# common/LucidRegAccess.o \
+#common/LucidTcpipClientDlg.o \
+#LucidApplicationBuilder/ProjectDialog.o \
+#LucidApplicationBuilder/tagdialog.o \
+#common/ResizingDialog.o \
+#common/ScreenTagDescripEditor.o \
+#common/ScreenTagDialog.o \
+#LucidApplicationBuilder/IconParams.o \
+
+#This should be removed common/Trigs.o \
+
+#should do soon
+#common/Markup.o \
 
 
 _OBJ =  common/bmpfile.o \
@@ -58,21 +73,13 @@ common/LabLgbBaseApp.o \
 common/LccPmdXfers.o \
 common/LccTimeStamp.o \
 common/Log.o \
-common/LucidRegAccess.o \
 common/LucidString.o \
 common/LucidTcpipClient.o \
-common/LucidTcpipClientDlg.o \
-common/Markup.o \
 common/ProjectMetaDataChecks.o \
 common/ProjectMetaData.o \
 common/ProjectMetaDataIO.o \
 common/ProjFolderMinder.o \
-common/ResizingDialog.o \
 common/RevisionGuru.o \
-common/ScreenTagDescripEditor.o \
-common/ScreenTagDialog.o \
-common/TgtTransProgDlog.o \
-common/Trigs.o \
 LucidApplicationBuilder/BlockOperations.o \
 LucidApplicationBuilder/ChildFrame.o \
 LucidApplicationBuilder/ComponentMenuItem.o \
@@ -91,7 +98,6 @@ LucidApplicationBuilder/FSM.o \
 LucidApplicationBuilder/FunctionBlockTree.o \
 LucidApplicationBuilder/Group.o \
 LucidApplicationBuilder/IconLines.o \
-LucidApplicationBuilder/IconParams.o \
 LucidApplicationBuilder/LucidApplicationBuilder.o \
 LucidApplicationBuilder/MainFrame.o \
 LucidApplicationBuilder/MyTreeCtrl.o \
@@ -101,9 +107,8 @@ LucidApplicationBuilder/port.o \
 LucidApplicationBuilder/proc_function.o \
 LucidApplicationBuilder/ProjectBar.o \
 LucidApplicationBuilder/Project.o \
-LucidApplicationBuilder/ProjectDialog.o \
-LucidApplicationBuilder/tagdialog.o \
 LucidApplicationBuilder/TypeConversion.o 
+#LucidApplicationBuilder/SODL.o 
 
 OBJ = $(_OBJ)
 #$(patsubst %,$(ODIR)/%,$(_OBJ))
@@ -112,11 +117,11 @@ OBJ = $(_OBJ)
 
 
 all: $(OBJ)
-	$(LL) -o $(IABEXENAME) $^ $(LIBS)
+	$(LL) -o $(IABEXENAME) $^ $(LDFLAGS)
 
 print:
 	@echo $(ALLCFLAGS)
-	@echo $(LIBS)
+	@echo $(LDFLAGS)
 	@echo $(IABEXENAME)
 
 

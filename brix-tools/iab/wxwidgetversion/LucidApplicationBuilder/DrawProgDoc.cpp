@@ -8,9 +8,11 @@ Draw prog data handling class
 
 //#include "stdafx.h"
 #include "DrawProg.h"
-#include "condat.h"
+#include "Condat.h"
 #include "DrawProgView.h"
 #include "DrawProgDoc.h"
+
+#include "Porting_Classes/INXWidgets.h"
 
 //#include "ncftp_functions.h"
 //_CRTIMP int * __cdecl _errno(void);
@@ -142,9 +144,9 @@ void CDrawProgDoc::Serialize(CArchive& ar)
 	}
 }
 #endif
-bool DrawProgDoc::OnOpenDocument(const wxString& filename)
+bool CDrawProgDoc::OnOpenDocument(const INXString& filename_full)
 {
-	INXString filename;
+	INXString filename = filename_full;
 	int len;
 	int response;
 #ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
@@ -163,36 +165,38 @@ bool DrawProgDoc::OnOpenDocument(const wxString& filename)
 
 
 	// Extract filename
-	filename = (INXString)lpszPathName;
+	//filename = (INXString)lpszPathName;
 	//filename = filename.SpanExcluding(".");
 	filename.MakeReverse();
 	filename = filename.SpanExcluding("\\");
 	filename.MakeReverse();
 	// remove .prg to get filename
 	len = filename.GetLength() - 4;
-	filename = filename.Left(len);
+	filename = (INXString)filename.Left(len);
 
-	if (!wxDocument::OnOpenDocument(lpszPathName))
+	if (!wxDocument::OnOpenDocument(filename))
 		return FALSE;
 	
 	// TODO: Add your specialized creation code here
-	POSITION pos = GetFirstViewPosition();
-	DrawProgView* pView = (DrawProgView*) GetNextView(pos);
-	
+	//INXPOSITION pos = GetFirstViewPosition();
+	//DrawProgView* pView = (DrawProgView*) GetNextView(pos);
+
+	DrawProgView* pView = (DrawProgView*)GetFirstView ();
+	/*
 	if (pFrame->m_wndProjectBar.m_cProjTree.openProject) {
 		pProject = pFrame->m_wndProjectBar.m_cProjTree.openProj;
 	}
 	else {
 		pProject = pFrame->m_wndProjectBar.m_cProjTree.GetProjectPtr(pFrame->m_wndProjectBar.m_cProjTree.hSelItem);
 	}
-
+*/
 	// Check Folder Structure
 	INXString csProjDir;
 
 	pProject->pProjMData->initProjFolderMinder(); 
 
 	if(pProject->pProjMData->folderStructureNotOk()){
-		AfxMessageBox("Unable to open this project, because the directory structure is invalid");
+		INX_MessageBox("Unable to open this project, because the directory structure is invalid");
 		return kErr_InvalidFolderStructure;
 	}
 
@@ -200,27 +204,29 @@ bool DrawProgDoc::OnOpenDocument(const wxString& filename)
 
 	// Create DEP, load and initialise
 	pDEP = pProject->AddDEP();
-	pDEP->LoadProg((INXString)lpszPathName);
+	pDEP->LoadProg(filename_full);
 	pDEP->InitTagLists();
 	pDEP->depFilename = filename;
+#ifdef __INX_NOT_DONE_YET
 	// Populate project tree if opening a project. Uses the loaded DEP to populate the tree
 	if (pFrame->m_wndProjectBar.m_cProjTree.openProject) {
 		pFrame->m_wndProjectBar.m_cProjTree.PopulateProjectTree(pDEP->condata, pProject);
 	}
 	pDEP->hItem = pFrame->m_wndProjectBar.m_cProjTree.hSelItem;
+#endif
 
 	// Set the project and DEP pointers in the view
-	pView->pProject = pProject;
+	// todo pView->pProject = pProject;
 	pView->pDEP = pDEP;
-	pView->RedrawWindow();
+	// todo ?? pView->RedrawWindow();
 
 	// Need to initialise undo for case when the view is already open
-	pView->initUndo();
+	// todo pView->initUndo();
 
 	return true;
 }
 
-void DrawProgDoc::OnCloseDocument() 
+bool CDrawProgDoc::OnCloseDocument(void)
 {
 	INXString csProjectName;
 	/* brings up an assertion when a sub-block is modified
@@ -234,7 +240,7 @@ void DrawProgDoc::OnCloseDocument()
 	*/
 
 	// if exiting application then don't close project here
-	if (!((CMainFrame*)AfxGetApp()->m_pMainWnd)->exiting) {
+	if (false) { // todo !((CMainFrame*)AfxGetApp()->m_pMainWnd)->exiting) {
 		if (pDEP && pProject) {
 			// if closing the project top level view close the project
 			pProject->pProjMData->getProjectName(csProjectName);
@@ -245,9 +251,9 @@ void DrawProgDoc::OnCloseDocument()
 					pProject->debug.setView(NULL);
 				}
 				closing = TRUE;
-				pFrame->m_wndProjectBar.m_cProjTree.CloseProject(pDEP->hItem, pProject);
+				// todo pFrame->m_wndProjectBar.m_cProjTree.CloseProject(pDEP->hItem, pProject);
 
-				return;
+				return true;
 			}
 		}
 	}
@@ -264,6 +270,7 @@ void DrawProgDoc::OnCloseDocument()
 	}
 
 	wxDocument::OnCloseDocument();
+	return true; // should this be false?
 }
 #ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 BOOL CDrawProgDoc::OnSaveDocument(LPCTSTR lpszPathName) 

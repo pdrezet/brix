@@ -5,7 +5,7 @@
 #include "DrawProg.h"
 #include "tagdialog.h"
 #include "LucidConstants.h"
-#include "condat.h"
+#include "Condat.h"
 #include <wx/msgdlg.h>
 #include "Resource.h"
 

@@ -75,7 +75,7 @@ protected:
 
 	// Generated message map functions
 	//{{AFX_MSG(Encapsulate)
-	virtual BOOL OnInitDialog();
+	virtual bool OnInitDialog();
 	void OnOK(wxCommandEvent & event);
 	//DECLARE_EVENT_TABLE()
 };

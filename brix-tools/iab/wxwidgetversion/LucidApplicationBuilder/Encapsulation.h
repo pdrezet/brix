@@ -9,7 +9,7 @@
 #pragma once
 */
 #include "Encapsulate.h"
-#include "condat.h"
+#include "Condat.h"
 #include "Porting_Classes/INXObjArray.h"
 //#include "mainFrm.h"
 

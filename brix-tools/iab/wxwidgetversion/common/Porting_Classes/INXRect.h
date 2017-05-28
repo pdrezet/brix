@@ -5,11 +5,14 @@
 #include "INXPoint.h"
 #include "INXSize.h"
 
+
+#ifdef __INX_DONETHIS
 #ifndef max
   #define max(a,b) (((a) > (b)) ? (a) : (b))
 #endif
 #ifndef min
   #define min(a,b) (((a) < (b)) ? (a) : (b))
+#endif
 #endif
 
 class INXRect: public wxRect{
@@ -197,7 +200,7 @@ public:
 		left = x;
 		top = y;
 	};
-	void OffsetRect(INXPoint &pnt){
+	void OffsetRect(const INXPoint &pnt){
 		x += pnt.x;
 		y += pnt.y;
 		left = x;

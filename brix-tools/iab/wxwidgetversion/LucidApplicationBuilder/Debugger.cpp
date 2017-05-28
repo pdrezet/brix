@@ -59,7 +59,7 @@ void DebugThread(void * data) {
 			//dbg->m_RtaTraceSupport.rtaTraceLogFlush();
 			//dbg->setWriteRtaTrace(FALSE);
 		//}
-		Sleep(DEBUG_SLEEP);
+		usleep(DEBUG_SLEEP);
 	}
 	dbg->dbgFinished = TRUE;
 #ifdef __INX_DONE_DEBUGVIEW
@@ -74,8 +74,9 @@ void Debugger::DbgHistStart() {
 	dbgHistory = TRUE;
 	iDbgHistFileNum = 0;
 	char szDbgHistFileNum[128];
-	MSG message;
+
 #ifdef __INX_DONE_DEBUG
+	MSG message;
 	// map the line IDs in the SODL to the lines in the view
 	//*** do we need to do this, since should not be able to do history if not done debug
 	//pProject->WriteSODL(pProject->projectDir + FTPSODL);
@@ -780,10 +781,10 @@ bool Debugger::sendMonitor(bool bOnOff, long iId, INXString csType)
 	INXString csTcpCmd;
 	clearAll=TRUE;
 	if (bOnOff) {
-		csTcpCmd = "=M+" + intToString(iId) + "," + csType + "\n";
+		csTcpCmd = (INXString)("=M+" + intToString(iId) + "," + csType + "\n");
 	}
 	else {
-		csTcpCmd = "=M-" + intToString(iId) + "," + csType + "\n";
+		csTcpCmd = (INXString)("=M-" + intToString(iId) + "," + csType + "\n");
 	}
 
 	if ((tcpClient.SendText(csTcpCmd)) != 0) {

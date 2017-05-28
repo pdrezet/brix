@@ -26,7 +26,7 @@ public:
 	// constructors
 	INXString(): wxString(){
 	};
-	INXString(wxString &str):wxString(str){
+	INXString(const wxString &str):wxString(str){
 	};
 
 	INXString(const char *s): wxString((const unsigned char *)s){

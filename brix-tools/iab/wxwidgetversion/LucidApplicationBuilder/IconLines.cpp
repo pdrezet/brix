@@ -282,7 +282,9 @@ void IconLines::Load(istream * file) {
 	file->getline(temp,254);
 	// Use sscanf instead of the line below to make the read backward compatible
 	//*file >>  temp >> exist >> othericonid >> otherportno >> portType >> hierID >> m_bDbgMonitorSel;
-	sscanf(temp, "%d%d%d%d%d%d", &exist, &othericonid, &otherportno, &portType, &hierID, &m_bDbgMonitorSel);
+	unsigned short temp_short = 0;
+	sscanf(temp, "%d%ld%d%d%ld%hd", &exist, &othericonid, &otherportno, &portType, &hierID, &temp_short);
+	m_bDbgMonitorSel = temp_short;
 
 	if (!exist) return;
 	//points.Add(NULL); //add NULL start point

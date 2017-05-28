@@ -222,7 +222,7 @@
     <ClInclude Include="BlockOperations.h" />
     <ClInclude Include="ChildFrame.h" />
     <ClInclude Include="ComponentMenuItem.h" />
-    <ClInclude Include="condat.h" />
+    <ClInclude Include="Condat.h" />
     <ClInclude Include="Debugger.h" />
     <ClInclude Include="DEP.h" />
     <ClInclude Include="DrawProg.h" />

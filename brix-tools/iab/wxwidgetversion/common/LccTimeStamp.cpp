@@ -34,7 +34,7 @@ void LccTimeStamp::csParse( INXString &cs )
 	sscanf( buff,
 		//(char *)lptStr, 
 		//dum,
-		"%04d-%02d-%02d %02d:%02d:%02d:%09d", 
+		"%04hu-%02hu-%02hu %02hu:%02hu:%02hu:%09lu",
 		&year, &month, &day, &hour, &minute, &second, &fraction );
 		//&ts.year, &ts.month, &ts.day, &ts.hour, &ts.minute, &ts.second, &ts.fraction );
 
@@ -52,7 +52,7 @@ INXString LccTimeStamp::csPrint( )
 							  //const DBTIMESTAMP &ts )
 {
 	char buff[100];
-	sprintf(buff,"%04d-%02d-%02d %02d:%02d:%02d:%03d",
+	sprintf(buff,"%04d-%02d-%02d %02d:%02d:%02d:%03lu",
 		year, month, day, hour, minute, second, fraction/1000000 );
 
 	return INXString(buff);

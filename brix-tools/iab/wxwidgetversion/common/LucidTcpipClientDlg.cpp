@@ -1,7 +1,7 @@
 // LucidTcpipClientDlg.cpp : implementation file
 //
 
-#include "stdafx.h"
+
 #include "LucidTcpipClientDlg.h"
 #include "LucidConstants.h"
 #include "LucidRegAccess.h"

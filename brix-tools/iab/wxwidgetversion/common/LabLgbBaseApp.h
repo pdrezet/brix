@@ -11,10 +11,10 @@
 //class ProjectMetaData;
 #include <set>
 
-class CTgtTransProgDlog;
-class CTransferErrorDlog;
+//class CTgtTransProgDlog;
+//class CTransferErrorDlog;
 
-class CLabLgbBaseApp :  public CWinApp
+class CLabLgbBaseApp //:  public CWinApp
 {
 
 private:
@@ -25,8 +25,8 @@ public:
 	CLabLgbBaseApp(void);
 	~CLabLgbBaseApp(void);
 
-	void CLabLgbBaseApp::InitialiseWinsock();
-	void CLabLgbBaseApp::getEHSParamsFromFile();
+	void InitialiseWinsock();
+	void getEHSParamsFromFile();
 	void setProjMetaData( ProjectMetaData *pVal ); 
 	void setProject(Project *pProject);
 
@@ -34,13 +34,13 @@ public:
 
 	static CTgtTransProgDlog *c_pTgtTransProgressDlog;
 
-	static CTransferErrorDlog *c_pTgtTransErrorDlog;
+	// todo static CTransferErrorDlog *c_pTgtTransErrorDlog;
 
 	void transferToTarget( const bool &updatedOnly );
 
-	static UINT transferToTargetThread( LPVOID ptr ); 
+	static UINT transferToTargetThread( void * ptr );
 
-	static UINT showTransferDialogThread( LPVOID ptr );
+	static UINT showTransferDialogThread( void * ptr );
 
 	void LoadImageInfFromGuiFile( const INXString	&layoutName,
 										std::set<INXString>	&vNames);
@@ -52,11 +52,11 @@ public:
 							const	INXString &translatedFullPath );
 
 
-	virtual BOOL GetInstallationBaseDir( INXString &baseDir );
+	virtual bool GetInstallationBaseDir( INXString &baseDir );
 
 	void GetExecutableName(INXString & execName);
 
-	BOOL CheckExecutableFolderContextIsOk() ;
+	bool CheckExecutableFolderContextIsOk() ;
 
 	LucidErrEnum openDocInBackground(
 					   const LucidManualsEnum manualTypeEnum );
@@ -101,6 +101,6 @@ public:
 	LtsStatusType ltsStatusType;	// tcpip connection status
 
 private:
-	virtual BOOL InitInstance();
+	virtual bool InitInstance();
 
 };

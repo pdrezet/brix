@@ -3,14 +3,17 @@
 //////////////////////////////////////////////////////////////////////
 
 
+#include <fstream>
+#include <stdlib.h>
+
 //#include "DrawProg.h"
-#include "condat.h"
+#include "Condat.h"
 #include "LucidConstants.h" //@todo 
 #include "FileOperations.h" //@todo 
 #include "GlobalFuncs_2.h" //@todo 
 #include "libxml/xmlreader.h" //@todo 
 
-#include <fstream>
+
 using namespace std;
 #include "string.h"
 #include "Porting_Classes/INXObjArray.h"
@@ -124,9 +127,9 @@ void ConData::initBmp(INXPoint _point)
 	CFileOperation fo;
 
 	// don't assume bitmap is in a particular directory, check CDF dir first then IDF
-	bitmappath = workDir + CDFDIR + m_csIconType + wxT(".bmp");
+	bitmappath = (INXString)(workDir + CDFDIR + m_csIconType + (INXString)(".bmp"));
 	if (!fo.CheckPath(bitmappath)) {
-		bitmappath = workDir + BMPDIR + m_csIconType + wxT(".bmp");
+		bitmappath = (INXString)(workDir + BMPDIR + m_csIconType + (INXString)(".bmp"));
 		if (!fo.CheckPath(bitmappath)) {
 			wxMessageBox(wxT("Unable to open ") + bitmappath);
 			return;
@@ -1022,8 +1025,8 @@ void ConData::readFromIDFFile(INXString filepath, INXPoint point) {
 	}
 
 	// Construct which port to extract
-	_itoa_s(iPortNum, cPortNum, 10);
-	portSection = port + cPortNum;
+	sprintf( cPortNum,"%d", iPortNum);
+	portSection = (INXString)(port + cPortNum);
 
 	// Use the port type key to check that a port exists.
 	csPortType = GetIniValue(portSection, KEYPORTTYPE, filepath);
@@ -1114,8 +1117,8 @@ void ConData::readFromIDFFile(INXString filepath, INXPoint point) {
 
 		// Extract next port if it exists
 		iPortNum++;
-		_itoa_s(iPortNum, cPortNum, 10);
-		portSection = port + cPortNum;
+		sprintf(cPortNum,"%d", iPortNum);
+		portSection = (INXString)(port + cPortNum);
 		//bPortVertical = FALSE;
 		//Get next port if it exists
 		csPortType = GetIniValue(portSection, KEYPORTTYPE, filepath);
@@ -1125,8 +1128,8 @@ void ConData::readFromIDFFile(INXString filepath, INXPoint point) {
 
 	// Extract parameter data
 	// Construct which parameter to extract
-	_itoa_s(iParamNum, cParamNum, 10);
-	paramSection = param + cParamNum;
+	sprintf(cParamNum,"%d", iParamNum);
+	paramSection = (INXString)(param + cParamNum);
 
 	// Use the paramName keyword to check that a port exists.
 	paramName = GetIniValue(paramSection, KEYNAME, filepath);
@@ -1142,28 +1145,28 @@ void ConData::readFromIDFFile(INXString filepath, INXPoint point) {
 		INXObjArray<INXString>* enumLabelArr = new INXObjArray<INXString>;
 		if (iDataType == 1) {
 			// Get values
-			_itoa_s(iEnumNum, cEnumNum, 10);
-			enumValKey = KEYENUMVAL + cEnumNum;
+			sprintf(cEnumNum,"%d",iEnumNum);
+			enumValKey = (INXString)(KEYENUMVAL + cEnumNum);
 			enumVal = GetIniValue(paramSection, enumValKey, filepath);
 			while (enumVal != "") {
 				enumValArr->Add(enumVal);
 				// Extract next value if it exists
 				iEnumNum++;
-			    _itoa_s(iEnumNum, cEnumNum, 10);
-				enumValKey = KEYENUMVAL + cEnumNum;
+			    sprintf(cEnumNum, "%d",iEnumNum);
+				enumValKey = (INXString)(KEYENUMVAL + cEnumNum);
 				enumVal = GetIniValue(paramSection, enumValKey, filepath);
 			}
 			// Get Labels
 			iEnumNum = 0;
-			_itoa_s(iEnumNum, cEnumNum, 10);
-			enumLabelKey = KEYENUMLABEL + cEnumNum;
+			sprintf(cEnumNum, "%d",iEnumNum);
+			enumLabelKey = (INXString)(KEYENUMLABEL + cEnumNum);
 			enumLabel = GetIniValue(paramSection, enumLabelKey, filepath);
 			while (enumLabel != "") {
 				enumLabelArr->Add(enumLabel);
 				// Extract next value if it exists
 				iEnumNum++;
-			    _itoa_s(iEnumNum, cEnumNum, 10);
-				enumLabelKey = KEYENUMLABEL + cEnumNum;
+				sprintf(cEnumNum, "%d",iEnumNum);
+				enumLabelKey = (INXString)( KEYENUMLABEL + cEnumNum);
 				enumLabel = GetIniValue(paramSection, enumLabelKey, filepath);
 			}
 		}
@@ -1175,8 +1178,8 @@ void ConData::readFromIDFFile(INXString filepath, INXPoint point) {
 
 		// Extract next parameter if it exists
 		iParamNum++;
-		_itoa_s(iParamNum, cParamNum, 10);
-		paramSection = param + cParamNum;
+		sprintf(cParamNum,"%d",iParamNum);
+		paramSection = (INXString)(param + cParamNum);
 	
 		paramName = GetIniValue(paramSection, KEYNAME, filepath);
 
@@ -1559,7 +1562,7 @@ void ConData::readFromCDFFile(INXString filepath, INXPoint point) {
 
 						ret = xmlTextReaderRead(reader);	// note - once find node, need to read again to access #text element
 						value = (char*) xmlTextReaderConstValue(reader);
-						funcName->SetAtGrow(funcInd, (LPCTSTR) value);
+						funcName->SetAtGrow(funcInd, (char*) value);
 
 						growFunctionArray(funcs, value, iPortType, iFuncArg);
 						funcInd++;
@@ -1621,7 +1624,7 @@ void ConData::readFromCDFFile(INXString filepath, INXPoint point) {
 
 		updateFunctionArg(funcs);
 	} else {
-        printf("Unable to open %s\n", filepath);
+        printf("Unable to open %s\n", filepath.c_str());
     }
 }
 
@@ -1646,9 +1649,9 @@ void ConData::ReadIDFFile(INXString csIconType, INXPoint point) {
 	pos = csIconType.Find(FILE_TYPE_CDF);
 	if (pos == -1) {
 		// Library IDF is now in the 'userdefined' directory
-		filepath = workDir + IDFDIR + csIconType + ".idf.ini";
+		filepath = (INXString)(workDir + IDFDIR + csIconType + ".idf.ini");
 		if (!fo.CheckPath(filepath)) {
-			filepath = workDir + USERDEFDIR + csIconType + ".idf.ini";
+			filepath = (INXString)(workDir + USERDEFDIR + csIconType + ".idf.ini");
 			if (!fo.CheckPath(filepath)) {
 				wxMessageBox("No IDF defined for Component: " + csIconType);
 				return;
@@ -1658,7 +1661,7 @@ void ConData::ReadIDFFile(INXString csIconType, INXPoint point) {
 		readFromIDFFile(filepath, point);
 	} else {
 		// Library CDF
-		filepath = workDir + CDFDIR + csIconType;
+		filepath = (INXString)(workDir + CDFDIR + csIconType);
 		if (!fo.CheckPath(filepath)) {
 // @todo used defined components not implemented yet for CDF file types
 //			filepath = workDir + USERDEFDIR + csIconType + ".idf.ini";
@@ -1745,8 +1748,8 @@ int ConData::In(INXPoint point)  //Is this point in the icon area
 }
 #ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
 void ConData::LoadNewBMP(INXString csIconType) {
-	INXString bitmappath = csIconType + ".bmp";	
-	bitmappath = workDir + BMPDIR + bitmappath;
+	INXString bitmappath = (INXString)(csIconType + ".bmp");
+	bitmappath = (INXString) (workDir + BMPDIR + bitmappath);
 	INXSize tempSize = bitmap.Init(bitmappath);
 	INXPoint _point = rectangle.TopLeft();
 	rectangle = INXRect(_point.x,_point.y,_point.x+tempSize.cx,_point.y+tempSize.cy);
@@ -1773,10 +1776,9 @@ void ConData::ResizeIcon()
 	if(p<1)
 	{	p=1;
 	}
-
-	_itoa_s(p,szPortNum,10);
-	LoadNewBMP("ENCAPSULATE" + (INXString)szPortNum );
-	m_csIconType = ("ENCAPSULATE" + (INXString)szPortNum );
+	sprintf(szPortNum, "%d",p);
+	LoadNewBMP((INXString)("ENCAPSULATE" + (INXString)szPortNum ) );
+	m_csIconType = (INXString)("ENCAPSULATE" + (INXString)szPortNum );
 	repositionVerticalPorts(); //make sure vertical ports stay level with the bottom.
 }
 

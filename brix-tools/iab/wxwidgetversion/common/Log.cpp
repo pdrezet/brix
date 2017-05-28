@@ -1,4 +1,4 @@
-#include "stdafx.h"
+
 #include "Log.h"
 #include "LabLgbBaseApp.h"
 
@@ -17,6 +17,7 @@ Log::~Log(void)
 bool Log::Open(INXString csFileName)
 {
 	bool bRet = FALSE;
+#ifdef __INX_DONE_THIS
 	INXString csInstallDir;
 	CLabLgbBaseApp *pBaseApp = (CLabLgbBaseApp *) AfxGetApp();
 
@@ -31,7 +32,7 @@ bool Log::Open(INXString csFileName)
 		m_bOpen = TRUE;
 		bRet = TRUE;
 	}
-
+#endif
 	return bRet;
 }
 
@@ -50,6 +51,6 @@ bool Log::IsOpen()
 void Log::WriteLogMsg(const INXString csMsg)
 {
 	if (c_pFile) {
-		fprintf(c_pFile,"%s\n", csMsg);
+		fprintf(c_pFile,"%s\n", csMsg.c_str());
 	}
 }

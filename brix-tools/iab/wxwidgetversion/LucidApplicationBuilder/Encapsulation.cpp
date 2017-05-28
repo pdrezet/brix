@@ -163,22 +163,22 @@ int Encapsulation::SaveEncapsulated(Encapsulate* dialog, int iconNum, int nLib)
 
 	// Set the arrays with the correct number of xport labels
 	for (i=1; i<=inNum; i++) {
-		_itoa_s(i, csPortNum, 10); 
-		dialog->inLabels[i] = "Input" + (INXString)csPortNum;
-		dialog->inNames[i] = "i" + (INXString)csPortNum;
+		sprintf( csPortNum, "%d",i);
+		dialog->inLabels[i] = (INXString)("Input" + (INXString)csPortNum);
+		dialog->inNames[i] = (INXString)"i" + (INXString)csPortNum;
 	}
 	for (i=1; i<=outNum; i++) {
-		_itoa_s(i, csPortNum, 10); 
-		dialog->outLabels[i] = "Output" + (INXString)csPortNum;
-		dialog->outNames[i] = "o" + (INXString)csPortNum;
+		sprintf( csPortNum, "%d",i);;
+		dialog->outLabels[i] = (INXString)("Output" + (INXString)csPortNum);
+		dialog->outNames[i] = (INXString)"o" + (INXString)csPortNum;
 	}
 	for (i=1; i<=startNum; i++) {
-		_itoa_s(i, csPortNum, 10); 
+		sprintf( csPortNum, "%d",i);
 		dialog->startLabels[i] = "Start" + (INXString)csPortNum;
 		dialog->startNames[i] = "s" + (INXString)csPortNum;
 	}
 	for (i=1; i<=finishNum; i++) {
-		_itoa_s(i, csPortNum, 10); 
+		sprintf( csPortNum, "%d",i);
 		dialog->finishLabels[i] = "Finish" + (INXString)csPortNum;
 		dialog->finishNames[i] = "f" + (INXString)csPortNum;
 	}
@@ -345,7 +345,7 @@ void Encapsulation::WriteIDF(Encapsulate *dialog, int iconNum) {
 	while(pos) {
 		blob = (ConData *) (encapsulated->GetNext(pos));
 		if (blob->m_csIconType.Find("XINPUT") != -1) {
-			_itoa_s(portNum, csPortNum, 10);
+			sprintf(csPortNum,"%d",portNum);
 			datafile << "[Port" << csPortNum << "]" << endl;
 			//itoa(inNum, csPortNum, 10); 
 			blob->description = dialog->inNames[inNum];
@@ -359,7 +359,7 @@ void Encapsulation::WriteIDF(Encapsulate *dialog, int iconNum) {
 			portNum++;
 		}
 		else if (blob->m_csIconType.Find("XOUTPUT") != -1) {
-			_itoa_s(portNum, csPortNum, 10);
+			sprintf(csPortNum,"%d",portNum);
 			datafile << "[Port" << csPortNum << "]" << endl;
 			//itoa(outNum, csPortNum, 10);
 			blob->description = dialog->outNames[outNum];
@@ -373,7 +373,7 @@ void Encapsulation::WriteIDF(Encapsulate *dialog, int iconNum) {
 			portNum++;
 		}
 		else if (blob->m_csIconType == "XSTART") {
-			_itoa_s(portNum, csPortNum, 10);
+			sprintf(csPortNum,"%d",portNum);
 			datafile << "[Port" << csPortNum << "]" << endl;
 			//itoa(startNum, csPortNum, 10);
 			blob->description = dialog->startNames[startNum];
@@ -386,7 +386,7 @@ void Encapsulation::WriteIDF(Encapsulate *dialog, int iconNum) {
 			portNum++;
 		}
 		else if (blob->m_csIconType == "XFINISH") {
-			_itoa_s(portNum, csPortNum, 10);
+			sprintf(csPortNum,"%d",portNum);
 			datafile << "[Port" << csPortNum << "]" << endl;
 			//itoa(finishNum, csPortNum, 10);
 			blob->description = dialog->finishNames[finishNum];

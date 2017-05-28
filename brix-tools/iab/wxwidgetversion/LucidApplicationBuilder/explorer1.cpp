@@ -4,13 +4,12 @@
 //  Microsoft Visual C++, your modifications will be overwritten.
 
 
-#include "stdafx.h"
 #include "explorer1.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CExplorer1
 
-IMPLEMENT_DYNCREATE(CExplorer1, CWnd)
+//IMPLEMENT_DYNCREATE(CExplorer1, CWnd)
 
 /////////////////////////////////////////////////////////////////////////////
 // CExplorer1 properties

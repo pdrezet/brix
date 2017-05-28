@@ -25,7 +25,7 @@ private:
     bool   m_init;
     unsigned int m_gllist;
 
-//
+// wxwidgets
 DECLARE_EVENT_TABLE()
 };
 

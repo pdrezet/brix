@@ -1,7 +1,6 @@
 #pragma once
 //#include "Resource.h"
 
-#include "afxwin.h"
 #include <map>
 #include <vector>
 #include "ProjectMetaData.h"

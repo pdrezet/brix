@@ -2,14 +2,19 @@
 //
 //////////////////////////////////////////////////////////////////////
 
+#include "wx/wx.h"
+#include <wx/msgdlg.h>
+#include <cmath>
+#include <cstdlib>
+
 #include "DrawProg.h"
-#include "condat.h"
+#include "Condat.h"
 #include "DEP.h"
 #include "Project.h" //@todo 
 #include "IconParams.h" //@todo 
 //#include "SODL.h" //@todo 
 #include "Encapsulation.h" //@todo 
-#include "TagDialog.h" //@todo 
+//#include "TagDialog.h" //@todo
 #include "MainFrame.h"
 #include "FileOperations.h" //@todo 
 #include "BlockOperations.h" //@todo 
@@ -17,9 +22,7 @@
 #include "TypeConversion.h"
 #include "Porting_Classes/INXObject.h"
 #include "Porting_Classes/INXWidgets.h"
-#include "wx/wx.h"
-#include <wx/msgdlg.h>
-#include <cmath>
+
 /*
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -385,6 +388,7 @@ int DEP::AddPort(ConData* blob, int iDataType, int iPortType, INXString portLabe
 
 // Adds a tag to a port and adds a line if there is another tag with the same name
 int DEP::AddTag(INXPOSITION iconPos, int portNum, int portType) {
+#ifdef __INX_DONE_THIS
 	ConData *blob, *otherBlob;
 	INXPOSITION pos, iconPos2;
 	int dataType, ret;
@@ -504,6 +508,9 @@ int DEP::AddTag(INXPOSITION iconPos, int portNum, int portType) {
 	}
 
 	return ret;
+#else
+	return -1;
+#endif
 }
 #endif
 
@@ -812,8 +819,8 @@ void DEP::CreateInstance(ConData* userDefBlob, int lib) {
 	instNum++;
 
 	// create unique instance name.
-	_itoa_s(instNum, szInstNum, 10);
-	instanceName = className + szInstNum;
+	sprintf( szInstNum , "%d", instNum);
+	instanceName = (INXString)(className + szInstNum);
 	userDefBlob->instNum = instNum;
 	userDefBlob->description = instanceName;
 	pFrame = INX_MainFrame::INX_GetAppMainWindow();
@@ -828,17 +835,17 @@ void DEP::CreateInstance(ConData* userDefBlob, int lib) {
 	// paste sub-block
 	else if (lib == 2) {
 		if (origName != instanceName) {
-			fo.Delete(workDir + TEMPDIR + instanceName + ".prg");
-			fo.Delete(workDir + TEMPDIR + instanceName);
+			fo.Delete((INXString)(workDir + TEMPDIR + instanceName + ".prg"));
+			fo.Delete((INXString)(workDir + TEMPDIR + instanceName));
 		}
 		//copy file
-		fo.Rename(workDir + TEMPDIR + origName + ".prg", workDir + TEMPDIR + instanceName + ".prg");
-		fo.Copy(workDir + TEMPDIR + instanceName + ".prg", projectDir + DEPDIR + depPath);
-		fo.Rename(workDir + TEMPDIR + instanceName + ".prg", workDir + TEMPDIR + origName + ".prg");
+		fo.Rename((INXString)(workDir + TEMPDIR + origName + ".prg"), (INXString)(workDir + TEMPDIR + instanceName + ".prg"));
+		fo.Copy((INXString)(workDir + TEMPDIR + instanceName + ".prg"), (INXString)(projectDir + DEPDIR + depPath));
+		fo.Rename((INXString)(workDir + TEMPDIR + instanceName + ".prg"), (INXString)(workDir + TEMPDIR + origName + ".prg"));
 		//copy dir
-		fo.Rename(workDir + TEMPDIR + origName, workDir + TEMPDIR + instanceName);
-		fo.Copy(workDir + TEMPDIR + instanceName, projectDir + DEPDIR + depPath);
-		fo.Rename(workDir + TEMPDIR + instanceName, workDir + TEMPDIR + origName);
+		fo.Rename((INXString)(workDir + TEMPDIR + origName), (INXString)(workDir + TEMPDIR + instanceName));
+		fo.Copy((INXString)(workDir + TEMPDIR + instanceName), (INXString)(projectDir + DEPDIR + depPath));
+		fo.Rename((INXString)(workDir + TEMPDIR + instanceName), (INXString)(workDir + TEMPDIR + origName));
 	}
 	else if ((lib == 1) || (lib == 0)) {
 		ifstream infile((INXString)workDir + USERDEFDIR + className + ".prg");
@@ -847,17 +854,17 @@ void DEP::CreateInstance(ConData* userDefBlob, int lib) {
 		infile.close();
 		outfile.close();
 		// This tries to copy new blocks, but they don't exist so gives error
-		if (!fo.Copy(workDir + USERDEFDIR + className, projectDir + DEPDIR + depPath)) {
+		if (!fo.Copy((INXString)(workDir + USERDEFDIR + className), (INXString)(projectDir + DEPDIR + depPath))) {
 			//fo.ShowError(); // if copy fails show error message
 		}
 		// if directory already exists delete it so can do rename
-		fo.Delete(projectDir + DEPDIR + depPath + "\\" + instanceName);
-		fo.Rename(projectDir + DEPDIR + depPath + "\\" + className, projectDir + DEPDIR + depPath + "\\" + instanceName);
+		fo.Delete((INXString)(projectDir + DEPDIR + depPath + "\\" + instanceName));
+		fo.Rename((INXString)(projectDir + DEPDIR + depPath + "\\" + className), (INXString)(projectDir + DEPDIR + depPath + "\\" + instanceName));
 		// if not library component then delete from userdefdir
 		if (lib==0) {
-			fo.Delete(workDir + USERDEFDIR + className + ".idf.ini");
-			fo.Delete(workDir + USERDEFDIR + className + ".prg");
-			fo.Delete(workDir + USERDEFDIR + className);
+			fo.Delete((INXString)(workDir + USERDEFDIR + className + ".idf.ini"));
+			fo.Delete((INXString)(workDir + USERDEFDIR + className + ".prg"));
+			fo.Delete((INXString)(workDir + USERDEFDIR + className));
 		}
 	}
 	// lib = 4 is for the case when a new user defined FB is created
@@ -867,8 +874,8 @@ void DEP::CreateInstance(ConData* userDefBlob, int lib) {
 		outfile << infile.rdbuf();
 		infile.close();
 		outfile.close();
-		CreateDirectory(projectDir + DEPDIR + depPath + "\\" + instanceName, NULL);
-		fo.Delete(workDir + USERDEFDIR + "NewComponent.prg");
+		mkdir(projectDir + DEPDIR + depPath + "\\" + instanceName, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH); //todo check success?? add a fileoperation function.
+		fo.Delete((INXString)(workDir + USERDEFDIR + "NewComponent.prg"));
 	}
 }
 
@@ -1232,8 +1239,8 @@ This function should call a parameter block that reads information from the spec
 description file to generate a data types specific parameter input dialog box,
 with descriptions and inout valiadation.
 */
-#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
-INT_PTR DEP::EditControl(INXPOSITION selected) {
+#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+int *DEP::EditControl(INXPOSITION selected) {
 
 	ConData *blob;
 	INXString csOldInstName, csOldFuncName;
@@ -1346,14 +1353,14 @@ int DEP::GetInLineID(ConData* blob, ConData* flatBlob, int inNum) {
 	BlockOperations bo;
 
 	// load block
-	_itoa_s(blob->instNum, szInstNum, 10);
+	sprintf(szInstNum,"%d", blob->instNum);
 	if (!blob->instNum) {
 		instanceName = blob->className;
 	}
 	else {
-		instanceName = blob->className + "_" + blob->hierarchyName + szInstNum;
+		instanceName = (INXString)(blob->className + "_" + blob->hierarchyName + szInstNum);
 	}
-	blockFile = projectDir + DEPDIR + instanceName + ".prg";
+	blockFile = (INXString)(projectDir + DEPDIR + instanceName + ".prg");
 	encapsulated = bo.LoadBlock(blockFile);
 	// check if the input port on the encapsulated icon matches the XINPUT in
 	// the encapsulated block
@@ -1470,14 +1477,14 @@ int DEP::GetStartLineID(ConData* blob, ConData* flatBlob, int startNum) {
 	BlockOperations bo;
 
 	// load block
-	_itoa_s(blob->instNum, szInstNum, 10);
+	sprintf(szInstNum,"%d",blob->instNum);
 	if (!blob->instNum) {
 		instanceName = blob->className;
 	}
 	else {
-		instanceName = blob->className + "_" + blob->hierarchyName + szInstNum;
+		instanceName = (INXString)(blob->className + "_" + blob->hierarchyName + szInstNum);
 	}
-	blockFile = projectDir + DEPDIR + instanceName + ".prg";
+	blockFile = (INXString)(projectDir + DEPDIR + instanceName + ".prg");
 	encapsulated = bo.LoadBlock(blockFile);
 	// check if the start port on the encapsulated icon matches the XSTART in
 	// the encapsulated block
@@ -2300,13 +2307,13 @@ void DEP::ResetAllDbgValues() {
 *: This could be converted to a streamble class etc.? and done automatically
 */
 #endif
-void DEP::SaveProg(INXString Info) {
-	ofstream datafile((char *)Info);
+void DEP::SaveProg(const INXString Info) {
+	ofstream datafile(Info.c_str());
 	//put an error trap
 	ConData *blob;
 	INXString tmp;
 	if (!datafile.good()) {
-		tmp.Format(wxT("File %s could not be written"), (char*)Info);
+		tmp.Format(wxT("File %s could not be written"), Info.c_str());
 		wxMessageBox(tmp);
 	}
 
@@ -2527,8 +2534,8 @@ ConData* DEP::SubsetEncapsulate(INXRect encapsulate, int lib) {
 //MFCism	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 	BlockOperations bo;
 
-	SaveProg(workDir + TEMPDIR + "temp");
-	depList = bo.LoadBlock(workDir + TEMPDIR + "temp");
+	SaveProg((INXString)(workDir + TEMPDIR + "temp"));
+	depList = bo.LoadBlock((INXString)(workDir + TEMPDIR + "temp"));
 
 	// @todo SDG: REVISIT. This is a quick fix for now - Don't allow Xports to be encapsulated.
 	// It should be possible to do this, but isn't straight forward, and there are a lot of other
@@ -2594,6 +2601,7 @@ ConData* DEP::SubsetEncapsulate(INXRect encapsulate, int lib) {
 
 // Replaces a line with a tag at the ports the line was connected to
 void DEP::TagLine(INXPOSITION iconPos, int portNum, int portType) {
+#ifdef __INX_DONE_THIS
 	ConData *blob, *otherBlob;
 	long othericonid;
 	int otherportno;
@@ -2639,6 +2647,7 @@ void DEP::TagLine(INXPOSITION iconPos, int portNum, int portType) {
 			otherBlob->finishport[otherportno]->tag = dialog.tag;
 		}
 	}
+#endif
 }
 
 // Tags the ports on an encapsulated icon if they were tagged previously

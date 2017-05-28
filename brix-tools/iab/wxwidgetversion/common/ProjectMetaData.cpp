@@ -1,13 +1,13 @@
 //#include "stdafx.h"
-#include "../inx_config.h"
+#include "inx_config.h"
 
 #include "ProjectMetaData.h"
-#include "../ProjectDialog.h"
+//#include "../ProjectDialog.h"
 
 //#include "Markup.h" //@todo
 #include "LucidConstants.h" 
 #include "LucidEnums.h"
-#include "../FileOperations.h"
+#include "FileOperations.h"
 #include "ExtGuiFile.h" //@todo
 #include "ExtBmpFile.h" //@todo
 #include "ExtDataFile.h" //@todo
@@ -213,13 +213,13 @@ LucidErrEnum ProjectMetaData::getProjectName(INXString &csProjName) const////
 LucidErrEnum ProjectMetaData::getFullPathProjectFile(INXString &csProjDir) const////
 {
 #if (_INX_PLATFORM_ == INXWINDOWS)
-	csProjDir = m_csProjectDir + wxT("\\") + m_csProjectName + wxT(".lpj");
+	csProjDir = (INXString)m_csProjectDir + (INXString)("\\") + m_csProjectName + (INXString)".lpj");
 #elif (_INX_PLATFORM_ == INXMAC)
 
 #elif (_INX_PLATFORM_ == INXLINUX)
-	csProjDir = m_csProjectDir + wxT("/") + m_csProjectName + wxT(".lpj");
+	csProjDir = (INXString)(m_csProjectDir + (INXString)("/") + (INXString)m_csProjectName + (INXString)(".lpj"));
 #else
-#error "_INXPLATFORM_ is not defined
+#error "_INXPLATFORM_ is not defined"
 #endif
 	
 	return kErr_NoErr;
@@ -277,7 +277,7 @@ void ProjectMetaData::initProjFolderMinder()////
 
 INXString ProjectMetaData::getVersionString(void)////
 {
-	return intToString(m_iCodeMajorRev) + wxT(".") + intToString(m_iCodeMinorRev);
+	return (INXString)((INXString)intToString(m_iCodeMajorRev) + (INXString)(".") + (INXString)intToString(m_iCodeMinorRev));
 }
 
 void ProjectMetaData::getVersionInts(void)////
@@ -754,10 +754,10 @@ LucidErrEnum ProjectMetaData::showOpenProjectDialog(wxWindow *parent)//// _FIND_
     if (dialog.ShowModal() == wxID_OK){
 		setProjectToNull();
 
-		m_csProjectDir = dialog.GetDirectory();
-		INXString csProjectFileName = dialog.GetFilename();
+		m_csProjectDir = (INXString)dialog.GetDirectory();
+		INXString csProjectFileName = (INXString)dialog.GetFilename();
 		// By convention, chop off the '.lpj' extension.
-		m_csProjectName = csProjectFileName.Left(csProjectFileName.GetLength() - 4);
+		m_csProjectName = (INXString)csProjectFileName.Left(csProjectFileName.GetLength() - 4);
 #ifdef UNNECESSARY_IN_WX_WIDGERS
 		INXString csProjectPathName = dialog.GetDirectory();
 		INXString csProjectFileName = dialog.GetFilename();
@@ -2425,7 +2425,7 @@ LucidErrEnum ProjectMetaData::getTargetFileNameForNlsHostFileName(
 
 #endif
 
-bool ProjectMetaData::getRealLock(char* szFile, int iLineNum)//// _FIND_ME
+bool ProjectMetaData::getRealLock(const char* szFile, const int iLineNum)//// _FIND_ME
 {
 	#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 	//return true; //@todo these locks are causing problems
@@ -2511,7 +2511,7 @@ bool ProjectMetaData::getRealLock(char* szFile, int iLineNum)//// _FIND_ME
 	return true;
 }
 
-bool ProjectMetaData::releaseRealLock(char* szFile, int iLineNum)//// _FIND_ME
+bool ProjectMetaData::releaseRealLock(const char* szFile, const int iLineNum)//// _FIND_ME
 {
 #ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 	//return true;
@@ -2963,7 +2963,7 @@ void ProjectMetaData::setDirtySODLFlag()////
 		INXString csProjectDir;
 		getProjectDir(csProjectDir);
 		INXString updateSODLFileName;
-		updateSODLFileName = csProjectDir + (wxChar*)UPDATE_SODL_FILE_NAME;
+		updateSODLFileName = (INXString)(csProjectDir + (wxChar*)UPDATE_SODL_FILE_NAME);
 		FILE * pFile = NULL;
 
 		pFile = EhsFopen(updateSODLFileName,"w");
@@ -2984,7 +2984,7 @@ void ProjectMetaData::clearDirtySODLFlag()
 	INXString csProjectDir;
 	getProjectDir(csProjectDir);
 	INXString updateSODLFileName;
-	updateSODLFileName = csProjectDir + UPDATE_SODL_FILE_NAME;
+	updateSODLFileName = (INXString)(csProjectDir + UPDATE_SODL_FILE_NAME);
 	FILE * pFile = NULL;
 
 	pFile = EhsFopen(updateSODLFileName,"r");
@@ -2993,7 +2993,7 @@ void ProjectMetaData::clearDirtySODLFlag()
 		if( EhsFremove(updateSODLFileName) != 0 ) {
 			//
 			// error removing file - is it still open?
-			INX_MessageBox("Failed to remove file: " + updateSODLFileName);
+			INX_MessageBox((INXString)("Failed to remove file: " + updateSODLFileName));
 		} else {
 			// success
 		}
@@ -3010,7 +3010,7 @@ bool ProjectMetaData::checkDirtySODL()
 		INXString csProjectDir;
 		getProjectDir(csProjectDir);
 		INXString updateSODLFileName;
-		updateSODLFileName = csProjectDir + UPDATE_SODL_FILE_NAME;
+		updateSODLFileName = (INXString)(csProjectDir + UPDATE_SODL_FILE_NAME);
 		FILE * pFile = NULL;
 
 		pFile = EhsFopen(updateSODLFileName,"r");
@@ -3032,13 +3032,13 @@ void ProjectMetaData::setDirtyWidgetsFlag()
 	INXString csProjectDir;
 	getProjectDir(csProjectDir);
 	INXString updateWidgetsFileName;
-	updateWidgetsFileName = csProjectDir + UPDATE_WIDGETS_FILE_NAME;
+	updateWidgetsFileName = (INXString)(csProjectDir + UPDATE_WIDGETS_FILE_NAME);
 	FILE * pFile = NULL;
 
 	pFile = EhsFopen(updateWidgetsFileName,"w");
 	if (pFile == NULL) {
 		// not expecting this
-		INX_MessageBox("Failed to create file for project in: " + updateWidgetsFileName);
+		INX_MessageBox((INXString)("Failed to create file for project in: " + updateWidgetsFileName));
 	} else {
 		//success
 		EhsFclose(pFile);
@@ -3050,7 +3050,7 @@ void ProjectMetaData::clearDirtyWidgetsFlag()
 	INXString csProjectDir;
 	getProjectDir(csProjectDir);
 	INXString updateWidgetsFileName;
-	updateWidgetsFileName = csProjectDir + UPDATE_WIDGETS_FILE_NAME;
+	updateWidgetsFileName = (INXString)(csProjectDir + UPDATE_WIDGETS_FILE_NAME);
 	FILE * pFile = NULL;
 
 	pFile = EhsFopen(updateWidgetsFileName,"r");
@@ -3059,7 +3059,7 @@ void ProjectMetaData::clearDirtyWidgetsFlag()
 		if( EhsFremove(updateWidgetsFileName) != 0 ) {
 			//
 			// error removing file - is it still open?
-			INX_MessageBox("Failed to remove file: " + updateWidgetsFileName);
+			INX_MessageBox((INXString)("Failed to remove file: " + updateWidgetsFileName));
 		} else {
 			// success
 		}
@@ -3076,7 +3076,7 @@ bool ProjectMetaData::checkDirtyWidgets()
 		INXString csProjectDir;
 		getProjectDir(csProjectDir);
 		INXString updateWidgetsFileName;
-		updateWidgetsFileName = csProjectDir + UPDATE_WIDGETS_FILE_NAME;
+		updateWidgetsFileName = (INXString)(csProjectDir + UPDATE_WIDGETS_FILE_NAME);
 		FILE * pFile = NULL;
 
 		pFile = EhsFopen(updateWidgetsFileName,"r");

@@ -14,7 +14,7 @@
 #include "Porting_Classes/INXString.h"
 #include "Porting_Classes/INXObject.h"
 #include "Porting_Classes/INXObjList.h"
-#include "condat.h"
+#include "Condat.h"
 class BlockOperations  
 {
 public:

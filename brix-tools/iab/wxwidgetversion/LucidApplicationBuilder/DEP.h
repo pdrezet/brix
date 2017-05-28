@@ -8,7 +8,7 @@
 
 #include "Porting_Classes/INXPoint.h"
 
-#include "condat.h"
+#include "Condat.h"
 //#include "MainFrame.h"
 #include "FSM.h" //@todo 
 #include "LucidEnums.h" //@todo 
@@ -74,7 +74,7 @@ public:
 	
 	void DrawGL(bool _onlyDrawAnim, int _toggleAnim);////
 	
-	INT_PTR EditControl(INXPOSITION selected); //default is that control is assigned if neq 0
+	int* EditControl(INXPOSITION selected); //default is that control is assigned if neq 0
 	int GetFinishLineID(INXObjList* flattened, ConData* otherBlockIcon, ConData* flatBlob, int endNum,  INXTREEITEM hItem );
 	
 	ConData* GetIconFromID(long int id);//// 

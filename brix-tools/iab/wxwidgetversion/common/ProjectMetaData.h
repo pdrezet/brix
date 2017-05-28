@@ -150,18 +150,18 @@ public:
 
 	void setProjectToNull(); ////
 
-	bool getRealLock(char* szFile, int iLineNum);////
-	bool releaseRealLock(char* szFile, int iLineNum);////
+	bool getRealLock(const char* szFile, const int iLineNum);////
+	bool releaseRealLock(const char* szFile, const int iLineNum);////
 	bool isLocked();////
 
 	// Use these overloads when the project name has changed - eg when doing a 'save project as'
 	//bool getLock(const INXString &lockFile );
 
 	//bool releaseLock(const INXString &lockFile );
-	LucidErrEnum readProjectFile(INXString csProjectPathName);
+	LucidErrEnum readProjectFile(const INXString csProjectPathName);
 	LucidErrEnum readProjectFile();
 	LucidErrEnum readProjectDescriptionFile();
-	LucidErrEnum writeProjectFileAs(INXString csProjectPathName);
+	LucidErrEnum writeProjectFileAs(const INXString csProjectPathName);
 // Loads the 
 	LucidErrEnum getProjectName(INXString &csProjName) const;////
 	//LucidErrEnum getProjectRootDir(INXString &csProjRootDir) const;
@@ -186,14 +186,14 @@ public:
 	bool fileInProject(const ExtGuiFile &file)  const;////
 	bool fileInProject(const ExtBmpFile &file)  const;
 	bool fileInProject(const ExtPngFile &file)  const;////
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+//#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 	bool fileInProject(const ExtBdfFile &file)  const;
 	bool fileInProject(const ExtNlsFile &file)  const;
 	bool fileInProject(const ExtResourceFile &file) const;
 
 // Returns true if project folder structure is OK, false otherwise
 	LucidErrEnum folderStructureNotOk(); //INXString csProjectDir
-#endif
+//#endif
 
 	void setDirtySODLFlag();////
 
@@ -207,7 +207,7 @@ public:
 
 	int readBuildNumFromFile(void);////
 	void populateBuildNumFromFile(void);////
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+//#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 	int getBuildNum(void);
 
 
@@ -225,7 +225,7 @@ public:
 
 // remove all gui files associated with a screen
 	LucidErrEnum removeGuiFiles(const INXString &screenTag);
-#endif
+//#endif
 // Inflate a vector of full gui file data, eg filename, file descrip, tag, tag descrip that match 'screenTag'
 	LucidErrEnum getGuiFiles( vector<GuiFileMonty_t> &guiFileVec);////
 	LucidErrEnum getGuiFiles(vector<ExtGuiFile> &guiFileVec) const;
@@ -245,7 +245,7 @@ public:
 
 // PNG files.
 	LucidErrEnum addPngFile( const ExtPngFile &file );////
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 	LucidErrEnum removePngFile(	const ExtPngFile &file );
 
 // Bmp files.
@@ -285,7 +285,6 @@ public:
 
 	LucidErrEnum getTargetFileNameForNlsHostFileName(
 				const INXString &nlsFileName, INXString &targetFileName ) const;
-#endif
 	LucidErrEnum getScreenTagMetas(
 								const INXString &screenTag,
 								TagProjMetaSupportData_t &tagData) const;////
@@ -330,9 +329,9 @@ public:
 
 // Get a list of simple tags.
 	LucidErrEnum getScreenTags( vector<INXString> &tags );////
-	LucidErrEnum addGuiWidget(const GuiWidget &widget);////
+
 	LucidErrEnum guiWidgetInVec(const GuiWidget &widget);////
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+//#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 // Gets a list of screntags, descriptions and the number of GuiWidgets the tag
 // is used on.
 	LucidErrEnum getScreenTagMgrData(map<INXString, ScreenMgrSupportData_t> &tagsAndDescrs);
@@ -348,14 +347,13 @@ public:
 	
 //--------------------------------------------
 // Widget tags.
-
 	LucidErrEnum addGuiWidget(const GuiWidget &widget);
 	LucidErrEnum removeGuiWidget(const GuiWidget &widget);
 	LucidErrEnum getGuiWidgets(vector<GuiWidget> &vWidgets);
 	LucidErrEnum updateWidget(const GuiWidget &widgetToBeUpdated, const GuiWidget &copyableWidget);
 	LucidErrEnum getScreenTagDescription(
 							const INXString &tag, INXString &tagDescr );
-	LucidErrEnum getGuiWidgetVecSize(UINT &size);
+	LucidErrEnum getGuiWidgetVecSize(unsigned int &size);
 
 
 protected:
@@ -376,7 +374,7 @@ public:
 
 	int writeProjectFileForFirstTime(void);
 	//void initialise(void);
-#endif
+//#endif
 public:
 	bool projectIsSet(void);////
 

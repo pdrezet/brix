@@ -1,0 +1,3 @@
+wxUSE_OPENGL=yes
+wxUSE_DEBUG=yes
+wxUSE_UNICODE=no

@@ -10,7 +10,7 @@
 #endif // _MSC_VER >= 1000
 */
 #include "MainFrame.h"
-#include "condat.h"
+#include "Condat.h"
 //#include "ProjectChooser.h"
 //#include "PathDialog.h" //@todo
 //#include "Project.h"
@@ -23,10 +23,10 @@ Handles the GUI selection of reading and writing files - The actual objects that
 are all contained in the associated CDrawProgView object.
 
 */
-class DrawProgDoc : public wxDocument
+class CDrawProgDoc : public wxDocument
 {
 protected: // create from serialization only
-	DrawProgDoc();
+	CDrawProgDoc();
 
 // Attributes
 public:
@@ -46,8 +46,8 @@ public:
 #ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 	virtual void Serialize(CArchive& ar);
 #endif
-	virtual bool OnOpenDocument(const wxString& filename);
-	virtual bool OnCloseDocument();
+	virtual bool OnOpenDocument(const INXString& filename);
+	virtual bool OnCloseDocument(void);
 #ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE	
 protected:
 	virtual BOOL SaveModified();
@@ -56,7 +56,7 @@ protected:
 #endif
 // Implementation
 public:
-	virtual ~DrawProgDoc();
+	virtual ~CDrawProgDoc();
 #ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 #ifdef _DEBUG
 	virtual void AssertValid() const;

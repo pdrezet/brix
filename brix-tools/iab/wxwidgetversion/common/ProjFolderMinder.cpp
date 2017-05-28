@@ -4,7 +4,7 @@
 #include "LucidEnums.h"
 #include "LucidConstants.h"
 #include "RevisionGuru.h"
-#include "../FileOperations.h"
+#include "FileOperations.h"
 #include "ProjFolderMinder.h"
 #include <wx/msgdlg.h>
 #include <wx/filename.h>
@@ -72,7 +72,7 @@ LucidErrEnum ProjFolderMinder::assessProjectFolderStructure( INXString &csMissin
 	// Check directories exist
 
 	for( int i=0; i<folderDef.folders.nFolders;i++ ){
-		if (!fo.CheckPath(m_csProjDir + folderDef.folders.relPath[i] )) {
+		if (!fo.CheckPath((INXString)(m_csProjDir + (INXString)folderDef.folders.relPath[i]) )) {
 			csMissingFolder = folderDef.folders.relPath[i];
 			return kErr_InvalidFolderStructure;
 		}
@@ -89,13 +89,13 @@ LucidErrEnum ProjFolderMinder::moveSodl_1(void)
 	bool bSucceed;
 
 	// Create a new sodl folder in the right place, if necessary
-	if( PATH_NOT_FOUND == fo.CheckPath( m_csProjDir + SODLDIR )){
-		wxFileName createDirectoryTemp(m_csProjDir + SODLDIR );
+	if( PATH_NOT_FOUND == fo.CheckPath( (INXString)(m_csProjDir + (INXString)SODLDIR) )){
+		wxFileName createDirectoryTemp((INXString)(m_csProjDir + (INXString)SODLDIR) );
 		createDirectoryTemp.Mkdir(0x777);		
 	}
 
 	// An old 'exports' may contain  sodl file - if so, move it to the right place.
-	if( PATH_IS_FILE == fo.CheckPath( m_csProjDir + wxT("\\exports\\t.sdl") )  ){
+	if( PATH_IS_FILE == fo.CheckPath( (INXString)(m_csProjDir + wxT("\\exports\\t.sdl")) )  ){
 #ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 		bSucceed = fo.CopyFileGood( m_csProjDir + "\\exports\\", SODLFILENAME, 
 										m_csProjDir + SODLDIR, SODLFILENAME );
@@ -125,13 +125,13 @@ LucidErrEnum ProjFolderMinder::moveExports_1(void)
 	bool bSucceed;
 
 	// Create a new exports folder in the right place, if necessary
-	if( PATH_NOT_FOUND == fo.CheckPath( m_csProjDir + EXPORTDIR )){
-		wxFileName createDirectoryTemp(m_csProjDir + EXPORTDIR );
+	if( PATH_NOT_FOUND == fo.CheckPath( (INXString)(m_csProjDir + (INXString)EXPORTDIR ))){
+		wxFileName createDirectoryTemp((INXString)(m_csProjDir + (INXString)EXPORTDIR));
 		createDirectoryTemp.Mkdir(0x777);
 	}
 
 	// An old 'exports' may contain  sodl file - if so, move it to the right place.
-	if( PATH_IS_FILE == fo.CheckPath( m_csProjDir + wxT("\\exports\\t.sdl") )  ){
+	if( PATH_IS_FILE == fo.CheckPath( (INXString)(m_csProjDir + (INXString)("\\exports\\t.sdl")))  ){
 #ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 		bSucceed = fo.CopyFileGood( m_csProjDir + "\\exports\\", SODLFILENAME, 
 										m_csProjDir + SODLDIR, SODLFILENAME );
@@ -160,7 +160,7 @@ LucidErrEnum ProjFolderMinder::createTemp(void)
 	CFileOperation fo;
 
 	// Create a new 'temp' folder in the right place, if necessary
-	if( PATH_NOT_FOUND == fo.CheckPath( m_csProjDir + TEMPDIR )){
+	if( PATH_NOT_FOUND == fo.CheckPath( (INXString)(m_csProjDir + TEMPDIR) )){
 
 	wxFileName createDirectoryTemp(m_csProjDir + TEMPDIR );
 		if (createDirectoryTemp.Mkdir(0x777)) 
@@ -180,7 +180,7 @@ LucidErrEnum ProjFolderMinder::createLgbTemp(void)
 	CFileOperation fo;
 
 	// Create a new 'temp' folder in the right place, if necessary
-	if( PATH_NOT_FOUND == fo.CheckPath( m_csProjDir + LGB_TEMPDIR )){
+	if( PATH_NOT_FOUND == fo.CheckPath( (INXString)(m_csProjDir + LGB_TEMPDIR ) )){
 
 	wxFileName createDirectoryTemp(m_csProjDir + LGB_TEMPDIR );
 		if (createDirectoryTemp.Mkdir(0x777)) 
@@ -199,7 +199,7 @@ LucidErrEnum ProjFolderMinder::CreateNlsDir(void)
 	CFileOperation fo;
 
 	// Create a new 'NLS' folder in the right place, if necessary
-	if (PATH_NOT_FOUND == fo.CheckPath( m_csProjDir + NLSDIR)) {
+	if (PATH_NOT_FOUND == fo.CheckPath( (INXString)(m_csProjDir + NLSDIR))) {
 		wxFileName createDirectoryTemp(m_csProjDir + NLSDIR);
 		if (createDirectoryTemp.Mkdir(0x777)) {
 			return kErr_NoErr;
@@ -218,8 +218,8 @@ LucidErrEnum ProjFolderMinder::CreateResourceDir(void)
 	CFileOperation fo;
 
 	// Create a new 'NLS' folder in the right place, if necessary
-	if (PATH_NOT_FOUND == fo.CheckPath( m_csProjDir + RESOURCEDIR)) {
-		wxFileName createDirectoryTemp(m_csProjDir + RESOURCEDIR);
+	if (PATH_NOT_FOUND == fo.CheckPath( (INXString)(m_csProjDir + RESOURCEDIR))) {
+		wxFileName createDirectoryTemp((INXString)(m_csProjDir + RESOURCEDIR));
 		if (createDirectoryTemp.Mkdir(0x777)) {
 			return kErr_NoErr;
 		}

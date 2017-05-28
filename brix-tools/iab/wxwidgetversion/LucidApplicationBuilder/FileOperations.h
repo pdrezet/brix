@@ -75,20 +75,20 @@ public:
 #endif
 protected:
 	//#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
-	void DoDelete(INXString sPathName);
-	void DoCopy(INXString sSource, INXString sDest, bool bDelteAfterCopy = false);
-	void DoFileCopy(INXString sSourceFile, INXString sDestFile, bool bDeleteAfterCopy=false, const bool bUpdateAfterCopy=true );
-	void DoFolderCopy(INXString sSourceFolder, INXString sDestFolder, bool bDelteAfterCopy = false);
-	void DoRename(INXString sSource, INXString sDest);
-	bool IsFileExist(INXString sPathName);
-	void PreparePath(INXString &sPath);
+	void DoDelete(const INXString sPathName);
+	void DoCopy(const INXString sSource, const INXString sDest, const bool bDelteAfterCopy = false);
+	void DoFileCopy(const INXString sSourceFile, const INXString sDestFile, const bool bDeleteAfterCopy=false, const bool bUpdateAfterCopy=true );
+	void DoFolderCopy(const INXString sSourceFolder, const INXString sDestFolder, const bool bDelteAfterCopy = false);
+	void DoRename(const INXString sSource, const INXString sDest);
+	bool IsFileExist(const INXString sPathName);
+	void PreparePath( INXString &sPath);
 	//#endif
 	void Initialize();
 	#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
-	void CheckSelfRecursion(INXString sSource, INXString sDest);
-	bool CheckSelfCopy(INXString sSource, INXString sDest);
-	INXString ChangeFileName(INXString sFileName);
-	INXString ParseFolderName(INXString sPathName);
+	void CheckSelfRecursion(const INXString sSource, const INXString sDest);
+	bool CheckSelfCopy(const INXString sSource, const INXString sDest);
+	INXString ChangeFileName(const INXString sFileName);
+	INXString ParseFolderName(const INXString sPathName);
 	#endif
 private:
 	INXString m_sError;

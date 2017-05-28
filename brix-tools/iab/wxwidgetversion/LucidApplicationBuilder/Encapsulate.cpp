@@ -4,7 +4,7 @@
 //#include "stdafx.h"
 #include "DrawProg.h"
 #include "Encapsulate.h"
-#include "condat.h"
+#include "Condat.h"
 #include <wx/msgdlg.h>
 /*
 #ifdef _DEBUG
@@ -89,7 +89,7 @@ void Encapsulate::setMenuNamesDropList(set<INXString> sMenuNames)
 
 // Event Handlers
 #define INX_PORT_LABEL_YALUE 300
-BOOL Encapsulate::OnInitDialog() 
+bool Encapsulate::OnInitDialog()
 {
 	//CDialog::OnInitDialog();
 	

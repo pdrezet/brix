@@ -31,7 +31,7 @@ CFExeption::CFExeption(unsigned int dwErrCode)
 }
 
 
-CFExeption::CFExeption(INXString sErrText)
+CFExeption::CFExeption(const INXString sErrText)
 {
 	m_sError = sErrText;
 	m_dwError = 0;
@@ -57,7 +57,7 @@ void CFileOperation::Initialize()
 }
 
 #ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
-void CFileOperation::DoDelete(INXString sPathName)
+void CFileOperation::DoDelete(const INXString sPathName)
 {
 	
 	INXString sPath = sPathName;
@@ -112,9 +112,9 @@ void CFileOperation::DoDelete(INXString sPathName)
 }
 
 
-void CFileOperation::DoFolderCopy(INXString sSourceFolder, INXString sDestFolder, bool bDelteAfterCopy)
+void CFileOperation::DoFolderCopy(const INXString sSourceFolder, const INXString sDestFolder, const bool bDelteAfterCopy)
 {
-#ifdef __INX_DONE_FOLDER COPY	
+#ifdef __INX_DONE_FOLDER COPY
 	CFileFind ff;
 	INXString sPathSource = sSourceFolder;
 	BOOL bRes = ff.FindFile(sPathSource);
@@ -151,7 +151,7 @@ void CFileOperation::DoFolderCopy(INXString sSourceFolder, INXString sDestFolder
 #endif
 }
 
-bool CFileOperation::DeleteFolderFiles(INXString sPathName)
+bool CFileOperation::DeleteFolderFiles(const INXString sPathName)
 {
 
 //	if( PATH_IS_FOLDER != CheckPath( sPathName ))
@@ -195,7 +195,7 @@ bool CFileOperation::DeleteFolderFiles(INXString sPathName)
 	//}
 }
 
-bool CFileOperation::Delete(INXString sPathName)
+bool CFileOperation::Delete(const INXString sPathName)
 {
 	try
 	{
@@ -213,7 +213,7 @@ bool CFileOperation::Delete(INXString sPathName)
 }
 
 
-bool CFileOperation::Rename(INXString sSource, INXString sDest)
+bool CFileOperation::Rename(const INXString sSource, const INXString sDest)
 {
 	try
 	{
@@ -230,13 +230,13 @@ bool CFileOperation::Rename(INXString sSource, INXString sDest)
 }
 
 
-void CFileOperation::DoRename(INXString sSource, INXString sDest)
+void CFileOperation::DoRename(const INXString sSource,const INXString sDest)
 {
 	if (rename(sSource, sDest)) throw new CFExeption("Couldn't rename file");
 }
 
 
-void CFileOperation::DoCopy(INXString sSource, INXString sDest, bool bDelteAfterCopy)
+void CFileOperation::DoCopy(const INXString sSource,const  INXString sDest, const bool bDelteAfterCopy)
 {
 	CheckSelfRecursion(sSource, sDest);
 	// source not found
@@ -302,16 +302,20 @@ void CFileOperation::DoCopy(INXString sSource, INXString sDest, bool bDelteAfter
 	// file to folder
 	if (CheckPath(sSource) == PATH_IS_FILE && CheckPath(sDest) == PATH_IS_FOLDER) 
 	{
+#ifdef __INX_NOT_DONE
 		PreparePath(sDest);
 		char drive[MAX_PATH], dir[MAX_PATH], name[MAX_PATH], ext[MAX_PATH];
 		_splitpath_s(sSource, drive, dir, name, ext);
 		sDest = sDest + INXString(name) + INXString(ext);
 		DoFileCopy(sSource, sDest);
+#else
+		INX_MessageBox("Not implemented split path yet");
+#endif
 	}
 }
 
 
-void CFileOperation::DoFileCopy( INXString sSourceFile, INXString sDestFile, const bool bDeleteAfterCopy, const bool bUpdateAfterCopy )
+void CFileOperation::DoFileCopy( const INXString sSourceFile, const INXString sDestFile, const bool bDeleteAfterCopy, const bool bUpdateAfterCopy )
 {
 #ifdef __INX_COPYFILE_DONE
 	bool bOvrwriteFails = FALSE;
@@ -380,7 +384,7 @@ bool CFileOperation::CopyFileGood(
 	return true;
 }
 
-bool CFileOperation::Copy(INXString sSource, INXString sDest)
+bool CFileOperation::Copy(const INXString sSource, const INXString sDest)
 {
 	if (CheckSelfCopy(sSource, sDest)) return true;
 	bool bRes;
@@ -402,7 +406,7 @@ bool CFileOperation::Copy(INXString sSource, INXString sDest)
 }
 
 
-bool CFileOperation::Replace(INXString sSource, INXString sDest)
+bool CFileOperation::Replace(const INXString sSource, const INXString sDest)
 {
 	if (CheckSelfCopy(sSource, sDest)) return true;
 	bool bRes;
@@ -428,7 +432,7 @@ bool CFileOperation::Replace(INXString sSource, INXString sDest)
 }
 
 
-INXString CFileOperation::ChangeFileName(INXString sFileName)
+INXString CFileOperation::ChangeFileName(const INXString sFileName)
 {
 	INXString sName, sNewName, sResult="";
 	char drive[MAX_PATH];
@@ -478,7 +482,7 @@ INXString CFileOperation::ChangeFileName(INXString sFileName)
 }
 
 
-bool CFileOperation::IsFileExist(INXString sPathName)
+bool CFileOperation::IsFileExist(const INXString sPathName)
 {
 #ifdef __INX_DONE_FILEEXISTS
 	HANDLE hFile;
@@ -491,7 +495,7 @@ bool CFileOperation::IsFileExist(INXString sPathName)
 
 
 #endif
-int CFileOperation::CheckPath(INXString sPath)
+int CFileOperation::CheckPath(const INXString sPath)
 {
 	/*
 	unsigned int dwAttr = GetFileAttributes(sPath);
@@ -527,13 +531,13 @@ int CFileOperation::CheckPath(INXString sPath)
 
 
 #ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
-void CFileOperation::PreparePath(INXString &sPath)
+void CFileOperation::PreparePath( INXString &sPath)
 {
 	if(sPath.Right(1) != "\\") sPath += "\\";
 }
 
 
-bool CFileOperation::CanDelete(INXString sPathName)
+bool CFileOperation::CanDelete(const INXString sPathName)
 {
 #ifdef __INX_DONE_CANDELETE
 	unsigned int dwAttr = GetFileAttributes(sPathName);

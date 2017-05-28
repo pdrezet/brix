@@ -2,7 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+
 //#include "DrawProg.h"
 #include "ConDataTempStore.h"
 #include "LucidConstants.h"

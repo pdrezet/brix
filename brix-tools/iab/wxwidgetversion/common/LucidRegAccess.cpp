@@ -1,5 +1,4 @@
-#include "stdafx.h"
-#include <winreg.h>
+
 
 /**
  *  returns a registry value specified by the section path and key

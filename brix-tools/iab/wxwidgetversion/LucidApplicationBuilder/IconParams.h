@@ -1,13 +1,10 @@
-#if !defined(AFX_ICONPARAMS_H__21B0273C_7D8A_47D4_B28E_E196A3896D90__INCLUDED_)
-#define AFX_ICONPARAMS_H__21B0273C_7D8A_47D4_B28E_E196A3896D90__INCLUDED_
+#ifndef _ICONPARAMS
+#define _ICONPARAMS
 
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
 // IconParams.h : header file
 //
 #include "../common/LucidConstants.h"
-#include "condat.h"
+#include "Condat.h"
 #include "ConDataTempStore.h"
 //#include "afxwin.h"
 //#include "explorer1.h"
@@ -75,7 +72,7 @@ protected:
 
 	// Generated message map functions
 	//{{AFX_MSG(IconParams)
-	virtual BOOL OnInitDialog();
+	virtual bool OnInitDialog();
 	virtual void OnOK();
 	//}}AFX_MSG
 	void OnScreenTagManager();
@@ -98,11 +95,11 @@ public:
 private:
 void SetHTML();
 protected:
-	virtual BOOL OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pResult);
+// todo	virtual bool OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pResult);
 public:
-	void OnTimer(UINT_PTR nIDEvent);
+//todo	void OnTimer(UINT_PTR nIDEvent);
 public:
-	void OnVScroll(UINT nSBCode, UINT nPos, void* pScrollBar);
+//todo 	void OnVScroll(UINT nSBCode, UINT nPos, void* pScrollBar);
 };
 
 //{{AFX_INSERT_LOCATION}}

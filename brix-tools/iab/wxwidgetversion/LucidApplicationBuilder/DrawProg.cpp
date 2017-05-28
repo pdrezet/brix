@@ -83,16 +83,16 @@ bool DrawProg::CheckExecutableFolderContextIsOk()
 
 #elif (_INX_PLATFORM_ == INXLINUX)
 
-	int result = fo.CheckPath( baseDir + wxT("/BMP/"));
+	int result = fo.CheckPath( (INXString)(baseDir + (INXString)("/BMP/")));
 	if(result != PATH_IS_FOLDER) return false;
 
-	result = fo.CheckPath( baseDir + wxT("/IDF/"));
+	result = fo.CheckPath( (INXString)((baseDir + (INXString)("/IDF/"))));
 	if(result != PATH_IS_FOLDER) return false;
 
-	result = fo.CheckPath( baseDir + wxT("/temp/"));
+	result = fo.CheckPath( (INXString)( baseDir + (INXString)("/temp/") ) );
 	if(result != PATH_IS_FOLDER) return false;
 #else
-#error "_INXPLATFORM_ is not defined
+#error "_INXPLATFORM_ is not defined"
 #endif
 
 	return true;
@@ -116,10 +116,10 @@ bool DrawProg::GetInstallationBaseDir(INXString &installationBaseDir)
 #elif (_INX_PLATFORM_ == INXLINUX)
 		int dumPos = choppable.Find("/bin");
 #else
-#error "_INXPLATFORM_ is not defined
+#error "_INXPLATFORM_ is not defined"
 #endif
 
-	choppable = choppable.Left(dumPos);
+	choppable = (INXString)choppable.Left(dumPos);
 /*
 	char zappedCopy[PATHBUFFER_SIZE];
 	char*tempCh = (char*)choppable;
@@ -163,7 +163,7 @@ void DrawProg::GetExecutableName(INXString & execName){
 #elif (_INX_PLATFORM_ == INXLINUX)
 
 #else
-#error "_INXPLATFORM_ is not defined
+#error "_INXPLATFORM_ is not defined"
 #endif
 	return;
 }
@@ -230,9 +230,9 @@ wxDocument* DrawProg::OpenProject(ProjectMetaData* pProjMData){
 #elif (_INX_PLATFORM_ == INXMAC)
 
 #elif (_INX_PLATFORM_ == INXLINUX)
-		csProjectPathName = csProjectDir + wxT("/") + csProjectName + PROJECTEXT;
+		csProjectPathName = (INXString)(csProjectDir + (INXString)("/") + csProjectName + PROJECTEXT);
 #else
-#error "_INXPLATFORM_ is not defined
+#error "_INXPLATFORM_ is not defined"
 #endif
 	
 	ifstream projectfile(csProjectPathName);
@@ -258,7 +258,7 @@ wxDocument* DrawProg::OpenProject(ProjectMetaData* pProjMData){
 		pProject->pProjMData->releaseLock();
 		bLockReleased = true;
 	}
-	if (!fo.CheckPath(csProjectDir + NLSDIR + NLSFILE)) {
+	if (!fo.CheckPath((INXString)(csProjectDir + NLSDIR + NLSFILE))) {
 		pProject->RunNlsExec();
 		if (!pProject->pProjMData->getLock()) {
 			wxMessageBox(wxT(PMD_LOCK_FAILURE_MESSAGE));
@@ -285,9 +285,9 @@ wxDocument* DrawProg::OpenProject(ProjectMetaData* pProjMData){
 	wxDocument* Subsystem = OpenDocumentFile(csProjectDir + wxT("\\") + DEPDIR + csProjectName + wxT(".prg"));
 #elif (_INX_PLATFORM_ == INXMAC)
 #elif (_INX_PLATFORM_ == INXLINUX)
-	wxDocument* Subsystem = OpenDocumentFile(csProjectDir + wxT("/") + DEPDIR + csProjectName + wxT(".prg"));
+	wxDocument* Subsystem = OpenDocumentFile((INXString)(csProjectDir + "/" + DEPDIR + csProjectName + ".prg"));
 #else
-#error "_INXPLATFORM_ is not defined
+#error "_INXPLATFORM_ is not defined"
 #endif
 	
 	m_cProjTree.openProject = FALSE;
@@ -314,7 +314,7 @@ return Subsystem;
 wxDocument* DrawProg::OpenDocumentFile(INXString lpszFileName)
 {
 	INXString ext = lpszFileName;
-	ext = ext.Right(4);
+	ext = (INXString)ext.Right(4);
 	// This function is called by MRU file list which is now a project file
 	if (ext == wxT(".prg")) {
 	#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
@@ -332,7 +332,7 @@ wxDocument* DrawProg::OpenDocumentFile(INXString lpszFileName)
 	}
 	else if (ext == wxT(".lpj")) {
 
-		INXString pathName = (INXString)lpszFileName + wxT("\\..");
+		INXString pathName = (INXString)(lpszFileName + "\\..");
 		ProjectMetaData* pProjMData = new ProjectMetaData(pathName);
 
 		if(!pProjMData->getLock()){

@@ -1,12 +1,12 @@
 //#include "stdafx.h"
 #include "ProjectMetaData.h"
 
-#include "../ProjectDialog.h"
+#include "../LucidApplicationBuilder/ProjectDialog.h"
 
 #include "Markup.h"
 #include "LucidConstants.h"
 #include "LucidEnums.h"
-#include "../FileOperations.h"
+#include "FileOperations.h"
 #include "ExtGuiFile.h"
 #include "ExtBmpFile.h"
 #include "ExtDataFile.h"
@@ -14,10 +14,15 @@
 #include "LucidTypedefs.h"
 #include "LccPmdXfers.h"
 #include "GlobalFuncs_2.h"
+
+
 #include <fstream>
 #include <stdio.h>
-#include <cassert>
 #include <algorithm>
+//#include <assert.h>
+#include <cassert>
+#include <cstdlib>
+
 #include <wx/msgdlg.h>
 #include "Porting_Classes/INXString.h"
 #include "Porting_Classes/INXWidgets.h"
@@ -220,7 +225,7 @@ LucidErrEnum ProjectMetaData::readProjectFile( INXString csProjectPathName )
 	if (projectfile.fail()) {
 		INXString dummy = "Unable to open project file.";
 		dummy += csProjectPathName;
-		wxMessageBox(dummy);
+		INX_MessageBox(dummy);
 		return kErr_ProjectFileNotRead;
 	}
 	
@@ -237,7 +242,7 @@ LucidErrEnum ProjectMetaData::readProjectFile( INXString csProjectPathName )
 	// load xml project file
 	while ((!projectfile.eof()) && (!projectfile.bad())) {
 		projectfile.getline(type,4095);
-		csXML = csXML + type;
+		csXML = (INXString)(csXML + type);
 	}
 
 	projectfile.close();
@@ -605,7 +610,7 @@ LucidErrEnum ProjectMetaData::readProjectFile( INXString csProjectPathName )
 	// subtract 5 for .lpj and the '/' between the project dir and project file name
 	else {
 		int iLen = csProjectPathName.GetLength() - m_csProjectName.GetLength() - 5;
-		m_csProjectDir = csProjectPathName.Left(iLen);
+		m_csProjectDir = (INXString)(csProjectPathName.Left(iLen));
 	}
 
 	m_cProjFolderMinder.setProjectFolder( m_csProjectDir );

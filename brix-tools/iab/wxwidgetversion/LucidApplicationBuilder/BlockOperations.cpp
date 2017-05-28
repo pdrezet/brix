@@ -4,7 +4,7 @@
 
 //#include "stdafx.h"
 #include "DrawProg.h"
-#include "condat.h"
+#include "Condat.h"
 #include "BlockOperations.h"
 #include <wx/msgdlg.h>
 /*

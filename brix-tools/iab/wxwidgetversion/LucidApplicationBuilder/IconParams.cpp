@@ -1,11 +1,11 @@
 // IconParams.cpp : implementation file
 //
 
-#include "stdafx.h"
+
 #include "DrawProg.h"
 #include "../common/LucidEnums.h"
 #include "IconParams.h"
-#include "ScreenTagDialog.h"
+// todo #include "ScreenTagDialog.h"
 #include "GlobalFuncs_2.h"
 #include "FileOperations.h"
 #include <wx/msgdlg.h>

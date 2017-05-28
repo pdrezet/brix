@@ -665,7 +665,7 @@ void Port::setGLPortColor(float red, float green, float blue){
 }
 #ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
 int Port::Move(INXPoint point) {
-	P = (wxPoint)P - (wxPoint)point;
+	P = (INXPoint)P - (INXPoint)point;
 	// renew the port position
 	if (porttype == STARTPORT || porttype == INPUTPORT) {
 //		rectangle=INXRect(P.x-5,P.y,P.x+bitmapSize.cx,P.y+bitmapSize.cy-5);
@@ -744,7 +744,7 @@ void Port::Load(istream * file) {
 
 		//@todo the way to make it compile in linux
 		//file->seekg(pos, (std::_Ios_Seekdir)SEEK_SET);
-			file->seekg(pos, SEEK_SET);
+			file->seekg(pos);
     }
 
    *file >> tmpIntVertical;
