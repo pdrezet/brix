@@ -9,6 +9,7 @@
 #include <cassert>
 #include "Porting_Classes/INXObject.h"
 #include "Porting_Classes/INXObjArray.h"
+#include "Porting_Classes/INXWidgets.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -42,17 +43,17 @@ SODL::~SODL()
 // Writes version information into the SODL header 
 void SODL::WriteVersionInformation(ofstream *datafile)
 {
-	 SYSTEMTIME st;
+	// inx todo SYSTEMTIME st;
 	 //unsigned long bn;
 	 INXString csProjectName;
 	pProject->pProjMData->getProjectName(csProjectName);
-     GetSystemTime(&st);
+	// inx todo GetSystemTime(&st);
      //printf("Year:%d\nMonth:%d\nDate:%d\nHour:%d\nMin:%d\nSecond:% d\n" ,st.wYear,st.wMonth,st.wDay,st.wHour,st.wMinute,st.wSecond);
 	 pProject->pProjMData->nBuildNo=UpdateBuildNum(); 
 	 *datafile << "#V:2.0.0\n"; // @todo we need to read this from the Application specific data or a targetting file perhaps if we support multiple versions?
 	 *datafile << "#B:" << pProject->pProjMData->nBuildNo << "\n";
-	 *datafile << "#D:" << "Y" << st.wYear << "M" << st.wMonth << "d" << st.wDay<< "h" <<st.wHour << "m" <<st.wMinute << "s" << st.wSecond << "\n";
-	 *datafile << "#N:" << (CString)csProjectName << "\n";
+	// inx todo  *datafile << "#D:" << "Y" << st.wYear << "M" << st.wMonth << "d" << st.wDay<< "h" <<st.wHour << "m" <<st.wMinute << "s" << st.wSecond << "\n";
+	 *datafile << "#N:" << (INXString)csProjectName << "\n";
 }
 
 
@@ -71,30 +72,35 @@ void SODL::WriteSODL(INXString sodlfile) {
 	// of line IDs than using a CUIntArray. Using such an array means -1 is stored as 4294967295.
 	// This value should never be reached.
 	INXObjArray<unsigned int> lineType;
-	CArray<long,long> lineID;
+
+	//std::vector <std::vector<long>> lineID;
+	INXObjArray<long> lineID;
+
+	//INXObjArray <INXObjArray<long> > lineID;
+
 	vector<Group> vGroups;
 	TagProjMetaSupportData_t tagData;
 	INXString csTargetFileName = "", csMessage = "";
 
 	if (!datafile.good()) {
-		AfxMessageBox("File could not be written");
+		INX_MessageBox("File could not be written");
 	}
 	
-	//AfxMessageBox( "Get ready to call Copy2Flattened" );
+	//INX_MessageBox( "Get ready to call Copy2Flattened" );
 	// Flatten encapsulated blocks
 	Copy2Flattened();
 
-	//AfxMessageBox( "Get ready to call Flatten" );
+	//INX_MessageBox( "Get ready to call Flatten" );
 	Flatten();
 	//SaveProg2("tmp.prg");	
 	// 1. Assign a unique incremental integer (within its data type) to each line
-	//AfxMessageBox( "Get ready to call AssignLineIDNum" );
+	//INX_MessageBox( "Get ready to call AssignLineIDNum" );
 	AssignLineIDNum();
 	// First write the number of groups to the sodl file.
 	// Turn off scheduling
 	//datafile << 0 << endl;
 
-	//AfxMessageBox( "Get ready to call generate SODL proper" );
+	//INX_MessageBox( "Get ready to call generate SODL proper" );
 	//@todo - add the following datafile << "hashmark" << Project << endl;
 /************* The following is where everything is written out. This should be a new function *******************/	
 	// Write out the parameters for each group
@@ -134,7 +140,7 @@ void SODL::WriteSODL(INXString sodlfile) {
 
 			// 3. Write the tag and class name.
 			datafile << "BEGIN ";
-			datafile << (CString)blob->className << endl;
+			datafile << (INXString)blob->className << endl;
 
 			// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			// Write the parameter string.
@@ -156,32 +162,32 @@ void SODL::WriteSODL(INXString sodlfile) {
 					}
 					// for string constants don't append a space
 					else if (blob->m_csIconType == "const_s") {
-							datafile << (CString)blob->iconParam[i]->value;
+							datafile << (INXString)blob->iconParam[i]->value;
 					}
 					// for gui components prepend %%%_
 					else if (i==1 && (blob->isGuiWidget())) {
-						datafile << "%%%_" << (CString)blob->iconParam[i]->value << " ";
+						datafile << "%%%_" << (INXString)blob->iconParam[i]->value << " ";
 					}
 					// for screen tags write out the target filename
 					else if (blob->iconParam[i]->dataType == 4) {
-						LucidErrEnum err = pProject->pProjMData->getScreenTagMetas((CString &)blob->iconParam[i]->value, tagData);
+						LucidErrEnum err = pProject->pProjMData->getScreenTagMetas((INXString &)blob->iconParam[i]->value, tagData);
 						assert (err == kErr_NoErr);
-						datafile << (CString)tagData.tgtFilename << " ";
+						datafile << (INXString)tagData.tgtFilename << " ";
 					}
 					// write out target filename for data files
 					else if (blob->m_csIconType.Find("file_ro") != -1 && blob->iconParam[i]->name == "File name") {
 						if (pProject->pProjMData->getTargetFileNameForDataHostFileName(blob->iconParam[i]->value, csTargetFileName)) {
-							csMessage.Format("File \"%s\" does not exist in the project. Your application may not work as expected.", blob->iconParam[i]->value);
+							csMessage.Format("File \"%s\" does not exist in the project. Your application may not work as expected.", blob->iconParam[i]->value.c_str());
 							// Don't display message because IPlayer demo runs a script which relies on host filenames
-							//AfxMessageBox(csMessage);
-							datafile << (CString)blob->iconParam[i]->value << " ";
+							//INX_MessageBox(csMessage);
+							datafile << (INXString)blob->iconParam[i]->value << " ";
 						}
 						else {
-							datafile << (CString)csTargetFileName << " ";
+							datafile << (INXString)csTargetFileName << " ";
 						}
 					}
 					else {
-						datafile << (CString)blob->iconParam[i]->value << " ";
+						datafile << (INXString)blob->iconParam[i]->value << " ";
 					}
 
 				}
@@ -212,7 +218,7 @@ void SODL::WriteSODL(INXString sodlfile) {
 				if (blob->startport[i]->line.exist || blob->startport[i]->initialise) {
 					// 7.1 Write its function name. Is there only 1 function?
 					funcName = blob->startport[i]->funcName->GetAt(0);
-					datafile << (CString)funcName << '\t';
+					datafile << (INXString)funcName << '\t';
 					// Write out atomic flag
 					//datafile << blob->startport[i]->atomicFlag << '\t';
 					datafile << 1 << '\t';
@@ -222,7 +228,8 @@ void SODL::WriteSODL(INXString sodlfile) {
 					datafile << blob->startport[i]->line.idNum << '\t';
 					// 7.2 Search through all other ports to find any other references
 					// to the function name
-					lineID.RemoveAll();
+					//lineID.RemoveAll();
+					lineID.clear();
 					lineType.RemoveAll();
 					for (j=0; j<blob->inputport_num; j++) {
 						for (int k=0; k<blob->inputport[j]->funcName->GetSize(); k++) {
@@ -322,7 +329,7 @@ void SODL::WriteSODL(INXString sodlfile) {
 				funcInPortNum = 0; funcOutPortNum = 0, funcFinPortNum = 0;
 				// ***REVISIT. Write its function name. Is there only 1 function?
 				funcName = blob->internalport[i]->funcName->GetAt(0);
-				datafile << (CString)funcName << '\t';
+				datafile << (INXString)funcName << '\t';
 				// Write out atomic flag
 				//datafile << blob->internalport[i]->atomicFlag << '\t';
 				datafile << 1 << '\t';
@@ -518,7 +525,7 @@ void SODL::Flatten()
 				blockFile = csProjectDir + DEPDIR + blob->hierarchyName + blob->description + ".prg";
 				encapsulated = bo.LoadBlock(blockFile);
 				// Give the block icons unique IDs
-				//AfxMessageBox("About to call ReassignIconIDs ( from within 'Flatten' )");
+				//INX_MessageBox("About to call ReassignIconIDs ( from within 'Flatten' )");
 				ReassignIconIDs(encapsulated);
 				bo.SaveBlock(blockFile, encapsulated);
 
@@ -972,11 +979,11 @@ void SODL::AssignLineID2OtherPort(ConData *blob, int portType, int portNum, long
 	if ( (blob2 = GetFlatIconFromID(othericonid)) == NULL)
 	{
 		INXString message;
-		message.Format("Missing component linked to %s ID %d.\nThe Application may not work as expected.\nPlease seek assistance from nCapsa.\nContinue?", blob->description, blob->identnum);
+		message.Format("Missing component linked to %s ID %ld.\nThe Application may not work as expected.\nPlease seek assistance from nCapsa.\nContinue?", blob->description, blob->identnum);
 		if(stop_checking==0)
-			response = AfxMessageBox(message ,MB_YESNO);
+			response = INX_MessageBox(message ); //todo should be a Yes/No box
 
-		if (response == IDNO) 
+		if (response == 0 ) // todo should be no not 0!
 			stop_checking = 1;	
 		
 		return;
@@ -1001,7 +1008,7 @@ int SODL::UpdateBuildNum(void)
 	pProject->pProjMData->getProjectDir(csProjectDir);
 	int num;
 	ifstream read;
-	read.open((CString)csProjectDir+"\\build.num",ios_base::in);
+	read.open((INXString)csProjectDir+"\\build.num",ios_base::in);
 	if ( read.is_open() ) {
 		read.getline(lineFromFile,256);
 		if (read.rdstate() & ifstream::failbit)

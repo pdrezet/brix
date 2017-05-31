@@ -33,7 +33,7 @@ public:
 	MainFrame* m_frame;
 	DEP *pDEP;
 private:
-	MyTreeCtrl m_cProjTree;
+	MyTreeCtrl *m_cProjTree;
 private:
 	void displayView(Project *proj, INXString doc_file);
 

@@ -1281,6 +1281,7 @@ int *DEP::EditControl(INXPOSITION selected) {
 	}
 	return returnable;
 }
+#endif
 
 int DEP::GetFinishLineID(INXObjList* flattened, ConData* otherBlockIcon, ConData* flatBlob, int endNum ,INXTREEITEM hItem) {
 //MFC	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
@@ -1325,7 +1326,6 @@ int DEP::GetFinishLineID(INXObjList* flattened, ConData* otherBlockIcon, ConData
 }
 
 
-#endif
 /*
 Searches all icons and return an object pointer for a ConObject with matching identnum.
   */

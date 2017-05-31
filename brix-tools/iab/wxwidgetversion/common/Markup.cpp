@@ -198,7 +198,7 @@ int CMarkup::x_ReleasePos()
 	return 0;
 }
 
-int CMarkup::x_ParseError( char* szError, const char* szName )
+int CMarkup::x_ParseError( char* szError,  char* szName )
 {
 	if ( szName )
 		 szError = szName;

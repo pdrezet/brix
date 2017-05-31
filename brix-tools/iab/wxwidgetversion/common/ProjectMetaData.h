@@ -167,20 +167,20 @@ public:
 	//LucidErrEnum getProjectRootDir(INXString &csProjRootDir) const;
 	LucidErrEnum getProjectDir(INXString &csProjDir) const; ////
 	LucidErrEnum getFullPathProjectFile(INXString &csProjDir) const;////
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 	LucidErrEnum writeProjectFile();
 	
 	LucidErrEnum writeProjectDescriptionFile();
-#endif
+
 	LucidErrEnum showNewProjectDialog();////
 	LucidErrEnum showOpenProjectDialog(wxWindow *parent);////
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 	LucidErrEnum showSaveProjectAsDialog();
 	LucidErrEnum showAddFileDialog(ExtDataFile &file, bool &bExists);
 	LucidErrEnum showAddResourceDialog(ExtResourceFile &file, bool &bExists);
 
 	LucidErrEnum getGroupVec(vector<Group> &groupVec);
-#endif
+
 // Returns true if given file is in the project, false otherwise
 	bool fileInProject(const ExtDataFile &file) const;////
 	bool fileInProject(const ExtGuiFile &file)  const;////
@@ -229,14 +229,14 @@ public:
 // Inflate a vector of full gui file data, eg filename, file descrip, tag, tag descrip that match 'screenTag'
 	LucidErrEnum getGuiFiles( vector<GuiFileMonty_t> &guiFileVec);////
 	LucidErrEnum getGuiFiles(vector<ExtGuiFile> &guiFileVec) const;
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 // 
 	LucidErrEnum getGuiFiles(const INXString &screenTag, vector<GuiFileMonty_t> &guiFileVec);
 
 // get a simple copy of vector of external files
-	LucidErrEnum getGuiFiles(vector<ExtGuiFile> &guiFileVec) const;
+	// above?? LucidErrEnum getGuiFiles(vector<ExtGuiFile> &guiFileVec) const;
 	LucidErrEnum getBmpFiles(vector<ExtBmpFile> &bmpFileVec) const;
-#endif
+
 	LucidErrEnum getPngFiles(vector<ExtPngFile> &pngFileVec) const;////
 	LucidErrEnum getDataFiles(vector<ExtDataFile> &dataFileVec) const;////
 	LucidErrEnum getBdfFiles(vector<ExtBdfFile> &bdfFileVec) const;
@@ -288,7 +288,7 @@ public:
 	LucidErrEnum getScreenTagMetas(
 								const INXString &screenTag,
 								TagProjMetaSupportData_t &tagData) const;////
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 	LucidErrEnum editScreenTagDescription(
 		const INXString &tag,
 		const INXString &tagDescrip);
@@ -299,7 +299,7 @@ public:
 	LucidErrEnum createNewScreenTag( 
 		const INXString &tag, const INXString &description );
 
-#endif
+
 // Adds a single screen tag.  DOESN'T generate target file name for tag.
 // Assumes that the screen-tag has been read-in from a project file, so
 // DOESN'T create a new target-filename for the screen tag.
@@ -383,11 +383,11 @@ protected:
 
 // if true, indiactes tht the instance does actually point to a project
 	bool m_bProjectIsSet;
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 public:
 	void testComponents(void);
 	void testAddScreenTag(void);
-#endif
+
 protected:
 	INXString m_csLucidVersion;
 
@@ -398,14 +398,14 @@ public:
 	INXString m_csProjectAppDescription;
 
 public:
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 	bool screenTagInProject(const INXString & tag);
 
 	LucidErrEnum getDataFileByName(const INXString & hostFileName, ExtDataFile &eGF ) const;
 	LucidErrEnum getResourceFileByName(const INXString & hostFileName, ExtResourceFile &eGF ) const;
-#endif
+
 	LucidErrEnum getGuiFileByName(const INXString & hostFileName, ExtGuiFile &eGF ) const;////
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 	LucidErrEnum getPngFileByName(const INXString & hostFileName, ExtPngFile &eBF ) const;
 	LucidErrEnum getBmpFileByName(const INXString & hostFileName, ExtBmpFile &eBF ) const;
 	LucidErrEnum getBdfFileByName(const INXString & hostFileName, ExtBdfFile &eBF ) const;
@@ -413,7 +413,7 @@ public:
 
 	// Copy 'dummy.bmp' from LAB installation dir\BMP to projectDir\DeviceData\GUI 
 	LucidErrEnum initialiseProjectLgbBitmaps(void);
-#endif
+
 	void initProjFolderMinder();////
 	void updateTransferrables(const bool &bAppUpload);////
 

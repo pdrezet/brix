@@ -61,7 +61,7 @@ CLabLgbBaseApp::CLabLgbBaseApp(void)
 	// set the current working directory - needed by WINE to start EHS using shellExecute
 	INXString baseDir;
 	//CLabLgbBaseApp *pApp = ( CLabLgbBaseApp * ) AfxGetApp();
-	//pApp->GetInstallationBaseDir(baseDir);	//base dir is something like C:/Program Files/inx/tools (whereever the iab exe is being run from)
+	pApp->GetInstallationBaseDir(baseDir);	//base dir is something like C:/Program Files/inx/tools (whereever the iab exe is being run from)
 	//SetCurrentDirectory("./"); // todo
 //	INX_MessageBox("base dir:" + baseDir);
 

@@ -10,7 +10,7 @@
 //#include "GroupSetupDialog.h" //@todo
 #include "FileOperations.h"
 #include "BlockOperations.h" //@todo
-//#include "Markup.h" //@todo
+#include "Markup.h" //@todo
 //#include "ExtDataFile.h" //@todo
 //#include "BlockPortLabelDialog.h" //@todo
 #include "GlobalFuncs_2.h"

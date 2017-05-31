@@ -16,7 +16,7 @@
 #include "LccPmdXfers.h" //@todo
 #include "GlobalFuncs_2.h" //@todo
 //#include "../LucidGUIBuilder/DrawGUI.h" //@todo
-//#include "libxml/xmlreader.h"
+#include "libxml/xmlreader.h"
 #include <fstream>
 #include <stdio.h>
 #include <cassert>
@@ -979,13 +979,12 @@ bool ProjectMetaData::isLocked()////
 {
 	return m_bLocked;
 }
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 LucidErrEnum ProjectMetaData::getGroupVec(vector<Group> &groupVec)
 {
 	groupVec = m_vGroups;
 	return kErr_NoErr;
 }
-
 
 bool ProjectMetaData::fileInProject(const ExtDataFile &file) const
 {
@@ -993,7 +992,7 @@ bool ProjectMetaData::fileInProject(const ExtDataFile &file) const
 					!= m_vDataFiles.end() );
 }
 
-#endif
+
 bool ProjectMetaData::fileInProject(const ExtGuiFile &file) const////
 {
 	return (find(m_vGuiFiles.begin(), m_vGuiFiles.end(), file)
@@ -1033,7 +1032,7 @@ LucidErrEnum ProjectMetaData::guiWidgetInVec(const GuiWidget &widget)
 	return ret;
 }
 
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 bool ProjectMetaData::fileInProject(const ExtBmpFile &file) const
 {
 	return (find(m_vBmpFiles.begin(), m_vBmpFiles.end(), file)
@@ -1083,7 +1082,7 @@ LucidErrEnum ProjectMetaData::updateWidget(const GuiWidget &widget1, const GuiWi
 	LucidErrEnum ret = kErr_ProjectMetaData_WidgetIsNotPresent;
 	INXString csWidgetTag, csScreenTag;
 
-	for (UINT i=0; i<m_vGuiWidgets.size(); i++) {
+	for (unsigned int i=0; i<m_vGuiWidgets.size(); i++) {
 
 		if (widget1 == m_vGuiWidgets.at(i)) {
 			widget2.getWidgetTag(csWidgetTag);
@@ -1099,10 +1098,11 @@ LucidErrEnum ProjectMetaData::updateWidget(const GuiWidget &widget1, const GuiWi
 
 LucidErrEnum ProjectMetaData::removeGuiWidget(const GuiWidget &widget)
 {
-	UINT index;
+
+	unsigned int index;
 	bool remove = FALSE;
 
-	for (UINT i=0; i<m_vGuiWidgets.size(); i++) {
+	for (unsigned int i=0; i<m_vGuiWidgets.size(); i++) {
 		if (widget == m_vGuiWidgets.at(i)) {
 			remove = TRUE;
 			index = i;
@@ -1118,9 +1118,9 @@ LucidErrEnum ProjectMetaData::removeGuiWidget(const GuiWidget &widget)
 	}
 }
 
-LucidErrEnum ProjectMetaData::getGuiWidgetVecSize(UINT &size)
+LucidErrEnum ProjectMetaData::getGuiWidgetVecSize(unsigned int &size)
 {
-	size = (UINT)m_vGuiWidgets.size();
+	size = (unsigned int)m_vGuiWidgets.size();
 	return kErr_NoErr;
 }
 
@@ -1146,15 +1146,16 @@ void ProjectMetaData::createFolderStructure()
 		fo.Delete(m_csProjectDir);
 	}
 	
-
+#ifdef __INX_DONE_THIS
 	// create project folder
 	CreateDirectory(m_csProjectDir, NULL);
-
+#endif
 	// create subdirectories
 	LucidErrEnum err = m_cProjFolderMinder.createProjectFolderStructure();
 
-
+#ifdef __INX_DONE_THIS
 	CreateDirectory(m_csProjectDir + DEPDIR + m_csProjectName, NULL);
+#endif
 	// create empty dep file, so when call OpenDocumentFile there is something to open
 	ofstream outfile(m_csProjectDir + DEPDIR + m_csProjectName + ".prg");
 	outfile << "";	
@@ -1174,7 +1175,9 @@ void ProjectMetaData::copyFolderTo(INXString csNewProjRootDir, INXString csNewPr
 	}
 
 	// Copy existing project to new project dir
+#ifdef __INX_DONE_THIS
 	CreateDirectory(csNewProjectDir, NULL);
+#endif
 	fo.Copy(m_csProjectDir + DEPDIR, csNewProjectDir);
 	fo.Copy(m_csProjectDir + "\\DeviceData", csNewProjectDir );
 	fo.Copy(m_csProjectDir + EXPORTDIR, csNewProjectDir);
@@ -1186,8 +1189,6 @@ void ProjectMetaData::copyFolderTo(INXString csNewProjRootDir, INXString csNewPr
 
 }
 
-
-#endif
 void ProjectMetaData::setProjectToNull(void)////
 {
 	m_iLastGuiFileAddedKey = 0;
@@ -1277,7 +1278,6 @@ LucidErrEnum ProjectMetaData::removeScreenTag(
 
 }
 
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 
 LucidErrEnum ProjectMetaData::getTargetFileNameForGuiHostFileName(
 				const INXString &hostFileName, INXString &targetFileName ) const
@@ -1321,7 +1321,6 @@ LucidErrEnum ProjectMetaData::getTargetFileNameForGuiHostFileName(
 
 }
 
-#endif
 LucidErrEnum ProjectMetaData::getScreenTagMetas(
 		const INXString &screenTag,
 		TagProjMetaSupportData_t &tagData) const////
@@ -1481,7 +1480,7 @@ LucidErrEnum ProjectMetaData::addScreenTag(
 
 }
 
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 LucidErrEnum ProjectMetaData::createNewScreenTag(
 	const INXString &tag, const INXString &descr )
 {
@@ -1501,7 +1500,7 @@ LucidErrEnum ProjectMetaData::createNewScreenTag(
 		// 1st the number -count part of the file.
 
 		char buffer[100];
-		sprintf_s(buffer, "%07d", m_iLastGuiFileAddedKey );
+		sprintf(buffer, "%07d", m_iLastGuiFileAddedKey );
 		cStr1 = buffer;
 		m_iLastGuiFileAddedKey++;
 
@@ -1866,7 +1865,7 @@ LucidErrEnum ProjectMetaData::addResourceFile(
 	ExtResourceFile dummyFile(file);
 	
 	dummyFile.getHostFileName(csFileName);
-	dummyFile.setTargetFileName((CString)csFileName);
+	dummyFile.setTargetFileName((INXString)csFileName);
 	m_vResourceFiles.push_back(dummyFile);
 	
 	//writeProjectFile();
@@ -1889,7 +1888,7 @@ LucidErrEnum ProjectMetaData::removeResourceFile(const ExtResourceFile &file )
 }
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#endif
+
 LucidErrEnum ProjectMetaData::getScreenTags(vector<INXString> &tags )////
 {
 	tags.clear();
@@ -1917,7 +1916,7 @@ LucidErrEnum ProjectMetaData::getScreenTags(vector<INXString> &tags )////
 }
 
 
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+//#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 LucidErrEnum ProjectMetaData::getScreenTagMgrData(
@@ -1941,7 +1940,7 @@ LucidErrEnum ProjectMetaData::getScreenTagMgrData(
 
 		char dumBuf[99];
 		dummy.tagDescr = pPr->second.tagDescr; // screen tag's decsrption
-		_itoa_s(getScreenTagUsageInWidgets(tag), dumBuf, 99, 10); // how many widgets tag is used on
+		sprintf( dumBuf, "%d", getScreenTagUsageInWidgets(tag)); // how many widgets tag is used on
 		dummy.useCount = dumBuf;
 		tagData[tag] = dummy; // add into returnable
 
@@ -2150,8 +2149,8 @@ LucidErrEnum ProjectMetaData::getResourceFileByName(const INXString & hostFileNa
 
 
 
-#endif
 
+#ifdef __INX_ALREADY_GOT_THIS_BEFORE
 LucidErrEnum ProjectMetaData::getGuiFiles(vector<GuiFileMonty_t> &guiFileVec)
 {
 	guiFileVec.clear();
@@ -2196,6 +2195,7 @@ LucidErrEnum ProjectMetaData::getGuiFiles(vector<GuiFileMonty_t> &guiFileVec)
 	return kErr_NoErr;
 
 }
+#endif
 LucidErrEnum ProjectMetaData::getGuiFileByName(const INXString & hostFileName, ExtGuiFile &eGF ) const////
 {
 
@@ -2214,7 +2214,7 @@ LucidErrEnum ProjectMetaData::getGuiFileByName(const INXString & hostFileName, E
 		return kErr_NoErr;
 	}
 }
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 LucidErrEnum ProjectMetaData::getBdfFileByName(const INXString & hostFileName, ExtBdfFile &eBF ) const
 {
 
@@ -2278,13 +2278,11 @@ int ProjectMetaData::getScreenTagUsageInWidgets(const INXString & screenTag)
 
 }
 
-#endif
-
 bool ProjectMetaData::projectIsSet(void)////
 {
 	return m_bProjectIsSet;
 }
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 void ProjectMetaData::testComponents(void)
 {
 	testAddScreenTag();
@@ -2422,8 +2420,6 @@ LucidErrEnum ProjectMetaData::getTargetFileNameForNlsHostFileName(
 	return err;
 }
 
-
-#endif
 
 bool ProjectMetaData::getRealLock(const char* szFile, const int iLineNum)//// _FIND_ME
 {
@@ -2567,7 +2563,7 @@ bool ProjectMetaData::releaseRealLock(const char* szFile, const int iLineNum)///
 #endif
 	return true;
 }
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 LccTimeStamp ProjectMetaData::getLastFileReadTime()
 {
 	return m_cLastFileReadTime;
@@ -2580,16 +2576,20 @@ LccTimeStamp ProjectMetaData::getLastTransferTime()
 
 void ProjectMetaData::updateTransferTime()
 {
+#ifdef __INX_DONE_THIS
 	CTime dummy = CTime::GetCurrentTime();
 	bool bSucceed = dummy.GetAsDBTIMESTAMP( m_cLastTransferTime );
 	assert(bSucceed);
+#endif
 }
 
 void ProjectMetaData::updateFileReadTime()
 {
+#ifdef __INX_DONE_THIS
 	CTime dummy = CTime::GetCurrentTime();
 	bool bSucceed = dummy.GetAsDBTIMESTAMP( m_cLastFileReadTime );
 	assert(bSucceed);
+#endif
 }
 
 void ProjectMetaData::getListOfPreviousTransferredItems(LccPmdXfers &vAlreadyTransItems) {
@@ -2657,15 +2657,17 @@ int ProjectMetaData::inflateTransferrableData(
 	INXString fullPath;
 	INXString projDir, csInstallDir;
 	INXString csDum;
+#ifdef __INX_DONE_THIS
 	CTime cTime;
-	BOOL bWorking;
-	BOOL bSucceed;
-	BOOL bIsAlreadyTransferred;
+#endif
+	bool bWorking;
+	bool bSucceed;
+	bool bIsAlreadyTransferred;
 	LccTimeStamp timeStamp;
 	TransferData_t transferData;
 	LccPmdXfers::DataPair_t tripleData;
 	LccPmdXfers::DataPair_t prevDataPair;
-	CDrawGUIApp *pApp = ( CDrawGUIApp *  )AfxGetApp();
+	// todo CDrawGUIApp *pApp = NULL;// todo ( CDrawGUIApp *  )AfxGetApp();
 
 	//LucidErrEnum err = pProjMetaData->getProjectDir( projDir );
 	//assert(kErr_NoErr == err);
@@ -2677,7 +2679,7 @@ int ProjectMetaData::inflateTransferrableData(
 
 	if(updatedOnly) getListOfPreviousTransferredItems(vAlreadyTransItems);
 
-	CFileFind finder;
+	// todo CFileFind finder;
 
 	vTransferrablesData.clear();
 
@@ -2746,6 +2748,7 @@ int ProjectMetaData::inflateTransferrableData(
 			transferData.csTargetFileName = APP_DESC_FILE;
 		}
 		else if (tripleData.type == LccPmdXfers::kFonts) {
+#ifdef __INX_DONE_THIS
 			pApp->GetInstallationBaseDir(csInstallDir);
 			transferData.csHostFileFolder =  csInstallDir + FONTDIR;
 			transferData.csHostFileFullName = tripleData.hostFileName;
@@ -2754,6 +2757,7 @@ int ProjectMetaData::inflateTransferrableData(
 			err = getTargetFileNameForBdfHostFileName( tripleData.hostFileName, csDum );
 			assert( kErr_NoErr==err);
 			transferData.csTargetFileName = csDum;
+#endif
 		}
 		else if (tripleData.type == LccPmdXfers::kNls) { 
 
@@ -2782,7 +2786,7 @@ int ProjectMetaData::inflateTransferrableData(
 
 
 		if(updatedOnly){
-
+#ifdef __INX_DONE_THIS
 			bWorking = finder.FindFile( 
 				transferData.csHostFileFolder + transferData.csHostFileFullName );
 
@@ -2814,7 +2818,7 @@ int ProjectMetaData::inflateTransferrableData(
 				}
 
 			} // while (bWorking)
-
+#endif
 		} // if(updatedOnly) 
 		else {
 			vTransferrablesData.push_back( transferData );
@@ -2827,7 +2831,6 @@ int ProjectMetaData::inflateTransferrableData(
 }
 
 
-#endif
 void ProjectMetaData::updateTransferrables(const bool &bAppUpload)//// _FIND_ME
 {
 #ifdef TRY_EXCLUDE

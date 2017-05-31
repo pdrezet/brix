@@ -21,6 +21,7 @@ END_EVENT_TABLE()
 
 DrawProg::DrawProg(void)
 {
+	m_cProjTree = NULL;
 
 }
 
@@ -34,6 +35,8 @@ bool DrawProg::OnInit(){
 	pDEP = NULL;
 	m_frame = new MainFrame((wxWindow*)NULL);
 	m_frame->Show(true);
+	m_cProjTree = new MyTreeCtrl;
+
     return true;
 }
 
@@ -242,8 +245,8 @@ wxDocument* DrawProg::OpenProject(ProjectMetaData* pProjMData){
 	bool projectSpace = FALSE;
 
 	for (int i=0; i<MAX_PROJECTS; i++) {
-		if (!m_cProjTree.pProject[i]) {
-			pProject = m_cProjTree.AddProject(i, pProjMData);
+		if (!m_cProjTree->pProject[i]) {
+			pProject = m_cProjTree->AddProject(i, pProjMData);
 			i = MAX_PROJECTS;
 			projectSpace = TRUE;
 		}
@@ -279,8 +282,8 @@ wxDocument* DrawProg::OpenProject(ProjectMetaData* pProjMData){
 	// Load the DEP
 	// The following 2 lines are a fudge so that CDrawProgDoc can get the Project pointer in the case when
 	// a project is freshly opened. Need to find a better way.
-	m_cProjTree.openProject = TRUE;
-	m_cProjTree.openProj = pProject;
+	m_cProjTree->openProject = TRUE;
+	m_cProjTree->openProj = pProject;
 #if (_INX_PLATFORM_ == INXWINDOWS)
 	wxDocument* Subsystem = OpenDocumentFile(csProjectDir + wxT("\\") + DEPDIR + csProjectName + wxT(".prg"));
 #elif (_INX_PLATFORM_ == INXMAC)
@@ -289,8 +292,8 @@ wxDocument* DrawProg::OpenProject(ProjectMetaData* pProjMData){
 #else
 #error "_INXPLATFORM_ is not defined"
 #endif
-	
-	m_cProjTree.openProject = FALSE;
+
+	m_cProjTree->openProject = FALSE;
 	INXString docFile(csProjectDir + DEPDIR + csProjectName + wxT(".prg"));
 	displayView(pProject, docFile);
 	// Add project to MRU file list

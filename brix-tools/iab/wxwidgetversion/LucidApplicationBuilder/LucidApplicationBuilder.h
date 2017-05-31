@@ -2,7 +2,7 @@
 #define _LUCIDAPPLICATIONBUILDER_H
 
 
-
+/*
 class MainApp {//: public wxApp{
 public:
     bool onInit();
@@ -10,5 +10,5 @@ protected:
 	
 };
 
-
+*/
 #endif

@@ -19,7 +19,7 @@ ALLCFLAGS=$(CPPFLAGS)
 
 #@echo $(CPPFLAGS)
 
-LDFLAGS:=$(shell ./contrib/wxWidgets-2.8.12/gtk-build-inx/wx-config --libs) -lGL -L/usr/lib/x86_64-linux-gnu/
+LDFLAGS:=$(shell ./contrib/wxWidgets-2.8.12/gtk-build-inx/wx-config --libs std,gl) -lGL -L/usr/lib/x86_64-linux-gnu/ -lxml2  -lcurl -L./contrib/source/ftgl-2.1.3-rc5/src/.libs/ -lftgl
 #-L./contrib/wxWidgets-2.8.12/gtk-build-inx/lib/
 
 ODIR=obj
@@ -80,6 +80,8 @@ common/ProjectMetaData.o \
 common/ProjectMetaDataIO.o \
 common/ProjFolderMinder.o \
 common/RevisionGuru.o \
+common/Markup.o \
+common/Porting_Classes/INXWidgets.o \
 LucidApplicationBuilder/BlockOperations.o \
 LucidApplicationBuilder/ChildFrame.o \
 LucidApplicationBuilder/ComponentMenuItem.o \
@@ -107,7 +109,9 @@ LucidApplicationBuilder/port.o \
 LucidApplicationBuilder/proc_function.o \
 LucidApplicationBuilder/ProjectBar.o \
 LucidApplicationBuilder/Project.o \
-LucidApplicationBuilder/TypeConversion.o 
+LucidApplicationBuilder/TypeConversion.o \
+LucidApplicationBuilder/SODL.o
+#LucidApplicationBuilder/Markup.o 
 #LucidApplicationBuilder/SODL.o 
 
 OBJ = $(_OBJ)
