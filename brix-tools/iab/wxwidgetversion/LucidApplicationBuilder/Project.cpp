@@ -133,7 +133,7 @@ void Project::DeleteUnused(DEP* thisDEP) {
 /* @todo Somwhere in this shocking code there is something that idenfies if the bitmap file is one of a list of ones used to represent
 x-ports and changes the function box display accordingly. Obviously this should be using the class name in IDF instead. This needs sorting out! */ 
 
-#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 // Adds a XPort to a DEP and a block port to its parent DEP
 ConData* Project::AddXPort(DEP* pParentDEP, INXString type, INXString portLabel, INXPoint point, DEP* pDEP) {
 	if (pParentDEP->AddBlockPort(type, portLabel, pDEP->depFilename)) {
@@ -742,7 +742,7 @@ void Project::ResetDebug() {
 }
 
 // Saves all the DEP that is open in the application
-#endif
+//#endif
 void Project::SaveProjectDep() {
 #ifdef TRY_EXCLUDE
 	CLabLgbBaseApp *pApp = ( CLabLgbBaseApp * ) AfxGetApp();
@@ -1220,9 +1220,9 @@ bool Project::RunNlsExec()
 
 	pProjMData->getProjectDir(csProjectDir);
 	pProjMData->getProjectName(csProjectName);
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 	pApp->GetInstallationBaseDir(csInstallDir);
-#endif
+
 	// ***REVISIT*** Should we save SODL first????
 
 	csExec = csInstallDir + wxT("\\bin\\NationalLanguageSupport.exe");

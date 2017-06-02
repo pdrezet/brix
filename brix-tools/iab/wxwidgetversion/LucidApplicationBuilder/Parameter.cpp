@@ -11,7 +11,7 @@
 #ifdef _DEBUG
 #undef THIS_FILE
 static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
+#define new DEBUG_NEW::Load
 #endif */
 
 //////////////////////////////////////////////////////////////////////
@@ -115,36 +115,36 @@ void Parameter::copy( const ParameterStore *rhs )
 	return;
 }
 
-void Parameter::Load(istream * file) {
+void Parameter::Load(istream & file) {
 	char temp[255];
 
-	file->ignore(1,'\n');
-	file->getline(temp,1023,'\t');
+	file.ignore(1,'\n');
+	file.getline(temp,1023,'\t');
 	name = temp;
-	*file >> dataType; 
-	*file >> temp;
+	file >> dataType;
+	file >> temp;
 	minRange = temp;
-	*file >> temp;
+	file >> temp;
 	maxRange = temp;
-	file->ignore(1,'\t');
-	file->getline(temp,1023);
+	file.ignore(1,'\t');
+	file.getline(temp,1023);
 	value = temp;
 	// load drop-down values
-	*file >> temp;
+	file >> temp;
 	while (strcmp(temp,"EndOfValues")) {
 		enumValArr->Add(temp);
-		*file >> temp;
+		file >> temp;
 	}
 	// load drop-down labels
-	*file >> temp;
+	file >> temp;
 	while (strcmp(temp,"EndOfLabels")) {
 		enumLabelArr->Add(temp);
-		*file >> temp;
+		file >> temp;
 	}
 	// cannot use >> operator to retrieve description as it may contain whitespaces
 	// Use getline. However need to ignore end of line character
-	file->ignore(1,'\n');
-	file->getline(temp,254);
+	file.ignore(1,'\n');
+	file.getline(temp,254);
 	description = temp;
 	
 	// restore empty strings

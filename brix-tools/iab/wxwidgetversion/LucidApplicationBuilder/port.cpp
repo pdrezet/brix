@@ -712,7 +712,7 @@ void Port::Save(ostream * file) {
 	line.Save(file);
 }
 
-void Port::Load(istream * file) {
+void Port::Load(istream & file) {
 	char *cTemp = NULL;
 	int len;
 	char temp[255];
@@ -724,39 +724,39 @@ void Port::Load(istream * file) {
 	char testString[255];
 	char mandatoryString[] = "mandatory=";
 
-   *file >> porttype;
-   *file >> datatype; 
-   *file >> P.x;
-   *file >> P.y;
-   *file >> portNum;
-   *file >> initialise;
-   *file >> atomicFlag;
+   file >> porttype;
+   file >> datatype;
+   file >> P.x;
+   file >> P.y;
+   file >> portNum;
+   file >> initialise;
+   file >> atomicFlag;
 
     // note - added mandatory flag to component spec. This means this flag may not be present when loading older DEPs
 	// so if no mandatory flag info (indicated by presence of "mandatory=" string), 
     // reset get pointer to before this read and carry on as if nothing happened
-	pos = file->tellg();
-    *file >> testString;
+	pos = file.tellg();
+    file >> testString;
     if (strcmp (testString, mandatoryString) == 0) {
-		*file >> mandatoryFlag;
+		file >> mandatoryFlag;
     } else {
 		mandatoryFlag = 0;
 
 		//@todo the way to make it compile in linux
 		//file->seekg(pos, (std::_Ios_Seekdir)SEEK_SET);
-			file->seekg(pos);
+			file.seekg(pos);
     }
 
-   *file >> tmpIntVertical;
-   *file >> groupID;
+   file >> tmpIntVertical;
+   file >> groupID;
 
 
    bPortVertical =(tmpIntVertical == 1);
 
    // cannot use >> operator to retrieve description as it may contain whitespaces
    // Use getline. However need to ignore end of line character
-	file->ignore(1,'\n');
-	file->getline(temp,254);
+	file.ignore(1,'\n');
+	file.getline(temp,254);
 
 	// strip out any text in square brackets - this is a unique identifier that used by ICB but not needed in IAB
 	//note - we are cheating, just assuming that square brackets are at end of string and only keeping chars before '['
@@ -767,18 +767,19 @@ void Port::Load(istream * file) {
 	}
 
 	description = temp;
-	file->getline(temp,254);
+	file.getline(temp,254);
+	if (temp[0] == '\r') temp[0]='\0';
 	tag = temp; //tag is Cstring so this is OK.
 	
 	// load function name and argument
-	*file >> temp;
+	file >> temp;
 	strcpy(temp2,temp);
 	while (strcmp(temp,"EndOfFunc")) {
-		*file >> tmpInt;
+		file >> tmpInt;
 		funcName->SetAtGrow(i, temp);
 		funcArg->SetAtGrow(i, tmpInt);
 		i++;
-		*file >> temp;
+		file >> temp;
 	}
 	// read in bitmap for port once the port data has been loaded
 	if (porttype != INTERNALPORT) {

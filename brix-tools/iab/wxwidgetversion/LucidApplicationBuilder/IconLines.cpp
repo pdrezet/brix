@@ -271,15 +271,15 @@ void IconLines::Save(ostream * file) {
 	*file << "END_LINE" << endl;
 }
 
-void IconLines::Load(istream * file) {
+void IconLines::Load(istream & file) {
 	char temp[256];
 	INXPoint ReadPoint;
 	nodeCount = 0;
 	INXString csTmpStr;
 
-	file->ignore(1,'\n');
-	file->getline(temp,254); // BEGIN_LINE 
-	file->getline(temp,254);
+	file.ignore(1,'\n');
+	file.getline(temp,254); // BEGIN_LINE
+	file.getline(temp,254);
 	// Use sscanf instead of the line below to make the read backward compatible
 	//*file >>  temp >> exist >> othericonid >> otherportno >> portType >> hierID >> m_bDbgMonitorSel;
 	unsigned short temp_short = 0;
@@ -289,10 +289,10 @@ void IconLines::Load(istream * file) {
 	if (!exist) return;
 	//points.Add(NULL); //add NULL start point
 	do {
-		*file >> temp;
+		file >> temp;
 		if (strcmp(temp,"END_LINE")==0) break; // Sorry but it's short
 		ReadPoint.x=atoi(temp);
-		*file >> ReadPoint.y;
+		file >> ReadPoint.y;
 		nodeCount++;
 		points.SetAtGrow(nodeCount, new INXPoint(ReadPoint));
 	} while (1);

@@ -469,7 +469,7 @@ void SODL::Copy2Flattened() {
 		else
 			if (strcmp(type,"BEGIN_BLOCK")==0) {
 				blob = new ConData;
-				blob->Load(&datafile);
+				blob->Load(datafile);
 				flattened->AddTail((INXObject*) blob);
 				id = blob->identnum;
 			} else {

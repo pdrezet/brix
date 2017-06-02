@@ -133,7 +133,7 @@ bool DrawProg::GetInstallationBaseDir(INXString &installationBaseDir)
 	installationBaseDir = choppable;
 	//remove intital quotes
 	//installationBaseDir = installationBaseDir.Right(installationBaseDir.GetLength()-1);
-
+	installationBaseDir="./";
 	return TRUE;
 }
 void DrawProg::GetExecutableName(INXString & execName){
@@ -238,6 +238,8 @@ wxDocument* DrawProg::OpenProject(ProjectMetaData* pProjMData){
 #error "_INXPLATFORM_ is not defined"
 #endif
 	
+	//	INX_MessageBox("Opening :" + csProjectPathName);
+
 	ifstream projectfile(csProjectPathName);
 
 	// set the project number. There are two approaches. 1. When a project is deleted shift the projects.
@@ -261,8 +263,11 @@ wxDocument* DrawProg::OpenProject(ProjectMetaData* pProjMData){
 		pProject->pProjMData->releaseLock();
 		bLockReleased = true;
 	}
+
 	if (!fo.CheckPath((INXString)(csProjectDir + NLSDIR + NLSFILE))) {
+#ifdef __INX_NLS
 		pProject->RunNlsExec();
+#endif
 		if (!pProject->pProjMData->getLock()) {
 			wxMessageBox(wxT(PMD_LOCK_FAILURE_MESSAGE));
 		}
@@ -271,6 +276,8 @@ wxDocument* DrawProg::OpenProject(ProjectMetaData* pProjMData){
 			pProject->pProjMData->releaseLock();
 		}
 	}
+
+
 	if (bLockReleased) {
 		if (!pProject->pProjMData->getLock()) {
 			assert(1==0);
@@ -287,11 +294,13 @@ wxDocument* DrawProg::OpenProject(ProjectMetaData* pProjMData){
 #if (_INX_PLATFORM_ == INXWINDOWS)
 	wxDocument* Subsystem = OpenDocumentFile(csProjectDir + wxT("\\") + DEPDIR + csProjectName + wxT(".prg"));
 #elif (_INX_PLATFORM_ == INXMAC)
+
 #elif (_INX_PLATFORM_ == INXLINUX)
 	wxDocument* Subsystem = OpenDocumentFile((INXString)(csProjectDir + "/" + DEPDIR + csProjectName + ".prg"));
 #else
 #error "_INXPLATFORM_ is not defined"
 #endif
+	//todo - Subsystem is null here always - what is this for !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!?????????????
 
 	m_cProjTree->openProject = FALSE;
 	INXString docFile(csProjectDir + DEPDIR + csProjectName + wxT(".prg"));
@@ -311,6 +320,8 @@ for(int i=0;i < this->m_pRecentFileList->GetSize();i++)
 		INXString strFileName(this->m_pRecentFileList->m_arrNames[i]);
 	}
 #endif
+
+//INX_MessageBox("SubSystem:" + (INXString)(csProjectDir + "/" + DEPDIR + csProjectName + ".prg"));
 return Subsystem;
 }
 
@@ -371,7 +382,7 @@ void DrawProg::displayView(Project *proj, INXString doc_file){
 	// remove .prg to get filename
 	len = filename.GetLength() - 4;
 	filename = filename.Left(len);*/
-
+	//INX_MessageBox("displayView " + doc_file);
 	pDEP = proj->AddDEP();
 	pDEP->LoadProg(doc_file);
 	pDEP->InitTagLists();

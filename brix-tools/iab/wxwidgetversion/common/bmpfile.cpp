@@ -383,7 +383,7 @@ BYTE* Bitmap::LoadBMP(INXString fileName)
 							if ( row == 100 ) {
 								row = 100;
 							}
-							printf("pixel 0 1 2 3 %c %c %c %c\n", pixel[0], pixel[1], pixel[2], pixel[3]);
+							//printf("pixel 0 1 2 3 %c %c %c %c\n", pixel[0], pixel[1], pixel[2], pixel[3]);
 						
 							*(outBuf + rowOffset + offset + 0)=pixel[0];
 							*(outBuf + rowOffset + offset + 1)=pixel[1];

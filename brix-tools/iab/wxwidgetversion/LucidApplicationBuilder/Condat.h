@@ -50,7 +50,7 @@ public:
 #endif
 	void DrawTitle();
 	void Save(ostream* file);
-	int Load(istream* file);
+	int Load(ifstream& file);
 	int LoadNoBmp(istream* file);
 	void RenewPosition(INXPoint newpoint, INXPoint oldpoint);
 	void DeleteLine(int port, int porttype);

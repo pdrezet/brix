@@ -25,7 +25,7 @@ class IconLines : public INXObject
 {
 public:
 	void Save(ostream * file) ;
-	void Load(istream * file) ; 
+	void Load(istream & file) ;
 	IconLines();
 	virtual ~IconLines();
 	void SetEndPoints(INXPoint *start, INXPoint *end,long int _othericon,int _portNum, int _portType) ;

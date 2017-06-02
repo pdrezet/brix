@@ -72,7 +72,7 @@ DEP::~DEP()
 	delete eventTags;
 }
 
-#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
+
 int DEP::AddBlockPort(INXString type, INXString portLabel, INXString blockName) {
 	int portType, dataType, ret;
 	ConData* block;
@@ -161,7 +161,7 @@ void DEP::AddIconToGroup(INXPOSITION selectedIcon, int groupID) {
  * Returns true if both icons passed in are xports
  *
  */
-#endif
+//#endif
 bool areBothIconsXPorts(ConData *pFirstIcon, ConData *pSecondIcon)
 {
 	bool bAreBothIcons = false;
@@ -189,7 +189,7 @@ First this method identifies if the connetion is valid, and then also identifies
 is the input and which is the output
 return 1 if it was successful otherwise return 0.
 */
-#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
+
 int DEP::AddLine(INXPOSITION selectedIcon, int selectedPort, int selectedPortType, INXPOSITION selectedIcon2,int selectedPort2, int selectedPortType2) {
 	ConData* iconIn;
 	ConData* iconOut;
@@ -293,7 +293,7 @@ void DEP::AddNodes(INXPOSITION selectedIcon, int selectedPort, int selectedPortT
 }
 
 // Function that adds a port to a block
-#endif
+//#endif
 #ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 int DEP::AddPort(ConData* blob, int iDataType, int iPortType, INXString portLabel) {
 	INXPoint point;
@@ -1628,7 +1628,7 @@ bool DEP::IsUniqueID(long id) {
 void DEP::LoadProg(INXString Info) {
 	depFSM.enabledraw = 0;
 	//ResizeParentToFit( );   // Default bShrinkOnly argument
-	ifstream datafile((char*)Info);
+	ifstream datafile((char*)Info,ios::in);
 	char type[256];
 	long int id,nothingFOundCounter=0;
 	bool bCanvasFlag = FALSE;
@@ -1640,7 +1640,10 @@ void DEP::LoadProg(INXString Info) {
 		else
 		if (strcmp(type,"BEGIN_BLOCK")==0) {
 			ConData *blob=new ConData;
-			blob->Load(&datafile);
+			if (blob->Load(datafile) != 0) {
+				throw ("DEP Error");
+				break;
+			}
 			condata->AddTail((INXObject*) blob);
 			id = blob->identnum;
 		} else

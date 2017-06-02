@@ -31,7 +31,7 @@ wxMDIParentFrame(parent, wxID_ANY, wxT("INX"), wxPoint(100,100), wxSize(1000,550
 #if __WXMSW__
 		wxIcon inxIcon(wxT("./res/DrawProg.ico"),wxBITMAP_TYPE_ICO ,-1,-1);
 #else
-	wxIcon inxIcon(wxT("/home/kamil/workspace/iAB_Project/res/DrawProgIcon.xpm"), wxBITMAP_TYPE_XPM);
+	wxIcon inxIcon(wxT("./res/DrawProgIcon.xpm"), wxBITMAP_TYPE_XPM);
 #endif
 	SetIcon(inxIcon);
 	//create a menu bar
@@ -67,7 +67,7 @@ void MainFrame::InitToolBar(wxToolBar* toolBar){
 #if __WXMSW__
 	wxBitmap tbImageSheet("./res/Toolbar_24bit.bmp", wxBITMAP_TYPE_BMP);
 #else
-	wxBitmap tbImageSheet(wxT("/home/kamil/workspace/iAB_Project/res/Toolbar_24bit.bmp"), wxBITMAP_TYPE_BMP);
+	wxBitmap tbImageSheet(wxT("./res/Toolbar_24bit.bmp"), wxBITMAP_TYPE_BMP);
 #endif
 	wxImageList *tbImageList = new wxImageList(toolButtonWidth, toolButtonHeight, true, NUMBER_OF_TOOLS);
 	//add specific bitmap to the image list

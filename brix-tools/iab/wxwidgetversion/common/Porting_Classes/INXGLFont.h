@@ -5,7 +5,7 @@
 #include <wx/glcanvas.h>
 #include <FTGL/ftgl.h>
 
-#define ARIAL_FONT "C:\\Windows\\Fonts\\arial.ttf"
+#define ARIAL_FONT "./res/arial.ttf"
 
 class INXGLFont{
 private:

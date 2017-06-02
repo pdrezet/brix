@@ -75,7 +75,7 @@ public:
 	void DrawGL();
 	void DrawGL( bool _onlyDrawAnim, int _toggleAnim);
 	void Save(ostream *);
-	void Load(istream *);
+	void Load(istream &);
 	//CObject* OtherIconID;
 
 private:

@@ -42,7 +42,7 @@ public:
 
 	// methods
 	void Save(ostream *);
-	void Load(istream *);
+	void Load(istream &);
 	bool IsTextbox();
 
 	INXString GetEnumLabel(INXString enumVal);

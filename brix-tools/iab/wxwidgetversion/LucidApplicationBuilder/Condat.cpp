@@ -878,44 +878,54 @@ The current ASCII method requires boring matching of the save and load ascii dat
 the icons, ports, and line objects are made streamable.
   */
 
-int ConData::Load(istream* file)
+int ConData::Load(ifstream& file)
 {
 	//INXPoint point=rectangle.TopLeft();
 	char temp[1024];
+	bool filegood=false;
 	//uniqueidgenerator=1; //reset the global static id counter 
-//	*file >> temp; //read the BEGIN_CONDATA MARKER
-	*file >> temp;
+//	file >> temp; //read the BEGIN_CONDATA MARKER
+	file >> temp;
 	m_csIconType = (INXString)temp;
-	if(m_csIconType == "") return 1; //file name empty
-	*file >> temp;
+	if(m_csIconType == "") return 1; //file name empty - todo we need t handle this error above.
+	file >> temp;
 	m_csBlockName = temp;
 	if (m_csBlockName == "_") m_csBlockName.Append("");
 	//init(type, block, INXPoint(0,0), 1); //PROBLEMHERE 1
 	initBmp(INXPoint(0,0));
-	*file >> identnum; //the counter will get incremented by the above and hence duplicates will be avoided.
-	*file >> instNum;
-	*file >> m_iUserDefined;
-	*file >> selected;
-	file->ignore(1,'\n');
-	file->getline(temp,1023);
+	file >> identnum; //the counter will get incremented by the above and hence duplicates will be avoided.
+	file >> instNum;
+	file >> m_iUserDefined;
+	file >> selected;
+	file.ignore(1,'\n');
+	file.getline(temp,1023);
 	description = temp;
-	file->getline(temp,1023);
+	file.getline(temp,1023);
 	optionstring = temp;
-	file->getline(temp,1023);
+	file.getline(temp,1023);
+	filegood=file.good();
 	longDesc = temp;
-	*file >> temp;
+	file >> temp;
 	className = temp;
-	file->ignore(1,'\n');
-	file->getline(temp,1023);
-	//*file >> temp;
+	file.ignore(1,'\n');
+	filegood=file.good();
+	file.getline(temp,1023); //misses
+	filegood=file.good();
+	file >> temp;
+	filegood=file.good();
 	hierarchyName = temp;
-	*file >> rectangle.TopLeft().x>>rectangle.TopLeft().y>> rectangle.BottomRight().x>>rectangle.BottomRight().y;
-	*file >> m_iShow;
-	*file >> showdescript;
+	filegood=file.good();
+	file >> rectangle.TopLeft().x>>rectangle.TopLeft().y>> rectangle.BottomRight().x>>rectangle.BottomRight().y;
+	filegood=file.good();
+	file >> m_iShow;
+	filegood=file.good();
+	file >> showdescript;
+	filegood=file.good();
 	inputport_num=0;outputport_num=0;startport_num=0;finishport_num=0;internalport_num=0;iParamNum=1;
 	do {
 		temp[0]=0;//incase filehandle fails
-		*file >> temp;
+		file >> temp;
+		filegood=file.good();
 		if (strcmp(temp,"parameter")==0) {
 			iconParam[iParamNum]=new Parameter;
 			iconParam[iParamNum]->Load(file);
@@ -936,7 +946,7 @@ int ConData::Load(istream* file)
 		if (strcmp(temp,"internalport")==0) {
 			internalport[internalport_num]=new Port(m_iUserDefined);
 			internalport[internalport_num]->Load(file);internalport_num++;}	
-	} while (strcmp(temp,"END_BLOCK")&&file->good());
+	} while (strcmp(temp,"END_BLOCK")&&file.good());
 	
 	if (description==wxT("_")) description.Append(wxT(""));  //put back to normal
 	if (optionstring==wxT("_")) optionstring.Append(wxT(""));

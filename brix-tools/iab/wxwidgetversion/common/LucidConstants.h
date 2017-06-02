@@ -124,7 +124,7 @@ Please try again later"
 #define RTA_TRACE_SIZE 64
 #define TRACE_TIMER_ID 1
 #define TRACE_PERIOD 1000
-#define RTA_TRACE_PATH "C:\\rta\\bin\\RTA-TRACE.exe"
+#define RTA_TRACE_PATH "C:/rta/bin/RTA-TRACE.exe"
 
 // lock functions
 #define getLock() getRealLock(__FILE__, __LINE__)
@@ -139,8 +139,8 @@ const INXString NOPARAMS = "*";
 
 // paths
 
-#define PMD_LOCK_FILE_NAME "\\ProjMetaData.lock"
-#define PROJ_LOCK_FILE_NAME "\\Project.lock"
+#define PMD_LOCK_FILE_NAME "/ProjMetaData.lock"
+#define PROJ_LOCK_FILE_NAME "/Project.lock"
 
 const int NODE_TYPE_ATTRIBUTE_FIELD = 2;
 const int NODE_TYPE_COMMENT = 8;
@@ -190,55 +190,55 @@ const int NODE_PIXELS_TO_INSET_FIRST_NODE_ON_LINE = 5;
 const INXString FILE_TYPE_CDF = ".cdf";
 const INXString FILE_TYPE_IDF = ".ini";
 
-const INXString USERDEFDIR = "\\userdefined\\";
-const INXString IDFDIR = "\\IDF\\";
-const INXString CDFDIR = "\\CDF\\";
-const INXString NECDIR = "\\microcontroller\\";
-const INXString BMPDIR = "\\BMP\\";
-const INXString IMAGEDIR = "\\Images\\";
-const INXString TRACEDIR = "\\RTA-Trace\\";
-const INXString LOGDIR = "\\log\\";
-const INXString LUCID_EXECUTABLES_DIR = "\\bin";
-const INXString LUCID_DIST_DIR = "\\dist";
-const INXString HTML_HELP_FILE = "\\docs\\help.html";
-const INXString MENUCONFIGFILE = "\\config\\menu.xml";
-const INXString DEFAULT_HELPFILE = "\\defaultHelp.html";
+const INXString USERDEFDIR = "/userdefined/";
+const INXString IDFDIR = "/IDF/";
+const INXString CDFDIR = "/CDF/";
+const INXString NECDIR = "/microcontroller/";
+const INXString BMPDIR = "/BMP/";
+const INXString IMAGEDIR = "/Images/";
+const INXString TRACEDIR = "/RTA-Trace/";
+const INXString LOGDIR = "/log/";
+const INXString LUCID_EXECUTABLES_DIR = "/bin";
+const INXString LUCID_DIST_DIR = "/dist";
+const INXString HTML_HELP_FILE = "/docs/help.html";
+const INXString MENUCONFIGFILE = "/config/menu.xml";
+const INXString DEFAULT_HELPFILE = "/defaultHelp.html";
 
-//const INXString FTPSODL = "\\SODL\\t.sdl";
-const INXString OPTIONSFILE = "\\options.ini";
-const INXString DEBUGDIR = "\\DEPDebug\\";
+//const INXString FTPSODL = "/SODL/t.sdl";
+const INXString OPTIONSFILE = "/options.ini";
+const INXString DEBUGDIR = "/DEPDebug/";
 const INXString DEBUGFILE = "debug";
-const INXString TEMPDIR = "\\temp\\";
-const INXString LGB_TEMPDIR = "\\temp\\LGB\\";
-const INXString DEPDIR = "\\DEP\\";
-const INXString DEVICEDATADIR = "\\DeviceData\\";
-const INXString DDATADIR = "\\DeviceData\\data\\";
-const INXString GUIDIR = "\\DeviceData\\GUI\\";
-const INXString EXPORTDIR = "\\export\\";
-const INXString SODLDIR = "\\DeviceData\\SODL\\";
-const INXString OLDSODLDIR = "\\SODL\\";
+const INXString TEMPDIR = "/temp/";
+const INXString LGB_TEMPDIR = "/temp/LGB/";
+const INXString DEPDIR = "/DEP/";
+const INXString DEVICEDATADIR = "/DeviceData/";
+const INXString DDATADIR = "/DeviceData/data/";
+const INXString GUIDIR = "/DeviceData/GUI/";
+const INXString EXPORTDIR = "/export/";
+const INXString SODLDIR = "/DeviceData/SODL/";
+const INXString OLDSODLDIR = "/SODL/";
 const INXString SODLFILENAME = "t.sdl";
-const INXString DEFAULTPROJECTROOTDIR = "C:\\Lucid Projects";
-const INXString MANUALSDIR = "\\manuals";
+const INXString DEFAULTPROJECTROOTDIR = "C:/Lucid Projects";
+const INXString MANUALSDIR = "/manuals";
 const INXString ACROBAT_READER_EXENAME = "AcroRd32.exe";
 const INXString TRACE_CONFIG_FILE = "lucid.rta";
 const INXString TRACE_HEADER_FILE = "header.rta";
 const INXString LAB_LOG_FILE = "lab.log";
 const INXString LGB_LOG_FILE = "lgb.log";
-const INXString FONTDIR = "\\fonts\\";
-const INXString NLSDIR = "\\DeviceData\\NLS\\";
+const INXString FONTDIR = "/fonts/";
+const INXString NLSDIR = "/DeviceData/NLS/";
 const INXString NLSFILE = "nls.csv";
 const INXString TOOLSFILE = "tools.ini";
-const INXString RESOURCEDIR = "\\DeviceData\\resource\\";
+const INXString RESOURCEDIR = "/DeviceData/resource/";
 
 //--------------------------------------------------------------
 // Manuals.
-const INXString LGB_USERGUIDE_FILENAME = "\\GUI Builder User Manual.pdf";
-const INXString LGB_REFMANUAL_FILENAME = "\\GUI Builder Reference Manual.pdf";
-const INXString LAB_USERGUIDE_FILENAME = "\\Lucid User Guide.pdf";
-const INXString LAB_REFMANUAL_FILENAME = "\\Lucid Reference Manual.pdf";
-const INXString LGBLAB_TUTORIAL_FILENAME = "\\Lucid Tutorial.pdf";
-const INXString LOB_REFMANUAL_FILENAME = "\\Object Builder User Manual.pdf";
+const INXString LGB_USERGUIDE_FILENAME = "/GUI Builder User Manual.pdf";
+const INXString LGB_REFMANUAL_FILENAME = "/GUI Builder Reference Manual.pdf";
+const INXString LAB_USERGUIDE_FILENAME = "/Lucid User Guide.pdf";
+const INXString LAB_REFMANUAL_FILENAME = "/Lucid Reference Manual.pdf";
+const INXString LGBLAB_TUTORIAL_FILENAME = "/Lucid Tutorial.pdf";
+const INXString LOB_REFMANUAL_FILENAME = "/Object Builder User Manual.pdf";
 
 //--------------------------------------------------------------
 
@@ -310,8 +310,8 @@ const INXString FINISH_FUNC_MSG_TYPE = "F";
 //////////////////////////////////////////////////////////////////////
 
 
-//const INXString OPTIONSFILE = "c:\\work\\lucid\\source\\Lucid_GUIBuilder\\options.ini";
-//const INXString FTPGUI = "c:\\work\\lucid\\source\\Lucid_GUIBuilder\\ftp\\GUI.txt";
+//const INXString OPTIONSFILE = "c:/work/lucid/source/Lucid_GUIBuilder/options.ini";
+//const INXString FTPGUI = "c:/work/lucid/source/Lucid_GUIBuilder/ftp/GUI.txt";
 
 #define TEXT_ICON_DEFAULT_OPACITY 255
 #define IMAGE_ICON_DEFAULT_OPACITY 255
@@ -327,14 +327,14 @@ const INXString FINISH_FUNC_MSG_TYPE = "F";
 
 //paths
 //#ifdef _DEBUG
-//const INXString GUIDIR = "\\DeviceData\\GUI\\";
-//const INXString GUITXT = "\\DeviceData\\GUI\\GUI.txt";
+//const INXString GUIDIR = "/DeviceData/GUI/";
+//const INXString GUITXT = "/DeviceData/GUI/GUI.txt";
 
-//const INXString SODL_DIR = "\\SODL";
+//const INXString SODL_DIR = "/SODL";
 //const INXString SODL_FILE_NAME = "t.sdl";
 
-//const INXString OPTIONSFILE = "\\options.ini";
-//const INXString BITMAPDIR = "\\BMP\\";
+//const INXString OPTIONSFILE = "/options.ini";
+//const INXString BITMAPDIR = "/BMP/";
 
 const INXString LGB_APP_NAME = "LucidGuiBuilder: ";
 const INXString LAB_APP_NAME = "LucidApplicationBuilder: ";
@@ -372,23 +372,23 @@ const INXString TARGET_DISPLAY_NAME_BLANK = "";
 const int TCPIP_BUFFER_SIZE = (1024 * 1024) * sizeof(char);
 
 // EHS related paths
-#define EHS_WIN_VAR_DIR "\\EHS\\ehs_env-win_x86_gtk_gst"
-#define EHS_LINUX_VAR_DIR "\\EHS\\ehs_env-linux_x86_gtk_gst"
+#define EHS_WIN_VAR_DIR "/EHS/ehs_env-win_x86_gtk_gst"
+#define EHS_LINUX_VAR_DIR "/EHS/ehs_env-linux_x86_gtk_gst"
 #define EHS_LINUX_OPT_INSTALL_DIR "/opt/ehs" /*This is the fixed path for a linux package installer*/
 #define EHS_LINUX_OPT_RUNTARGET "bin/run_ehs.sh"
-#define EHS_SYSDATA_DIR "\\sysdata"
-#define EHS_GRAPHICS_INFO_FILE "\\graphics.nfo"
-#define EHS_APPDATA_DEFAULT_DIR "\\appdata\\default"
-#define EHS_SODL_FILE "\\t.sdl"
-#define EHS_BIN_DIR "\\bin"
+#define EHS_SYSDATA_DIR "/sysdata"
+#define EHS_GRAPHICS_INFO_FILE "/graphics.nfo"
+#define EHS_APPDATA_DEFAULT_DIR "/appdata/default"
+#define EHS_SODL_FILE "/t.sdl"
+#define EHS_BIN_DIR "/bin"
 
 // App Uploader
-#define APP_TAR_FILE "\\app.tar.gz"
-#define APP_DESC_DIR "\\DeviceData\\description\\"
+#define APP_TAR_FILE "/app.tar.gz"
+#define APP_DESC_DIR "/DeviceData/description/"
 #define APP_DESC_FILE "info.xml"
 
 // Registry settings for Target
-#define REG_TARGET_KEY "Software\\Lucid\\LucidApplicationBuilder\\Target"
+#define REG_TARGET_KEY "Software/Lucid/LucidApplicationBuilder/Target"
 #define REG_TARGET_LOCATION_VALUE "Location"
 #define REG_TARGET_LOCAL_PORT_VALUE "LocalPort"
 #define REG_TARGET_REMOTE_IP_VALUE "RemoteIp"

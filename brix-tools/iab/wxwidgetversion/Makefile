@@ -12,7 +12,7 @@ LL = $(CC)
 endif
 
 
-CPPFLAGS:=$(shell ./contrib/wxWidgets-2.8.12/gtk-build-inx/wx-config --cppflags) -std=c++11 -I./common/ -I./LucidApplicationBuilder/ -I./contrib/include
+CPPFLAGS:=$(shell ./contrib/wxWidgets-2.8.12/gtk-build-inx/wx-config --cppflags) -g -std=c++11 -I./common/ -I./LucidApplicationBuilder/ -I./contrib/include
 ALLCFLAGS=$(CPPFLAGS)
 
 
@@ -140,6 +140,7 @@ $(ODIR)/%.o :  $(DEPS)
 
 clean:
 	rm -f $(IABEXENAME) PSD $(ODIR)/*.o *~ core
+	find -name *.o -delete
 
 
 

@@ -91,7 +91,7 @@ INXObjList* BlockOperations::LoadBlock(INXString Info) {
 			else
 			if (strcmp(type,"BEGIN_BLOCK")==0) {
 				ConData *blob = new ConData;
-				blob->Load(&datafile);
+				blob->Load(datafile);
 				encapsulated->AddTail((INXObject*) blob);
 			}
 			if(i>500)
