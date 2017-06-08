@@ -127,6 +127,10 @@ void FunctionBlockTree::init()
 
 }
 
+
+/*
+ * @brief Reads CDF or (theoretically IDF - but this has been deprecated as we we will convert the files to CDF)
+ * */
 void FunctionBlockTree::readIDF(INXString csIDFPath, INXString fileType)
 {
 	
@@ -147,52 +151,57 @@ void FunctionBlockTree::readIDF(INXString csIDFPath, INXString fileType)
 	INXString csLevel4;
 	INXString csIconName;
 	INXString csUserdefined;
-
+	/*
 	m_csaL2IconName.SetSize(MAX_SECOND_LEV);
 	m_csaL2MenuName.SetSize(MAX_SECOND_LEV);
 	m_csaL3IconName.SetSize(MAX_THIRD_LEV);
 	m_csaL3MenuName.SetSize(MAX_THIRD_LEV);
 	m_csaL4IconName.SetSize(MAX_THIRD_LEV); //@todo these should use a level four value too!
 	m_csaL4MenuName.SetSize(MAX_THIRD_LEV);
-
+	 */
 
 
 	// read in ini files and construct menu tree
-	while (bWorking)
+	while (bWorking = finder.GetNext(&csFileName)) //bWorking = finder.FindNextFile(); //original
 	{
-		bWorking = finder.GetNext(&csFileName); //bWorking = finder.FindNextFile(); //original 
+
+
 		//csFileName = finder.GetFileName();// original
 		csFilePath = csIDFPath + csFileName;
-		
-		if (fileType == FILE_TYPE_CDF) {
-			// Extract the menu items from the ini file
-			readMenuItemsFromCDF(&csLevel1,&csLevel2,&csLevel3,&csLevel4,csFilePath);
-			// note - change from IDF method - use actual filename at this point as icon name, later will retrieve file and parse to get icon name 
-			csIconName = csFileName;
-			//readUserDefinedFromCDF(&csUserdefined,csFilePath); //@todo ?is this defined in the xml when creating user defined components? - if so we need to extract it here
-			csUserdefined = "";
-		} else {
-			// Extract the menu items from the ini file
-			csLevel1 = GetIniValue(SECTIONL1, KEYL1, csFilePath);
-			csLevel2 = GetIniValue(SECTIONL2, KEYL2, csFilePath);
-			csLevel3 = GetIniValue(SECTIONL3, KEYL3, csFilePath);
-			csLevel4 = GetIniValue(SECTIONL4, KEYL4, csFilePath);
-			// Extract icon name from the ini file
-			csIconName = GetIniValue(SECTIONICON, KEYICON, csFilePath);
-			// Extract user defined
-			csUserdefined = GetIniValue("Icon", "user defined", csFilePath);
-		}
+		if (csFileName.Right(4) == ".cdf" || csFileName.Right(4) == ".idf") {
+			if (fileType == FILE_TYPE_CDF) {
+				// Extract the menu items from the ini file
+				readMenuItemsFromCDF(&csLevel1,&csLevel2,&csLevel3,&csLevel4,csFilePath);
+				// note - change from IDF method - use actual filename at this point as icon name, later will retrieve file and parse to get icon name
+				csIconName = csFileName;
+				//readUserDefinedFromCDF(&csUserdefined,csFilePath); //@todo ?is this defined in the xml when creating user defined components? - if so we need to extract it here
+				csUserdefined = "";
+			} else if (fileType == FILE_TYPE_IDF) {
+				// Extract the menu items from the ini file
+				csLevel1 = GetIniValue(SECTIONL1, KEYL1, csFilePath);
+				csLevel2 = GetIniValue(SECTIONL2, KEYL2, csFilePath);
+				csLevel3 = GetIniValue(SECTIONL3, KEYL3, csFilePath);
+				csLevel4 = GetIniValue(SECTIONL4, KEYL4, csFilePath);
+				// Extract icon name from the ini file
+				csIconName = GetIniValue(SECTIONICON, KEYICON, csFilePath);
+				// Extract user defined
+				csUserdefined = GetIniValue("Icon", "user defined", csFilePath);
+			}
 
-		// add it to the collection of components to be added to the tree
-		ComponentOnTree_t * comp = new ComponentOnTree_t();
-		comp->iconName = csIconName;
-		comp->menuNameL1 = csLevel1;
-		comp->menuNameL2 = csLevel2;
-		comp->menuNameL3 = csLevel3;
-		comp->menuNameL4 = csLevel4;
-		comp->userDefined = csUserdefined;
-		m_componentList.Add(comp);
+			// add it to the collection of components to be added to the tree
+			ComponentOnTree_t * comp = new ComponentOnTree_t();
+			comp->iconName = csIconName;
+			comp->menuNameL1 = csLevel1;
+			comp->menuNameL2 = csLevel2;
+			comp->menuNameL3 = csLevel3;
+			comp->menuNameL4 = csLevel4;
+			comp->userDefined = csUserdefined;
+			comp->filePath = csFileName;
+			m_componentList.Add(*comp);
+		}
+		//else spurioe file to ignore
 	}
+
 }
 
 /*
@@ -672,10 +681,68 @@ bool FunctionBlockTree::leafIsSelected()
 }
 
 #endif
-void FunctionBlockTree::addItemsToTree(INXString csLevel1, INXString csLevel2, INXString csLevel3, INXString csLevel4, int it){
-	if(levelOne.IsEmpty()){
-		levelOne.Add(AppendItem(rootId,csLevel1));
+
+/* private function for checking for dupes in menu tree so new items can be added to correct bracnch */
+//bool FunctionBlockTree::CheckLevelToTree(INXObjArray< wxTreeItemId> * treeLevel, const INXString entry) {
+//for (int i=0; i< treelelvel)
+//}
+
+
+/*
+void FunctionBlockTree::addLevelToTree(const int level, const INXString entry) {
+	INXObjArray< wxTreeItemId> * treeLevel = NULL;
+	wxTreeItemId parent;
+	switch (level) {
+	case 1 :
+		parent = rootId;
+		treeLevel = &levelOne;
+		break;
+
+	case 2 :
+		parent = how do we find parent?;
+		treeLevel = &levelOne;
+		break;
+	case 3:
+		treeLevel = &levelOne;
+		break;
+	case 4:
+		treeLevel = &levelOne;
+		break;
+	default:
+		throw "Incorrect level provided for tree view";
+		break;
+	}
+
+	/* Now add the item to the tree.
+	 * Note: to add icons and data use the following:
+	 * wxTreeItemId AppendItem(const wxTreeItemId& parent,
+                            const wxString& text,
+                            int image = -1, int selectedImage = -1,
+                            wxTreeItemData *data = NULL);
+	 *
+	 * For now we just use text:
+	 * /
+//should have just one array for all items at each level and rference parents...
+    if (treeLevel>IsEmpty()) {
+    	treeLevel->Add(AppendItem(treeLevel->GetAt(treeLevel.GetUpperBound()),entry));
+    }
+    else {
+    	for (int i = 0; i <= treeLevel->GetUpperBound(); i++) {
+    		//if
+    	}
+    	if (new) {
+    		treeLevel->Add(AppendItem(treeLevel->GetAt(treeLevel.GetUpperBound()),entry));
+    	}
+    }
+
+
+}
+*/
+
+/* //levelOne.Add(AppendItem(rootId,csLevel2))
 		if(csLevel2 != ""){
+
+			levelOne.Add(AppendItem(rootId,csLevel1));
 			if(levelTwo.IsEmpty()){
 				levelTwo.Add(AppendItem(levelOne.GetAt(levelOne.GetUpperBound()),csLevel2));
 				if(csLevel3 != ""){
@@ -696,20 +763,155 @@ void FunctionBlockTree::addItemsToTree(INXString csLevel1, INXString csLevel2, I
 			levelTwo.Add(AppendItem(levelOne.GetAt(levelOne.GetUpperBound()),csLevel2));
 			wxString tempStrIdL2 =  GetItemText(levelTwo.GetAt(levelTwo.GetUpperBound()));
 			if(tempStrIdL2 == csLevel2 && csLevel2 != ""){
-				levelThree.Add(AppendItem(levelTwo.GetAt(levelTwo.GetUpperBound()),csLevel3));	
+				levelThree.Add(AppendItem(levelTwo.GetAt(levelTwo.GetUpperBound()),csLevel3));
 				wxString tempStrIdL3 = GetItemText(levelThree.GetAt(levelThree.GetUpperBound()));
 				if(tempStrIdL3 == csLevel3 && csLevel3 != ""){
-					levelFour.Add(AppendItem(levelThree.GetAt(levelThree.GetUpperBound()),csLevel4));	
+					levelFour.Add(AppendItem(levelThree.GetAt(levelThree.GetUpperBound()),csLevel4));
 				}else if(tempStrIdL3 != ""){
 					levelThree.Add(AppendItem(levelTwo.GetAt(levelTwo.GetUpperBound()),csLevel3));
-				}			
+				}
 			}else if(tempStrIdL2 != ""){
 				levelTwo.Add(AppendItem(levelOne.GetAt(levelOne.GetUpperBound()),csLevel2));
 			}
 		}else if(tempStrIdL1 != ""){
 			levelOne.Add(AppendItem(rootId,csLevel1));
-		}	
+		}
 	}
+ *
+ */
+
+
+
+
+
+///
+/// @brief Add an item at the menu level defined in the CDF at te last leaf.
+/// It will create a new menu level if required.
+///
+
+
+void FunctionBlockTree::addItemsToTreeView(){
+
+	//INXString* csLevel1, *csLevel2, *csLevel3, *csLevel4;
+	int it;
+
+/*	csLevel1 = &component.menuNameL1;
+	csLevel2 = &component.menuNameL2;
+	csLevel3 = &component.menuNameL3;
+	csLevel4 = &component.menuNameL4;
+*/
+
+	wxTreeItemId compWx1;
+	wxTreeItemId compWx2;
+	wxTreeItemId compWx3;
+	wxTreeItemId compWx4;
+
+
+
+	for (int i = 0; i< m_componentList.GetCount(); i++) {
+
+		/* Menu level 1 */
+		bool found = false;
+
+		compWx1 = rootId; // this is the default parent node if nothing is found.
+
+		ComponentOnTree_t *comp = (ComponentOnTree_t*) &m_componentList[i];
+		for (int j = 0; j < i ; j++ ) { //check previously updated items
+			ComponentOnTree_t * comp2 = (ComponentOnTree_t*) &m_componentList[j];
+			if (comp->menuNameL1 != "" && comp->menuNameL1 == comp2->menuNameL1 ) {
+				if (comp2->wxItem) comp->wxItem1 = compWx1 = comp2->wxItem1; // save this as the parent
+				found = true;
+				break;
+			}
+		}
+		if (!found && comp->menuNameL1 != "") {
+			if (comp->menuNameL2 == "")
+				comp->wxItem = AppendItem(rootId,comp->menuNameL1);
+			else
+				comp->wxItem1 = AppendItem(rootId,comp->menuNameL1);
+		}
+
+		/* Menu Level 2 */
+		found = false;
+		for (int j = 0; j < i ; j++ ) { //check previously updated items
+			ComponentOnTree_t *comp2 = (ComponentOnTree_t*) &m_componentList[j];
+			if (comp->menuNameL2 != "" &&  comp->menuNameL2 == comp2->menuNameL2 ) {
+				if (comp2->wxItem2 )
+					comp->wxItem2 =  compWx2 = comp2->wxItem2;
+				else
+					throw ("Error in CDF parser - 2");
+				found = true;
+				break;
+			}
+		}
+		if (!found && comp->menuNameL2 != ""){
+			if (comp->menuNameL3 == "") comp->wxItem = AppendItem(comp->wxItem1,comp->menuNameL2);
+			else comp->wxItem2 = AppendItem(comp->wxItem1,comp->menuNameL2);
+		}
+
+		/* Menu Level 3 */
+		found = false;
+		for (int j = 0; j < i ; j++ ) { //check previously updated items
+			ComponentOnTree_t *comp2 = (ComponentOnTree_t*) &m_componentList[j];
+			if (comp->menuNameL3 != "" &&  comp->menuNameL3 == comp2->menuNameL3 ) {
+				if (comp2->wxItem3 ) comp->wxItem3 =  compWx3 = comp2->wxItem3;
+				else
+					throw ("Error in CDF parser - 3");
+				found = true;
+				break;
+			}
+		}
+		if (!found && comp->menuNameL3 != ""){
+			if (comp->menuNameL4 == "") comp->wxItem = AppendItem(comp->wxItem2,comp->menuNameL3);
+			else comp->wxItem3 = AppendItem(comp->wxItem2,comp->menuNameL3);
+		}
+
+
+		found = false;
+		for (int j = 0; j < i ; j++ ) { //check previously updated items
+			ComponentOnTree_t *comp2 = (ComponentOnTree_t*) &m_componentList[j];
+			if (comp->menuNameL4 != "" &&  comp->menuNameL4 == comp2->menuNameL4 ) {
+
+				// !!! THis shouldn't happen - we shouldn't have duplicates //
+				wxMessageBox("Duplicate CDF entries found!!!");
+				if (comp2->wxItem4 ) comp->wxItem4 =  compWx4 = comp2->wxItem4;
+				else
+					throw ("Error in CDF parser - 1");
+				found = true;
+				break;
+			}
+		}
+		if (!found && comp->menuNameL4 != ""){
+			//if (comp.menuNameL4 == "")
+			comp->wxItem = AppendItem(comp->wxItem3,comp->menuNameL4);
+			//else comp.wxItem4 = AppendItem(rootId,comp.menuNameL4);
+		}
+
+		/* Now identify which is the end node ~todo - just put this in the above*/
+		comp->inTree = true;
+		if (comp->menuNameL1 == "" ) {
+			comp->inTree = false;
+			//wxMessageBox("Error in component name - no labels found ");
+			//throw("Error in component name")
+		} else if (comp->menuNameL2 == "") {
+			comp->label=&comp->menuNameL1;
+			//comp.wxItem = compWx1;
+		} else if (comp->menuNameL3 == "") {
+			comp->label=&comp->menuNameL2;
+			//comp.wxItem = compWx2;
+		} else if (comp->menuNameL4 == "") {
+			comp->label=&comp->menuNameL3;
+			//comp.wxItem = compWx3;
+		} else {
+			comp->label=&comp->menuNameL4;
+			//comp.wxItem = compWx4;
+		}
+		if (!comp->wxItem) {
+			//throw ("Error in IDF");
+			comp->wxItem = 0x0;
+		}
+	}
+
 }
 
 void FunctionBlockTree::loadContents() 
@@ -723,24 +925,23 @@ void FunctionBlockTree::loadContents()
 
 //	readIDF(workDir + USERDEFDIR, FILE_TYPE_IDF); //@todo folder doesn't exist in the dist folder
 //	readIDF(workDir + USERDEFDIR, FILE_TYPE_CDF); //@todo - handle user defined components for CDF files
-#ifdef _EXCLUDE_TEMPORARLY_
+	 /* start adding to the coponent list */
+#ifdef _INX_NOT_GOT_XPLATFORM_INIFILEREADER
 	readIDF(workDir + IDFDIR, FILE_TYPE_IDF); //@todo excluding  temporarly 
 #endif
 	readIDF(workDir + CDFDIR, FILE_TYPE_CDF);
  
 	//@todo - insert profile code here... as need to remove items from list of component m_componentList before addMenuItem called
-	for (i=0; i<m_rootMenuList.GetCount(); i++) {
-		//ComponentMenuItem* comp = (ComponentMenuItem*) m_rootMenuList.GetAt(i);
-	//AppendItem(levelOne.GetAt(0),"test");
-	}
-	rootId =  AddRoot(wxT("ROOT"), -1, -1,
-                                  new MyTreeItemData(wxT("Root item")));
-	
-    
-	for (i=0; i<m_componentList.GetCount(); i++) {
-		ComponentOnTree_t* comp = (ComponentOnTree_t*) m_componentList.GetAt(i);	
-		addItemsToTree(comp->menuNameL1, comp->menuNameL2, comp->menuNameL3, comp->menuNameL4,i);
-	}
+//	for (i=0; i<m_rootMenuList.GetCount(); i++) {
+//		ComponentMenuItem* comp = (ComponentMenuItem*) m_rootMenuList.GetAt(i);
+//	AppendItem(levelOne.GetAt(0),"test");
+//	}
+
+	/* get the root for native blocks - we may  remove this */
+	rootId =  AddRoot(wxT("Native Blocks"), -1, -1, new MyTreeItemData(wxT("Native Blocks")));
+
+	addItemsToTreeView();
+
 #ifdef _EXCLUDE_TEMPORARLY_
 	// traverse config menu item tree - it is already in priority order - and add components that match menu entries
 	for (i=0; i<m_rootMenuList.GetCount(); i++) {
@@ -798,6 +999,12 @@ void FunctionBlockTree::getL2LibMenuNames(set<INXString> &sL2MenuNames)
 }
 #endif
 
+
+
+///
+/// @brief Not used
+///
+
 void FunctionBlockTree::CreateImageList(int size)
 {
     if ( size == -1 )
@@ -838,6 +1045,10 @@ void FunctionBlockTree::CreateImageList(int size)
     AssignImageList(images);
 }
 
+///
+/// @brief unused
+///
+/*
 void FunctionBlockTree::AddTestItemsToTree(size_t numChildren,
                                     size_t depth)
 {
@@ -865,6 +1076,12 @@ void FunctionBlockTree::AddTestItemsToTree(size_t numChildren,
     SetItemTextColour(id, *wxRED);
     SetItemBackgroundColour(id, *wxLIGHT_GREY);
 }
+*/
+
+///
+/// @brief Only used in AddTestItemsToTree()
+///
+/*
 void FunctionBlockTree::AddItemsRecursively(const wxTreeItemId& idParent,
                                      size_t numChildren,
                                      size_t depth,
@@ -917,7 +1134,7 @@ void FunctionBlockTree::AddItemsRecursively(const wxTreeItemId& idParent,
     }
 }
 
-
+*/
 
 
 

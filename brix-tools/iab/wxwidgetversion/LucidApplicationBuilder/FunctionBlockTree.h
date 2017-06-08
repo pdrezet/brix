@@ -11,10 +11,14 @@
 #include "Porting_Classes/INXString.h"
 #include "Porting_Classes/INXObject.h"
 
+
+//class ComponentTreeItem ;
+
+
 class FunctionBlockTree:public wxTreeCtrl{
-	#define MAX_FIRST_LEV 256
-	#define MAX_SECOND_LEV 4096
-	#define MAX_THIRD_LEV 64000
+	//#define MAX_FIRST_LEV 256
+	//#define MAX_SECOND_LEV 4096
+	//#define MAX_THIRD_LEV 64000
 	enum
     {
         TreeCtrlIcon_File,
@@ -31,21 +35,26 @@ public:
 public:
 	~FunctionBlockTree(void);
 
-	INXObjArray< wxTreeItemId> levelOne;
-	INXObjArray< wxTreeItemId> levelTwo;
-	INXObjArray< wxTreeItemId> levelThree;
-	INXObjArray< wxTreeItemId> levelFour;
+private:
 
+	//INXObjArray< ComponentTreeItem> componentTreeItem; // This is the meta data and pointer for all items in the component tree box
+	//INXObjArray< wxTreeItemId> levelTwo;
+	//INXObjArray< wxTreeItemId> levelThree;
+	//INXObjArray< wxTreeItemId> levelFour;
+
+	wxTreeItemId rootId; //do we want this?
+/* Delete this
 	unsigned int m_DragDropFormat;
-	wxTreeItemId rootId;
+
 	wxTreeItemId firstlev[MAX_FIRST_LEV];
 	wxTreeItemId secondlev[MAX_SECOND_LEV];
 	wxTreeItemId thirdlev[MAX_THIRD_LEV];
 	wxTreeItemId forthlev[MAX_THIRD_LEV]; //@todo change this to 4th level.
-	
+*/
 	wxTreeItemId handle;
 
 	// Implementation
+	/*
 	int m_iL2MenuSize;
 	int m_iL3MenuSize;
 	int m_iL4MenuSize;
@@ -55,7 +64,7 @@ public:
 	INXObjArray<INXString> m_csaL3MenuName;
 	INXObjArray<INXString> m_csaL4IconName;
 	INXObjArray<INXString> m_csaL4MenuName;
-
+*/
 
 	
 	INXPoint pos;
@@ -66,10 +75,12 @@ public:
 	void readMenuItemsFromCDF(INXString *level1, INXString *level2, INXString *level3, INXString *level4, INXString csIDFPath);
 	void addBitmapToImageList(unsigned int bitmapID);
 	void outputNamePriority(ComponentMenuItem *item);
-	void addMenuItem(INXString csIconName, INXString csUserdefined, INXString csLevel1, INXString csLevel2, INXString csLevel3, INXString csLevel4, INXString csStyle1, INXString csStyle2, INXString csStyle3, INXString csStyle4);
-	void addComponentsToTree(int currLevel, ComponentMenuItem *item, INXString csLevel1, INXString csLevel2, INXString csLevel3, INXString csLevel4, INXString csStyle1, INXString csStyle2, INXString csStyle3, INXString csStyle4);
-	void addItemsToTree(INXString csLevel1, INXString csLevel2, INXString csLevel3, INXString csLevel4, int it);
+	//void addMenuItem(INXString csIconName, INXString csUserdefined, INXString csLevel1, INXString csLevel2, INXString csLevel3, INXString csLevel4, INXString csStyle1, INXString csStyle2, INXString csStyle3, INXString csStyle4);
+	//void addComponentsToTree(int currLevel, ComponentMenuItem *item, INXString csLevel1, INXString csLevel2, INXString csLevel3, INXString csLevel4, INXString csStyle1, INXString csStyle2, INXString csStyle3, INXString csStyle4);
+	void addItemsToTreeView();
+
 private:
+	bool addLevelToTree(const int level, const INXString entry); /// @brief Adds an entry to a level if it doesn't exist. returns true of added
 	bool m_bLftBtnDown;
 	//bool leafIsSelected();
 	bool m_bDraggingIcon;
@@ -78,16 +89,28 @@ private:
 	INXObjArray<INXObject *> m_rootMenuList; // list of ComponentMenuItems at root level of the menu tree
 	INXString m_styleLookup[99];
 	int m_maxStyle;
-	INXObjArray<INXObject *> m_componentList; // list of m_ComponentOnTree_t to be placed on tree
 
 	struct ComponentOnTree_t : public INXObject {
-		INXString iconName;
-		INXString menuNameL1;
-		INXString menuNameL2;
-		INXString menuNameL3;
-		INXString menuNameL4;
-		INXString userDefined;
-	};
+			/* Info from IDF */
+			INXString filePath;
+			INXString iconName;
+			INXString menuNameL1;
+			INXString menuNameL2;
+			INXString menuNameL3;
+			INXString menuNameL4;
+			INXString userDefined;
+			/* Tree UI info - populated after processing */
+			bool inTree; /* identifies if component is listed in the tree view or not. */
+			wxTreeItemId wxItem1;
+			wxTreeItemId wxItem2;
+			wxTreeItemId wxItem3;
+			wxTreeItemId wxItem4;
+			wxTreeItemId wxItem;
+			bool endNode = false;
+			INXString * label = NULL; /* Is a copy of one of the above, depending on the levels present */
+		};
+
+	INXObjArray<ComponentOnTree_t> m_componentList; // list of m_ComponentOnTree_t to be placed on tree
 
 public:
 	bool leafIsSelected(); 
@@ -106,8 +129,7 @@ public:
 	 wxTreeItemId m_hItemClicked;
 	 wxTreeItemId m_hPrevItemClicked;
 private:
-	 void AddItemsRecursively(const wxTreeItemId& idParent, size_t nChildren,
-		 size_t depth, size_t folder);
+	 //void AddItemsRecursively(const wxTreeItemId& idParent, size_t nChildren,size_t depth, size_t folder);
 	 int          m_imageSize;               // current size of images
 	 bool         m_reverseSort;             // flag for OnCompareItems
      wxTreeItemId m_lastItem,                // for OnEnsureVisible()
