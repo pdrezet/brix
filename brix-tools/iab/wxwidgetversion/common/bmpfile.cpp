@@ -3,7 +3,14 @@
 #include <errno.h>
 #include <stdio.h>
 
+
+#ifdef __INX_MACOSX 
+#include <OpenGL/gl.h> //OS x libs
+#include <OpenGL/glu.h>
+#include <GLUT/glut.h>
+#else
 #include <GL/glu.h>
+#endif
 
 
 #define WIDTHBYTES(bits)    (((bits) + 31) / 32 * 4)
