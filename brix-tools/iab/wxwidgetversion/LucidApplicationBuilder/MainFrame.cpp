@@ -5,6 +5,9 @@
  *      Author: kamil
  */
 
+//#error "this file aint needed for wx""
+
+
 #include "MainFrame.h"
 #include "DrawProg.h"
 #include <wx/icon.h>
@@ -94,9 +97,9 @@ void MainFrame::InitToolBar(wxToolBar* toolBar){
 }
 
 void MainFrame::CreateTree(long style, wxWindow* parent){
-	m_treeCtrl = new FunctionBlockTree(parent, /*TreeTest_Ctrl*/-1, wxDefaultPosition, wxDefaultSize, style);
+	m_treeCtrl = new FunctionBlockTree(parent, 1000/* todo add these to a resource header enum */, wxDefaultPosition, wxDefaultSize, style);
 
-	m_treeCtrl->SetBackgroundColour(wxColour(225, 225, 225));
+	m_treeCtrl->SetBackgroundColour(wxColour(125, 225, 225));
 	int w, h;
     GetClientSize(&w, &h);
 	m_treeCtrl->SetSize(0, 0, WIDTH_OF_TREE_VIEW, h);	

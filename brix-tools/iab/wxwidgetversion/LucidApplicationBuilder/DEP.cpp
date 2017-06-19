@@ -135,7 +135,7 @@ INXPOSITION  DEP::AddIcon(INXString csIconType, INXString csBlockName, INXPoint 
 }
 
 /*
-Adds an Icon Object to the Icon List and reurns a CObject POSITION structure
+Adds an Icon Object to the Icon List and returns a CObject POSITION structure
   */
 INXPOSITION DEP::AddIconObjectList(ConData* blob) { //add all blobs using this function
 	return condata->AddTail(blob);
@@ -560,7 +560,7 @@ void DEP::AddTag2List(INXString tag, int dataType) {
 		}
 	}
 }
-#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 // Function that adds a xport
 ConData* DEP::AddXPort(INXString type, INXString portLabel, INXPoint point) {
 	ConData* xport;
@@ -571,7 +571,7 @@ ConData* DEP::AddXPort(INXString type, INXString portLabel, INXPoint point) {
 	xport->description = portLabel;
 	return xport;
 }
-#endif
+
 /*
 This updates the the line objects to point at the correct endpoint data objects,
 which are actually the otherend's icon port point data attributes.
@@ -797,8 +797,11 @@ void DEP::ConnectEncapsulatedIcon(INXPOSITION encapsulatedPos, INXRect encapsula
 	ResetXportConnected();
 }
 
-// creates an instance of a user defined block
-void DEP::CreateInstance(ConData* userDefBlob, int lib) {
+/** \brief Creates an instance of a user defined block
+ * \param [in] userDefBlob is a the IconDat object for the user def block
+ * \param [in] lib identifies how the subsystem should be created: 3 - is paste, 1 or 0 is new, ...
+ */
+void DEP::CreateInstance(ConData* userDefBlob, int lib) { /// \todo lib should be converted to an enum
 	INXString className, instanceName, depPath, origName;
 	INXPOSITION pos;
 	ConData* blob;
@@ -1682,7 +1685,7 @@ void DEP::LoadProg(INXString Info) {
 	depFSM.enabledraw = 1;
 	//RedrawWindow();
 }
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 // Maps the lineIDs in the flattened list to the lineIDs in condata
 void DEP::MapLineID(INXObjList* flattened) {
 	ConData *blob;
@@ -1768,7 +1771,7 @@ void DEP::MapLineID(INXObjList* flattened) {
 	}
 }
 
-#endif
+
 //Test whether click is on a line - allow nodes etc. to be put on the line
 // Check if point clicked is within a certain distance of the line.
 int DEP::OnLine(INXPoint point, INXPOSITION* Icon, bool* nodeSel, int* portType, const bool &interrogateOnly ) {
@@ -2802,7 +2805,7 @@ INXSize DEP::getCanvasSize()
 
 	return (m_CanvasSize);
 }
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 void DEP::deleteConData()
 {
 	INXPOSITION pos;
@@ -2827,7 +2830,6 @@ void DEP::setSaveSelectedFlag(bool flag)
 	}
 }
 
-#endif
 INXPoint DEP::getInitScrollPos(INXRect clientRect)
 {
 	INXPOSITION pos;
@@ -3660,3 +3662,9 @@ void DEP::PropagateDebugDataUp(HTREEITEM hSubsys)
 }
 
 #endif
+
+void DEP::SetCapture() {
+}
+
+void DEP::setFBHighlight(INXPOSITION pos) {
+}

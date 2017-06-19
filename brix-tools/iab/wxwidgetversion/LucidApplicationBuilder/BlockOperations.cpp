@@ -118,6 +118,11 @@ INXObjList* BlockOperations::LoadBlock(INXString Info) {
 	return encapsulated;
 }
 
+
+/*
+ * @brief what does this do?
+ *
+ */
 INXObjList* BlockOperations::NewBlock(INXString Info) {
 	
 	INXObjList* encapsulated = new INXObjList;

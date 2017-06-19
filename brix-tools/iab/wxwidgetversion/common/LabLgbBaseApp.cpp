@@ -18,13 +18,11 @@
 //todo #include "TransferErrorDlog.h"
 
 #include "libxml/xmlreader.h"
-#include "LucidRegAccess.h"
-//#include "../common/EHSParamsDialog.h"
-
 #include <sys/stat.h>
 
 #include <cassert>
 #include <curl/curl.h>
+#include "Userconfig.h"
 
 #define NUMBER_OF_ERROR_LINES_TO_LISTEN_FOR 3
 #define EHSGRAPHICS_XCOORD "xcoord"

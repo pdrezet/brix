@@ -867,9 +867,11 @@ LucidErrEnum ProjectMetaData::showAddFileDialog(ExtDataFile &file, bool &bExists
 		return kErr_DialogNotOk;
 	}
 }
+#endif
 
 LucidErrEnum ProjectMetaData::showAddResourceDialog(ExtResourceFile &file, bool &bExists)
 {
+#if 0
 	CFileOperation fo;
 	INXString csProjectPathName;
 	CFileDialog dlg(1,"*","",OFN_FILEMUSTEXIST | OFN_HIDEREADONLY,"Project Resource Files (*.*)|*.*|");
@@ -915,6 +917,10 @@ LucidErrEnum ProjectMetaData::showAddResourceDialog(ExtResourceFile &file, bool 
 		return kErr_DialogNotOk;
 
 	}
+#else
+	INX_MessageBox("Not Implemented showAddResourceDialog");
+#endif
+
 }
 
 // get a simple copy of vector of external files
@@ -925,20 +931,24 @@ LucidErrEnum ProjectMetaData::getGuiFiles(vector<ExtGuiFile> &guiFileVec) const
 	return kErr_NoErr;
 }
 
-#endif
-LucidErrEnum ProjectMetaData::getGuiFiles(vector<ExtGuiFile> &guiFileVec) const
-{
-	guiFileVec = m_vGuiFiles;
 
-	return kErr_NoErr;
-}
 LucidErrEnum ProjectMetaData::getPngFiles(vector<ExtPngFile> &fileVec) const////
 {
 	fileVec = m_vPngFiles;
 
 	return kErr_NoErr;
 }
+
 #ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+LucidErrEnum ProjectMetaData::getGuiFiles(vector<ExtGuiFile> &guiFileVec) const
+{
+	guiFileVec = m_vGuiFiles;
+
+	return kErr_NoErr;
+}
+
+
+
 LucidErrEnum ProjectMetaData::getBmpFiles(vector<ExtBmpFile> &bmpFileVec) const
 {
 	bmpFileVec = m_vBmpFiles;
@@ -3145,3 +3155,8 @@ int ProjectMetaData::getBuildNum() {
 	return nBuildNo;
 }
 #endif
+
+
+
+
+

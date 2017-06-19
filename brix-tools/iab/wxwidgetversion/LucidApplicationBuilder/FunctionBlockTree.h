@@ -84,6 +84,8 @@ private:
 	bool m_bLftBtnDown;
 	//bool leafIsSelected();
 	bool m_bDraggingIcon;
+	wxTreeItemId  m_DraggedItem;
+
 	set<INXString> m_sL2LibMenuNames;
 	wxImageList m_imageList; // image list used by the tree
 	INXObjArray<INXObject *> m_rootMenuList; // list of ComponentMenuItems at root level of the menu tree
@@ -113,6 +115,7 @@ private:
 	INXObjArray<ComponentOnTree_t> m_componentList; // list of m_ComponentOnTree_t to be placed on tree
 
 public:
+	ComponentOnTree_t* findComponentFromTreeId(wxTreeItemId id); // used to get component info from a treeviewID
 	bool leafIsSelected(); 
 	void loadContents(); 
 	void ReadFile();
@@ -120,14 +123,25 @@ public:
 	INXString GetIconName(int i, INXString csLevel);
 	void getL2LibMenuNames(set<INXString> &sL2MenuNames); // this reads the first column (level 2) if menu items.
 	void init(void);
+	void AddTestItemsToTree(size_t numChildren, size_t depth);
+	void CreateImageList(int size = 16);
 
+	/* wx handler overrides */
+	void OnSelChanged(wxTreeEvent& event);
+	void OnSelChanging(wxTreeEvent& event);
+	void OnTreeKeyDown(wxTreeEvent& event);
+	void OnItemActivated(wxTreeEvent& event);
+	void OnItemRClick(wxTreeEvent& event);
+	void OnRMouseDown(wxMouseEvent& event);
+	void OnLMouseDown(wxMouseEvent& event);
+	void OnItemDrag(wxTreeEvent& event);
+	void OnBeginLDrag(wxTreeEvent& event);
+	void OnBeginRDrag(wxTreeEvent& event);
+	void OnEndLDrag(wxTreeEvent& event); // places component in workspace
 
-public:
-	 void AddTestItemsToTree(size_t numChildren, size_t depth);
-	 void CreateImageList(int size = 16);
+	wxTreeItemId m_hItemClicked;
+	wxTreeItemId m_hPrevItemClicked; // todo ?? obsolete?
 
-	 wxTreeItemId m_hItemClicked;
-	 wxTreeItemId m_hPrevItemClicked;
 private:
 	 //void AddItemsRecursively(const wxTreeItemId& idParent, size_t nChildren,size_t depth, size_t folder);
 	 int          m_imageSize;               // current size of images
@@ -135,6 +149,7 @@ private:
      wxTreeItemId m_lastItem,                // for OnEnsureVisible()
                  m_draggedItem;             // item being dragged r
 	 DECLARE_DYNAMIC_CLASS(MyTreeCtrl)
+     DECLARE_EVENT_TABLE()
 };
 
 class MyTreeItemData : public wxTreeItemData

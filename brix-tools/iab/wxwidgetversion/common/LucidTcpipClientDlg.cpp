@@ -4,8 +4,8 @@
 
 #include "LucidTcpipClientDlg.h"
 #include "LucidConstants.h"
-#include "LucidRegAccess.h"
 #include "GlobalFuncs_2.h"
+#include "Userconfig.h"
 
 // CLucidTcpipClientDlg dialog
 

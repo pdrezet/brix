@@ -762,7 +762,7 @@ void CDrawProgView::RemoveHighlight()
 
 // save DEP and project file so can perform an undo
 // project file needs to be undone since it contains a list of all the gui widgets.
-
+/// INX-notported
 void CDrawProgView::SaveUndo() {
 	char szUndoFileNum[MAX_UNDO_FILE_NUM];
 	

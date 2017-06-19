@@ -35,6 +35,33 @@
 extern wxChar workDir[WORK_DIR_SIZE];
 
 
+//IMPLEMENT_DYNAMIC_CLASS(FunctionBlockTree, wxTreeCtrl)
+
+enum {
+	COMPONENT_TREECTRL_ID = 1000
+
+};
+
+BEGIN_EVENT_TABLE(FunctionBlockTree, wxTreeCtrl)
+/*
+	//EVT_TREE_BEGIN_DRAG(COMPONENT_TREECTRL_ID, FunctionBlockTree::OnBeginDrag)
+	//EVT_TREE_BEGIN_RDRAG(COMPONENT_TREECTRL_ID, FunctionBlockTree::OnBeginRDrag)
+	EVT_TREE_SEL_CHANGED(COMPONENT_TREECTRL_ID, FunctionBlockTree::OnSelChanged)
+	//EVT_TREE_SEL_CHANGING(COMPONENT_TREECTRL_ID, FunctionBlockTree::OnSelChanging)
+	EVT_TREE_KEY_DOWN(COMPONENT_TREECTRL_ID, FunctionBlockTree::OnTreeKeyDown)
+	EVT_TREE_ITEM_ACTIVATED(COMPONENT_TREECTRL_ID, FunctionBlockTree::OnItemActivated)
+	EVT_TREE_ITEM_RIGHT_CLICK(COMPONENT_TREECTRL_ID, FunctionBlockTree::OnItemRClick)
+	EVT_RIGHT_DOWN(FunctionBlockTree::OnRMouseDown)
+	EVT_LEFT_DOWN(FunctionBlockTree::OnLMouseDown)
+	//EVT_RIGHT_DCLICK(FunctionBlockTree::OnRMouseDClick)
+    //EVT_TREE_ITEM_MENU(COMPONENT_TREECTRL_ID, FunctionBlockTree::OnItemMenu)
+    EVT_TREE_ITEM_RIGHT_CLICK(COMPONENT_TREECTRL_ID, FunctionBlockTree::OnItemRClick)
+	*/
+	EVT_TREE_BEGIN_DRAG(COMPONENT_TREECTRL_ID, FunctionBlockTree::OnBeginLDrag)
+	EVT_TREE_BEGIN_RDRAG(COMPONENT_TREECTRL_ID, FunctionBlockTree::OnBeginRDrag )
+	EVT_TREE_END_DRAG(COMPONENT_TREECTRL_ID, FunctionBlockTree::OnEndLDrag)
+END_EVENT_TABLE()
+
 IMPLEMENT_DYNAMIC_CLASS(FunctionBlockTree, wxTreeCtrl)
 
 FunctionBlockTree::FunctionBlockTree(void){
@@ -127,6 +154,25 @@ void FunctionBlockTree::init()
 
 }
 
+
+FunctionBlockTree::ComponentOnTree_t* FunctionBlockTree::findComponentFromTreeId(wxTreeItemId id) {
+
+	/*
+	wxTreeItemId wxItem1;
+				wxTreeItemId wxItem2;
+				wxTreeItemId wxItem3;
+				wxTreeItemId wxItem4;
+				wxTreeItemId wxItem;
+	*/
+
+	INXObjArray<ComponentOnTree_t>::iterator it;
+	for (it = m_componentList.begin();it < m_componentList.end();it++) {
+		if (it->wxItem = id) {
+			return &(*it);
+		}
+	}
+
+}
 
 /*
  * @brief Reads CDF or (theoretically IDF - but this has been deprecated as we we will convert the files to CDF)
@@ -1137,17 +1183,83 @@ void FunctionBlockTree::AddItemsRecursively(const wxTreeItemId& idParent,
 */
 
 
+/***
+ * wx widget handlers
+ */
 
 
 
 
+void FunctionBlockTree::OnSelChanged(wxTreeEvent& event){
+
+	int x = 0;
+	event.Skip(true);
+
+}
+void FunctionBlockTree::OnSelChanging(wxTreeEvent& event){
+
+	event.Skip(true);
+
+}
+void FunctionBlockTree::OnTreeKeyDown(wxTreeEvent& event){
+
+	int x = 0;
+	event.Skip(true);
+
+}
+void FunctionBlockTree::OnItemActivated(wxTreeEvent& event){
+
+	int x = 0;
+	event.Skip(true);
+
+}
+void FunctionBlockTree::OnItemRClick(wxTreeEvent& event){
+
+	int x = 0;
+	event.Skip(true);
+}
 
 
+void FunctionBlockTree::OnLMouseDown(wxMouseEvent& event) {
+
+	int x = 0;
+	event.Skip(true);
+}
 
 
+void FunctionBlockTree::OnRMouseDown(wxMouseEvent& event) {
 
 
+	int x = 0;
+	event.Skip(true);
+}
 
+void FunctionBlockTree::OnBeginLDrag(wxTreeEvent& event){
+    event.Allow();
+	//event.Skip(true);
+    m_DraggedItem = event.GetItem();
+    /* Post this into the Main App's Message Passing area */
+
+}
+void FunctionBlockTree::OnBeginRDrag(wxTreeEvent& event){
+	event.Allow();
+	//event.Skip(true);
+}
+
+///\brief decide if we want to do anything with this - or just handle in the workspace.
+void FunctionBlockTree::OnEndLDrag(wxTreeEvent& event){
+
+	// We will handle this event in the workspace so we don't have to guess what DEP/view it lands in.
+
+	//event.Allow();
+	//event.Skip(true);
+	//event.GetItem(); // this is the ID if another tree item if we have dragged within this treeview
+	//INXPoint position = event.Position();
+	//ComponentOnTree_t *info = findComponentFromTreeId(m_DraggedItem);
+	//encapsulatedPos =
+	//wxGetApp()..CurrentDep.AddIcon(info->iconName, info->label, position);
+
+}
 
 
 

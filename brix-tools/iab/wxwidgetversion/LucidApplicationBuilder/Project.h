@@ -38,24 +38,23 @@ private:
 
 public:
 	// Methods
-	#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 	void AddBlockPort(ConData* blob, int iDataType, int iPortType, INXString portLabel, DEP* pDEP);
-	#endif
+
 	DEP* AddDEP();
-	#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 	void AddIconToGroup(INXPOSITION selectedIcon, int groupID, DEP* vwDEP);
 	ConData* AddXPort(DEP* pParentDEP, INXString type, INXString portLabel, INXPoint point, DEP* pDEP);
 	void AssignHierLineID();
 	void PropagateHierLineId(ConData* blob, INXTREEITEM hItem, long hierID, int portType, int iPortNum);
 	void AssignSubBlockHierLineId(INXTREEITEM hItem);
 	void DebugStart(int mode);
-	#endif
 	void DeleteDEP(DEP* theDEP);
-	#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 	void DeleteBlockPort(INXPOSITION blockPos, int portNum, int portType, DEP* pDEP);
-	#endif
+
 	void DeleteUnused(DEP* thisDEP);
-	#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 	void DeleteXPort(DEP* pParentDEP, INXString portLabel, INXString blockName);
 	void EditGroupSetup();
 	//DEP* GetDEPPtr(INXString depFilename);
@@ -66,10 +65,10 @@ public:
 	void ResetDebug();
 	void SaveHierName();
 	void SaveProg(INXString Info);
-	#endif
+
 	void SaveProjectDep();
 	void SaveProject();
-	#ifndef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 	INXObjList* WriteSODL(INXString sodlfile);
 
 	// Tag Management
@@ -86,7 +85,6 @@ public:
 
 	DEP* depIsLoaded(INXTREEITEM hItem);
 	void closeUserDefDoc(INXTREEITEM hItem);
-	#endif
 	// Define Monitors
 	bool getDefineMonitors();
 	#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE	

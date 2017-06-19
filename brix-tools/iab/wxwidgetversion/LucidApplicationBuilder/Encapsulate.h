@@ -1,11 +1,7 @@
 #if !defined(_ENCAPSULATE_H_INCLUDED_)
 #define _ENCAPSULATE_H_INCLUDED_
-/*
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
-// Encapsulate.h : header file
-// */
+
+
 #include "Resource.h"
 #include "LucidConstants.h"
 #include "Porting_Classes/INXString.h"
@@ -61,7 +57,7 @@ public:
 // Methods
 	INXString getMenuName();	
 protected:
-	void setMenuNamesDropList(set<INXString> sMenuNames);
+	/// \todo void setMenuNamesDropList(set<INXString> sMenuNames);
 
 // Overrides
 	// ClassWizard generated virtual function overrides

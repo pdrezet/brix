@@ -37,12 +37,12 @@ public:
 
 	// Create
 	INXString GetDoc() const { return m_csDoc; };
-	bool AddElem( char* szName, char* szData=NULL ) { return x_AddElem(szName,szData,false,false); };
-	bool AddChildElem( char* szName, char* szData=NULL ) { return x_AddElem(szName,szData,false,true); };
-	bool AddAttrib( char* szAttrib, char* szValue ) { return x_SetAttrib(m_iPos,szAttrib,szValue); };
-	bool AddChildAttrib( char* szAttrib, char* szValue ) { return x_SetAttrib(m_iPosChild,szAttrib,szValue); };
-	bool SetAttrib( char* szAttrib, char* szValue ) { return x_SetAttrib(m_iPos,szAttrib,szValue); };
-	bool SetChildAttrib( char* szAttrib, char* szValue ) { return x_SetAttrib(m_iPosChild,szAttrib,szValue); };
+	bool AddElem( const char* szName, const char* szData=NULL ) { return x_AddElem((char *)szName,(char*)szData,false,false); };
+	bool AddChildElem( const char* szName, const char* szData=NULL ) { return x_AddElem((char *)szName,(char *)szData,false,true); };
+	bool AddAttrib( const char* szAttrib, const char* szValue ) { return x_SetAttrib(m_iPos,(char *)szAttrib,(char *)szValue); };
+	bool AddChildAttrib( const char* szAttrib, char* szValue ) { return x_SetAttrib(m_iPosChild,(char *)szAttrib,(char *)szValue); };
+	bool SetAttrib( const char* szAttrib, const char* szValue ) { return x_SetAttrib(m_iPos,(char *)szAttrib,(char *)szValue); };
+	bool SetChildAttrib( const char* szAttrib, const char* szValue ) { return x_SetAttrib(m_iPosChild,(char *)szAttrib,(char *)szValue); };
 
 	// Navigate
 	bool SetDoc( char* szDoc );

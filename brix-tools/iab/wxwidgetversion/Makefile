@@ -39,7 +39,6 @@ DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 # common/TransferErrorDlog.o \
 # common/TransferToTargetDialog.o \
 # common/TgtTransProgDlog.o \
-# common/LucidRegAccess.o \
 #common/LucidTcpipClientDlg.o \
 #LucidApplicationBuilder/ProjectDialog.o \
 #LucidApplicationBuilder/tagdialog.o \
@@ -68,6 +67,7 @@ common/ExtResourceFile.o \
 common/ExtTransferableFile.o \
 common/GlobalFuncs_1.o \
 common/GlobalFuncs_2.o \
+common/GlobalFuncs_3.o \
 common/GuiWidget.o \
 common/LabLgbBaseApp.o \
 common/LccPmdXfers.o \
@@ -81,6 +81,7 @@ common/ProjectMetaDataIO.o \
 common/ProjFolderMinder.o \
 common/RevisionGuru.o \
 common/Markup.o \
+common/Userconfig.o \
 common/Porting_Classes/INXWidgets.o \
 LucidApplicationBuilder/BlockOperations.o \
 LucidApplicationBuilder/ChildFrame.o \
@@ -110,7 +111,10 @@ LucidApplicationBuilder/proc_function.o \
 LucidApplicationBuilder/ProjectBar.o \
 LucidApplicationBuilder/Project.o \
 LucidApplicationBuilder/TypeConversion.o \
-LucidApplicationBuilder/SODL.o
+LucidApplicationBuilder/SODL.o \
+LucidApplicationBuilder/CanvasSupport.o
+
+
 #LucidApplicationBuilder/Markup.o 
 #LucidApplicationBuilder/SODL.o 
 

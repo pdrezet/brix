@@ -28,16 +28,32 @@ public:
 	void OnSaveProject(wxCommandEvent& event);
 	void OnNewProject(wxCommandEvent& event);
 	void OnOpenProject(wxCommandEvent& event);
+
+	/* Project management methods */
+	void setProjMetaData(ProjectMetaData* projMetadata ); ///\brief sets metadata ....
+	void setProject(Project *);							///\brief sets active project (but not metadata) ....
+	Project* getCurrentProject();					    ///\brief gets active project pointer or NULL.
+	DEP* getCurrentDEP();					    ///\brief gets active project  pointer or NULL.
+	bool copyTransferrablesToExports(ProjectMetaData* projMetadata, bool a, bool b); ///\brief collects all taregt files into the export directory
+
 	DECLARE_EVENT_TABLE()
 public:
 	MainFrame* m_frame;
-	DEP *pDEP;
+
 private:
+
+	DEP 	*pDEP; //* This the current DEP - not sure how it is used!
+	Project *m_CurrentProject; //this is the current project or NULL;
+
 	MyTreeCtrl *m_cProjTree;
 private:
 	void displayView(Project *proj, INXString doc_file);
 
 };
+
+
+//the following allows us to use wxGetApp();
+DECLARE_APP(DrawProg)
 
 #endif
 

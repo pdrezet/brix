@@ -6,10 +6,12 @@
 #include <wx/msgdlg.h>
 #include <wx/cmdline.h>
 
-
+#include "Userconfig.h"
 
 
 wxChar workDir[WORK_DIR_SIZE];
+
+//wxIMPLEMENT_APP(DrawProg);
 
 IMPLEMENT_APP(DrawProg)
 
@@ -22,6 +24,7 @@ END_EVENT_TABLE()
 DrawProg::DrawProg(void)
 {
 	m_cProjTree = NULL;
+	m_CurrentProject = NULL;
 
 }
 
@@ -388,6 +391,9 @@ void DrawProg::displayView(Project *proj, INXString doc_file){
 	pDEP->InitTagLists();
 	pDEP->depFilename = doc_file;
 
+	/* Set this as the default project */
+	m_CurrentProject=proj;
+
 	ChildFrame *subframe = new ChildFrame(m_frame, wxDefaultPosition, wxSize(500,450),_T("Canvas Frame"));
 
 	int width, height;
@@ -397,4 +403,30 @@ void DrawProg::displayView(Project *proj, INXString doc_file){
     subframe->canvas = canvas;
 	subframe->Show();
 
+}
+
+/* Project management methods */
+void DrawProg::setProjMetaData(ProjectMetaData* projMetadata ){
+	///\brief sets metadata ....
+
+	// look at original ...
+}
+void DrawProg::setProject(Project *){
+	///\brief sets active project (but not metadata) ....
+
+	// look at original ...
+}
+
+bool DrawProg::copyTransferrablesToExports(ProjectMetaData* projMetadata, bool a, bool b){
+
+}
+
+///\brief gets active project reference.
+Project* DrawProg::getCurrentProject(){
+return m_CurrentProject;
+}
+
+///\brief gets active DEP (graphical Model) object reference.
+DEP* DrawProg::getCurrentDEP(){
+return pDEP;
 }

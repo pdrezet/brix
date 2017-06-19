@@ -89,7 +89,7 @@ public:
 		INXPoint tempPoint(x + (width/2),y + (height/2));
 		return tempPoint;
 	};
-	void CopyRect(wxRect &rect){
+	void CopyRect(const wxRect &rect){
 		x = rect.x;
 		y = rect.y;
 		width = rect.width;

@@ -180,7 +180,8 @@ public:
 	void MapLineID(INXObjList* flattened);
 	void PropagateDebugDataDown(ConData* pSubsysIcon);
 	void PropagateDebugDataUp(INXTREEITEM hSubsys);
-
+	void SetCapture();/// \todo
+	void setFBHighlight(INXPOSITION);
 };
 
 #endif // !defined(AFX_DEP_H__F9664C86_F68B_414F_9898_39AA1958B8EA__INCLUDED_)

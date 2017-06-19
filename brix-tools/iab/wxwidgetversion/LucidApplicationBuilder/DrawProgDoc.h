@@ -13,7 +13,7 @@
 #include "Condat.h"
 //#include "ProjectChooser.h"
 //#include "PathDialog.h" //@todo
-//#include "Project.h"
+#include "Project.h"
 #include "DEP.h"
 #include <wx/docview.h>
 

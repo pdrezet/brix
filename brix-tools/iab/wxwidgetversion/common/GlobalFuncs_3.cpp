@@ -1,24 +1,20 @@
-#pragma once
-#include "stdafx.h"
-#include <psapi.h>
-#include <cassert>
 
-////////////////////////////////////////////////////////////////
-// MSDN Magazine -- July 2002
-// If this code works, it was written by Paul DiLascia.
-// If not, I don't know who wrote it.
-// Compiles with Visual Studio 6.0 and Visual Studio .NET
-// Runs in Windows XP and probably Windows 2000 too.
-//
-// lp -- list processes from command line.
-// Illustrates how to use the various iterator classes in EnunmProc.h/cpp
-//
-#include "stdafx.h"
-#include "EnumProc.h"
+
+#include <time.h>   // for nanosleep
+
+void sleep_ms(int milliseconds) // cross-platform sleep function
+{
+
+    struct timespec ts;
+    ts.tv_sec = milliseconds / 1000;
+    ts.tv_nsec = (milliseconds % 1000) * 1000000;
+    nanosleep(&ts, NULL);
+}
 
 // check for switch: / or -
-inline BOOL isswitch(TCHAR c) { return c==L'/' || c==L'-'; }
+//inline bool isswitch(TCHAR c) { return c==L'/' || c==L'-'; }
 
+#if 0
 //////////////////
 // Main entry point
 //
@@ -63,3 +59,7 @@ HWND getTitledApplicationWindow( TCHAR* psAppName, TCHAR* psWindowTitle, HANDLE 
 	}
 	return NULL;
 }
+#endif
+
+
+

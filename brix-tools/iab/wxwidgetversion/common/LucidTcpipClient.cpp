@@ -16,7 +16,7 @@
 #endif
 
 #include "LucidConstants.h"
-#include "LucidRegAccess.h"
+#include "Userconfig.h"
 #include "assert.h"
 #include <string>
 #include <stdio.h>
