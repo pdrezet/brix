@@ -15,7 +15,12 @@ class INXString: public wxString{
 
 public:
 	operator char*(){
+#ifdef __INX_WXWIDGETS2
 		return (char *)c_str();
+#else
+		return (char *)c_str().AsChar();
+#endif
+
 	} 
 	/*
 	operator char(){
@@ -65,13 +70,22 @@ public:
 	};
 /*	void Format(char *s, ... ){} use Printf(char *s, ...) instead 
 	that is inherited from parent */
+
 	INXString TrimLeft(){
 		 Trim(false);
+#ifdef __INX_WXWIDGETS2
 		return (INXString)c_str();
+#else
+		return (INXString)c_str().AsChar();
+#endif
 	};
 	INXString TrimRight(){
 		Trim(true);
+#ifdef __INX_WXWIDGETS2
 		return (INXString)c_str();
+#else
+		return (INXString)c_str().AsChar();
+#endif
 	};
 	// Searching 
 	int Find(const unsigned char c){
@@ -84,7 +98,11 @@ public:
 		return (int)wxString::Find((wxChar *)(char *)s);
 	};
 	int Finds( const char* s, int nStart)const {
+#ifdef __INX_WXWIDGETS2
 		return (int)wxStringBase::find((wxChar *)s, nStart);	
+#else
+		return (int)find((wxChar *)s, nStart);	
+#endif
 	};
 /*	int Find(INXString str){
 		return (int)wxString::Find((wxChar *)(char *)str);
@@ -103,10 +121,18 @@ public:
 	};
 	//	Buffer Access 
 	char* GetBuffer(const int nMinBufLength){
-		return GetWriteBuf(nMinBufLength);
+#ifdef __INX_WXWIDGETS2
+		return wxString::GetWriteBuf(nMinBufLength);
+#else
+		return wxStringBuffer((wxString&)(*this),nMinBufLength);
+#endif
 	};
 	void ReleaseBuffer(int nNewLength){
-		UngetWriteBuf(nNewLength); 	
+#ifdef __INX_WXWIDGETS2
+		UngetWriteBuf(nNewLength);
+#else 
+// do nothing - the wxStringBuffer function doesn't need an unget
+#endif 	
 	};
 	void SetLength(int _length){
 		resize(_length);
