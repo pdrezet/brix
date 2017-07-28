@@ -78,6 +78,7 @@ INXString Encapsulate::getMenuName()
 	return m_csMenuName;
 }
 
+#if 0
 void Encapsulate::setMenuNamesDropList(set<INXString> sMenuNames)
 {
 	set<INXString>::iterator it = sMenuNames.begin();
@@ -86,9 +87,11 @@ void Encapsulate::setMenuNamesDropList(set<INXString> sMenuNames)
 		it++;
 	}
 }
+#endif
 
 // Event Handlers
 #define INX_PORT_LABEL_YALUE 300
+
 bool Encapsulate::OnInitDialog()
 {
 	//CDialog::OnInitDialog();
@@ -106,7 +109,7 @@ bool Encapsulate::OnInitDialog()
 
 	// populate the menu name drop-list with the library level 2 menu names
 //MFCism	pFrame->m_cFuncBlockBar.m_cFuncBlckTree.getL2LibMenuNames(sL2LibMenuNames);
-	setMenuNamesDropList(sL2LibMenuNames);
+	//setMenuNamesDropList(sL2LibMenuNames);
 
 	// Use same font as Menu Name Combo for port labels and textboxes
 	//MFCism	CFont *m_Font = NULL:/*//@todo m_ctlMenuName.GetFont(); */
@@ -115,25 +118,25 @@ bool Encapsulate::OnInitDialog()
 	pos = encapsulated->GetHeadPosition();
 	while(pos) {
 		blob = (ConData *) (encapsulated->GetNext(pos));
-		if (blob->m_csIconType.Find("XINPUT") != -1) {
+		if (blob->m_FbName.Find("XINPUT") != -1) {
 			inNum++;
 			if (blob->description != "") {
 				inNames[inNum] = blob->description;
 			}
 		}
-		else if (blob->m_csIconType.Find("XOUTPUT") != -1) {
+		else if (blob->m_FbName.Find("XOUTPUT") != -1) {
 			outNum++;
 			if (blob->description != "") {
 				outNames[outNum] = blob->description;
 			}
 		}
-		else if (blob->m_csIconType == "XSTART") {
+		else if (blob->m_FbName == "XSTART") {
 			startNum++;
 			if (blob->description != "") {
 				startNames[startNum] = blob->description;
 			}
 		}
-		else if (blob->m_csIconType == "XFINISH") {
+		else if (blob->m_FbName == "XFINISH") {
 			finishNum++;
 			if (blob->description != "") {
 				finishNames[finishNum] = blob->description;

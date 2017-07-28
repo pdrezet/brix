@@ -18,7 +18,7 @@ public:
 	// Attributes
 	int enabledraw;
 	int drawingline;
-
+	INXString FBDragSelected; // this is the function block reference that has been selected
 };
 
 #endif // !defined(AFX_FSM_H__8989F5FC_5302_4664_879C_4C52BADE8C05__INCLUDED_)

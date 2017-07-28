@@ -87,8 +87,8 @@ public:
 	int m_iShow, showdescript, selected;
 	long int identnum, blockID;
 
-	INXString	m_csIconType;
-	INXString m_csBlockName; // block name for encapsulated blocks. graphic filename is encapsulate
+	INXString	m_FbName;
+	INXString m_FbType; // block name for encapsulated blocks. graphic filename is encapsulate
 	INXString description;
 	INXString longDesc;
 	INXString className;

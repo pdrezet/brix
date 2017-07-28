@@ -57,6 +57,10 @@ BEGIN_EVENT_TABLE(FunctionBlockTree, wxTreeCtrl)
     //EVT_TREE_ITEM_MENU(COMPONENT_TREECTRL_ID, FunctionBlockTree::OnItemMenu)
     EVT_TREE_ITEM_RIGHT_CLICK(COMPONENT_TREECTRL_ID, FunctionBlockTree::OnItemRClick)
 	*/
+	EVT_RIGHT_DOWN(FunctionBlockTree::OnRMouseDown)
+	EVT_LEFT_DOWN(FunctionBlockTree::OnLMouseDown)
+	EVT_RIGHT_UP(FunctionBlockTree::OnRMouseUp)
+	EVT_LEFT_UP(FunctionBlockTree::OnLMouseUp)
 	EVT_TREE_BEGIN_DRAG(COMPONENT_TREECTRL_ID, FunctionBlockTree::OnBeginLDrag)
 	EVT_TREE_BEGIN_RDRAG(COMPONENT_TREECTRL_ID, FunctionBlockTree::OnBeginRDrag )
 	EVT_TREE_END_DRAG(COMPONENT_TREECTRL_ID, FunctionBlockTree::OnEndLDrag)
@@ -1234,6 +1238,21 @@ void FunctionBlockTree::OnRMouseDown(wxMouseEvent& event) {
 	event.Skip(true);
 }
 
+void FunctionBlockTree::OnLMouseUp(wxMouseEvent& event) {
+
+	int x = 0;
+	event.Skip(true);
+}
+
+
+void FunctionBlockTree::OnRMouseUp(wxMouseEvent& event) {
+
+
+	int x = 0;
+	event.Skip(true);
+}
+
+
 void FunctionBlockTree::OnBeginLDrag(wxTreeEvent& event){
     event.Allow();
 	//event.Skip(true);
@@ -1250,14 +1269,18 @@ void FunctionBlockTree::OnBeginRDrag(wxTreeEvent& event){
 void FunctionBlockTree::OnEndLDrag(wxTreeEvent& event){
 
 	// We will handle this event in the workspace so we don't have to guess what DEP/view it lands in.
-
+	INXString component;
 	//event.Allow();
 	//event.Skip(true);
-	//event.GetItem(); // this is the ID if another tree item if we have dragged within this treeview
-	//INXPoint position = event.Position();
+	component = findComponentFromTreeId(m_DraggedItem)->iconName; // this is the ID if another tree item if we have dragged within this treeview
+	INXPoint position = event.GetPoint();
+	wxGetApp().DropFBInCurrentView(position,"NATIVE",component);
+	//+ GetPosition();
 	//ComponentOnTree_t *info = findComponentFromTreeId(m_DraggedItem);
 	//encapsulatedPos =
-	//wxGetApp()..CurrentDep.AddIcon(info->iconName, info->label, position);
+	//wxGetApp()->CurrentDep.AddIcon(info->iconName, info->label, position);
+	//event.ResumePropagation(wxEVENT_PROPAGATE_MAX);
+	event.Skip(true); // we want this to be handled by the workspace view class.
 
 }
 

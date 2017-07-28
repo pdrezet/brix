@@ -643,7 +643,7 @@ LucidErrEnum ProjectMetaData::readProjectFile( INXString csProjectPathName )
 // writes the project file to the project directory
 LucidErrEnum ProjectMetaData::writeProjectFile()
 {
-    assert(m_bLocked);
+    assert(m_bLocked == false);
 	INXString csProjectPathName = m_csProjectDir + "\\" + m_csProjectName + PROJECTEXT;
 	return writeProjectFileAs(csProjectPathName);
 }

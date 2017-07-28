@@ -43,6 +43,126 @@ bool DrawProg::OnInit(){
     return true;
 }
 
+bool DrawProg::DropFBInCurrentView(INXPoint point,INXString componentType,INXString component) {
+	DrawProgView * pView = getActiveProgView();
+	ConData *droppee, *draggee;
+	INXPOSITION droppeePos, draggeePos;
+	INXPoint droppeePoint, draggeePoint;
+	bool bContinue = true;
+
+	if( !m_CurrentProject || !m_CurrentProject->pProjMData->getLock() ){
+
+		INX_MessageBox( PMD_LOCK_FAILURE_MESSAGE );
+
+	} else {
+
+		m_CurrentProject->pProjMData->readProjectFile();
+		INXPoint relPoint = point - m_ActiveProgView->GetParent()->GetPosition();
+		if (relPoint.x >= 0 && relPoint.y >= 0 ) {
+			ConData* blob = pView->processComponentDrop(SnapToGrid(relPoint), componentType, component );
+			// and now update the prject
+			if (blob) {
+				if (blob->m_iUserDefined) {
+					// add this instance to the project tree
+					/* todo pView->pFrame->m_wndProjectBar.m_cProjTree.AddItem2ProjectTree(blob, m_CurrentProject, pView->pDEP->hItem); */
+					// Make sure gui widget tags are unique
+					// add any gui widgets to the project meta data
+
+					// todo do all the rest diferently with a single call?
+					//INXTREEITEM hUserDefItem = pView->pFrame->m_wndProjectBar.m_cProjTree.GetUserDefChildItem( blob, pView->pDEP->hItem);
+
+					//m_CurrentProject->getWidgetGroupNames(hUserDefItem, sWidgetGroupSet);
+					//m_CurrentProject->setWidgetGroupNames(sWidgetGroupSet, vWidgetGroupPairVec);
+					//m_CurrentProject->updateWidgetGroupNames(hUserDefItem, vWidgetGroupPairVec);
+
+				}
+				// Add Gui widgets to project file
+				/* todo
+			else if (blob->isGuiWidget()) {
+				m_CurrentProject->addGuiWidget(blob);
+			}
+				 */
+#if 0
+				// Functionality for doing FB substitution
+				droppee = pView->m_FBSubstitute.getDroppee();
+				draggee = blob;
+				if (droppee) {
+					pView->m_FBSubstitute.setDraggee(draggee);
+					// It seems that the message box causes a redraw, which displays the draggee. This looks unsightly,
+					// so disable the draw function in this icon until after the message box.
+					draggee->m_iShow = 0;
+					// Copy parameters
+					if (!pView->m_FBSubstitute.copyParamValues()) {
+						if (pView->m_FBSubstitute.isParamValsModified()) {
+							if (INX_MessageBox("Substitution will cause your parameters to be lost. Do you want to continue?",MB_YESNO|MB_ICONEXCLAMATION)==IDNO) {
+								bContinue = FALSE;
+							}
+						}
+					}
+
+					draggee->m_iShow = 1;
+					if (bContinue) {
+						// make sure new FB is in same position as old FB
+						draggeePoint = draggee->GetIconPos();
+						droppeePoint = droppee->GetIconPos();
+						draggeePos = pView->pDEP->getPosFromIcon(draggee);
+						pView->pDEP->RenewPosition(draggeePos, droppeePoint, draggeePoint);
+
+						// copy the FB id so don't have to change othericonid attribute on ports connected
+						// to output and finish ports
+						draggee->identnum = droppee->identnum;
+
+						// Copy description if neither are encapsulated FB
+						if (!draggee->m_iUserDefined && !droppee->m_iUserDefined) {
+							draggee->description = droppee->description;
+						}
+
+						// Copy connections
+						pView->m_FBSubstitute.setDEP(pView->pDEP);
+						pView->m_FBSubstitute.connectDraggee();
+
+						// Delete old FB
+						droppeePos = pView->pDEP->getPosFromIcon(droppee);
+						// Insert draggee into condata list at same point as droppee.
+						// Shouldn't need to do this but avoided a bug writing out SODL for space invaders demo
+						pView->pDEP->condata->RemoveAt(draggeePos);
+						pView->pDEP->condata->InsertAfter(droppeePos, draggee);
+						pView->pFrame->m_wndProjectBar.m_cProjTree.DeleteIcon(droppeePos, m_CurrentProject, pView->pDEP, 0);
+					}
+					else {
+						draggeePos = pView->pDEP->getPosFromIcon(draggee);
+						pView->pFrame->m_wndProjectBar.m_cProjTree.DeleteIcon(draggeePos, m_CurrentProject, pView->pDEP, 0);
+					}
+				}
+#endif
+				if (bContinue) {
+					// if adding xport then don't allow undo
+					if (!(blob->m_FbName.Find("XINPUT") != -1 || blob->m_FbName.Find("XOUTPUT") != -1 || blob->m_FbName == "XSTART"
+							|| blob->m_FbName == "XFINISH")) {
+						pView->SaveUndo();
+					}
+					else {
+						//@todo - currently can't undo adding an xport
+						pView->initUndo();
+					}
+
+					m_CurrentProject->SaveProject();
+					m_CurrentProject->pProjMData->writeProjectFile();
+					pView->RedrawWindow();
+				}
+
+			}
+		}
+		else {
+			wxMessageBox("Please Drop components within a workspace window");
+		}
+
+		//return true;
+	}
+
+	if (m_CurrentProject) m_CurrentProject->pProjMData->releaseLock();
+	return true;
+}
 
 bool DrawProg::SetWorkDirGlobal(wxChar * workDir){
 	if(!CheckExecutableFolderContextIsOk()){
@@ -188,10 +308,10 @@ void DrawProg::OnNewProject(wxCommandEvent& event){
     subframe->GetClientSize(&width, &height);
     DrawProgView *canvas = new DrawProgView(subframe, wxDefaultPosition, wxSize(width, height),WX_GL_DOUBLEBUFFER);
     subframe->canvas = canvas;
-
+    m_ActiveProgView = canvas;
     subframe->Show(true);
-
 }
+
 void DrawProg::OnSaveProject(wxCommandEvent& event){
 
 }
@@ -401,6 +521,7 @@ void DrawProg::displayView(Project *proj, INXString doc_file){
     DrawProgView *canvas = new DrawProgView(subframe, wxDefaultPosition, wxSize(width, height),WX_GL_DOUBLEBUFFER);
 	canvas->pDEP = pDEP;
     subframe->canvas = canvas;
+    m_ActiveProgView = canvas;
 	subframe->Show();
 
 }
@@ -424,6 +545,10 @@ bool DrawProg::copyTransferrablesToExports(ProjectMetaData* projMetadata, bool a
 ///\brief gets active project reference.
 Project* DrawProg::getCurrentProject(){
 return m_CurrentProject;
+}
+
+DrawProgView* DrawProg::getActiveProgView(){
+	return m_ActiveProgView;
 }
 
 ///\brief gets active DEP (graphical Model) object reference.

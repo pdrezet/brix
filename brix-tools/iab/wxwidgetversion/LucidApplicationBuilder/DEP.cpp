@@ -169,10 +169,10 @@ bool areBothIconsXPorts(ConData *pFirstIcon, ConData *pSecondIcon)
 	bool bSecondIsXport = false;
 
 	if (pFirstIcon && pSecondIcon) {
-		if (pFirstIcon->m_csIconType.Find("XINPUT") != -1 || pFirstIcon->m_csIconType.Find("XOUTPUT") != -1 || pFirstIcon->m_csIconType == wxT("XSTART") || pFirstIcon->m_csIconType == wxT("XFINISH")) {
+		if (pFirstIcon->m_FbName.Find("XINPUT") != -1 || pFirstIcon->m_FbName.Find("XOUTPUT") != -1 || pFirstIcon->m_FbName == wxT("XSTART") || pFirstIcon->m_FbName == wxT("XFINISH")) {
 			bFirstIsXport = true;
 		}
-		if (pSecondIcon->m_csIconType.Find("XINPUT") != -1 || pSecondIcon->m_csIconType.Find("XOUTPUT") != -1 || pSecondIcon->m_csIconType == wxT("XSTART") || pSecondIcon->m_csIconType == wxT("XFINISH")) {
+		if (pSecondIcon->m_FbName.Find("XINPUT") != -1 || pSecondIcon->m_FbName.Find("XOUTPUT") != -1 || pSecondIcon->m_FbName == wxT("XSTART") || pSecondIcon->m_FbName == wxT("XFINISH")) {
 			bSecondIsXport = true;
 		}
 
@@ -1303,7 +1303,7 @@ int DEP::GetFinishLineID(INXObjList* flattened, ConData* otherBlockIcon, ConData
 		blockPos = encapsulated->GetHeadPosition();
 		while (blockPos) {
 			blockIcon = (ConData *) (encapsulated->GetNext(blockPos));
-			if (blockIcon->m_csIconType == "XFINISH" && blockIcon->description == otherBlockIcon->finishport[endNum]->description) {
+			if (blockIcon->m_FbName == "XFINISH" && blockIcon->description == otherBlockIcon->finishport[endNum]->description) {
 				otherBlockIcon = bo.GetBlockIconFromID(blockIcon->startport[0]->line.othericonid, encapsulated);
 				endNum = blockIcon->startport[0]->line.otherportno;
 			}
@@ -1370,7 +1370,7 @@ int DEP::GetInLineID(ConData* blob, ConData* flatBlob, int inNum) {
 	blockPos = encapsulated->GetHeadPosition();
 	while (blockPos) {
 		blockIcon = (ConData *) (encapsulated->GetNext(blockPos));
-		if (blockIcon->m_csIconType.Find("XINPUT") > -1 && blockIcon->description == blob->inputport[inNum]->description) {
+		if (blockIcon->m_FbName.Find("XINPUT") > -1 && blockIcon->description == blob->inputport[inNum]->description) {
 			otherBlockPos = encapsulated->GetHeadPosition();
 			while (otherBlockPos) {
 				otherBlockIcon = (ConData *) (encapsulated->GetNext(otherBlockPos));
@@ -1443,7 +1443,7 @@ int DEP::GetOutLineID(INXObjList* flattened, ConData* otherBlockIcon, ConData* f
 		blockPos = encapsulated->GetHeadPosition();
 		while (blockPos) {
 			blockIcon = (ConData *) (encapsulated->GetNext(blockPos));
-			if (blockIcon->m_csIconType.Find("XOUTPUT") > -1 && blockIcon->description == otherBlockIcon->outputport[outNum]->description) {
+			if (blockIcon->m_FbName.Find("XOUTPUT") > -1 && blockIcon->description == otherBlockIcon->outputport[outNum]->description) {
 				otherBlockIcon = bo.GetBlockIconFromID(blockIcon->inputport[0]->line.othericonid, encapsulated);
 				outNum = blockIcon->inputport[0]->line.otherportno;
 			}
@@ -1494,7 +1494,7 @@ int DEP::GetStartLineID(ConData* blob, ConData* flatBlob, int startNum) {
 	blockPos = encapsulated->GetHeadPosition();
 	while (blockPos) {
 		blockIcon = (ConData *) (encapsulated->GetNext(blockPos));
-		if (blockIcon->m_csIconType == "XSTART" && blockIcon->description == blob->startport[startNum]->description) {
+		if (blockIcon->m_FbName == "XSTART" && blockIcon->description == blob->startport[startNum]->description) {
 			otherBlockPos = encapsulated->GetHeadPosition();
 			while (otherBlockPos) {
 				otherBlockIcon = (ConData *) (encapsulated->GetNext(otherBlockPos));
@@ -1727,7 +1727,7 @@ void DEP::MapLineID(INXObjList* flattened) {
 			}
 			// if the icon is an XOUTPUT need to get the line ID from the icon in the
 			// flattened list that is connected to the same icon the XOUTPUT is connected to
-			else if (blob->m_csIconType.Find("XOUTPUT") > -1 && blob->inputport[0]->line.exist) {
+			else if (blob->m_FbName.Find("XOUTPUT") > -1 && blob->inputport[0]->line.exist) {
 				otherBlockIcon = GetIconFromID(blob->inputport[0]->line.othericonid);
 				outLineID = GetOutLineID(flattened, otherBlockIcon, flatBlob, blob->inputport[0]->line.otherportno, hItem);
 				if (outLineID) {
@@ -1737,7 +1737,7 @@ void DEP::MapLineID(INXObjList* flattened) {
 			}
 			// if the icon is an XFINISH need to get the line ID from the icon in the
 			// flattened list that is connected to the same icon the XFINISH is connected to
-			else if (blob->m_csIconType == "XFINISH" && blob->startport[0]->line.exist) {
+			else if (blob->m_FbName == "XFINISH" && blob->startport[0]->line.exist) {
 				otherBlockIcon = GetIconFromID(blob->startport[0]->line.othericonid);
 				// only assign the line ID if it is not 0
 				finishLineID = GetFinishLineID(flattened, otherBlockIcon, flatBlob, blob->startport[0]->line.otherportno, hItem);
@@ -1747,9 +1747,9 @@ void DEP::MapLineID(INXObjList* flattened) {
 				}
 			}
 			// make sure its not an xport
-			else if (blob->identnum == flatBlob->identnum && blob->m_csIconType.Find("XINPUT") == -1 && blob->m_csIconType.Find("XSTART") == -1) {
+			else if (blob->identnum == flatBlob->identnum && blob->m_FbName.Find("XINPUT") == -1 && blob->m_FbName.Find("XSTART") == -1) {
 				// this is for debug purposes to make sure the icon ids are for the same icons
-				if (blob->m_csIconType == flatBlob->m_csIconType) {
+				if (blob->m_FbName == flatBlob->m_FbName) {
 					for (i=0; i<blob->inputport_num; i++) {
 						blob->inputport[i]->line.idNum = flatBlob->inputport[i]->line.idNum;
 					}
@@ -2367,7 +2367,7 @@ void DEP::SetCondataLineID(INXObjList* flattened) {
 //				(instName != "temptop" && blob->identnum ==  flatBlob->blockID)) {
 			if (blob->identnum == flatBlob->identnum) {
 				// this is for debug purposes to make sure the icon ids are for the same icons
-				if (blob->m_csIconType == flatBlob->m_csIconType) {
+				if (blob->m_FbName == flatBlob->m_FbName) {
 					for (UINT i=0; i<blob->inputport_num; i++) {
 						blob->inputport[i]->line.idNum = flatBlob->inputport[i]->line.idNum;
 					}
@@ -2392,7 +2392,7 @@ void DEP::SetCondataLineID(INXObjList* flattened) {
 			}
 			// if the icon is an XOUTPUT need to get the line ID from the icon in the
 			// flattened list that is connected to the same icon the XOUTPUT is connected to
-			else if (blob->m_csIconType.Find("XOUTPUT") > -1 && blob->inputport[0]->line.exist) {
+			else if (blob->m_FbName.Find("XOUTPUT") > -1 && blob->inputport[0]->line.exist) {
 				otherBlockIcon = GetIconFromID(blob->inputport[0]->line.othericonid);
 				outLineID = GetOutLineID(flattened, otherBlockIcon, flatBlob, blob->inputport[0]->line.otherportno, /* MFCism? */NULL);
 				if (outLineID) {
@@ -2401,7 +2401,7 @@ void DEP::SetCondataLineID(INXObjList* flattened) {
 			}
 			// if the icon is an XFINISH need to get the line ID from the icon in the
 			// flattened list that is connected to the same icon the XFINISH is connected to
-			else if (blob->m_csIconType == "XFINISH" && blob->startport[0]->line.exist) {
+			else if (blob->m_FbName == "XFINISH" && blob->startport[0]->line.exist) {
 				otherBlockIcon = GetIconFromID(blob->startport[0]->line.othericonid);
 				// only assign the line ID if it is not 0
 				finishLineID = GetFinishLineID(flattened, otherBlockIcon, flatBlob, blob->startport[0]->line.otherportno, /* MFCism? */NULL);
@@ -2582,16 +2582,16 @@ ConData* DEP::SubsetEncapsulate(INXRect encapsulate, int lib) {
 		while (pos) {
 			rmPos = pos;
 			blob = (ConData*) (depList->GetNext(pos));
-			if (blob->m_csIconType == "XFINISH" || blob->m_csIconType == "XSTART" || blob->m_csIconType.Find("XINPUT") != -1 ||
-				blob->m_csIconType.Find("XOUTPUT") != -1) {
+			if (blob->m_FbName == "XFINISH" || blob->m_FbName == "XSTART" || blob->m_FbName.Find("XINPUT") != -1 ||
+				blob->m_FbName.Find("XOUTPUT") != -1) {
 				depList->RemoveAt(rmPos);
 			}
 		}
 		pos = encapsulated->GetHeadPosition();
 		while(pos) {
 			blob = (ConData*) (encapsulated->GetNext(pos));
-			if (blob->m_csIconType == "XFINISH" || blob->m_csIconType == "XSTART" || blob->m_csIconType.Find("XINPUT") != -1 ||
-				blob->m_csIconType.Find("XOUTPUT") != -1) {
+			if (blob->m_FbName == "XFINISH" || blob->m_FbName == "XSTART" || blob->m_FbName.Find("XINPUT") != -1 ||
+				blob->m_FbName.Find("XOUTPUT") != -1) {
 				delete blob;
 			}
 		}
@@ -2667,7 +2667,7 @@ void DEP::TagPorts(ConData* icon, INXObjList* encapsulated) {
 		pos = encapsulated->GetHeadPosition();
 		while (pos) {
 			blob = (ConData*) encapsulated->GetNext(pos);
-			if (blob->m_csIconType == "XSTART" && icon->startport[i]->description == blob->description) {
+			if (blob->m_FbName == "XSTART" && icon->startport[i]->description == blob->description) {
 				icon->startport[i]->tag = blob->finishport[0]->tag;
 			}
 		}
@@ -2677,7 +2677,7 @@ void DEP::TagPorts(ConData* icon, INXObjList* encapsulated) {
 		pos = encapsulated->GetHeadPosition();
 		while (pos) {
 			blob = (ConData*) encapsulated->GetNext(pos);
-			if (blob->m_csIconType.Find("XINPUT") != -1 && icon->inputport[i]->description == blob->description) {
+			if (blob->m_FbName.Find("XINPUT") != -1 && icon->inputport[i]->description == blob->description) {
 				icon->inputport[i]->tag = blob->outputport[0]->tag;
 			}
 		}
@@ -2687,7 +2687,7 @@ void DEP::TagPorts(ConData* icon, INXObjList* encapsulated) {
 		pos = encapsulated->GetHeadPosition();
 		while (pos) {
 			blob = (ConData*) encapsulated->GetNext(pos);
-			if (blob->m_csIconType == "XFINISH" && icon->finishport[i]->description == blob->description) {
+			if (blob->m_FbName == "XFINISH" && icon->finishport[i]->description == blob->description) {
 				icon->finishport[i]->tag = blob->startport[0]->tag;
 			}
 		}
@@ -2697,7 +2697,7 @@ void DEP::TagPorts(ConData* icon, INXObjList* encapsulated) {
 		pos = encapsulated->GetHeadPosition();
 		while (pos) {
 			blob = (ConData*) encapsulated->GetNext(pos);
-			if (blob->m_csIconType.Find("XOUTPUT") != -1 && icon->outputport[i]->description == blob->description) {
+			if (blob->m_FbName.Find("XOUTPUT") != -1 && icon->outputport[i]->description == blob->description) {
 				icon->outputport[i]->tag = blob->inputport[0]->tag;
 			}
 		}
@@ -3635,7 +3635,7 @@ void DEP::PropagateDebugDataUp(HTREEITEM hSubsys)
 				subsysPos = pSubsysDep->condata->GetHeadPosition();
 				while (subsysPos) {
 					pChildBlob = (ConData *) (pSubsysDep->condata->GetNext(subsysPos));
-					if (pChildBlob->m_csIconType == "XFINISH" && pChildBlob->startport[0]->line.exist &&
+					if (pChildBlob->m_FbName == "XFINISH" && pChildBlob->startport[0]->line.exist &&
 						pChildBlob->description == pSubsysBlob->finishport[iPortNum]->description) {
 							pBlob->startport[i]->line.dbgEvent = pChildBlob->startport[0]->line.dbgEvent;
 					}
@@ -3651,7 +3651,7 @@ void DEP::PropagateDebugDataUp(HTREEITEM hSubsys)
 				subsysPos = pSubsysDep->condata->GetHeadPosition();
 				while (subsysPos) {
 					pChildBlob = (ConData *) (pSubsysDep->condata->GetNext(subsysPos));
-					if (pChildBlob->m_csIconType.Find("XOUTPUT") != -1 && pChildBlob->inputport[0]->line.exist &&
+					if (pChildBlob->m_FbName.Find("XOUTPUT") != -1 && pChildBlob->inputport[0]->line.exist &&
 						pChildBlob->description == pSubsysBlob->outputport[iPortNum]->description) {
 							pBlob->inputport[i]->line.dbgValue = pChildBlob->inputport[0]->line.dbgValue;
 					}

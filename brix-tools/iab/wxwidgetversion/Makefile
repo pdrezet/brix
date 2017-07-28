@@ -11,8 +11,8 @@ ifeq ($(origin LL), undefined)
 LL = $(CC)
 endif
 
-
-CPPFLAGS:=$(shell ./contrib/wxWidgets-2.8.12/gtk-build-inx/wx-config --cppflags) -g -std=c++11 -I./common/ -I./LucidApplicationBuilder/ -I./contrib/include
+#__INX_WXWIDGETS2 is our flag to build wth old wx. Mac needs wx 3, which has some non compaitble trifles.
+CPPFLAGS:=$(shell ./contrib/wxWidgets-2.8.12/gtk-build-inx/wx-config --cppflags) -g -std=c++11 -I./common/ -I./LucidApplicationBuilder/ -I./contrib/include -D__INX_WXWIDGETS2
 ALLCFLAGS=$(CPPFLAGS)
 
 

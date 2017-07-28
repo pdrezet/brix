@@ -33,9 +33,9 @@ void IconParams::SetHTML() {
 	CFileOperation fo;
 
 	// don't assume help file is in a particular directory, check CDF dir first then IDF
-	helpPath = workDir + CDFDIR + pOrigBlob->m_csIconType + HTML_HELP_FILE;
+	helpPath = workDir + CDFDIR + pOrigBlob->m_FbName + HTML_HELP_FILE;
 	if (!fo.CheckPath(helpPath)) {
-		helpPath = workDir + IDFDIR + pOrigBlob->m_csIconType + HTML_HELP_FILE;
+		helpPath = workDir + IDFDIR + pOrigBlob->m_FbName + HTML_HELP_FILE;
 		// if help not found then use default
 		if (!fo.CheckPath(helpPath)) {
 //			wxMessageBox("Unable to open " + helpPath);

@@ -18,8 +18,7 @@
 
 #include "Resource.h"
 #include "DrawProg.h"
-//#include "DrawProgDoc.h"
-#include "DrawProgView.h"
+#include "DrawProgDoc.h"
 
 #include "../common/Userconfig.h"
 #include "bmpfile.h"
@@ -66,10 +65,14 @@ using namespace std;
 #include "ExportDialog.h"
 */
 
+
 BEGIN_EVENT_TABLE(DrawProgView, wxGLCanvas)
     EVT_SIZE(DrawProgView::OnSize)
     EVT_PAINT(DrawProgView::OnPaint)
+	EVT_MOUSE_EVENTS(DrawProgView::OnWxMouseEvents)
+	EVT_LEFT_UP(DrawProgView::OnWxLeftMouse)
 END_EVENT_TABLE()
+
 
 ///\todo remove this? global variable declared in CDrawProgApp
 extern wxChar workDir[WORK_DIR_SIZE];
@@ -163,7 +166,7 @@ void DrawProgView::InitGL(){
 ConData* DrawProgView::processComponentDrop(
 			INXPoint point, INXString &csIconType, INXString &csBlock )
 {
-	INXString csBlockName = "";// This is only set if the icon as a
+	INXString csBlockName = "";// This is only set (by a dlgbox) if the icon is a new subsystem component
 	ConData* blob = NULL;
 	//CPortLabelDialog portDlg(pDEP);
 	INXString parentName;
@@ -189,8 +192,7 @@ ConData* DrawProgView::processComponentDrop(
 		return NULL;
 #endif
 	}
-	if (csIconType.Find("XINPUT") != -1 || csIconType.Find("XOUTPUT") != -1 || csIconType == "XSTART" ||
-			csIconType == "XFINISH") {
+	if (csIconType.Find("XINPUT") != -1 || csIconType.Find("XOUTPUT") != -1 || csIconType == "XSTART" || csIconType == "XFINISH") {
 
 		// only allow xports to be added to subsytems
 #if 0
@@ -212,18 +214,18 @@ ConData* DrawProgView::processComponentDrop(
 #endif
 	}
 /* Add the Icon */
-	INXPOSITION selected = pDEP->AddIcon(csIconType, csBlock, point);  //create memory and set point
+	INXPOSITION selected = pDEP->AddIcon(csIconType, csBlock, point);  //create the block and set point in pDEP component list
 	blob = (ConData *) pDEP->condata->GetAt(selected);
 
 	// the class name for a new block is the block name
-	if (csBlockName != "") { // this means it's a subsystem block not a native
+	if (csIconType == "SUBSYSTEM") { // this means it's a subsystem block not a native
 		blob->className = csBlockName;
 		// create an instance name for this new block
 		//CreateDirectory(workDir + USERDEFDIR + blockName, NULL);
 		pDEP->CreateInstance(blob, 4); // THIS Will delete IDF
 	}
-	// create an instance for library components
-	if (csBlock != "" && csBlockName == "") {
+	// create an instance for a new component library components
+	else if (csBlock != "" && csBlockName == "") {
 		//system("copy " + (INXString)workDir + USERDEFDIR + block + ".prg " + projectDir + DEPDIR + block + ".prg");
 		pDEP->CreateInstance(blob, 1);
 	}
@@ -373,12 +375,12 @@ bool DrawProgView::XportNameExist(INXObjList* list) {
 	listPos = list->GetHeadPosition();
 	while (listPos) {
 		listBlob = (ConData*)(list->GetNext(listPos));
-		if (listBlob->m_csIconType.Find("XINPUT") != -1 || listBlob->m_csIconType.Find("XOUTPUT") != -1 ||
-			listBlob->m_csIconType == "XSTART" || listBlob->m_csIconType == "XFINISH") {
+		if (listBlob->m_FbName.Find("XINPUT") != -1 || listBlob->m_FbName.Find("XOUTPUT") != -1 ||
+			listBlob->m_FbName == "XSTART" || listBlob->m_FbName == "XFINISH") {
 			depPos = pDEP->condata->GetHeadPosition();
 			while (depPos) {
 				depBlob = (ConData*)(pDEP->condata->GetNext(depPos));
-				if (depBlob->m_csIconType == listBlob->m_csIconType && depBlob->description == listBlob->description) {
+				if (depBlob->m_FbName == listBlob->m_FbName && depBlob->description == listBlob->description) {
 					return true;
 				}
 			}
@@ -482,6 +484,49 @@ void DrawProgView::stopTraceTimer()
 #endif
 }
 
+
+/*
+ * ~brief Handle All Mouse events (iniiated in the workspace window)
+ *
+ */
+
+void DrawProgView::OnWxMouseEvents( wxMouseEvent& event) {
+
+	INXPoint point(event.GetPosition());
+	if (event.LeftDown()) {
+	//	OnLButtonDown(0,point);
+
+	}
+	else if (event.LeftUp()) {
+		OnLButtonUp(0,point);
+	}
+	else if (event.RightDown()) {
+		OnRButtonDown(0,point);
+	}
+	else if (event.LeftUp()) {
+		OnLButtonUp(0,point);
+	}
+	else if (event.RightUp()) {
+		OnRButtonUp(0,point);
+	}
+	else if (event.Moving()){
+		OnRButtonUp(0,point);
+	}
+	else {
+		event.Skip(true); // pass the event up if we don't handle it
+	}
+}
+
+
+void DrawProgView::OnWxLeftMouse( wxMouseEvent& event) {
+	if (event.GetClassInfo()) {
+
+	}
+}
+
+void DrawProgView::OnRButtonUp(unsigned int nFlags, INXPoint _point) {
+
+}
 /*
 */
 void DrawProgView::OnLButtonDown(unsigned int nFlags, INXPoint _point)
@@ -823,14 +868,14 @@ void DrawProgView::OnLButtonUp(unsigned int nFlags, INXPoint _point)
 }
 
 
-#if 0
-/// \todo - this was removed along tme ago - delete!
+
 /*
 	When the right button is clicked on an icon then bring up a popup menu
 */
 void DrawProgView::OnRButtonDown(unsigned int nFlags, INXPoint _point)
 {
 	INXPoint point(_point.x, _point.y);
+#if 0
 	CMenu iconMenu;
 	ConData* blob;
 	int portConnected=0;
@@ -968,8 +1013,8 @@ void DrawProgView::OnRButtonDown(unsigned int nFlags, INXPoint _point)
 			if (blob->m_iUserDefined) {
 				iconMenu.GetSubMenu(4)->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, menuPoint.x, menuPoint.y, this);
 			}
-			else if (blob->m_csIconType.Find("XINPUT") != -1 || blob->m_csIconType.Find("XOUTPUT") != -1 ||
-				blob->m_csIconType == "XSTART" || blob->m_csIconType == "XFINISH") {
+			else if (blob->m_FbName.Find("XINPUT") != -1 || blob->m_FbName.Find("XOUTPUT") != -1 ||
+				blob->m_FbName == "XSTART" || blob->m_FbName == "XFINISH") {
 				iconMenu.GetSubMenu(5)->EnableMenuItem(ID_ADD_ICON_TO_GROUP, 1);
 				iconMenu.GetSubMenu(5)->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, menuPoint.x, menuPoint.y, this);
 			}
@@ -1017,9 +1062,9 @@ void DrawProgView::OnRButtonDown(unsigned int nFlags, INXPoint _point)
 
 	CScrollView::OnRButtonDown(nFlags, point);
 	running=0;
+#endif
 }
 
-#endif
 
 
 /*
@@ -1517,8 +1562,8 @@ void DrawProgView::OnDelete()
 		readProjectFile();
 		// don't allow an undo when deleting a Xport
 		blob = (ConData*) pDEP->condata->GetAt(selectedControl);
-		if (blob->m_csIconType.Find("XINPUT") != -1 || blob->m_csIconType.Find("XOUTPUT") != -1 || blob->m_csIconType == "XSTART" ||
-			blob->m_csIconType == "XFINISH") {
+		if (blob->m_FbName.Find("XINPUT") != -1 || blob->m_FbName.Find("XOUTPUT") != -1 || blob->m_FbName == "XSTART" ||
+			blob->m_FbName == "XFINISH") {
 			undo = FALSE;
 		}
 		///\todo pFrame->m_wndProjectBar.m_cProjTree.DeleteIcon(selectedControl, pProject, pDEP, 1);
@@ -2193,8 +2238,8 @@ void DrawProgView::OnEditCut()
 			icondata = (ConData *) (pDEP->condata->GetNext(pos));
 			//if (selectRect.PtInRect(icondata->GetIconCentre())) {
 			if (icondata->selected) {
-				if (icondata->m_csIconType.Find("XINPUT") != -1 || icondata->m_csIconType.Find("XOUTPUT") != -1 || icondata->m_csIconType == "XSTART" ||
-					icondata->m_csIconType == "XFINISH") {
+				if (icondata->m_FbName.Find("XINPUT") != -1 || icondata->m_FbName.Find("XOUTPUT") != -1 || icondata->m_FbName == "XSTART" ||
+					icondata->m_FbName == "XFINISH") {
 					undo = FALSE;
 				}
 				pFrame->m_wndProjectBar.m_cProjTree.DeleteIcon(delPos, pProject, pDEP, 1);
@@ -2304,8 +2349,8 @@ void DrawProgView::OnEditPaste()
 				pFrame->m_wndProjectBar.m_cProjTree.AddItem2ProjectTree(icondata, pProject, pDEP->hItem);
 			}
 			// if we are pasting an xport, test if it is being pasted into a subsystem first
-			if (icondata->m_csIconType.Find("XINPUT") != -1 || icondata->m_csIconType.Find("XOUTPUT") != -1 ||
-				icondata->m_csIconType == "XSTART" || icondata->m_csIconType == "XFINISH") {
+			if (icondata->m_FbName.Find("XINPUT") != -1 || icondata->m_FbName.Find("XOUTPUT") != -1 ||
+				icondata->m_FbName == "XSTART" || icondata->m_FbName == "XFINISH") {
 				hParent = pFrame->m_wndProjectBar.m_cProjTree.GetParentItem(pDEP->hItem);
 
 				// can only add xports if DEP has a parent (is a subsystem), add ports to parent component and add xport to this DEP
@@ -2315,7 +2360,7 @@ void DrawProgView::OnEditPaste()
 					DrawProgView* pView = pProject->OpenView(csProjectDir + DEPDIR + depPath +
 						(INXString)pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hParent) + ".prg");
 					pParentDEP = pView->pDEP;
-					pParentDEP->AddBlockPort(icondata->m_csIconType, icondata->description, pDEP->depFilename);
+					pParentDEP->AddBlockPort(icondata->m_FbName, icondata->description, pDEP->depFilename);
 					// set modified flag in doc
 					pView->pDoc->SetModifiedFlag(true);
 					pFrame->m_wndProjectBar.m_cProjTree.hSelItem = pDEP->hItem;
@@ -3314,7 +3359,7 @@ void DrawProgView::OnLButtonDblClk(unsigned int nFlags, INXPoint _point)
 			ConData* blob;
 			blob = (ConData*) pDEP->condata->GetAt(selectedControl);
 			pDEP->setFBHighlight(selectedControl);
-			if (blob->m_csBlockName == "") {
+			if (blob->m_FbType == "") {
 				OnProperties();
 			}
 			else {
@@ -3474,8 +3519,8 @@ void DrawProgView::OnEditDelete()
 			icondata = (ConData *) (pDEP->condata->GetNext(pos));
 			//if (selectRect.PtInRect(icondata->GetIconCentre())) {
 			if (icondata->selected) {
-				if (icondata->m_csIconType.Find("XINPUT") != -1 || icondata->m_csIconType.Find("XOUTPUT") != -1 || icondata->m_csIconType == "XSTART" ||
-					icondata->m_csIconType == "XFINISH") {
+				if (icondata->m_FbName.Find("XINPUT") != -1 || icondata->m_FbName.Find("XOUTPUT") != -1 || icondata->m_FbName == "XSTART" ||
+					icondata->m_FbName == "XFINISH") {
 					undo = FALSE;
 				}
 				pFrame->m_wndProjectBar.m_cProjTree.DeleteIcon(delPos, pProject, pDEP, 1);
@@ -4250,7 +4295,7 @@ void DrawProgView::initUndo() {
 
 
 
-#if 0
+#if 0 // this is the windows Ole version - moved relavant bits into DrawProgView::processComponentDrop() call
 /* THis is the logic for doing a drop from "InterfaceDropTarget.cpp /
  */
 BOOL CInterfaceDropTarget::OnDrop(
@@ -4297,7 +4342,7 @@ BOOL CInterfaceDropTarget::OnDrop(
 			aDC.DPtoLP(&point); // convert point to Logical
 
 			ConData* blob =
-				pView->processComponentDrop(SnapToGrid(point), m_csIconType, m_csBlockName );
+				pView->processComponentDrop(SnapToGrid(point), m_FbName, m_FbType );
 
 			if (blob) {
 				if (blob->m_iUserDefined) {
@@ -4373,8 +4418,8 @@ BOOL CInterfaceDropTarget::OnDrop(
 
 				if (bContinue) {
 					// if adding xport then don't allow undo
-					if (!(blob->m_csIconType.Find("XINPUT") != -1 || blob->m_csIconType.Find("XOUTPUT") != -1 || blob->m_csIconType == "XSTART"
-						|| blob->m_csIconType == "XFINISH")) {
+					if (!(blob->m_FbName.Find("XINPUT") != -1 || blob->m_FbName.Find("XOUTPUT") != -1 || blob->m_FbName == "XSTART"
+						|| blob->m_FbName == "XFINISH")) {
 						pView->SaveUndo();
 					}
 					else {

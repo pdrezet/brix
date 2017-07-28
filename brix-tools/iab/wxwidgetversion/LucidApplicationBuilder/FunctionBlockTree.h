@@ -32,6 +32,9 @@ public:
 	FunctionBlockTree(wxWindow *parent, const wxWindowID id,
                        const wxPoint& pos, const wxSize& size,
 					   long style);
+
+	//wxEvent *Clone() const { return new MyEvent(*this); } // needed for passing events back to wx
+
 public:
 	~FunctionBlockTree(void);
 
@@ -134,12 +137,14 @@ public:
 	void OnItemRClick(wxTreeEvent& event);
 	void OnRMouseDown(wxMouseEvent& event);
 	void OnLMouseDown(wxMouseEvent& event);
+	void OnRMouseUp(wxMouseEvent& event);
+	void OnLMouseUp(wxMouseEvent& event);
 	void OnItemDrag(wxTreeEvent& event);
 	void OnBeginLDrag(wxTreeEvent& event);
 	void OnBeginRDrag(wxTreeEvent& event);
 	void OnEndLDrag(wxTreeEvent& event); // places component in workspace
-
-	wxTreeItemId m_hItemClicked;
+private:
+	wxTreeItemId m_hItemClicked; // this is the item currently selected for any drag or the last one selected.
 	wxTreeItemId m_hPrevItemClicked; // todo ?? obsolete?
 
 private:

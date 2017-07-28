@@ -161,7 +161,7 @@ void SODL::WriteSODL(INXString sodlfile) {
 						}
 					}
 					// for string constants don't append a space
-					else if (blob->m_csIconType == "const_s") {
+					else if (blob->m_FbName == "const_s") {
 							datafile << (INXString)blob->iconParam[i]->value;
 					}
 					// for gui components prepend %%%_
@@ -175,7 +175,7 @@ void SODL::WriteSODL(INXString sodlfile) {
 						datafile << (INXString)tagData.tgtFilename << " ";
 					}
 					// write out target filename for data files
-					else if (blob->m_csIconType.Find("file_ro") != -1 && blob->iconParam[i]->name == "File name") {
+					else if (blob->m_FbName.Find("file_ro") != -1 && blob->iconParam[i]->name == "File name") {
 						if (pProject->pProjMData->getTargetFileNameForDataHostFileName(blob->iconParam[i]->value, csTargetFileName)) {
 							csMessage.Format("File \"%s\" does not exist in the project. Your application may not work as expected.", blob->iconParam[i]->value.c_str());
 							// Don't display message because IPlayer demo runs a script which relies on host filenames
@@ -539,8 +539,8 @@ void SODL::Flatten()
 				while(blockPos) {
 					blockIcon = (ConData *) (encapsulated->GetNext(blockPos));
 					// find the ports connected to a XINPUT
-					if (blockIcon->m_csIconType.Find("XINPUT") == -1 && blockIcon->m_csIconType != "XSTART" && 
-						blockIcon->m_csIconType.Find("XOUTPUT") == -1 && blockIcon->m_csIconType != "XFINISH") {
+					if (blockIcon->m_FbName.Find("XINPUT") == -1 && blockIcon->m_FbName != "XSTART" && 
+						blockIcon->m_FbName.Find("XOUTPUT") == -1 && blockIcon->m_FbName != "XFINISH") {
 						for (i=0; i<blockIcon->inputport_num; i++) {
 							// check the input is connected
 							if (blockIcon->inputport[i]->line.exist) {
@@ -550,7 +550,7 @@ void SODL::Flatten()
 
 								// if an encapsulated icon is connected to an XINPUT then connect it to the icon
 								// the XINPUT is connected to in the level above
-								if (blockOtherIcon->m_csIconType.Find("XINPUT") != -1) {
+								if (blockOtherIcon->m_FbName.Find("XINPUT") != -1) {
 									for (UINT j=0; j<blob->inputport_num; j++) {
 										if (blockOtherIcon->description == blob->inputport[j]->description) { 
 											if (blob->inputport[j]->line.exist) {
@@ -575,7 +575,7 @@ void SODL::Flatten()
 								blockOtherIcon = bo.GetBlockIconFromID(blockIcon->startport[i]->line.othericonid, encapsulated);
 								// if an encapsulated icon is connected to a XSTART then connect it to the icon
 								// the XSTART is connected to in the level above
-								if (blockOtherIcon->m_csIconType == "XSTART") {
+								if (blockOtherIcon->m_FbName == "XSTART") {
 									for (UINT j=0; j<blob->startport_num; j++) {
 										if (blockOtherIcon->description == blob->startport[j]->description) { 
 											if (blob->startport[j]->line.exist) {
@@ -609,7 +609,7 @@ void SODL::Flatten()
 					blockIcon = (ConData *) (encapsulated->GetNext(blockPos));
 
 					// find the ports connected to a XOUTPUT
-					if (blockIcon->m_csIconType.Find("XOUTPUT") != -1) {
+					if (blockIcon->m_FbName.Find("XOUTPUT") != -1) {
 						blockOtherIcon = bo.GetBlockIconFromID(blockIcon->inputport[0]->line.othericonid, encapsulated);
 						// find the input port in flattened connected to this XOUTPUT
 						otherPos = flattened->GetHeadPosition();
@@ -641,7 +641,7 @@ void SODL::Flatten()
 					}
 
 					// find the ports connected to a XFINISH
-					if (blockIcon->m_csIconType == "XFINISH") {
+					if (blockIcon->m_FbName == "XFINISH") {
 						blockOtherIcon = bo.GetBlockIconFromID(blockIcon->startport[0]->line.othericonid, encapsulated);
 						// find the start port in flattened connected to this XFINISH
 						otherPos = flattened->GetHeadPosition();
@@ -684,8 +684,8 @@ void SODL::Flatten()
 				blockPos = encapsulated->GetHeadPosition();
 				while(blockPos) {
 					blockIcon = (ConData *) (encapsulated->GetNext(blockPos));
-					if (blockIcon->m_csIconType.Find("XINPUT") != -1 || blockIcon->m_csIconType.Find("XOUTPUT") != -1 || 
-						blockIcon->m_csIconType == "XSTART" || blockIcon->m_csIconType == "XFINISH") {
+					if (blockIcon->m_FbName.Find("XINPUT") != -1 || blockIcon->m_FbName.Find("XOUTPUT") != -1 || 
+						blockIcon->m_FbName == "XSTART" || blockIcon->m_FbName == "XFINISH") {
 						delete blockIcon;
 					}
 				}
@@ -732,8 +732,8 @@ void SODL::ReassignIconIDs(INXObjList* encapsulated)
 	while(blockPos) {
 		blockIcon = (ConData *) (encapsulated->GetNext(blockPos));
 		// if assign new id to xports then don't need checkNewID function
-		if (blockIcon->m_csIconType.Find("XINPUT") == -1 && blockIcon->m_csIconType != "XSTART"
-			&& blockIcon->m_csIconType.Find("XOUTPUT") == -1 && blockIcon->m_csIconType != "XFINISH") {
+		if (blockIcon->m_FbName.Find("XINPUT") == -1 && blockIcon->m_FbName != "XSTART"
+			&& blockIcon->m_FbName.Find("XOUTPUT") == -1 && blockIcon->m_FbName != "XFINISH") {
 			otherPos = encapsulated->GetHeadPosition();
 			while(otherPos) {
 				otherIcon = (ConData *) (encapsulated->GetNext(otherPos));

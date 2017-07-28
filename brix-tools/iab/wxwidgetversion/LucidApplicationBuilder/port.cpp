@@ -59,11 +59,8 @@ Port::Port(INXPoint _P, UINT _portNum, int _dataType, int _portType, INXString _
 	tempFuncArg = _tempFuncArg;
 }
 */
-/*
- Deprecated Constructor - new spec for cdf means that funcArg is not known at time of port creation
- and is removed from the constructor for this reason
-*/
-#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
+
+
 Port::Port(INXPoint _P, UINT _portNum, int _dataType, int _portType, INXString _description, INXObjArray<INXString>* _funcName, INXObjArray<unsigned int>* _funcArg, int _atomicFlag, bool bVerticalIn, int _userdefined, int _mandatoryFlag)
 {
 	
@@ -99,7 +96,10 @@ Port::Port(INXPoint _P, UINT _portNum, int _dataType, int _portType, INXString _
 }
 
 
-
+/** \brief depricated constructor for IDF
+ Deprecated Constructor - new spec for cdf means that funcArg is not known at time of port creation
+ and is removed from the constructor for this reason
+*/
 Port::Port(UINT _portNum, int _portType, INXObjArray<INXString>* _funcName, INXObjArray<unsigned int>* _funcArg, int _atomicFlag)
 {
 	P.x=0;
@@ -130,7 +130,7 @@ Port::Port(UINT _portNum, int _portType, INXObjArray<INXString>* _funcName, INXO
 	b = 0;
 }
 
-#endif
+
 Port::~Port()
 {
 	delete funcName;

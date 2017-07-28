@@ -2,6 +2,7 @@
 #ifndef DRAWPROGVIEW_H_
 #define DRAWPROGVIEW_H_
 
+#include <wx/wx.h>
 #include "wx/glcanvas.h"
 #include <GL/gl.h>
 #include "DEP.h"
@@ -90,15 +91,20 @@ public:
 	static bool getConnectionState();
 	bool appUploader_ExportTransferables();
 	bool appUploader_TarExportFiles();
+
 //void DebugThread(void *param);
 
-// Generated message map functions
+// UI message map functions
 protected:
 
 public:
+	void OnWxMouseEvents( wxMouseEvent& event);// wx specific used to fire all the generic options below
+	void OnWxLeftMouse( wxMouseEvent& event);
+
 	void OnLButtonDown(unsigned int nFlags, INXPoint _point);
 	void OnLButtonUp(unsigned int nFlags, INXPoint _point);
 	void OnRButtonDown(unsigned int nFlags, INXPoint _point);
+	void OnRButtonUp(unsigned int nFlags, INXPoint _point);
 	void OnMouseMove(unsigned int nFlags, INXPoint _point);
 	void OnDelete();
 	void OnProperties();
@@ -177,6 +183,7 @@ public:
 	void OnUpdateGroupSetup(CCmdUI* pCmdUI);
 
 public:
+	/* Windowing Handlers */
 	void OnImportDataFile();
 	void OnSaveProjectAs();
 	void OnEditProjectDesc();
@@ -189,15 +196,21 @@ public:
 	void OnZoomOut();
 	void OnUpdateZoomIn(CCmdUI *pCmdUI);
 	void OnUpdateZoomOut(CCmdUI *pCmdUI);
-	//void OnTransferManager();
-	//void OnLaunchTransfer();
+	void OnViewRefresh();
+		void OnUpdateViewRefresh(CCmdUI *pCmdUI);
+		void setLftBtnDownState(const int &val);
+
+
+
+	/* Funcional Feature operations */
 	void OnUpdateImportLib(CCmdUI *pCmdUI);
 	void OnUpdateExportLib(CCmdUI *pCmdUI);
 	void OnUpdateTransferManager(CCmdUI *pCmdUI);
 	void OnUpdateLaunchTransfer(CCmdUI *pCmdUI);
-	void OnViewRefresh();
-	void OnUpdateViewRefresh(CCmdUI *pCmdUI);
-	void setLftBtnDownState(const int &val);
+	//void OnTransferManager();
+		//void OnLaunchTransfer();
+
+
 	//virtual DROPEFFECT OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, INXPoint point);
 	//virtual bool OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, INXPoint point);
 	ConData* processComponentDrop(INXPoint point, INXString &csIconType, INXString &csBlock );

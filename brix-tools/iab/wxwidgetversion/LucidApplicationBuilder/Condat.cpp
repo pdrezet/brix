@@ -65,7 +65,7 @@ void ConData::copyDialogData( const ConData &sourceData )
 #endif
 ConData::ConData()
 {
-	m_csIconType = "_";
+	m_FbName = "_";
 	description="";;
 	optionstring="_";
 	rectangle = INXRect(0,0,0,0); /// body part of icon
@@ -86,32 +86,25 @@ ConData::ConData()
 		iconParam[i] = NULL;
 }
 
-/*
-Initialise attributes from data held within the file located at the path 
-"..\ICicons\[_type]". Adjust the position attributes to _point and indicate if the icon is visible with 'show'
-  */
-// 'block' is the IDF file name for an encapsulated icon. For an encapsulated icon, the variable 'type' is 
-// 'ENCAPSULATE' (bitmap file name) which is different to the IDF file name. For all other icons it is the same. 
-// Therefore, can't use 'type' to read the IDF for an encapsulated icon.
-#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
+/** \brief Initialise attributes from data held within the IDF File.
+ * Adjust the position attributes to _point and indicate if the icon is visible with 'show'
+ * 'block' is the IDF file name for an encapsulated icon. For an encapsulated icon, the variable 'type' is
+ * 'ENCAPSULATE' (bitmap file name) which is different to the IDF file name. For all other icons it is the same.
+ * Therefore, can't use 'type' to read the IDF for an encapsulated icon.
+ */
+
 void ConData::init(INXString csIconType, INXString csBlockName, INXPoint point, int iShow) {
 	m_iShow = iShow;
-	m_csIconType = csIconType;
+	m_FbName = csBlockName;
 
-	if(m_csIconType == "")
+	if(m_FbName == "")
 	{
-		wxMessageBox("Icon type is empty");
+		wxMessageBox("Icon Name is empty!");
 	}
 
-	m_csBlockName = csBlockName;
-	if (m_csBlockName != "") {
-		ReadIDFFile(m_csBlockName, point);
-	}
-	else {
-		ReadIDFFile(m_csIconType, point);
-	}
-	
-	initBmp(point);
+	m_FbType = csIconType;
+	ReadIDFFile(m_FbName, point);
+	initBmp(point); // note there may not be a bitmap!
 
 	if(m_iUserDefined == 1)	
 	{
@@ -120,16 +113,16 @@ void ConData::init(INXString csIconType, INXString csBlockName, INXPoint point, 
 	}
 }
 
-#endif
+
 void ConData::initBmp(INXPoint _point) 
 {
 	INXString bitmappath;
 	CFileOperation fo;
 
 	// don't assume bitmap is in a particular directory, check CDF dir first then IDF
-	bitmappath = (INXString)(workDir + CDFDIR + m_csIconType + (INXString)(".bmp"));
+	bitmappath = (INXString)(workDir + CDFDIR + m_FbName + (INXString)(".bmp"));
 	if (!fo.CheckPath(bitmappath)) {
-		bitmappath = (INXString)(workDir + BMPDIR + m_csIconType + (INXString)(".bmp"));
+		bitmappath = (INXString)(workDir + BMPDIR + m_FbName + (INXString)(".bmp"));
 		if (!fo.CheckPath(bitmappath)) {
 			wxMessageBox(wxT("Unable to open ") + bitmappath);
 			return;
@@ -239,8 +232,8 @@ void ConData::Draw(CDC * theDC, bool _onlyDrawAnim, int _toggleAnim) {
 			theDC->SetBkMode(1);	// set to transparent background
 
 			// display constant values
-			if (m_csIconType.Find("const_") != -1 || m_csIconType == INT_COMP || m_csIconType == REAL_COMP || m_csIconType == INT_GREATER_THAN ||
-				m_csIconType == REAL_GREATER_THAN || m_csIconType == INT_GREATER_THAN_EQUALS || m_csIconType == REAL_GREATER_THAN_EQUALS) {
+			if (m_FbName.Find("const_") != -1 || m_FbName == INT_COMP || m_FbName == REAL_COMP || m_FbName == INT_GREATER_THAN ||
+				m_FbName == REAL_GREATER_THAN || m_FbName == INT_GREATER_THAN_EQUALS || m_FbName == REAL_GREATER_THAN_EQUALS) {
 				if (iconParam[1]->value == "_") {
 					csValue = "";
 				}
@@ -255,7 +248,7 @@ void ConData::Draw(CDC * theDC, bool _onlyDrawAnim, int _toggleAnim) {
 					theDC->TextOut(rectangle.TopLeft().x+15,rectangle.BottomRight().y-23,(CString&)csValue.Left(13));
 				}
 			}
-			else if(m_csIconType == "STATE")
+			else if(m_FbName == "STATE")
 			{
 				if (theDC->IsPrinting()) {
 					theDC->TextOut(rectangle.TopLeft().x+20,rectangle.BottomRight().y+35,(CString&)iconParam[1]->value.Left(13));
@@ -334,8 +327,8 @@ void ConData::DrawGL(bool _onlyDrawAnim, int _toggleAnim){
 					
 					// Center It
 			//@todo
-			INXPoint _point(rectangle.TopLeft().x, rectangle.TopLeft().y);
-			bitmap.DrawGL(_point);
+			INXPoint point=rectangle.TopLeft();
+			bitmap.DrawGL(point);
 			// define font for constants
 			//LOGFONT logFont;
 			// pitch size is 8
@@ -392,7 +385,7 @@ void ConData::DrawGL(bool _onlyDrawAnim, int _toggleAnim){
 			}
 			*/
 			// display description (instance name)
-			INXPoint point=rectangle.TopLeft();
+
 			//oldTxtColor = theDC->GetTextColor();
 			//theDC->SetTextColor(RGB(0,0,255));
 			// printing uses th MM_LOENGLISH mapping mode
@@ -416,7 +409,7 @@ void ConData::DrawGL(bool _onlyDrawAnim, int _toggleAnim){
 			theDC->SetBkMode(oldBkMode);
 		*/
 		}	
-	// Disable drawing ports temporarly
+
 		for (UINT i=0;i<inputport_num;i++) ((Port*)(inputport[i]))->DrawGL(_onlyDrawAnim, _toggleAnim);
 		for (UINT i=0;i<outputport_num;i++) ((Port*)(outputport[i]))->DrawGL(_onlyDrawAnim, _toggleAnim);
 		for (UINT i=0;i<startport_num;i++) ((Port*)(startport[i]))->DrawGL(_onlyDrawAnim, _toggleAnim);
@@ -886,11 +879,11 @@ int ConData::Load(ifstream& file)
 	//uniqueidgenerator=1; //reset the global static id counter 
 //	file >> temp; //read the BEGIN_CONDATA MARKER
 	file >> temp;
-	m_csIconType = (INXString)temp;
-	if(m_csIconType == "") return 1; //file name empty - todo we need t handle this error above.
+	m_FbName = (INXString)temp;
+	if(m_FbName == "") return 1; //file name empty - todo we need t handle this error above.
 	file >> temp;
-	m_csBlockName = temp;
-	if (m_csBlockName == "_") m_csBlockName.Append("");
+	m_FbType = temp;
+	if (m_FbType == "_") m_FbType.Append("");
 	//init(type, block, INXPoint(0,0), 1); //PROBLEMHERE 1
 	initBmp(INXPoint(0,0));
 	file >> identnum; //the counter will get incremented by the above and hence duplicates will be avoided.
@@ -967,10 +960,10 @@ void ConData::Save(ostream* file)
 	if (description==wxT("")) description.Append(wxT("_"));	//make sure no empty bits (spaces)
 	if (optionstring==wxT("")) optionstring.Append(wxT("_"));
 	if (longDesc==wxT("")) longDesc.Append(wxT("_"));
-	if (m_csBlockName==wxT("")) m_csBlockName.Append(wxT("_"));
-	if (hierarchyName==wxT("")) hierarchyName.Append(wxT("_"));
-	*file << endl<<(char*)(m_csIconType)<<endl;
-	*file << (char*)(m_csBlockName) << endl;
+	if (m_FbType==wxT("")) m_FbType.Append(wxT("_"));// can't have empty strings so use _ as place holder for empty
+	if (hierarchyName==wxT("")) hierarchyName.Append(wxT("_"));// can't have empty strings so use _ as place holder for empty
+	*file << endl<<(char*)(m_FbName)<<endl;
+	*file << (char*)(m_FbType) << endl;
 	// Only save selected when doing a copy or cut
 	if (saveSelectedFlag) {
 		*file << identnum<<"\t"<<instNum<<"\t"<<m_iUserDefined<<"\t"<<selected<<endl;
@@ -997,7 +990,7 @@ void ConData::Save(ostream* file)
 	if (description==wxT("_")) description.Append(wxT(""));  //put back to normal
 	if (optionstring==wxT("_")) optionstring.Append(wxT(""));
 	if (longDesc==wxT("_")) longDesc.Append(wxT(""));
-	if (m_csBlockName == wxT("_")) m_csBlockName.Append(wxT(""));
+	if (m_FbType == wxT("_")) m_FbType.Append(wxT(""));
 	if (hierarchyName == wxT("_")) hierarchyName.Append(wxT(""));
 }
 
@@ -1361,7 +1354,7 @@ void ConData::readFromCDFFile(INXString filepath, INXPoint point) {
 
 				// trim of .bmp - it was implied in old IDF format so will remain implied here
 				removeExtensionFromFilename(trimmedStr,value);
-				m_csIconType = trimmedStr;
+				m_FbName = trimmedStr;
 			} else if ((strcmp(NODE_CLASS_ELEMENT, name) == 0)) {
 				ret = xmlTextReaderRead(reader);	// note - once find node, need to read again to access #text element
 				value = (char*) xmlTextReaderConstValue(reader);
@@ -1788,7 +1781,7 @@ void ConData::ResizeIcon()
 	}
 	sprintf(szPortNum, "%d",p);
 	LoadNewBMP((INXString)("ENCAPSULATE" + (INXString)szPortNum ) );
-	m_csIconType = (INXString)("ENCAPSULATE" + (INXString)szPortNum );
+	m_FbName = (INXString)("ENCAPSULATE" + (INXString)szPortNum );
 	repositionVerticalPorts(); //make sure vertical ports stay level with the bottom.
 }
 

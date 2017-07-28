@@ -57,7 +57,7 @@ public:
 // Methods
 	INXString getMenuName();	
 protected:
-	/// \todo void setMenuNamesDropList(set<INXString> sMenuNames);
+	//void setMenuNamesDropList(set<INXString> sMenuNames);
 
 // Overrides
 	// ClassWizard generated virtual function overrides

@@ -21,11 +21,11 @@ public:
 		y = pnt.y;	
 	};
 
-	INXPoint (wxPoint &pnt){
+	INXPoint (const wxPoint &pnt){
 		x = pnt.x;
 		y = pnt.y;	 	
 	};
-	INXPoint (wxSize &sz){
+	INXPoint (const wxSize &sz){
 		x = sz.x;
 		y = sz.y;		
 	};

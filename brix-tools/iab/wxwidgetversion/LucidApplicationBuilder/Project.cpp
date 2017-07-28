@@ -246,7 +246,7 @@ void Project::AssignHierLineID()
 		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 		blob = (ConData*) pDEP[0]->condata->GetNext(pos);
-		cs.DebugTrace("sdg: blob m_csIconType is: %s\n", blob->m_csIconType);
+		cs.DebugTrace("sdg: blob m_csIconType is: %s\n", blob->m_FbName);
 
 
 		// assign hierID to userdefined block and icon in sub block the input is connected to
@@ -295,7 +295,7 @@ void Project::AssignHierLineID()
 					// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 					subblob = (ConData*) tmpList->GetNext(subpos);
-					cs.DebugTrace("sdg: input subblob m_csIconType is: %s\n", subblob->m_csIconType);
+					cs.DebugTrace("sdg: input subblob m_csIconType is: %s\n", subblob->m_FbName);
 					// find icon port connected to XINPUT that has same description as user defined input
 
 					for (UINT j=0; j<subblob->inputport_num; j++) {
@@ -303,7 +303,7 @@ void Project::AssignHierLineID()
 						if (subblob->inputport[j]->line.exist) {
 							othersubblob = bo.GetBlockIconFromID(subblob->inputport[j]->line.othericonid, tmpList);
 
-							if (othersubblob->m_csIconType.Find("XINPUT") != -1 && 
+							if (othersubblob->m_FbName.Find("XINPUT") != -1 && 
 								othersubblob->description == blob->inputport[i]->description) {
 								subblob->inputport[j]->line.hierID = hierID;
 								// This if block used to be outside the one its nested in
@@ -339,12 +339,12 @@ void Project::AssignHierLineID()
 
 				while (subpos) {
 					subblob = (ConData*) tmpList->GetNext(subpos);
-					cs.DebugTrace("sdg: start subblob m_csIconType is: %s\n", subblob->m_csIconType);
+					cs.DebugTrace("sdg: start subblob m_csIconType is: %s\n", subblob->m_FbName);
 					// find icon port connected to XINPUT that has same description as user defined input
 					for (UINT j=0; j<subblob->startport_num; j++) {
 						if (subblob->startport[j]->line.exist) {
 							othersubblob = bo.GetBlockIconFromID(subblob->startport[j]->line.othericonid, tmpList);
-							if (othersubblob->m_csIconType.Find("XSTART") != -1 && othersubblob->description == blob->startport[i]->description) {
+							if (othersubblob->m_FbName.Find("XSTART") != -1 && othersubblob->description == blob->startport[i]->description) {
 								subblob->startport[j]->line.hierID = hierID;
 								// This if block used to be outside the one its nested in
 								// Need to check it still works with the debugger
@@ -407,7 +407,7 @@ void Project::AssignSubBlockHierLineId(INXTREEITEM hItem)
 
 				pOtherBlob = bo.GetBlockIconFromID(pBlob->inputport[i]->line.othericonid, pTmpList);
 				// if port is connected to XSTART assume the hierID has already been assigned
-				if (pOtherBlob && pOtherBlob->m_csIconType.Find("XINPUT") == -1) {
+				if (pOtherBlob && pOtherBlob->m_FbName.Find("XINPUT") == -1) {
 					pBlob->inputport[i]->line.hierID = iHierId;
 					PropagateHierLineId(pBlob, hChildItem, iHierId, INPUTPORT, i);
 					if (pBlob->inputport[i]->line.exist) {
@@ -425,7 +425,7 @@ void Project::AssignSubBlockHierLineId(INXTREEITEM hItem)
 
 				pOtherBlob = bo.GetBlockIconFromID(pBlob->startport[i]->line.othericonid, pTmpList);
 				// if port is connected to XSTART assume the hierID has already been assigned
-				if (pOtherBlob && pOtherBlob->m_csIconType.Find("XSTART") == -1) {
+				if (pOtherBlob && pOtherBlob->m_FbName.Find("XSTART") == -1) {
 					pBlob->startport[i]->line.hierID = iHierId;
 					PropagateHierLineId(pBlob, hChildItem, iHierId, STARTPORT, i);
 					if (pBlob->startport[i]->line.exist) {
@@ -476,7 +476,7 @@ void Project::PropagateHierLineId(ConData* blob, INXTREEITEM hItem, long hierID,
 			for (UINT j=0; j<subblob->inputport_num; j++) {
 				if (subblob->inputport[j]->line.exist) {
 					othersubblob = bo.GetBlockIconFromID(subblob->inputport[j]->line.othericonid, tmpList);
-					if (othersubblob->m_csIconType.Find("XINPUT") != -1 && othersubblob->description == blob->inputport[iPortNum]->description) {
+					if (othersubblob->m_FbName.Find("XINPUT") != -1 && othersubblob->description == blob->inputport[iPortNum]->description) {
 						subblob->inputport[j]->line.hierID = hierID;
 						// This if block used to be outside the one its nested in
 						// Need to check it still works with the debugger
@@ -499,7 +499,7 @@ void Project::PropagateHierLineId(ConData* blob, INXTREEITEM hItem, long hierID,
 			for (UINT j=0; j<subblob->startport_num; j++) {
 				if (subblob->startport[j]->line.exist) {
 					othersubblob = bo.GetBlockIconFromID(subblob->startport[j]->line.othericonid, tmpList);
-					if (othersubblob->m_csIconType.Find("XSTART") != -1 && othersubblob->description == blob->startport[iPortNum]->description) {
+					if (othersubblob->m_FbName.Find("XSTART") != -1 && othersubblob->description == blob->startport[iPortNum]->description) {
 						subblob->startport[j]->line.hierID = hierID;
 						//cs.DebugTrace("sdg: subblock port label is: %s\n", subblob->startport[j]->description);
 						// This if block used to be outside the one its nested in
@@ -571,8 +571,8 @@ void Project::DeleteBlockPort(INXPOSITION blockPos, int portNum, int portType, D
 	while (pos) {
 		prevPos = pos;
 		icon = (ConData*) pChildDEP->condata->GetNext(pos);
-		if (icon->description == portLabel && (icon->m_csIconType.Find("XINPUT") != -1 ||
-			icon->m_csIconType.Find("XOUTPUT") != -1 || icon->m_csIconType == "XSTART" || icon->m_csIconType == "XFINISH")) {
+		if (icon->description == portLabel && (icon->m_FbName.Find("XINPUT") != -1 ||
+			icon->m_FbName.Find("XOUTPUT") != -1 || icon->m_FbName == "XSTART" || icon->m_FbName == "XFINISH")) {
 			pChildDEP->DeleteIcon(prevPos, 1);
 			// set modified flag in doc
 			//pView->pDoc->SetModifiedFlag(TRUE);
@@ -661,8 +661,8 @@ void Project::RenameBlockPort(INXPOSITION blockPos, int iPortNum, int iPortType,
 	while (pos) {
 		prevPos = pos;
 		icon = (ConData*) pChildDEP->condata->GetNext(pos);
-		if (icon->description == csOldPortLabel && (icon->m_csIconType.Find("XINPUT") != -1 ||
-			icon->m_csIconType.Find("XOUTPUT") != -1 || icon->m_csIconType == "XSTART" || icon->m_csIconType == "XFINISH")) {
+		if (icon->description == csOldPortLabel && (icon->m_FbName.Find("XINPUT") != -1 ||
+			icon->m_FbName.Find("XOUTPUT") != -1 || icon->m_FbName == "XSTART" || icon->m_FbName == "XFINISH")) {
 				icon->description = csNewPortLabel;
 		}
 	}
@@ -683,8 +683,8 @@ void Project::RenameXport(INXPOSITION iconPos, DEP* pDEP, INXString &csNewPortLa
 #ifdef __INX_RENAMEXPORT
 	pProjMData->getProjectDir(csProjectDir);
 	icon = (ConData*) pDEP->condata->GetAt(iconPos);
-	if (icon->m_csIconType.Find("XINPUT") == -1 && icon->m_csIconType.Find("XOUTPUT") == -1 && 
-		icon->m_csIconType != "XSTART" && icon->m_csIconType != "XFINISH") {
+	if (icon->m_FbName.Find("XINPUT") == -1 && icon->m_FbName.Find("XOUTPUT") == -1 && 
+		icon->m_FbName != "XSTART" && icon->m_FbName != "XFINISH") {
 		wxMessageBox("Can only rename Xports.");
 		return;
 	}

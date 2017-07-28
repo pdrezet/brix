@@ -74,16 +74,16 @@ int Encapsulation::SelectEncapsulateIcon() {
 	pos = encapsulated->GetHeadPosition();
 	while(pos) {
 		blob = (ConData *) (encapsulated->GetNext(pos));
-		if (blob->m_csIconType.Find("XINPUT") != -1) {
+		if (blob->m_FbName.Find("XINPUT") != -1) {
 			inNum++;
 		}
-		else if (blob->m_csIconType.Find("XOUTPUT") != -1) {
+		else if (blob->m_FbName.Find("XOUTPUT") != -1) {
 			outNum++;
 		}
-		else if (blob->m_csIconType == "XSTART") {
+		else if (blob->m_FbName == "XSTART") {
 			startNum++;
 		}
-		else if (blob->m_csIconType == "XFINISH") {
+		else if (blob->m_FbName == "XFINISH") {
 			finishNum++;
 		}
 	}
@@ -147,16 +147,16 @@ int Encapsulation::SaveEncapsulated(Encapsulate* dialog, int iconNum, int nLib)
 	pos = encapsulated->GetHeadPosition();
 	while(pos) {
 		blob = (ConData *) (encapsulated->GetNext(pos));
-		if (blob->m_csIconType.Find("XINPUT") != -1) {
+		if (blob->m_FbName.Find("XINPUT") != -1) {
 			inNum++;
 		}
-		else if (blob->m_csIconType.Find("XOUTPUT") != -1) {
+		else if (blob->m_FbName.Find("XOUTPUT") != -1) {
 			outNum++;
 		}
-		else if (blob->m_csIconType == "XSTART") {
+		else if (blob->m_FbName == "XSTART") {
 			startNum++;
 		}
-		else if (blob->m_csIconType == "XFINISH") {
+		else if (blob->m_FbName == "XFINISH") {
 			finishNum++;
 		}
 	}
@@ -344,7 +344,7 @@ void Encapsulation::WriteIDF(Encapsulate *dialog, int iconNum) {
 	pos = encapsulated->GetHeadPosition();
 	while(pos) {
 		blob = (ConData *) (encapsulated->GetNext(pos));
-		if (blob->m_csIconType.Find("XINPUT") != -1) {
+		if (blob->m_FbName.Find("XINPUT") != -1) {
 			sprintf(csPortNum,"%d",portNum);
 			datafile << "[Port" << csPortNum << "]" << endl;
 			//itoa(inNum, csPortNum, 10); 
@@ -358,7 +358,7 @@ void Encapsulation::WriteIDF(Encapsulate *dialog, int iconNum) {
 			inNum++;
 			portNum++;
 		}
-		else if (blob->m_csIconType.Find("XOUTPUT") != -1) {
+		else if (blob->m_FbName.Find("XOUTPUT") != -1) {
 			sprintf(csPortNum,"%d",portNum);
 			datafile << "[Port" << csPortNum << "]" << endl;
 			//itoa(outNum, csPortNum, 10);
@@ -372,7 +372,7 @@ void Encapsulation::WriteIDF(Encapsulate *dialog, int iconNum) {
 			outNum++;
 			portNum++;
 		}
-		else if (blob->m_csIconType == "XSTART") {
+		else if (blob->m_FbName == "XSTART") {
 			sprintf(csPortNum,"%d",portNum);
 			datafile << "[Port" << csPortNum << "]" << endl;
 			//itoa(startNum, csPortNum, 10);
@@ -385,7 +385,7 @@ void Encapsulation::WriteIDF(Encapsulate *dialog, int iconNum) {
 			startNum++;
 			portNum++;
 		}
-		else if (blob->m_csIconType == "XFINISH") {
+		else if (blob->m_FbName == "XFINISH") {
 			sprintf(csPortNum,"%d",portNum);
 			datafile << "[Port" << csPortNum << "]" << endl;
 			//itoa(finishNum, csPortNum, 10);
@@ -512,7 +512,7 @@ int Encapsulation::GetFirstInPortYCoord() {
 	pos = encapsulated->GetHeadPosition();
 	while(pos) {
 		blob = (ConData *) (encapsulated->GetNext(pos));
-		if (blob->m_csIconType == "XSTART") {
+		if (blob->m_FbName == "XSTART") {
 			startNum++;
 		}
 	}
@@ -530,7 +530,7 @@ int Encapsulation::GetFirstOutPortYCoord() {
 	pos = encapsulated->GetHeadPosition();
 	while(pos) {
 		blob = (ConData *) (encapsulated->GetNext(pos));
-		if (blob->m_csIconType == "XFINISH") {
+		if (blob->m_FbName == "XFINISH") {
 			finishNum++;
 		}
 	}
@@ -781,8 +781,8 @@ INXObjList* Encapsulation::EncapsulateSubset(INXRect encapsulate, INXObjList* de
 	pos = encapsulated->GetHeadPosition();
 	while(pos) {
 		blob = (ConData*) (encapsulated->GetNext(pos));
-		if (blob->m_csIconType == "XFINISH" || blob->m_csIconType == "XSTART" || blob->m_csIconType.Find("XINPUT") != -1 || 
-			blob->m_csIconType.Find("XOUTPUT") != -1) {
+		if (blob->m_FbName == "XFINISH" || blob->m_FbName == "XSTART" || blob->m_FbName.Find("XINPUT") != -1 || 
+			blob->m_FbName.Find("XOUTPUT") != -1) {
 			delete blob;
 		}
 	}
@@ -933,8 +933,8 @@ void Encapsulation::repositionEncapsulated()
 	pos = encapsulated->GetHeadPosition();
 	while (pos) {
 		blob = (ConData *) (encapsulated->GetNext(pos));
-		if (blob->m_csIconType != "XFINISH" && blob->m_csIconType != "XSTART" && blob->m_csIconType.Find("XINPUT") == -1 && 
-			blob->m_csIconType.Find("XOUTPUT") == -1) {
+		if (blob->m_FbName != "XFINISH" && blob->m_FbName != "XSTART" && blob->m_FbName.Find("XINPUT") == -1 && 
+			blob->m_FbName.Find("XOUTPUT") == -1) {
 			tmp = blob->GetIconPos();
 			// initialise top and left to coordinates of first icon
 			if (top.x == -1 && top.y == -1) {
@@ -957,10 +957,10 @@ void Encapsulation::repositionEncapsulated()
 	pos = encapsulated->GetHeadPosition();
 	while (pos) {
 		blob = (ConData *) (encapsulated->GetNext(pos));
-		if (blob->m_csIconType != "XSTART" && blob->m_csIconType.Find("XINPUT") == -1) {
+		if (blob->m_FbName != "XSTART" && blob->m_FbName.Find("XINPUT") == -1) {
 			oldpoint = blob->GetIconPos();
 			newpoint = oldpoint;
-			if (blob->m_csIconType != "XFINISH" && blob->m_csIconType.Find("XOUTPUT") == -1) {
+			if (blob->m_FbName != "XFINISH" && blob->m_FbName.Find("XOUTPUT") == -1) {
 				newpoint.Offset(-(left.x - ENCAPS_XPOS), -(top.y - ENCAPS_YPOS));
 			}
 			// Only reposition x coordinate for XOutput and XFinish ports
@@ -1052,8 +1052,8 @@ bool Encapsulation::HasXPorts(INXRect xEncapsulate, INXObjList* xDepList)
 	while (xPos) { 		
 		xBlob = (ConData *) (xDepList->GetNext(xPos));
 		if (xEncapsulate.PtInRect(xBlob->GetIconCentre())) {
-			if (xBlob->m_csIconType == "XFINISH" || xBlob->m_csIconType == "XSTART" || xBlob->m_csIconType.Find("XINPUT") != -1 || 
-				xBlob->m_csIconType.Find("XOUTPUT") != -1) {
+			if (xBlob->m_FbName == "XFINISH" || xBlob->m_FbName == "XSTART" || xBlob->m_FbName.Find("XINPUT") != -1 || 
+				xBlob->m_FbName.Find("XOUTPUT") != -1) {
 					bRet = true;
 			}
 		}

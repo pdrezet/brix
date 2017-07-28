@@ -45,8 +45,8 @@ void ConDataTempStore::loadFromProject( const ConData &sourceData )
 	m_iParamNum = sourceData.iParamNum;
 	m_iUserDefined = sourceData.m_iUserDefined;
 
-	m_csType				= sourceData.m_csIconType;
-	m_csBlock				= sourceData.m_csBlockName;
+	m_csType				= sourceData.m_FbName;
+	m_csBlock				= sourceData.m_FbType;
 	m_csDescription				= sourceData.description;
 	m_csLongDesc				= sourceData.longDesc;
 	m_csClassName				= sourceData.className;
