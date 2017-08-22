@@ -60,12 +60,13 @@ public:
 
 
 public:
-	DEP* pDEP;
-private:
 
+private:
+    DEP* pDEP;
 
 public:
 	void init();
+	void setDep(DEP* _pDEP); // set the view to dep and asjusts scroll bars etc.
 	void initUndo();
 	void SetToMovingRectangle(INXPOSITION selected);
 	void RemoveHighlight();
@@ -188,9 +189,9 @@ public:
 	void OnSaveProjectAs();
 	void OnEditProjectDesc();
 	void OnEditDelete();
-	bool OnScroll(unsigned int nScrollCode, unsigned int nPos, bool bDoScroll = true);
+	void OnScroll(wxScrollWinEvent& event);//unsigned int nScrollCode, unsigned int nPos, bool bDoScroll = true);
 	void OnSize(UINT nType, int cx, int cy);
-	bool OnMouseWheel(unsigned nFlags, short zDelta, INXPoint pt);
+	void OnMouseWheel(unsigned nFlags, short zDelta, INXPoint pt);
 	void OnTransferOptions();
 	void OnZoomIn();
 	void OnZoomOut();
@@ -251,7 +252,7 @@ public:
 	void OnDebugStartwithrestart();
 	void OnUpdateDebugStartwithrestart(CCmdUI *pCmdUI);
 
-
+private:
 /* Attributes */
 	wxSize windowSize;
     bool   m_init;
@@ -268,7 +269,7 @@ public:
 	/* Canvas remapping (if we need it?) */
 	CanvasSupport cs;
 
-    //Line sketching
+    //Line sketching state variables
     INXPoint oldpoint,firstpoint;
     INXPoint lastmovingline;
     INXPoint lastlinepoint;

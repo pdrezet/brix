@@ -2,6 +2,9 @@
 #include <wx/dcclient.h>
 #include <wx/app.h>
 #include <wx/dir.h>
+#include <wx/event.h>
+
+
 #include "Porting_Classes/INXGLFont.h"
 #include "Porting_Classes/INXRect.h"
 
@@ -70,9 +73,9 @@ BEGIN_EVENT_TABLE(DrawProgView, wxGLCanvas)
     EVT_SIZE(DrawProgView::OnSize)
     EVT_PAINT(DrawProgView::OnPaint)
 	EVT_MOUSE_EVENTS(DrawProgView::OnWxMouseEvents)
-	EVT_LEFT_UP(DrawProgView::OnWxLeftMouse)
+	EVT_SCROLLWIN(DrawProgView::OnScroll)
 END_EVENT_TABLE()
-
+//EVT_LEFT_UP(DrawProgView::OnWxLeftMouse)
 
 ///\todo remove this? global variable declared in CDrawProgApp
 extern wxChar workDir[WORK_DIR_SIZE];
@@ -82,16 +85,32 @@ bool DrawProgView::bHasConnectionToEHS; ///\todo this should be a singleton ... 
 
 DrawProgView::DrawProgView(wxWindow *parent, const wxPoint& pos,
         const wxSize& size, long style):wxGLCanvas(parent, (wxGLCanvas*) NULL, wxID_ANY,
-		pos, size, style/*|wxFULL_REPAINT_ON_RESIZE|wxVSCROLL|wxHSCROLL*/)
+		pos, size, style|wxVSCROLL|wxHSCROLL/*|wxFULL_REPAINT_ON_RESIZE|wxVSCROLL|wxHSCROLL*/)
 {
 	pDEP = NULL;
+	pProject = NULL;
+
+	SetScrollbar(wxVERTICAL, 0, 10, 1000); // some defaults if we have a blank page
+	SetScrollbar(wxHORIZONTAL, 0, 10, 1000);
 }
 
 DrawProgView::~DrawProgView(void)
 {
-	delete pDEP;
+	if (pDEP)  delete pDEP;
+	// dow we ref count this? if (pProject) delete pProject;
 }
 
+
+void DrawProgView::setDep(DEP* _pDEP) {
+	pDEP = _pDEP;
+	if (pDEP) {
+		INXSize size =  pDEP->getCanvasSize();
+		int w,h;
+		GetClientSize(&w, &h);
+		SetScrollbar(wxVERTICAL, 0, h, size.cy); // some defaults if we have a blank page
+		SetScrollbar(wxHORIZONTAL, 0, w, size.cx);
+	}
+}
 
 /* Legacy compatability \todo consider removing and calling render instead? */
 void DrawProgView::RedrawWindow() {
@@ -117,11 +136,13 @@ void DrawProgView::OnEraseBackground(wxEraseEvent& WXUNUSED(event)){
 }
 void DrawProgView::Render(){
 
-	SetCurrent();
+
  //   wxPaintDC(this);
 	InitGL();
 	//set background
-	glClearColor(1.0, 1.0, 1.0, 0.0);
+
+
+	glClearColor(1.0, 1.0, 0.9, 0.5);
     /* clear color and depth buffers */
     glClear(GL_COLOR_BUFFER_BIT);
 	
@@ -129,24 +150,57 @@ void DrawProgView::Render(){
     if(pDEP != NULL){
     	pDEP->DrawGL();
     }else{ /* this is just for debugging purposes @todo - move to a private funcion */
+
+    for ( int i = 0; i< 5000 ;i+=200){
+    	glBegin(GL_POLYGON);
+    	glColor3f(0.7, 0.5, 0.5);
+    	glVertex2f(200+i, 200+i);
+    	glVertex2f(200+i, 300+i);
+    	glVertex2f(300+i, 300+i);
+    	//glVertex2f(200, 200);
+    	glEnd();
+    }
+
     	INXGLFont newViewText;
     	newViewText.setFontSize(18);
     	newViewText.textOut(25,100,"Couldn't read DEP file");
     	newViewText.setFontSize(14);
-    	newViewText.textOut(80,100 + 25,"Old version?");
+    	newViewText.textOut(80,125,"Old version?");
     }
     glFlush();
+
     SwapBuffers();
 }
 
 void DrawProgView::InitGL(){
-	int w, h;
+	int w, h,scrollX,scrollY;
     GetClientSize(&w, &h);
-	glOrtho(0,w,h,0,0.0f,100.0f);
+    SetCurrent();
+    scrollX = cs.GetHScrollPosition();
+    scrollY = cs.GetVScrollPosition();
+
+    glEnable(GL_ALPHA_TEST);
+    	    glEnable(GL_DEPTH_TEST);
+    	    glEnable(GL_COLOR_MATERIAL);
+
+    	    glEnable(GL_LIGHTING);
+    	    glEnable(GL_LIGHT0);
+
+    	    glEnable(GL_BLEND);
+    	    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glViewport(0, 0 , (GLint) w , (GLint) h );
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+	glOrtho((double)(0+scrollX),(double)(w+scrollX),(double)(h+scrollY),(double)(scrollY),-100.0f,100.0f); // select the original coordinates that will project into the viewport.
+
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 	glClearDepth(1);
 	glClear(GL_DEPTH_BUFFER_BIT);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
+	//glOrtho(0,w,h,0,0.0f,100.0f);
+
 }
 
 
@@ -493,27 +547,48 @@ void DrawProgView::stopTraceTimer()
 void DrawProgView::OnWxMouseEvents( wxMouseEvent& event) {
 
 	INXPoint point(event.GetPosition());
-	if (event.LeftDown()) {
-	//	OnLButtonDown(0,point);
 
+
+
+	if (event.Moving()){
+		//OnRButtonUp(0,point); //todo
 	}
-	else if (event.LeftUp()) {
-		OnLButtonUp(0,point);
+	else if (event.Entering()){
+		//OnRButtonUp(0,point); //todo
 	}
-	else if (event.RightDown()) {
-		OnRButtonDown(0,point);
-	}
-	else if (event.LeftUp()) {
-		OnLButtonUp(0,point);
-	}
-	else if (event.RightUp()) {
-		OnRButtonUp(0,point);
-	}
-	else if (event.Moving()){
-		OnRButtonUp(0,point);
-	}
+	else if (event.Leaving()){
+			//OnRButtonUp(0,point); //todo
+		}
 	else {
-		event.Skip(true); // pass the event up if we don't handle it
+		INXPoint point2 = cs.GetScrollPosition();
+		point -= point2;
+
+		if (event.LeftDown()) {
+
+			OnLButtonDown(0,point);
+
+		}
+		else if (event.LeftUp()) {
+			OnLButtonUp(0,point);
+		}
+		else if (event.RightDown()) {
+			OnRButtonDown(0,point);
+		}
+		else if (event.LeftUp()) {
+			OnLButtonUp(0,point);
+		}
+		else if (event.RightUp()) {
+			OnRButtonUp(0,point);
+		}
+		else if (event.GetWheelRotation() != 0)
+		{
+			//UpdateCamera((double)event.GetWheelRotation()/100, 0, 0);
+
+			//Refresh();
+		}
+		else {
+			event.Skip(true); // pass the event up if we don't handle it
+		}
 	}
 }
 
@@ -561,7 +636,7 @@ void DrawProgView::OnLButtonDown(unsigned int nFlags, INXPoint _point)
 	}
 #endif
 
-	if (pDEP->depFSM.drawingline!=1){
+	if (pDEP && pDEP->depFSM.drawingline!=1){
 		//LineSelected=online(point); // todo
 		PortSelected = pDEP->OnConnect(point,&selectedIcon,&portType,&portConnected); // return -ve if an already connected input for deletion
 
@@ -580,7 +655,7 @@ void DrawProgView::OnLButtonDown(unsigned int nFlags, INXPoint _point)
 			// if the point is on a line then return the port number the line is connected to
 			bool INTERROGATE_ONLY = false;
 			// when defining monitors don't add nodes
-			if (pProject->getDefineMonitors()) {
+			if (pProject && pProject->getDefineMonitors()) {
 				INTERROGATE_ONLY = true;
 			}
 
@@ -636,8 +711,8 @@ void DrawProgView::OnLButtonDown(unsigned int nFlags, INXPoint _point)
 				// if on background allow user to select several icons
 				else {
 					m_iLftBtnDownState = 5;
-					selectRect.TopLeft() = point;
-					selectRect.BottomRight() = point;
+					selectRect.SetPosition( point );
+					selectRect.SetBottomRight(point);
 					//removeHighlight();
 				}
 			}
@@ -744,14 +819,13 @@ void DrawProgView::OnLButtonUp(unsigned int nFlags, INXPoint _point)
 		{
 			if(cs.TopLeftBoundaryHit())
 			{
-				cs.DebugTrace("kwhite:canvassupport:OnLButtonUp:if MoveObjects() Y %d\n", SnapToGrid(point).y, cs.GetTempStore().y);
 				pDEP->RenewSelectedPos(SnapToGrid(point), SnapToGrid(cs.GetTempStore()), selectRect);
 				selectRect = (selectRect)+(oldpoint-firstpoint);
 				cs.SetTopLeftBoundaryHit(false);
 			}
 			else
 			{
-				cs.DebugTrace("kwhite:canvassupport:OnLButtonUp:            Y %d\n", SnapToGrid(point).y, firstpoint.y);
+
 				selectRect = pDEP->RenewSelectedPos(SnapToGrid(point), SnapToGrid(firstpoint), selectRect);
 			}
 			pDEP->ShowSelectedPositions();
@@ -761,17 +835,15 @@ void DrawProgView::OnLButtonUp(unsigned int nFlags, INXPoint _point)
 		break;
 	case 7:// this moves an Line around if not drawing a line -
 		{
-		cs.SetDebugTrace(false);
+
 		if (pDEP->depFSM.drawingline) break;
 		if(cs.TopLeftBoundaryHit())
 		{
-			cs.DebugTrace("kwhite:canvassupport:OnLButtonUp:cs.TopLeftBoundaryHit\n");
 			pDEP->RenewPosition(moveselected, SnapToGrid(point), cs.GetTempStore());
 			cs.SetTopLeftBoundaryHit(false);
 		}
 		else
 		{
-			cs.DebugTrace("kwhite:canvassupport:OnLButtonUp:!cs.TopLeftBoundaryHit()\n");
 			pDEP->RenewPosition(moveselected, SnapToGrid(point), firstpoint);
 		}
 		/* @todo PP: Create this function for moving a line
@@ -825,13 +897,12 @@ void DrawProgView::OnLButtonUp(unsigned int nFlags, INXPoint _point)
 		break;
 		}
 	}
-#if 0
+
 	if (pDEP->depFSM.drawingline) { //if drawing a line find the other end and test if it is another port
-		CClientDC dc(this);
+		//CClientDC dc(this);
 		// to change the colour for a drawn line the pen needs to be set in IconLines::Draw
-		dc.SelectObject(blackpen);
-		//dc.MoveTo(lastlinepoint+GetScrollPosition( ) );
-		//dc.LineTo(lastmovingline+GetScrollPosition( ) );
+		//dc.SelectObject(blackpen);
+
 		selectedPort2 = pDEP->OnConnect(point,&selectedControl2,&selectedPortType2,&selectedPortConnected2);
 		if (selectedPort2 > -1) {
 			// check if connection dragging or drawing
@@ -850,9 +921,8 @@ void DrawProgView::OnLButtonUp(unsigned int nFlags, INXPoint _point)
 			}
 		}
 		pDEP->depFSM.drawingline = 0;
-		ReleaseDC(&dc);
+		//ReleaseDC(&dc);
 	}
-#endif
 
 	if (this == GetCapture())	//kwhite:canvassupport - prevent mouse events disapearing if pointer past boundary
 	{
@@ -1465,8 +1535,8 @@ void DrawProgView::OnMouseMove(unsigned int nFlags, INXPoint _point)
 void DrawProgView::SetPointToTestAgainst(INXRect rect)
 {
 	INXPoint temp;
-	temp.x = rect.left;
-	temp.y = rect.top;
+	temp.x = rect.GetLeft();
+	temp.y = rect.GetTop();
 
 	//must take account of scroll position
 	INXSize topleft = {0,0}; /// \todo GetThumbPosition( );
@@ -1512,7 +1582,7 @@ void DrawProgView::OnInitialUpdate()
 #endif
 
 /**
- * \brief What does this do? \todo
+ * \brief What does this do? Open a sub system in anew window? \todo
  */
 void DrawProgView::ViewInstance(INXPOSITION selectedIcon) {
 #if 0
@@ -1686,7 +1756,7 @@ void DrawProgView::OnReRoute()
 {
 	ConData* blob;
 	blob = (ConData*) pDEP->condata->GetAt(nodeIcon);
-	int y_shift=blob->rectangle.top; // if a loop backward is required go below either block
+	int y_shift=blob->rectangle.GetTop(); // if a loop backward is required go below either block
 	if (selectedPortType == INPUTPORT) {
 		blob->inputport[selectedPort]->line.AddDogLeg(blob->inputport[selectedPort]->portNum*2+1,y_shift);
 	}
@@ -2914,6 +2984,7 @@ void DrawProgView::OnPrint(CDC* pDC, CPrintInfo* pInfo)
 
 void DrawProgView::OnViewZoom()
 {
+
 #if 0
 	CZoomDialog dialog;
 
@@ -3468,23 +3539,35 @@ void DrawProgView::OnSaveProjectAs()
 #endif
 }
 
-bool DrawProgView::OnMouseWheel(unsigned int nFlags, short zDelta, INXPoint pt)
+void  DrawProgView::OnMouseWheel(unsigned int nFlags, short zDelta, INXPoint pt)
 {
 	// ScrollPosition is used by NearBottomRightBoundary check
-	INXSize topleft = {0,0};// todo GetScrollPosition( );
+	INXPoint topleft = {0,0};// todo GetScrollPosition( );
 	cs.SetScrollPosition(topleft);
 
-	return true; //CScrollView::OnMouseWheel(nFlags, zDelta, pt);
+	//return true; //CScrollView::OnMouseWheel(nFlags, zDelta, pt);
 }
 
-bool DrawProgView::OnScroll(unsigned int nScrollCode, unsigned int nPos, bool bDoScroll)
+void DrawProgView::OnScroll(wxScrollWinEvent& event)//(wxEventType commandType, int id, int pos, int orientation)//(unsigned int nScrollCode, unsigned int nPos, bool bDoScroll)
 {
 
-	// ScrollPosition is used by NearBottomRightBoundary check
-	INXSize topleft = {0,0};//todo GetScrollPosition( );
-	cs.SetScrollPosition(topleft);
-	//return CScrollView::OnScroll(nScrollCode, nPos, bDoScroll);
-	return true;
+	int shift = event.GetPosition();
+	int xshift =0;
+	int yshift =0;
+	if (event.GetOrientation() == wxHORIZONTAL) {
+		xshift = cs.GetHScrollPosition() - shift;
+		//yshift =0;
+		cs.SetHScrollPosition(shift) ;
+	}
+	else {
+		yshift = cs.GetVScrollPosition() - shift;
+		//xshift =0;
+		cs.SetVScrollPosition(shift) ;
+	}
+
+	//ScrollWindow(xshift,yshift);
+	Render();
+	//return true;
 }
 
 void DrawProgView::OnSize(unsigned int nType, int cx, int cy)

@@ -684,6 +684,9 @@ void IconLines::DrawDC(CDC* theDC){
 	theDC->SelectObject(originalPen);
 }
 #endif
+
+
+
 void IconLines::DrawGL(){
 
 	INXPoint begin,end;
@@ -858,6 +861,8 @@ void IconLines::setGLColor(float _r, float _g, float _b){
 		g = _g;
 		b = _b; 
 };
+
+/* todo this needs reviewing and caching data to speed up! */
 void IconLines::setPointForGLLine(std::list< INXPoint > _pointsList){
 	float nx1, nx2, nx3, nx4, nx5, nx6;
 	float ny1, ny2, ny3, ny4, ny5, ny6;
@@ -884,7 +889,7 @@ void IconLines::setPointForGLLine(std::list< INXPoint > _pointsList){
 			ny5 = ny3;
 			nx6 = nx4 - 2;
 			ny6 = ny4;
-		
+
 			//line going down
 			if (ny3 > ny4){
 				//draw line seg to start of bend
@@ -935,7 +940,7 @@ void IconLines::setPointForGLLine(std::list< INXPoint > _pointsList){
 				}
 			}
 		}else if (ny3 == ny4) { //horizontal
-	
+
 			nx1 = nx3;
 			ny1 = (ny3 + 2);
 			nx2 = nx4;
@@ -948,9 +953,9 @@ void IconLines::setPointForGLLine(std::list< INXPoint > _pointsList){
 			if(nx3 > nx4){
 				drawLineSeg(nx1,ny1,(nx2+10),ny2,nx3,ny3,(nx4+10),ny4,nx5,ny5,(nx6+10),ny6);
 
-					//get next point
-					nx3 = nx4;
-					ny3 = ny4;
+				//get next point
+				nx3 = nx4;
+				ny3 = ny4;
 				if(it != _pointsList.end()){
 					nx4 = (*it).x;
 					ny4 = (*it).y;
@@ -970,10 +975,10 @@ void IconLines::setPointForGLLine(std::list< INXPoint > _pointsList){
 				}
 			}else{//line to right
 				drawLineSeg(nx1,ny1,(nx2-10),ny2,nx3,ny3,(nx4-10),ny4,nx5,ny5,(nx6-10),ny6);
-				
-					//get next point
-					nx3 = nx4;
-					ny3 = ny4;
+
+				//get next point
+				nx3 = nx4;
+				ny3 = ny4;
 				if(it != _pointsList.end()){
 					nx4 = (*it).x;
 					ny4 = (*it).y;
@@ -992,6 +997,9 @@ void IconLines::setPointForGLLine(std::list< INXPoint > _pointsList){
 					}
 				}
 			}
+		}
+		else {
+			i++;
 		}
 	}
 }
@@ -1018,15 +1026,15 @@ void IconLines::drawLineSeg(float px1, float py1, float px2, float py2, float px
 		//array for colours. Line blended from white to black and back to white to make line smooth.
 		float para_color[]=
 		{ 
-			1,1,1,
-			1,1,1,
-			r,g,b,
-			r,g,b,
-			1,1,1,
-			1,1,1
+			1,1,1,0,
+			1,1,1,0,
+			r,g,b,1,
+			r,g,b,1,
+			1,1,1,0,
+			1,1,1,0
 		};
 		glVertexPointer(2, GL_FLOAT, 0, para_vertex);
-		glColorPointer(3, GL_FLOAT, 0, para_color);
+		glColorPointer(4, GL_FLOAT, 0, para_color);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 6);
 
 		glDisableClientState(GL_VERTEX_ARRAY);

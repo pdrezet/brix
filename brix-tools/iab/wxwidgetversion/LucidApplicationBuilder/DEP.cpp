@@ -1212,7 +1212,7 @@ void DEP::DrawGL(bool _onlyDrawAnim, int _toggleAnim){
 		}
 
 		// Once all the icons and ports have been drawn, draw the lines so that they are on top of icons
-		
+#if 1 // Draw the lines
 		UINT i;
 		for (pos = condata->GetHeadPosition();pos !=NULL;) {
 			icondata=((ConData *) condata->GetNext(pos));
@@ -1233,6 +1233,7 @@ void DEP::DrawGL(bool _onlyDrawAnim, int _toggleAnim){
 				}
 			}
 		}
+#endif
 	}
 }
 
@@ -2141,8 +2142,8 @@ void DEP::SnapIconToGrid(INXPOSITION selected)
 {
 	ConData* icondata = ((ConData *) condata->GetAt(selected));
 	INXRect boundRect = icondata->GetBoundingRectangle();
-	int iTop = boundRect.top;
-	int iLeft = boundRect.left;
+	int iTop = boundRect.GetTop();
+	int iLeft = boundRect.GetLeft();
 	INXPoint topLeft = boundRect.TopLeft();
 	int iTopOffset = iTop % GRIDSIZE;
 	int iLeftOffset = iLeft % GRIDSIZE;
@@ -2787,11 +2788,11 @@ void DEP::initCanvasSize()
 	pos = condata->GetHeadPosition();
 	while (pos) {
 		pFB = (ConData *) (condata->GetNext(pos));
-		if (pFB->rectangle.bottom > m_CanvasSize.cy) {
-			m_CanvasSize.cy = pFB->rectangle.bottom;
+		if (pFB->rectangle.GetBottom() > m_CanvasSize.cy) {
+			m_CanvasSize.cy = pFB->rectangle.GetBottom();
 		}
-		if (pFB->rectangle.right > m_CanvasSize.cx) {
-			m_CanvasSize.cx = pFB->rectangle.right;
+		if (pFB->rectangle.GetRight() > m_CanvasSize.cx) {
+			m_CanvasSize.cx = pFB->rectangle.GetRight();
 		}
 	}
 }
@@ -2799,9 +2800,7 @@ void DEP::initCanvasSize()
 //Handle canvas size being stretched beyond 2000,2000
 INXSize DEP::getCanvasSize()
 {
-	INXSize it;
-	it.cx = 99;
-	it.cy = 101;
+
 
 	return (m_CanvasSize);
 }
@@ -3378,7 +3377,7 @@ void DEP::rerouteDraggedConnections(long iOldID, long iNewID, long iOldPortNum, 
 				if (pBlob->inputport[i]->line.othericonid == iOldID && pBlob->inputport[i]->line.otherportno == iOldPortNum) {
 					pBlob->inputport[i]->line.othericonid = iNewID;
 					pBlob->inputport[i]->line.otherportno = iNewPortNum;
-					pBlob->inputport[i]->line.AddDogLeg(i*2+1, pBlob->rectangle.top);
+					pBlob->inputport[i]->line.AddDogLeg(i*2+1, pBlob->rectangle.GetTop());
 				}
 			}
 		}
@@ -3387,7 +3386,7 @@ void DEP::rerouteDraggedConnections(long iOldID, long iNewID, long iOldPortNum, 
 				if (pBlob->startport[i]->line.othericonid == iOldID && pBlob->startport[i]->line.otherportno == iOldPortNum) {
 					pBlob->startport[i]->line.othericonid = iNewID;
 					pBlob->startport[i]->line.otherportno = iNewPortNum;
-					pBlob->startport[i]->line.AddDogLeg(i*2, pBlob->rectangle.top);
+					pBlob->startport[i]->line.AddDogLeg(i*2, pBlob->rectangle.GetTop());
 				}
 			}
 		}

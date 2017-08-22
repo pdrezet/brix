@@ -297,7 +297,10 @@ void DrawProg::GetExecutableName(INXString & execName){
 void DrawProg::OnNewProject(wxCommandEvent& event){
 	ChildFrame *subframe = new ChildFrame(m_frame, wxDefaultPosition, wxSize(500,500),_T("Canvas Frame"));
 
-    // Make a menubar
+	//create an empty DEP object
+    //pDEP = proj->AddDEP();
+
+
     wxMenu *file_menu = new wxMenu;
     file_menu->Append(wxID_EXIT, _T("&Exit"));
     wxMenuBar *menu_bar = new wxMenuBar;
@@ -427,7 +430,7 @@ wxDocument* DrawProg::OpenProject(ProjectMetaData* pProjMData){
 
 	m_cProjTree->openProject = FALSE;
 	INXString docFile(csProjectDir + DEPDIR + csProjectName + wxT(".prg"));
-	displayView(pProject, docFile);
+	displayView(pProject, docFile); // open base prog file in view
 	// Add project to MRU file list
 #ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 	for(int i=0;i < this->m_pRecentFileList->GetSize();i++)
@@ -519,7 +522,8 @@ void DrawProg::displayView(Project *proj, INXString doc_file){
 	int width, height;
     subframe->GetClientSize(&width, &height);
     DrawProgView *canvas = new DrawProgView(subframe, wxDefaultPosition, wxSize(width, height),WX_GL_DOUBLEBUFFER);
-	canvas->pDEP = pDEP;
+    canvas->setDep(pDEP);
+	//canvas->pDEP = pDEP;
     subframe->canvas = canvas;
     m_ActiveProgView = canvas;
 	subframe->Show();

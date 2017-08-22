@@ -53,7 +53,8 @@ Please try again later"
 // tolerance values for closeness to objects
 #define NODECLOSENESS 3
 #define LINECLOSENESS 5.0
-#define CLOSENESS 7
+//#define CLOSENESS 7
+#define CLOSENESS 12
 
 // selection tree level limits
 #define MAX_FIRST_LEV 256

@@ -17,7 +17,7 @@
 class CanvasSupport
 {
 private: 
-	INXSize m_ScrollPosition;			//Remember position of scroll
+	INXPoint m_ScrollPosition;			//Remember position of scroll
 	INXPoint m_Max;					//Needed for boundary check
 	INXPoint m_TempStore;				//Needed to remember first point before mouse move.
 									//Used by MouseUp when calling ConData::RenewPosition(..,oldpoint)
@@ -44,8 +44,12 @@ public:
 	INXPoint AdjustPositionOfScrollUpwards();
 	
 	void SetMaxBoundary(INXPoint point);
-	void SetScrollPosition(INXSize point);
-	//INXSize GetScrollPosition();
+	void SetScrollPosition(INXPoint point);
+	void SetHScrollPosition(int shift);
+	void SetVScrollPosition(int shift);
+	INXPoint GetScrollPosition();
+	int GetHScrollPosition();
+	int GetVScrollPosition();
 
 	void SetTopLeftBoundaryHit(bool set);
 	bool TopLeftBoundaryHit();

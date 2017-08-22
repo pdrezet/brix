@@ -25,11 +25,12 @@ typedef struct tagINXRECT
 } INXRECT; 
 typedef const INXRECT *INXPRECT;
 
-public:
+private:
 	int left;
 	int right;
 	int top;
 	int bottom;
+
 public:
 	INXRect(){
 		x = 0;
@@ -82,9 +83,7 @@ public:
 	};
 	//operators
 
-	INXPoint& BottomRight(){
-			return *(INXPoint *)this;
-	};
+
 	INXPoint CenterPoint(){
 		INXPoint tempPoint(x + (width/2),y + (height/2));
 		return tempPoint;
@@ -237,9 +236,14 @@ public:
 		INXSize tempSize(width,height);
 		return tempSize;
 	};
-	INXPoint& TopLeft(){
-		return *((INXPoint *)this + 1);
+	INXPoint TopLeft(){
+		INXPoint Tl(x,y);
+		return Tl;
 	};
+	INXPoint BottomRight(){
+		INXPoint Br(x + width,y+height);
+				return Br;
+		};
 	int Width(){
 		return width;
 	};

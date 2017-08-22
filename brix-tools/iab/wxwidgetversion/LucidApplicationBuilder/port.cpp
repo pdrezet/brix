@@ -400,42 +400,11 @@ int _portState = 0;
 		// define font for port text
 		INXGLFont fonts;
 		fonts.setFontSize(9);
-		
-//fonts->textOut(10,10,"hello World");
-		//LOGFONT logFont;
-		// pitch size is 7
-		/*if (theDC->IsPrinting()) {
-			logFont.lfHeight = -MulDiv(7, theDC->GetDeviceCaps(LOGPIXELSY), 432);
-		}
-		else {
-			logFont.lfHeight = -MulDiv(7, theDC->GetDeviceCaps(LOGPIXELSY), 72);
-		}
-		logFont.lfWidth = 0;
-		logFont.lfEscapement = 0;
-		logFont.lfOrientation = 0;
-		logFont.lfWeight = FW_NORMAL;
-		logFont.lfItalic = 0;
-		logFont.lfUnderline = 0;
-		logFont.lfStrikeOut = 0;
-		logFont.lfCharSet = ANSI_CHARSET;
-		logFont.lfOutPrecision = OUT_DEFAULT_PRECIS;
-		logFont.lfClipPrecision = CLIP_DEFAULT_PRECIS;
-		logFont.lfQuality = PROOF_QUALITY;
-		logFont.lfPitchAndFamily = VARIABLE_PITCH | FF_ROMAN;
-		strcpy_s(logFont.lfFaceName, "Arial");
-		CFont font;
-		font.CreateFontIndirect(&logFont);
-		CFont* oldFont = theDC->SelectObject(&font);*/	
 
-		// the negate the ycoords of the rectangle for MM_LOENGLISH mapping mode when printing
-		/*if (theDC->IsPrinting()) {
-			rectangle = INXRect(rectangle.TopLeft().x, -rectangle.TopLeft().y,
-						rectangle.BottomRight().x, -rectangle.BottomRight().y);
-		}*/
 
-		//theDC->SetBkMode(TRANSPARENT);
 		if(bPortVertical==false)
 		{
+#if 0 // don;t write test on labels
 			// limit port names to 6 charaters for userdefined blocks
 			if (userdefined) {
 				cropDescript = description.Left(6);
@@ -455,40 +424,24 @@ int _portState = 0;
 			for (int i=0; i<descLen; i++) {
 				nStrOffset = nStrOffset + clsCropDescript.GetWidthAt(i);
 			}
-			/*
-			// Add port description to icon
-			if (theDC->IsPrinting()) {
-				if (porttype == STARTPORT || porttype == INPUTPORT) {
-					//theDC->TextOut(P.x+8,-P.y+7,(CString &)cropDescript);
-				}
-				else if (porttype == FINISHPORT || porttype == OUTPUTPORT) {
-					//theDC->TextOut(P.x-6-((int)nStrOffset), P.y+7, (CString&)cropDescript);
-				}
+
+
+			if (porttype == STARTPORT || porttype == INPUTPORT) {
+				fonts.textOut(P.x+8 - 6,P.y-7 + 10,cropDescript);
 			}
-			else {*/
-				if (porttype == STARTPORT || porttype == INPUTPORT) {
-					//theDC->TextOut(P.x+8,P.y-7,(CString)cropDescript);
-		
-					fonts.textOut(P.x+8 - 6,P.y-7 + 10,cropDescript);
-				
-				}
-				else if (porttype == FINISHPORT || porttype == OUTPUTPORT) {
-					//theDC->TextOut(P.x-6-((int)nStrOffset), P.y-7, (CString&)cropDescript);
-					fonts.textOut(P.x-6-((int)nStrOffset) + 6, P.y-7 + 10, cropDescript);
-					
-				}
-			//}
+			else if (porttype == FINISHPORT || porttype == OUTPUTPORT) {
+				fonts.textOut(P.x-6-((int)nStrOffset) + 6, P.y-7 + 10, cropDescript);
+
+			}
+
 		}
 		// write out debug values
 		if (porttype == INPUTPORT && line.getDbgMonitor()) {
-			//theDC->SetBkMode(OPAQUE);
-			//theDC->SetBkColor(RGB(225,225,0));
-			//theDC->TextOut(P.x-(dbgValLen*5),P.y+2,(CString&)line.dbgValue);
-			//theDC->SetBkColor(RGB(255,255,255));
+
 			fonts.textOut(P.x-(dbgValLen*5) - 6,P.y+2 + 10,line.dbgValue);
-			
+
 		}
-		
+
 		// if the port is tagged then write out tag and don't draw line
 		if (tag != wxT("")) {
 			//theDC->SetBkMode(OPAQUE);
@@ -514,7 +467,6 @@ int _portState = 0;
 					break;
 				}
 			}			
-			// write text /
 			clsTag = tag;
 			// String offset is 7 for uppercase letters and 5 for lowercase
 			nStrOffset = 0;
@@ -524,50 +476,45 @@ int _portState = 0;
 			if (tagLen < 5) {
 				nStrOffset+=2;
 			}
-			/*if (theDC->IsPrinting()) {
-				if (porttype == STARTPORT || porttype == INPUTPORT) {
-					theDC->TextOut(P.x-((int)nStrOffset), -1 * (P.y+5), (CString&)tag);
-				}
-				else if (porttype == FINISHPORT || porttype == OUTPUTPORT) {
-					theDC->TextOut(P.x+3, -1 * (P.y+5), (CString&)tag);
-				}
-			} else {*/
-				if (porttype == STARTPORT || porttype == INPUTPORT) {
+			//to need towrite tag string in GL now!
+#endif
+
+			if (porttype == STARTPORT || porttype == INPUTPORT) {
 				//theDC->TextOut(P.x-((int)nStrOffset), P.y-5, (CString&)tag);
-					_portState = inputGLPort;
-				}
-				else if (porttype == FINISHPORT || porttype == OUTPUTPORT) {
-					//theDC->TextOut(P.x+3, P.y-5, (CString&)tag);
-					_portState = outputGLPort;
-				}
-			//}			
-			//theDC->SetBkColor(RGB(255,255,255));
+				_portState = inputGLPort;
+			}
+			else if (porttype == FINISHPORT || porttype == OUTPUTPORT) {
+				//theDC->TextOut(P.x+3, P.y-5, (CString&)tag);
+				_portState = outputGLPort;
+			}
+
+
 		}
-//		else {
-//			line.Draw(theDC);
-//		}	
-		
+		//		else {
+		//			line.Draw(theDC);
+		//		}
+
 	}
 	if (porttype == INPUTPORT || porttype == OUTPUTPORT) {
-				switch (datatype) {
-				case 0 : 
-					//theDC->SetBkColor(yellow);
-					setGLPortColor(1,1,0);
-					break;
-				case 1 :
-					//theDC->SetBkColor(blue); 
-					setGLPortColor(0,0,1);
-					break;
-				case 2 : 
-					//theDC->SetBkColor(green); 
-					setGLPortColor(0,1,0);
-					break;
-				case 3 : 
-					//theDC->SetBkColor(red); 
-					setGLPortColor(1,0,0);
-					break;
-				}
-			}			
+		switch (datatype) {
+		case 0 :
+			//theDC->SetBkColor(yellow);
+			setGLPortColor(1,1,0);
+			break;
+		case 1 :
+			//theDC->SetBkColor(blue);
+			setGLPortColor(0,0,1);
+			break;
+		case 2 :
+			//theDC->SetBkColor(green);
+			setGLPortColor(0,1,0);
+			break;
+		case 3 :
+			//theDC->SetBkColor(red);
+			setGLPortColor(1,0,0);
+			break;
+		}
+	}
 	// highlight unconnected, mandatory ports when flagg is set to only draw animations
 	// but only on every other trigger of the timer, so it flashes on and off
 	if (_onlyDrawAnim && (_toggleAnim == 1)){
@@ -584,8 +531,10 @@ int _portState = 0;
 		rectangle = INXRect(rectangle.TopLeft().x, -rectangle.TopLeft().y,
 					rectangle.BottomRight().x, -rectangle.BottomRight().y);
 	}*/
-	
+
 }
+
+/* Draw the port tringle */
 void Port::drawGLPort(INXRect _rect, int portState){
 	INXPoint _position(_rect.x,_rect.y);
 	if (porttype == STARTPORT || porttype == INPUTPORT) {
@@ -600,82 +549,88 @@ void Port::drawGLPort(INXRect _rect, int portState){
 	float sizeB = 6;
 
 	if (portState = 0){
-	glColor3f(r,g,b);
-	glBegin(GL_TRIANGLES);
-	glVertex2f(portx, porty + sizeA);
-	glVertex2f(portx - sizeA, porty);
-	glVertex2f(portx, porty - sizeA);
-	glEnd();
+		glColor3f(r,g,b);
+		glBegin(GL_TRIANGLES);
+		glVertex2f(portx, porty + sizeA);
+		glVertex2f(portx - sizeA, porty);
+		glVertex2f(portx, porty - sizeA);
+		glEnd();
+		/* no idea why these are here!
+		glBegin(GL_TRIANGLE_STRIP);
+		glColor3f(r,g,b);
+		glVertex2f(portx, porty + sizeA);
+		glColor3f(1,1,1);
+		glVertex2f(portx, porty + sizeB);
+		glColor3f(r,g,b);
+		glVertex2f(portx - sizeA, porty);
+		glColor3f(1,1,1);
+		glVertex2f(portx - sizeB, porty);
+		glEnd();
 
-	glBegin(GL_TRIANGLE_STRIP);
-	glColor3f(r,g,b);
-	glVertex2f(portx, porty + sizeA);
-	glColor3f(1,1,1);
-	glVertex2f(portx, porty + sizeB);
-	glColor3f(r,g,b);
-	glVertex2f(portx - sizeA, porty);
-	glColor3f(1,1,1);
-	glVertex2f(portx - sizeB, porty);
-	glEnd();
-
-	glBegin(GL_TRIANGLE_STRIP);
-	glColor3f(r,g,b);
-	glVertex2f(portx, porty - sizeA);
-	glColor3f(1,1,1);
-	glVertex2f(portx, porty - sizeB);
-	glColor3f(r,g,b);
-	glVertex2f(portx - sizeA, porty);
-	glColor3f(1,1,1);
-	glVertex2f(portx - sizeB, porty);
+		glBegin(GL_TRIANGLE_STRIP);
+		glColor3f(r,g,b);
+		glVertex2f(portx, porty - sizeA);
+		glColor3f(1,1,1);
+		glVertex2f(portx, porty - sizeB);
+		glColor3f(r,g,b);
+		glVertex2f(portx - sizeA, porty);
+		glColor3f(1,1,1);
+		glVertex2f(portx - sizeB, porty);
+		 */
 	}else{
-	glColor3f(r,g,b);
-	glBegin(GL_TRIANGLES);
-	glVertex2f(portx, porty + sizeA);
-	glVertex2f(portx + sizeA, porty);
-	glVertex2f(portx, porty - sizeA);
-	glEnd();
+		glColor3f(r,g,b);
+		glBegin(GL_TRIANGLES);
+		glVertex2f(portx, porty + sizeA);
+		glVertex2f(portx + sizeA, porty);
+		glVertex2f(portx, porty - sizeA);
+		glEnd();
+		/*
+		glBegin(GL_TRIANGLE_STRIP);
+		glColor3f(r,g,b);
+		glVertex2f(portx, porty + sizeA);
+		glColor3f(1,1,1);
+		glVertex2f(portx, porty + sizeB);
+		glColor3f(r,g,b);
+		glVertex2f(portx + sizeA, porty);
+		glColor3f(1,1,1);
+		glVertex2f(portx + sizeB, porty);
+		glEnd();
 
-	glBegin(GL_TRIANGLE_STRIP);
-	glColor3f(r,g,b);
-	glVertex2f(portx, porty + sizeA);
-	glColor3f(1,1,1);
-	glVertex2f(portx, porty + sizeB);
-	glColor3f(r,g,b);
-	glVertex2f(portx + sizeA, porty);
-	glColor3f(1,1,1);
-	glVertex2f(portx + sizeB, porty);
-	glEnd();
-
-	glBegin(GL_TRIANGLE_STRIP);
-	glColor3f(r,g,b);
-	glVertex2f(portx, porty - sizeA);
-	glColor3f(1,1,1);
-	glVertex2f(portx, porty - sizeB);
-	glColor3f(r,g,b);
-	glVertex2f(portx + sizeA, porty);
-	glColor3f(1,1,1);
-	glVertex2f(portx + sizeB, porty);
+		glBegin(GL_TRIANGLE_STRIP);
+		glColor3f(r,g,b);
+		glVertex2f(portx, porty - sizeA);
+		glColor3f(1,1,1);
+		glVertex2f(portx, porty - sizeB);
+		glColor3f(r,g,b);
+		glVertex2f(portx + sizeA, porty);
+		glColor3f(1,1,1);
+		glVertex2f(portx + sizeB, porty);
+		 */
 	}
 	glEnd();
 }
+
+/* well ! */
 void Port::setGLPortColor(float red, float green, float blue){
 	r = red;
 	g = green;
 	b = blue; 
 }
-#ifndef _SKIP_FUNCTIONS_TO_LOAD_THE_FILE
+
+
+
 int Port::Move(INXPoint point) {
 	P = (INXPoint)P - (INXPoint)point;
 	// renew the port position
 	if (porttype == STARTPORT || porttype == INPUTPORT) {
-//		rectangle=INXRect(P.x-5,P.y,P.x+bitmapSize.cx,P.y+bitmapSize.cy-5);
+		//		rectangle=INXRect(P.x-5,P.y,P.x+bitmapSize.cx,P.y+bitmapSize.cy-5);
 		if (line.exist) {
 			line.Move(point);
 		}
 	}
-//	else if (porttype == FINISHPORT || porttype == OUTPUTPORT) {
-//		rectangle=INXRect(P.x-5,P.y-5,P.x+bitmapSize.cx-5,P.y+bitmapSize.cy-5);
-//	} 
+	//	else if (porttype == FINISHPORT || porttype == OUTPUTPORT) {
+	//		rectangle=INXRect(P.x-5,P.y-5,P.x+bitmapSize.cx-5,P.y+bitmapSize.cy-5);
+	//	}
 
 	rectangle = GetPortBitmapArea();
 	return 0;
@@ -685,7 +640,7 @@ void Port::setLineID(long int _lineID) {
 	lineID = _lineID;
 }
 
-#endif
+
 int Port::OnPort(INXPoint point) {
 	int xdist,ydist;
 	xdist=labs(point.x-P.x);

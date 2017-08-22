@@ -130,7 +130,7 @@ void ConData::initBmp(INXPoint _point)
 	}
 
 	INXSize tempSize=bitmap.Init(bitmappath);
-	rectangle=INXRect(_point.x,_point.y,_point.x+tempSize.cx,_point.y+tempSize.cy);
+	rectangle=INXRect(_point.x-5 /*-5 is the port width */,_point.y,_point.x+tempSize.cx,_point.y+tempSize.cy);
 }
 
 /*
@@ -908,7 +908,11 @@ int ConData::Load(ifstream& file)
 	filegood=file.good();
 	hierarchyName = temp;
 	filegood=file.good();
-	file >> rectangle.TopLeft().x>>rectangle.TopLeft().y>> rectangle.BottomRight().x>>rectangle.BottomRight().y;
+	{
+		int x,y,xx,yy;
+		file >> x >> y >> xx >>yy;
+		rectangle.SetRect(x, y, xx, yy);
+	}
 	filegood=file.good();
 	file >> m_iShow;
 	filegood=file.good();
@@ -1737,10 +1741,10 @@ int ConData::In(INXPoint point)  //Is this point in the icon area
 {
 	int retval=0;
 	if (m_iShow==1) {
-			if ( (point.x > (rectangle.TopLeft().x+5)) &&
-				(point.y > (rectangle.TopLeft().y+5)) &&
-				(point.x < (rectangle.BottomRight().x-5)) &&
-				(point.y < (rectangle.BottomRight().y-5)) )  {
+			if ( (point.x > (rectangle.x+5)) &&
+				(point.y > (rectangle.y+5)) &&
+				(point.x < (rectangle.x+rectangle.width-5)) &&
+				(point.y < (rectangle.y+rectangle.height-5)) )  {
 
 				retval=1;
 			}

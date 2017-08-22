@@ -15,8 +15,8 @@ CanvasSupport::CanvasSupport(void)
 	m_bTopLeftBoundaryHit = false;
 
 	//ScrollPosition is altered when hitting boundary or when OnScroll event occurs
-	m_ScrollPosition.cx = 0;
-	m_ScrollPosition.cy = 0;
+	m_ScrollPosition.x = 0;
+	m_ScrollPosition.y = 0;
 
 	//Allow trace statements to be turned on or off
 	m_bDebugTrace = false;
@@ -52,11 +52,30 @@ bool CanvasSupport::NearTopLeftBoundary(INXPoint point)
 
 //This function needs to be set by the View class
 //when ever a scroll resize event occurs.  
-void CanvasSupport::SetScrollPosition(INXSize topleft)
+void CanvasSupport::SetScrollPosition(INXPoint topleft)
 {
-	m_ScrollPosition.cx = topleft.cx;
-	m_ScrollPosition.cy = topleft.cy;
+	m_ScrollPosition.x = topleft.x;
+	m_ScrollPosition.y = topleft.y;
 }
+
+
+
+void CanvasSupport::SetHScrollPosition(int shift){
+	m_ScrollPosition.x = shift;
+}
+void CanvasSupport::SetVScrollPosition(int shift) {
+	m_ScrollPosition.y = shift;
+}
+INXPoint CanvasSupport::GetScrollPosition() {
+	return m_ScrollPosition;
+}
+int CanvasSupport::GetHScrollPosition() {
+	return m_ScrollPosition.x;
+}
+int CanvasSupport::GetVScrollPosition() {
+	return m_ScrollPosition.y;
+}
+
 
 //This function needs to be set by the View class
 //when ever a resize event occurs. Hence it is called by OnSize 
@@ -113,18 +132,18 @@ INXPoint CanvasSupport::AdjustPositionOfScrollDownwards()
 {
 	if (m_bBottomBoundary) 
 	{
-		m_ScrollPosition.cy = m_ScrollPosition.cy + 10;
+		m_ScrollPosition.y = m_ScrollPosition.y + 10;
 	}
 
 	if (m_bRightBoundary) 
 	{
-		m_ScrollPosition.cx = m_ScrollPosition.cx + 10;
+		m_ScrollPosition.x = m_ScrollPosition.x + 10;
 	}
 
 	//INXPoint needed for MFC call ScrollToPosition
 	INXPoint point;
-	point.x = m_ScrollPosition.cx;
-	point.y = m_ScrollPosition.cy;
+	point.x = m_ScrollPosition.x;
+	point.y = m_ScrollPosition.y;
 	
 	return point;
 }
@@ -134,28 +153,28 @@ INXPoint CanvasSupport::AdjustPositionOfScrollUpwards()
 {
 	if (m_bTopBoundary) 
 	{
-		if (m_ScrollPosition.cy < 10) {
-			m_ScrollPosition.cy = 0;
+		if (m_ScrollPosition.y < 10) {
+			m_ScrollPosition.y = 0;
 		}
 		else {
-			m_ScrollPosition.cy = m_ScrollPosition.cy - 10;
+			m_ScrollPosition.y = m_ScrollPosition.y - 10;
 		}
 	}
 
 	if (m_bLeftBoundary) 
 	{
-		if (m_ScrollPosition.cx < 10) {
-			m_ScrollPosition.cx = 0;
+		if (m_ScrollPosition.x < 10) {
+			m_ScrollPosition.x = 0;
 		}
 		else {
-			m_ScrollPosition.cx = m_ScrollPosition.cx - 10;
+			m_ScrollPosition.x = m_ScrollPosition.x - 10;
 		}
 	}
 
 	//INXPoint needed for MFC call ScrollToPosition
 	INXPoint point;
-	point.x = m_ScrollPosition.cx;
-	point.y = m_ScrollPosition.cy;
+	point.x = m_ScrollPosition.x;
+	point.y = m_ScrollPosition.y;
 	
 	return point;
 }
@@ -253,13 +272,13 @@ INXPoint CanvasSupport::GetPointToTestAgainst()
 //Used to test and stretch canvas beyond 2000,2000
 bool CanvasSupport::StretchCanvas(INXRect rect, INXSize &csViewSize)
 {
-	if (rect.bottom > csViewSize.cy-10) 
+	if (rect.GetBottom() > csViewSize.cy-10)
 	{
 		csViewSize.cy = csViewSize.cy + 150;
 		return true;
 	}
 
-	if (rect.right > csViewSize.cx-10) 
+	if (rect.GetRight() > csViewSize.cx-10)
 	{
 		csViewSize.cx = csViewSize.cx + 150;
 		return true;

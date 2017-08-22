@@ -1199,10 +1199,12 @@ void Project::closeUserDefDoc(HTREEITEM hItem)
 }
 
 #endif
+
 bool Project::getDefineMonitors()
 {
 	return m_bDefineMonitors;
 }
+
 #ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
 void Project::setDefineMonitors(bool bDefineMonitors)
 {

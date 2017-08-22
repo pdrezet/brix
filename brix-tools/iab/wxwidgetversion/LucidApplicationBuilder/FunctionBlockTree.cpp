@@ -171,10 +171,11 @@ FunctionBlockTree::ComponentOnTree_t* FunctionBlockTree::findComponentFromTreeId
 
 	INXObjArray<ComponentOnTree_t>::iterator it;
 	for (it = m_componentList.begin();it < m_componentList.end();it++) {
-		if (it->wxItem = id) {
+		if (it->wxItem == id) {
 			return &(*it);
 		}
 	}
+	return NULL;
 
 }
 
@@ -302,8 +303,6 @@ void FunctionBlockTree::readMenuMetaInfo()
 				ret = xmlTextReaderRead(reader);
 				continue;
 			}
-
-
 			if (strcmp(COMPONENTMENU_STYLE_ELEMENT, name) == 0) {
 				//@todo - inefficient as parses all style tags before reaches menu items, can't get methods to work to skip this part of the subtree
 				//ret = xmlTextReaderNextSibling(reader); //doesn't work, returns error!
@@ -845,17 +844,10 @@ void FunctionBlockTree::addItemsToTreeView(){
 	//INXString* csLevel1, *csLevel2, *csLevel3, *csLevel4;
 	int it;
 
-/*	csLevel1 = &component.menuNameL1;
-	csLevel2 = &component.menuNameL2;
-	csLevel3 = &component.menuNameL3;
-	csLevel4 = &component.menuNameL4;
-*/
-
 	wxTreeItemId compWx1;
 	wxTreeItemId compWx2;
 	wxTreeItemId compWx3;
 	wxTreeItemId compWx4;
-
 
 
 	for (int i = 0; i< m_componentList.GetCount(); i++) {
@@ -869,14 +861,16 @@ void FunctionBlockTree::addItemsToTreeView(){
 		for (int j = 0; j < i ; j++ ) { //check previously updated items
 			ComponentOnTree_t * comp2 = (ComponentOnTree_t*) &m_componentList[j];
 			if (comp->menuNameL1 != "" && comp->menuNameL1 == comp2->menuNameL1 ) {
-				if (comp2->wxItem) comp->wxItem1 = compWx1 = comp2->wxItem1; // save this as the parent
+				if (comp2->wxItem1) comp->wxItem1 = compWx1 = comp2->wxItem1; // save this as the parent
 				found = true;
 				break;
 			}
 		}
 		if (!found && comp->menuNameL1 != "") {
-			if (comp->menuNameL2 == "")
+			if (comp->menuNameL2 == "") {
 				comp->wxItem = AppendItem(rootId,comp->menuNameL1);
+				goto updatelabel; // all done for comp
+			}
 			else
 				comp->wxItem1 = AppendItem(rootId,comp->menuNameL1);
 		}
@@ -895,7 +889,10 @@ void FunctionBlockTree::addItemsToTreeView(){
 			}
 		}
 		if (!found && comp->menuNameL2 != ""){
-			if (comp->menuNameL3 == "") comp->wxItem = AppendItem(comp->wxItem1,comp->menuNameL2);
+			if (comp->menuNameL3 == "") {
+				comp->wxItem = AppendItem(comp->wxItem1,comp->menuNameL2);
+				goto updatelabel; // all done for comp
+			}
 			else comp->wxItem2 = AppendItem(comp->wxItem1,comp->menuNameL2);
 		}
 
@@ -912,7 +909,10 @@ void FunctionBlockTree::addItemsToTreeView(){
 			}
 		}
 		if (!found && comp->menuNameL3 != ""){
-			if (comp->menuNameL4 == "") comp->wxItem = AppendItem(comp->wxItem2,comp->menuNameL3);
+			if (comp->menuNameL4 == "") {
+				comp->wxItem = AppendItem(comp->wxItem2,comp->menuNameL3);
+				goto updatelabel;
+			}
 			else comp->wxItem3 = AppendItem(comp->wxItem2,comp->menuNameL3);
 		}
 
@@ -936,6 +936,8 @@ void FunctionBlockTree::addItemsToTreeView(){
 			comp->wxItem = AppendItem(comp->wxItem3,comp->menuNameL4);
 			//else comp.wxItem4 = AppendItem(rootId,comp.menuNameL4);
 		}
+
+updatelabel:
 
 		/* Now identify which is the end node ~todo - just put this in the above*/
 		comp->inTree = true;
@@ -1256,7 +1258,7 @@ void FunctionBlockTree::OnRMouseUp(wxMouseEvent& event) {
 void FunctionBlockTree::OnBeginLDrag(wxTreeEvent& event){
     event.Allow();
 	//event.Skip(true);
-    m_DraggedItem = event.GetItem();
+    m_draggedItem = event.GetItem();
     /* Post this into the Main App's Message Passing area */
 
 }
@@ -1272,14 +1274,21 @@ void FunctionBlockTree::OnEndLDrag(wxTreeEvent& event){
 	INXString component;
 	//event.Allow();
 	//event.Skip(true);
-	component = findComponentFromTreeId(m_DraggedItem)->iconName; // this is the ID if another tree item if we have dragged within this treeview
+	ComponentOnTree_t* id = findComponentFromTreeId(m_draggedItem);
+	if (id) {
+		component = id->iconName; // this is the ID if another tree item if we have dragged within this treeview
+
 	INXPoint position = event.GetPoint();
 	wxGetApp().DropFBInCurrentView(position,"NATIVE",component);
 	//+ GetPosition();
-	//ComponentOnTree_t *info = findComponentFromTreeId(m_DraggedItem);
+	//ComponentOnTree_t *info = findComponentFromTreeId(m_draggedItem);
 	//encapsulatedPos =
 	//wxGetApp()->CurrentDep.AddIcon(info->iconName, info->label, position);
 	//event.ResumePropagation(wxEVENT_PROPAGATE_MAX);
+	}
+	else {
+	//	INX_MessageBoc("Could not get a tree Node");
+	}
 	event.Skip(true); // we want this to be handled by the workspace view class.
 
 }

@@ -87,7 +87,8 @@ private:
 	bool m_bLftBtnDown;
 	//bool leafIsSelected();
 	bool m_bDraggingIcon;
-	wxTreeItemId  m_DraggedItem;
+
+	INXString m_DraggedItemLabel;
 
 	set<INXString> m_sL2LibMenuNames;
 	wxImageList m_imageList; // image list used by the tree
@@ -110,7 +111,7 @@ private:
 			wxTreeItemId wxItem2;
 			wxTreeItemId wxItem3;
 			wxTreeItemId wxItem4;
-			wxTreeItemId wxItem;
+			wxTreeItemId wxItem; // this is a reference to the end node (i.e. the node with the end-node label).
 			bool endNode = false;
 			INXString * label = NULL; /* Is a copy of one of the above, depending on the levels present */
 		};
