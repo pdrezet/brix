@@ -544,7 +544,7 @@ void ConData::AddNodes(int selectedPort, int selectedPortType, ConData* otherico
 	//Port *portPoint2 = othericon->inputport[otherPortNum]->P;
 	//portPoint1 = outputport[selectedPort]->P;
 	int y_shift=-50; 
-	y_shift =min(othericon->rectangle.top,rectangle.top); // if a loop backward is required go below either block 
+	y_shift =min(othericon->rectangle.GetTop(),rectangle.GetTop()); // if a loop backward is required go below either block
 
 	if (otherPortType == INPUTPORT) { 
 		/* best guess to go over or under the function block (if it is directed righ to left */
@@ -567,7 +567,7 @@ void ConData::AddNodes(int selectedPort, int selectedPortType, ConData* otherico
 void ConData::ReRouteAll() {
 UINT i;
 	for (i=0;i<inputport_num;i++) {
-		((Port*)(inputport[i]))->line.AddDogLeg(i*2+1,rectangle.top);
+		((Port*)(inputport[i]))->line.AddDogLeg(i*2+1,rectangle.GetTop());
 		//if (*portType>-1) return i; //assume not on port returns -1
 	}
 	/*
@@ -578,7 +578,7 @@ UINT i;
 	}
 	*/
 	for ( i=0;i<startport_num;i++) {
-		((Port*)(startport[i]))->line.AddDogLeg(i*2,rectangle.top);
+		((Port*)(startport[i]))->line.AddDogLeg(i*2,rectangle.GetTop());
 		//if (*portType>-1) return i;
 	}/*
 	for (i=0;i<finishport_num;i++) {
@@ -1798,7 +1798,7 @@ void ConData::repositionVerticalPorts()
 		int rectbr = rectangle.BottomRight().y;
 		int bgh = bitmap.GetHeight();
 
-		rectangle.bottom = rectangle.bottom + bgh - rh - 1;
+		rectangle.SetBottom(rectangle.GetBottom() + bgh - rh - 1);
 
 	}
 
@@ -1809,7 +1809,7 @@ void ConData::repositionVerticalPorts()
 	{
 		if(outputport[i]->bPortVertical==true)
 		{
-			outputport[i]->Move(INXPoint(0, outputport[i]->rectangle.top-p.y ));
+			outputport[i]->Move(INXPoint(0, outputport[i]->rectangle.GetTop()-p.y ));
 		}
 
 	}
@@ -1817,7 +1817,7 @@ void ConData::repositionVerticalPorts()
 	{
 		if(finishport[i]->bPortVertical==true)
 		{
-			finishport[i]->Move(INXPoint(0, finishport[i]->rectangle.top-p.y ));
+			finishport[i]->Move(INXPoint(0, finishport[i]->rectangle.GetTop()-p.y ));
 		}
 
 	}

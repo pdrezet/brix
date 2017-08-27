@@ -810,15 +810,15 @@ INXObjList* Project::WriteSODL(INXString sodlfile) {
 	return compile.flattened;
 }
 
-#ifdef _UNUSED_FUNCTIONS_TO_LOAD_THE_FILE
+
 
 // method that adds widgets for a pasted list
-void Project::addPastedGuiWidgets(HTREEITEM hItem, INXObjList* pasteList)
+void Project::addPastedGuiWidgets(INXTREEITEM hItem, INXObjList* pasteList)
 {
 	INXPOSITION pos;
 	ConData* blob;
-	HTREEITEM hUserDefItem;
-	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+	INXTREEITEM hUserDefItem;
+	//CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 	set<INXString> sWidgetGroupSet;
 	vector<pair<INXString, INXString> > vWidgetGroupPairVec;
 	INXString csWidgetGroupName;
@@ -828,11 +828,14 @@ void Project::addPastedGuiWidgets(HTREEITEM hItem, INXObjList* pasteList)
 		pos = pasteList->GetHeadPosition();
 		while(pos) {
 			blob = (ConData *) (pasteList->GetNext(pos));
+
+			/*
+			 * // make this work or do we really need a project tree window?
 			if (blob->m_iUserDefined) {
 				hUserDefItem = pFrame->m_wndProjectBar.m_cProjTree.GetUserDefChildItem(blob, hItem);
 				getWidgetGroupNames(hUserDefItem, sWidgetGroupSet);
 			}
-			else if (blob->isGuiWidget()) {
+			else */if (blob->isGuiWidget()) {
 				blob->getScreenTag(csWidgetGroupName);
 				sWidgetGroupSet.insert(csWidgetGroupName);
 			}
@@ -847,7 +850,7 @@ void Project::addPastedGuiWidgets(HTREEITEM hItem, INXObjList* pasteList)
 	while(pos) {
 		blob = (ConData *) (pasteList->GetNext(pos));
 		if (blob->m_iUserDefined) {
-			hUserDefItem = pFrame->m_wndProjectBar.m_cProjTree.GetUserDefChildItem(blob, hItem);
+			// hUserDefItem = pFrame->m_wndProjectBar.m_cProjTree.GetUserDefChildItem(blob, hItem);
 			updateWidgetGroupNames(hUserDefItem, vWidgetGroupPairVec);
 		}
 		else if (blob->isGuiWidget()) {
@@ -885,28 +888,28 @@ void Project::addGuiWidget(ConData* blob)
 		// Get number of widgets and then create a unique tag using this number
 		// if this tag is not unique then increment the number
 		pProjMData->getGuiWidgetVecSize(iTagNum);
-		_itoa_s(iTagNum, szTagNum, 10);
+		sprintf( szTagNum, "%i",iTagNum);
 		GuiWidget widget;
 		// adding a new widget
 		if (csWidgetTag == "widget") {
-			widget.setWidgetTag((CString &)(csWidgetTag + szTagNum));
-			widget.setScreenTag((CString &)csScreenTag);
+			widget.setWidgetTag(csWidgetTag + szTagNum);
+			widget.setScreenTag(csScreenTag);
 		}
 		// copying an existing widget
 		else {
-			widget.setWidgetTag((CString&)csWidgetTag);
-			widget.setScreenTag((CString&)csScreenTag);
+			widget.setWidgetTag((INXString&)csWidgetTag);
+			widget.setScreenTag((INXString&)csScreenTag);
 		}
 
 		while (pProjMData->guiWidgetInVec(widget)) {
 			csWidgetTag = "widget";
 			iTagNum++;
-			_itoa_s(iTagNum, szTagNum, 10);
+			sprintf( szTagNum, "%i",iTagNum);
 			widget.setWidgetTag(csWidgetTag + szTagNum);
 		}
 		pProjMData->addGuiWidget(widget);
 		// add default screen tag
-		pProjMData->createNewScreenTag((CString&)csScreenTag, (CString&)csScreenTagDescr);
+		pProjMData->createNewScreenTag(csScreenTag, csScreenTagDescr);
 		if (csWidgetTag == "widget") {
 			blob->iconParam[iWidgetParamNum]->value = csWidgetTag + szTagNum;
 		}
@@ -916,16 +919,16 @@ void Project::addGuiWidget(ConData* blob)
 	}
 }
 
-void Project::removeWidgetsInUserDefBlock(HTREEITEM hItem)
+void Project::removeWidgetsInUserDefBlock(INXTREEITEM hItem)
 {
 	INXString csProjectDir, csBlockFile;
 	BlockOperations bo;
 	INXObjList* encapsulated;
 	INXPOSITION pos;
 	ConData* blob;
-	HTREEITEM hUserDefItem;
+	INXTREEITEM hUserDefItem;
 	DEP* pLoadedDEP;
-	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+	//CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 
 	// If DEP is in memory then need to remove widgets from this because the user may have added widgets
 	// that have not been saved.
@@ -935,7 +938,7 @@ void Project::removeWidgetsInUserDefBlock(HTREEITEM hItem)
 	}
 	else {
 		pProjMData->getProjectDir(csProjectDir);
-		csBlockFile = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hItem) + (INXString)pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hItem) + ".prg";
+		//csBlockFile = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hItem) + (INXString)pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hItem) + ".prg";
 		encapsulated = bo.LoadBlock(csBlockFile);
 	}
 			
@@ -943,7 +946,7 @@ void Project::removeWidgetsInUserDefBlock(HTREEITEM hItem)
 	while(pos) {
 		blob = (ConData *) (encapsulated->GetNext(pos));
 		if (blob->m_iUserDefined) {
-			hUserDefItem = pFrame->m_wndProjectBar.m_cProjTree.GetUserDefChildItem(blob, hItem);
+			//hUserDefItem = pFrame->m_wndProjectBar.m_cProjTree.GetUserDefChildItem(blob, hItem);
 			removeWidgetsInUserDefBlock(hUserDefItem);
 		}
 		else if (blob->isGuiWidget()) {
@@ -965,30 +968,30 @@ void Project::removeGuiWidget(ConData* blob)
 
 	blob->getWidgetTag(csWidgetTag);
 	blob->getScreenTag(csScreenTag);
-	GuiWidget widget((CString&)csWidgetTag, (CString&)csScreenTag);
+	GuiWidget widget(csWidgetTag, csScreenTag);
 	pProjMData->removeGuiWidget(widget);
 }
 
 // This method gets a set of unique widget group names in a subsystem
-void Project::getWidgetGroupNames(HTREEITEM hItem, set<INXString> &sWidgetGroupSet)
+void Project::getWidgetGroupNames(INXTREEITEM hItem, set<INXString> &sWidgetGroupSet)
 {
 	INXString csProjectDir, csBlockFile, csWidgetGroupName;
 	BlockOperations bo;
 	INXObjList* encapsulated;
 	INXPOSITION pos;
 	ConData* blob;
-	HTREEITEM hUserDefItem;
-	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+	INXTREEITEM hUserDefItem;
+	//CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 
 	pProjMData->getProjectDir(csProjectDir);
-	csBlockFile = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hItem) + (INXString)pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hItem) + ".prg";
+	//csBlockFile = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hItem) + (INXString)pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hItem) + ".prg";
 	encapsulated = bo.LoadBlock(csBlockFile);
 			
 	pos = encapsulated->GetHeadPosition();
 	while(pos) {
 		blob = (ConData *) (encapsulated->GetNext(pos));
 		if (blob->m_iUserDefined) {
-			hUserDefItem = pFrame->m_wndProjectBar.m_cProjTree.GetUserDefChildItem(blob, hItem);
+			//hUserDefItem = pFrame->m_wndProjectBar.m_cProjTree.GetUserDefChildItem(blob, hItem);
 			getWidgetGroupNames(hUserDefItem, sWidgetGroupSet);
 		}
 		else if (blob->isGuiWidget()) {
@@ -1007,15 +1010,15 @@ void Project::setWidgetGroupNames(set<INXString> sWidgetGroupSet, vector<pair<IN
 	UINT iSize = sWidgetGroupSet.size();
 	int count = 1;
 	vector<INXString> vWidgetGroupNames;
-	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+	//CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 
 	pProjMData->getScreenTags(vWidgetGroupNames);
-	CWidgetGroupManagerDlg dlg(vWidgetGroupNames);
+	//CWidgetGroupManagerDlg dlg(vWidgetGroupNames);
 
 	set<INXString>::iterator it = sWidgetGroupSet.begin();
 	while( it != sWidgetGroupSet.end() ){
 		prWidgetGroupPair.first = (*it);
-		dlg.setWidgetGroupName(*it);
+		/* dlg.setWidgetGroupName(*it);
 		dlg.setDialogCountString("Dialog " + intToString(count) + " of " + intToString(iSize));
 		if (dlg.DoModal()==IDOK) {
 			prWidgetGroupPair.second = dlg.getWidgetGroupName();
@@ -1030,6 +1033,7 @@ void Project::setWidgetGroupNames(set<INXString> sWidgetGroupSet, vector<pair<IN
 			csWidgetGroupDesc = "Copy of " + (*it);
 			pProjMData->createNewScreenTag((CString&)prWidgetGroupPair.second, (CString&)csWidgetGroupDesc);
 		}
+		*/
 		vWidgetGroupPairVec.push_back(prWidgetGroupPair);
 		it++;
 		count++;
@@ -1037,25 +1041,25 @@ void Project::setWidgetGroupNames(set<INXString> sWidgetGroupSet, vector<pair<IN
 }
 
 // This method updates the widget group names in a subsystem
-void Project::updateWidgetGroupNames(HTREEITEM hItem, vector<pair<INXString, INXString> > vWidgetGroupPairVec)
+void Project::updateWidgetGroupNames(INXTREEITEM hItem, vector<pair<INXString, INXString> > vWidgetGroupPairVec)
 {
 	INXString csProjectDir, csBlockFile, csWidgetGroupName;
 	BlockOperations bo;
 	INXObjList* encapsulated;
 	INXPOSITION pos;
 	ConData* blob;
-	HTREEITEM hUserDefItem;
-	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+	INXTREEITEM hUserDefItem;
+	//CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 
 	pProjMData->getProjectDir(csProjectDir);
-	csBlockFile = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hItem) + (INXString)pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hItem) + ".prg";
+	//csBlockFile = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hItem) + (INXString)pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hItem) + ".prg";
 	encapsulated = bo.LoadBlock(csBlockFile);
 			
 	pos = encapsulated->GetHeadPosition();
 	while(pos) {
 		blob = (ConData *) (encapsulated->GetNext(pos));
 		if (blob->m_iUserDefined) {
-			hUserDefItem = pFrame->m_wndProjectBar.m_cProjTree.GetUserDefChildItem(blob, hItem);
+			//hUserDefItem = pFrame->m_wndProjectBar.m_cProjTree.GetUserDefChildItem(blob, hItem);
 			updateWidgetGroupNames(hUserDefItem, vWidgetGroupPairVec);
 		}
 		else if (blob->isGuiWidget()) {
@@ -1096,7 +1100,7 @@ void Project::updateWidgetGroup(ConData* pBlob, vector<pair<INXString, INXString
 // otherwise it returns false
 // This method can be called recursively. For subsystems pass it the list of ConData objects for the subsystem.
 // hItem is for the subsystem.
-bool Project::IsPastedGuiWidgetsInProject(INXObjList* pPasteList, HTREEITEM hItem)
+bool Project::IsPastedGuiWidgetsInProject(INXObjList* pPasteList, INXTREEITEM hItem)
 {
 	INXPOSITION pos;
 	ConData* pBlob;
@@ -1104,17 +1108,17 @@ bool Project::IsPastedGuiWidgetsInProject(INXObjList* pPasteList, HTREEITEM hIte
 	GuiWidget xWidget;
 	INXString csBlockFile, csProjectDir;
 	BlockOperations bo;
-	HTREEITEM hUserDefItem;
+	INXTREEITEM hUserDefItem;
 	INXObjList* pEncapsulated;
-	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+	//CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 
 	pos = pPasteList->GetHeadPosition();
 	while(pos) {
 		pBlob = (ConData *) (pPasteList->GetNext(pos));
 		if (pBlob->m_iUserDefined) {
 			pProjMData->getProjectDir(csProjectDir);
-			hUserDefItem = pFrame->m_wndProjectBar.m_cProjTree.GetUserDefChildItem(pBlob, hItem);
-			csBlockFile = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hUserDefItem) + (INXString)pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hUserDefItem) + ".prg";
+			//hUserDefItem = pFrame->m_wndProjectBar.m_cProjTree.GetUserDefChildItem(pBlob, hItem);
+			//csBlockFile = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hUserDefItem) + (INXString)pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hUserDefItem) + ".prg";
 			pEncapsulated = bo.LoadBlock(csBlockFile);
 			if (IsPastedGuiWidgetsInProject(pEncapsulated, hUserDefItem)) {
 				bRet = true;
@@ -1149,11 +1153,11 @@ void Project::GetWidget(const ConData *pBlob, GuiWidget &xWidget)
 		}
 	}
 
-	xWidget.setWidgetTag((CString&)csWidgetTag);
-	xWidget.setScreenTag((CString&)csScreenTag);
+	xWidget.setWidgetTag(csWidgetTag);
+	xWidget.setScreenTag(csScreenTag);
 }
 
-DEP* Project::depIsLoaded(HTREEITEM hItem)
+DEP* Project::depIsLoaded(INXTREEITEM hItem)
 {
 	DEP* pLoadedDEP = NULL;
 
@@ -1166,26 +1170,26 @@ DEP* Project::depIsLoaded(HTREEITEM hItem)
 	return pLoadedDEP;
 }
 
-void Project::closeUserDefDoc(HTREEITEM hItem)
+void Project::closeUserDefDoc(INXTREEITEM hItem)
 {
 	INXString csProjectDir, csBlockFile;
 	BlockOperations bo;
-	INXObjList* encapsulated;
+	INXObjList* encapsulated = NULL;
 	INXPOSITION pos;
 	ConData* blob;
-	HTREEITEM hUserDefItem;
-	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+	INXTREEITEM hUserDefItem;
+	//CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
 
 	pProjMData->getProjectDir(csProjectDir);
-	csBlockFile = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hItem) + (INXString)pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hItem) + ".prg";
-	encapsulated = bo.LoadBlock(csBlockFile);
+	//csBlockFile = csProjectDir + DEPDIR + pFrame->m_wndProjectBar.m_cProjTree.GetDEPPath(hItem) + (INXString)pFrame->m_wndProjectBar.m_cProjTree.GetItemText(hItem) + ".prg";
+	//encapsulated = bo.LoadBlock(csBlockFile);
 	
 	// Find all the user defined blocks within an encapsualted block
 	pos = encapsulated->GetHeadPosition();
 	while(pos) {
 		blob = (ConData *) (encapsulated->GetNext(pos));
 		if (blob->m_iUserDefined) {
-			hUserDefItem = pFrame->m_wndProjectBar.m_cProjTree.GetUserDefChildItem(blob, hItem);
+			//hUserDefItem = pFrame->m_wndProjectBar.m_cProjTree.GetUserDefChildItem(blob, hItem);
 			closeUserDefDoc(hUserDefItem);
 		}
 	}
@@ -1194,11 +1198,11 @@ void Project::closeUserDefDoc(HTREEITEM hItem)
 	if (depIsLoaded(hItem)) {
 		// decrement dep counter, as this is used to save the project
 		//DEPNum--;
-		((CDrawProgApp*)AfxGetApp())->CloseUserDefDoc(hItem);
+		// todo ((CDrawProgApp*)AfxGetApp())->CloseUserDefDoc(hItem);
 	}
 }
 
-#endif
+
 
 bool Project::getDefineMonitors()
 {

@@ -112,7 +112,8 @@ LucidApplicationBuilder/ProjectBar.o \
 LucidApplicationBuilder/Project.o \
 LucidApplicationBuilder/TypeConversion.o \
 LucidApplicationBuilder/SODL.o \
-LucidApplicationBuilder/CanvasSupport.o
+LucidApplicationBuilder/CanvasSupport.o \
+LucidApplicationBuilder/FunctionBlockSubstitution.o
 
 
 #LucidApplicationBuilder/Markup.o 

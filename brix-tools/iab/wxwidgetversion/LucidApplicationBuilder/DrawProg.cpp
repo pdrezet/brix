@@ -50,6 +50,7 @@ bool DrawProg::DropFBInCurrentView(INXPoint point,INXString componentType,INXStr
 	INXPoint droppeePoint, draggeePoint;
 	bool bContinue = true;
 
+
 	if( !m_CurrentProject || !m_CurrentProject->pProjMData->getLock() ){
 
 		INX_MessageBox( PMD_LOCK_FAILURE_MESSAGE );
@@ -77,16 +78,17 @@ bool DrawProg::DropFBInCurrentView(INXPoint point,INXString componentType,INXStr
 
 				}
 				// Add Gui widgets to project file
-				/* todo
-			else if (blob->isGuiWidget()) {
-				m_CurrentProject->addGuiWidget(blob);
-			}
-				 */
-#if 0
+				/* todo */
+				else if (blob->isGuiWidget()) {
+					m_CurrentProject->addGuiWidget(blob);
+				}
+
 				// Functionality for doing FB substitution
 				droppee = pView->m_FBSubstitute.getDroppee();
 				draggee = blob;
-				if (droppee) {
+				if (!droppee) {
+					return FALSE;
+				}else {
 					pView->m_FBSubstitute.setDraggee(draggee);
 					// It seems that the message box causes a redraw, which displays the draggee. This looks unsightly,
 					// so disable the draw function in this icon until after the message box.
@@ -94,64 +96,62 @@ bool DrawProg::DropFBInCurrentView(INXPoint point,INXString componentType,INXStr
 					// Copy parameters
 					if (!pView->m_FBSubstitute.copyParamValues()) {
 						if (pView->m_FBSubstitute.isParamValsModified()) {
-							if (INX_MessageBox("Substitution will cause your parameters to be lost. Do you want to continue?",MB_YESNO|MB_ICONEXCLAMATION)==IDNO) {
+							if (INX_MessageBox("Substitution will cause your parameters to be lost. Do you want to continue?"/*MB_YESNO|MB_ICONEXCLAMATION*/)==1 ) // todo what should return be?! {
 								bContinue = FALSE;
-							}
 						}
-					}
-
-					draggee->m_iShow = 1;
-					if (bContinue) {
-						// make sure new FB is in same position as old FB
-						draggeePoint = draggee->GetIconPos();
-						droppeePoint = droppee->GetIconPos();
-						draggeePos = pView->pDEP->getPosFromIcon(draggee);
-						pView->pDEP->RenewPosition(draggeePos, droppeePoint, draggeePoint);
-
-						// copy the FB id so don't have to change othericonid attribute on ports connected
-						// to output and finish ports
-						draggee->identnum = droppee->identnum;
-
-						// Copy description if neither are encapsulated FB
-						if (!draggee->m_iUserDefined && !droppee->m_iUserDefined) {
-							draggee->description = droppee->description;
-						}
-
-						// Copy connections
-						pView->m_FBSubstitute.setDEP(pView->pDEP);
-						pView->m_FBSubstitute.connectDraggee();
-
-						// Delete old FB
-						droppeePos = pView->pDEP->getPosFromIcon(droppee);
-						// Insert draggee into condata list at same point as droppee.
-						// Shouldn't need to do this but avoided a bug writing out SODL for space invaders demo
-						pView->pDEP->condata->RemoveAt(draggeePos);
-						pView->pDEP->condata->InsertAfter(droppeePos, draggee);
-						pView->pFrame->m_wndProjectBar.m_cProjTree.DeleteIcon(droppeePos, m_CurrentProject, pView->pDEP, 0);
-					}
-					else {
-						draggeePos = pView->pDEP->getPosFromIcon(draggee);
-						pView->pFrame->m_wndProjectBar.m_cProjTree.DeleteIcon(draggeePos, m_CurrentProject, pView->pDEP, 0);
 					}
 				}
-#endif
+
+				draggee->m_iShow = 1;
 				if (bContinue) {
-					// if adding xport then don't allow undo
-					if (!(blob->m_FbName.Find("XINPUT") != -1 || blob->m_FbName.Find("XOUTPUT") != -1 || blob->m_FbName == "XSTART"
-							|| blob->m_FbName == "XFINISH")) {
-						pView->SaveUndo();
-					}
-					else {
-						//@todo - currently can't undo adding an xport
-						pView->initUndo();
+					// make sure new FB is in same position as old FB
+					draggeePoint = draggee->GetIconPos();
+					droppeePoint = droppee->GetIconPos();
+					draggeePos = pView->pDEP->getPosFromIcon(draggee);
+					pView->pDEP->RenewPosition(draggeePos, droppeePoint, draggeePoint);
+
+					// copy the FB id so don't have to change othericonid attribute on ports connected
+					// to output and finish ports
+					draggee->identnum = droppee->identnum;
+
+					// Copy description if neither are encapsulated FB
+					if (!draggee->m_iUserDefined && !droppee->m_iUserDefined) {
+						draggee->description = droppee->description;
 					}
 
-					m_CurrentProject->SaveProject();
-					m_CurrentProject->pProjMData->writeProjectFile();
-					pView->RedrawWindow();
+					// Copy connections
+					pView->m_FBSubstitute.setDEP(pView->pDEP);
+					pView->m_FBSubstitute.connectDraggee();
+
+					// Delete old FB
+					droppeePos = pView->pDEP->getPosFromIcon(droppee);
+					// Insert draggee into condata list at same point as droppee.
+					// Shouldn't need to do this but avoided a bug writing out SODL for space invaders demo
+					pView->pDEP->condata->RemoveAt(draggeePos);
+					pView->pDEP->condata->InsertAfter(droppeePos, draggee);
+					//todo pView->pFrame->m_wndProjectBar.m_cProjTree.DeleteIcon(droppeePos, m_CurrentProject, pView->pDEP, 0);
+				}
+				else {
+					draggeePos = pView->pDEP->getPosFromIcon(draggee);
+					//todo pView->pFrame->m_wndProjectBar.m_cProjTree.DeleteIcon(draggeePos, m_CurrentProject, pView->pDEP, 0);
+				}
+			}
+			if (bContinue) {
+				// if adding xport then don't allow undo
+				if (!(blob->m_FbName.Find("XINPUT") != -1 || blob->m_FbName.Find("XOUTPUT") != -1 || blob->m_FbName == "XSTART"
+						|| blob->m_FbName == "XFINISH")) {
+					pView->SaveUndo();
+				}
+				else {
+					//@todo - currently can't undo adding an xport
+					pView->initUndo();
 				}
 
+				m_CurrentProject->SaveProject();
+				m_CurrentProject->pProjMData->writeProjectFile();
+				pView->RedrawWindow();
 			}
+
 		}
 		else {
 			wxMessageBox("Please Drop components within a workspace window");

@@ -19,7 +19,7 @@
 
 /* Refactoring functions - @todo should be elsewhere */
 //#include "InterfaceDropTarget.h"
-//#include "FunctionBlockSubstitution.h"
+#include "FunctionBlockSubstitution.h"
 
 #include "../common/EHSInitParams.h"
 #include "../common/LabLgbBaseApp.h"
@@ -61,7 +61,8 @@ public:
 
 public:
 
-private:
+//private:
+public: // should be private but ..
     DEP* pDEP;
 
 public:
@@ -318,6 +319,11 @@ private:
 
 	TypeConversion converter;
 
+public:
+	FunctionBlockSubstitution m_FBSubstitute;
+
+	// debugger items
+	bool m_bDebugNeedToRedrawLines;
 
 // wxwidgets
 DECLARE_EVENT_TABLE()

@@ -1,4 +1,4 @@
-#pragma once
+
 
 #include "GlobalFuncs_1.h"
 #include "GlobalFuncs_2.h"
